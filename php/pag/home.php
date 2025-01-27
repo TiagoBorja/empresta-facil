@@ -6,7 +6,8 @@
                 <div class="input-group">
                     <!-- Dropdown de filtro à esquerda -->
                     <div class="input-group-prepend">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Filtrar por
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="filterDropdown">
@@ -15,13 +16,14 @@
                             <li><a class="dropdown-item" href="#">Assunto</a></li>
                         </ul>
                     </div>
-                    
+
                     <!-- Caixa de pesquisa -->
                     <input type="text" class="form-control" placeholder="Pesquisar por título, autor, assunto..." />
 
                     <!-- Dropdown para selecionar biblioteca à direita -->
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="libraryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="libraryDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Selecionar Biblioteca
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="libraryDropdown">
@@ -49,64 +51,119 @@
     </div>
 </div>
 
-<!-- Carousel Section -->
-<div id="featuredBooks" class="carousel slide mb-5" data-bs-ride="carousel">
+<div id="carouselExampleControls" class="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=80"
-                class="d-block w-100" alt="Biblioteca" style="height: 400px; object-fit: cover;" />
-            <div class="carousel-caption">
-                <h3>Novos Livros Disponíveis</h3>
-                <p>Descubra nossa mais recente coleção de livros</p>
+            <div class="card">
+                <div class="img-wrapper"><img src="../assets/images/big/img1.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Card title 1</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="?pagina=1" class="btn btn-primary">Ver no Catálogo</a>
+                </div>
             </div>
         </div>
         <div class="carousel-item">
-            <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=1200&q=80"
-                class="d-block w-100" alt="Estudantes" style="height: 400px; object-fit: cover;" />
-            <div class="carousel-caption">
-                <h3>Espaço de Estudo</h3>
-                <p>Ambientes confortáveis para sua leitura</p>
+            <div class="card">
+                <div class="img-wrapper"><img src="../assets/images/big/img2.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Card title 2</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="?pagina=1" class="btn btn-primary">Ver no Catálogo</a>
+                </div>
             </div>
         </div>
         <div class="carousel-item">
-            <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1200&q=80"
-                class="d-block w-100" alt="Livros" style="height: 400px; object-fit: cover;" />
-            <div class="carousel-caption">
-                <h3>Acervo Digital</h3>
-                <p>Acesse nossa biblioteca digital</p>
+            <div class="card">
+                <div class="img-wrapper"><img src="../assets/images/big/img3.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Card title 3</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="?pagina=1" class="btn btn-primary">Ver no Catálogo</a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="card">
+                <div class="img-wrapper"><img src="../assets/images/big/img3.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Card title 4</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="?pagina=1" class="btn btn-primary">Ver no Catálogo</a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="card">
+                <div class="img-wrapper"><img src="../assets/images/big/img3.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Card title 5</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content<a href="?pagina=1" class="btn btn-primary">Ver no Catálogo</a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="card">
+                <div class="img-wrapper"><img src="../assets/images/big/img3.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Card title 6</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content<a href="?pagina=1" class="btn btn-primary">Ver no Catálogo</a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="card">
+                <div class="img-wrapper"><img src="../assets/images/big/img3.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Card title 7</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content<a href="?pagina=1" class="btn btn-primary">Ver no Catálogo</a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="card">
+                <div class="img-wrapper"><img src="../assets/images/big/img3.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Card title 8</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content<a href="?pagina=1" class="btn btn-primary">Ver no Catálogo</a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="card">
+                <div class="img-wrapper"><img src="../assets/images/big/img3.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Card title 9</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content<a href="?pagina=1" class="btn btn-primary">Ver no Catálogo</a>
+                </div>
             </div>
         </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#featuredBooks" data-bs-slide="prev">
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Anterior</span>
+        <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#featuredBooks" data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Próximo</span>
+        <span class="visually-hidden">Next</span>
     </button>
 </div>
-
-<!-- Quick Links -->
-<div class="row g-4">
-    <div class="col-md-6">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <i class="bi bi-book-fill text-primary mb-3" style="font-size: 40px;"></i>
-                <h5 class="card-title">Catálogo</h5>
-                <p class="card-text">Explore nossa coleção completa de livros e recursos.</p>
-                <a class="btn btn-outline-primary" href="?pagina=1">Ver Catálogo</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <i class="bi bi-book-open-fill text-primary mb-3" style="font-size: 40px;"></i>
-                <h5 class="card-title">Empréstimos</h5>
-                <p class="card-text">Gerencie seus empréstimos e reservas.</p>
-                <button class="btn btn-outline-primary">Meus Empréstimos</button>
-            </div>
-        </div>
-    </div>
-</div>
+<script src="./js/carousel.js"></script>

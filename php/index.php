@@ -19,7 +19,7 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
 ?>
 
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html dir="ltr" lang="pt-pt">
 
 <head>
     <meta charset="utf-8" />
@@ -38,6 +38,7 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
     <link href="../assets/libs/flot/css/float-chart.css" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="../dist/css/style.min.css" rel="stylesheet" />
+    <link href="../dist/css/carousel.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="../assets/extra-libs/multicheck/multicheck.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
