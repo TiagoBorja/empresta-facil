@@ -70,10 +70,6 @@ class UserType
                     </th>
                     <td><?= $type['tipo']; ?></td>
                     <td><?= $type['descricao']; ?></td>
-                    <td>
-                        <?= $type['ativo'] === 'Y' ?  '<span class="badge rounded-pill bg-success">Ativo</span>' :
-                            '<span class="badge rounded-pill bg-danger">Desabilitado</span>' ?>
-                    </td>
                 </tr>
 <?php
             }

@@ -7,7 +7,7 @@ $page_file = "";
 
 
 $page_config = [
-    0 => ['title' => 'Dashboard', 'file' => './pag/dashboard.php'],
+    0 => ['title' => 'Página Inicial', 'file' => './pag/home.php'],
     1 => ['title' => 'Livros', 'file' => './pag/book.php'],
     2 => ['title' => 'Funcionários', 'file' => './funcionario/funcionario.php'],
     3 => ['title' => 'Tipos de Utilizador', 'file' => './config/user-type/user-type.php'],
@@ -182,10 +182,20 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="index.php"
                                 aria-expanded="false">
-                                <i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a>
+                                <i class="mdi mdi-home"></i><span class="hide-menu">Página Inicial</span></a>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="?pagina=1"
+                                aria-expanded="false">
+                                <i class="mdi mdi-library"></i><span class="hide-menu">Catálogo</span></a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#"
+                                aria-expanded="false">
+                                <i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#"
                                 aria-expanded="false">
                                 <i class="mdi mdi-book"></i><span class="hide-menu">Livros</span></a>
                         </li>
@@ -268,25 +278,6 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
 
                             </ul>
                         </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
-                                aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">Errors
-                                </span></a>
-                            <ul aria-expanded="false" class="collapse first-level">
-                                <li class="sidebar-item">
-                                    <a href="error-404.html" class="sidebar-link"><i
-                                            class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 404
-                                        </span></a>
-                                </li>
-
-                                <li class="sidebar-item">
-                                    <a href="error-500.html" class="sidebar-link"><i
-                                            class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 500
-                                        </span></a>
-                                </li>
-                            </ul>
-                        </li>
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -309,11 +300,11 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                 <?php
                 switch ($pagina) {
                     case 0:
-                        $page_file = "./pag/dashboard.php";
+                        $page_file = "./pag/home.php";
                         break;
 
                     case 1:
-                        $page_file = "./pag/book.php";
+                        $page_file = "./pag/catalog.php";
                         break;
                     case 2:
                         $page_file = "./funcionario/funcionario.php";

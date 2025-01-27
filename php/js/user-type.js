@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: formData
             });
 
-            // Verifica o tipo de conteúdo da resposta
             const contentType = response.headers.get('Content-Type');
             if (contentType && contentType.includes('application/json')) {
                 const result = await response.json();
@@ -34,8 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else if (result.status === 422) {
                     toastr.warning(result.message, "Atenção!");
                 }
-            } else {
-                console.error("Resposta não é JSON", response);
             }
         } catch (error) {
             console.error("Erro ao processar a solicitação", error);
