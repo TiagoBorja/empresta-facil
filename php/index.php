@@ -9,7 +9,7 @@ $page_file = "";
 $page_config = [
     0 => ['title' => 'Página Inicial', 'file' => './pag/home.php'],
     1 => ['title' => 'Livros', 'file' => './pag/book.php'],
-    2 => ['title' => 'Funcionários', 'file' => './funcionario/funcionario.php'],
+    2 => ['title' => 'Detalhes', 'file' => './pag/view-info.php'],
     3 => ['title' => 'Tipos de Utilizador', 'file' => './config/user-type/user-type.php'],
     900 => ['title' => 'Login', 'file' => './login.php']
 ];
@@ -307,7 +307,7 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                         $page_file = "./pag/catalog.php";
                         break;
                     case 2:
-                        $page_file = "./funcionario/funcionario.php";
+                        $page_file = "./pag/view-info.php";
                         break;
                     case 3:
                         $page_file = "./config/user-type/user-type.php";
