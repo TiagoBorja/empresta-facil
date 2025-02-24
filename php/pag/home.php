@@ -76,8 +76,8 @@
     }
 </style>
 
-<h1 class="p-3 text-center">Seja bem-vindo, Fulano!</h1>
-<p class="text-center mb-4">Explore o catálogo de livros e aproveite as nossas recomendações personalizadas !</p>
+<h1 class="p-3 text-center mt-3">Seja bem-vindo, Fulano!</h1>
+<p class="text-center mb-4">Explore o catálogo de livros e aproveite as nossas recomendações personalizadas!</p>
 
 <div class="row mt-3 p-2">
     <div class="col-md-4 mb-4">
@@ -87,8 +87,8 @@
             <div class="card-body">
                 <h5 class="card-title">Explore o Catálogo Completo</h5>
                 <p class="card-text">Descubra uma vasta coleção de livros e materiais que podem enriquecer sua
-                    jornada de aprendizado. Navegue por categorias e encontre o que mais combina com seus interesses
-                    !</p><a href="?pagina=1" class="btn btn-outline-primary">Ver no Catálogo</a>
+                    jornada de aprendizado. Navegue por categorias e encontre o que mais combina com seus interesses!
+                </p><a href="?pagina=1" class="btn btn-outline-primary">Ver no Catálogo</a>
             </div>
         </div>
     </div>
@@ -98,7 +98,7 @@
                     alt="Livros Mais Requisitados"></div>
             <div class="card-body">
                 <h5 class="card-title">Livros Mais Requisitados</h5>
-                <p class="card-text">Confira os livros mais populares entre os nossos usuários ! Não perca a chance
+                <p class="card-text">Confira os livros mais populares entre os nossos usuários! Não perca a chance
                     de ler os títulos que estão fazendo sucesso na biblioteca.</p><a href="?pagina=2"
                     class="btn btn-outline-primary">Veja os mais requisitados</a>
             </div>
@@ -112,7 +112,7 @@
                 <h5 class="card-title">Livros que Você Pode Gostar</h5>
                 <p class="card-text">Com base nos seus gostos,
                     selecionamos livros que podem ser do seu interesse. Explore essas sugestões personalizadas e
-                    expanda seus horizontes literários !</p><a href="?pagina=3" class="btn btn-outline-primary">Veja
+                    expanda seus horizontes literários!</p><a href="?pagina=3" class="btn btn-outline-primary">Veja
                     suas recomendações</a>
             </div>
         </div>

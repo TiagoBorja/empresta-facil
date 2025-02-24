@@ -7,7 +7,7 @@ $page_file = "";
 
 
 $page_config = [
-    0 => ['title' => 'Página Inicial', 'file' => './pag/home.php'],
+    'home' => ['title' => 'Página Inicial', 'file' => './pag/home.php'],
     1 => ['title' => 'Livros', 'file' => './pag/book.php'],
     2 => ['title' => 'Detalhes', 'file' => './pag/view-info.php'],
     3 => ['title' => 'Tipos de Utilizador', 'file' => './config/user-type/user-type.php'],
@@ -55,69 +55,47 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
 </head>
 
 <body>
+    <style></style>
 
-
-
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
     <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
             <div class="lds-pos"></div>
         </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
-    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
-        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
-        <header class="topbar" data-navbarbg="skin5">
-            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
-                <div class="navbar-header" data-logobg="skin5">
 
-                    <a class="navbar-brand" href="index.php">
-                        <b class="logo-icon ps-2">
-                            <img src="../assets/images/logo-icon.png" alt="homepage" class="light-logo" width="25" />
-                        </b>
-                        <span class="logo-text ms-2">
-                            <img src="../assets/images/logo-text.png" alt="homepage" class="light-logo" />
-                        </span>
-                    </a>
-                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
-                        <i class="ti-menu ti-close"></i>
-                    </a>
-                </div>
-                <!-- ============================================================== -->
-                <!-- End Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
-                    <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav float-start me-auto d-flex align-items-center">
-                        <li class="nav-item d-none d-lg-block">
-                            <a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)"
-                                data-sidebartype="mini-sidebar">
-                                <i class="mdi mdi-menu font-24"></i>
+
+    <header class="topbar">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.php">
+                    <b class="logo-icon ps-2">
+                        <img src="../assets/images/logo-icon.png" alt="homepage" class="light-logo" width="25" />
+                    </b>
+                    <span class="logo-text ms-2">
+                        <img src="../assets/images/logo-text.png" alt="homepage" class="light-logo" />
+                    </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent"
+                    style="background-color: #343A40  !important;">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active h5" href="?pagina=home">
+                                <i class="mdi mdi-home"></i> Página Inicial
                             </a>
                         </li>
-                        <li class="navbar-nav d-flex p-2 align-items-center">
-                            <a class="nav-link waves-effect waves-light fs-5" aria-expanded="false">
-                                <i class="mdi mdi-home"></i><span class="hide-menu">Página Inicial</span>
-                            </a>
-                        </li>
-                        <li class="navbar-nav d-flex p-2 align-items-center">
-                            <a href="?pagina=1" class="nav-link waves-effect waves-light fs-5" aria-expanded="false">
-                                <i class="mdi mdi-library"></i><span class="hide-menu">Catálogo</span>
-                            </a>
+                        <li class="nav-item">
+                            <a class="nav-link h5" aria-current="page"
+                                href="?pagina=catalog">
+                                <i class="mdi mdi-library"></i> Catálogo</a>
                         </li>
                     </ul>
-
-
                     <ul class="navbar-nav float-end">
 
                         <li class="nav-item dropdown">
@@ -133,7 +111,8 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                             <ul class="dropdown-menu dropdown-menu-end user-dd animated"
                                 aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="javascript:void(0)"><i
-                                        class="mdi mdi-account me-1 ms-1"></i> My
+                                        class="mdi mdi-account me-1 ms-1"></i>
+                                    My
                                     Profile</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="javascript:void(0)"><i
@@ -146,7 +125,8 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                                 <div class="dropdown-divider"></div>
                                 <div class="ps-4 p-10">
                                     <a href="javascript:void(0)"
-                                        class="btn btn-sm btn-success btn-rounded text-white">View Profile</a>
+                                        class="btn btn-sm btn-success btn-rounded text-white">View
+                                        Profile</a>
                                 </div>
                             </ul>
                         </li>
@@ -155,18 +135,18 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                         <!-- ============================================================== -->
                     </ul>
                 </div>
-            </nav>
-        </header>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <aside class="left-sidebar" data-sidebarbg="skin5">
-            <!-- Sidebar scroll-->
+            </div>
+        </nav>
+    </header>
+
+    <!-- ============================================================== -->
+    <!-- End Topbar header -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <!-- <aside class="left-sidebar" data-sidebarbg="skin5">
             <div class="scroll-sidebar">
-                <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav" class="pt-4">
                         <li class="sidebar-item">
@@ -195,7 +175,6 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                             </a>
                             <ul aria-expanded="false" class="collapse first-level">
 
-                                <!-- Subcategoria: Utilizadores -->
                                 <li class="sidebar-item">
                                     <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
                                         aria-expanded="false">
@@ -218,7 +197,6 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                                     </ul>
                                 </li>
 
-                                <!-- Subcategoria: Livros -->
                                 <li class="sidebar-item">
                                     <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
                                         aria-expanded="false">
@@ -247,7 +225,6 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                                     </ul>
                                 </li>
 
-                                <!-- Subcategoria: Gerais -->
                                 <li class="sidebar-item">
                                     <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
                                         aria-expanded="false">
@@ -268,57 +245,53 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                         </li>
                     </ul>
                 </nav>
-                <!-- End Sidebar navigation -->
             </div>
-            <!-- End Sidebar scroll-->
-        </aside>
+        </aside> -->
 
-        <div class="page-wrapper">
-            <div class="page-breadcrumb">
-                <div class="row">
-                    <div class="col-12 d-flex align-items-center">
-                        <h4 class="page-title"><?php echo $page_title; ?></h4>
-                    </div>
+    <div class="">
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-12 d-flex align-items-center">
+                    <h4 class="page-title"><?php echo $page_title; ?></h4>
                 </div>
-            </div>
-
-
-            <div class="container-fluid">
-
-                <?php
-                switch ($pagina) {
-                    case 0:
-                        $page_file = "./pag/home.php";
-                        break;
-
-                    case 1:
-                        $page_file = "./pag/catalog.php";
-                        break;
-                    case 2:
-                        $page_file = "./pag/view-info.php";
-                        break;
-                    case 3:
-                        $page_file = "./config/user-type/user-type.php";
-                        break;
-
-                    case 900:
-                        $page_file = "./login.php";
-                        break;
-
-                    default:
-                        $page_file = "./pag/not_found.php";
-                        break;
-                }
-
-                if (!file_exists($page_file))
-                    include("../html/error-404.html");
-
-                include($page_file);
-                ?>
-
             </div>
         </div>
 
+
+        <div class="container-fluid">
+
+            <?php
+            switch ($pagina) {
+                case 'home':
+                    $page_file = "./pag/home.php";
+                    break;
+
+                case 1:
+                    $page_file = "./pag/catalog.php";
+                    break;
+                case 2:
+                    $page_file = "./pag/view-info.php";
+                    break;
+                case 3:
+                    $page_file = "./config/user-type/user-type.php";
+                    break;
+
+                case 900:
+                    $page_file = "./login.php";
+                    break;
+
+                default:
+                    $page_file = "./pag/not_found.php";
+                    break;
+            }
+
+            if (!file_exists($page_file))
+                include("../html/error-404.html");
+
+            include($page_file);
+            ?>
+
+        </div>
     </div>
     <footer class="footer text-center">
         All Rights Reserved by Matrix-admin. Designed and Developed by
