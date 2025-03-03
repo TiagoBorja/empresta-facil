@@ -8,10 +8,7 @@ $page_file = "";
 
 $page_config = [
     'home' => ['title' => 'Página Inicial', 'file' => './pag/home.php'],
-    1 => ['title' => 'Livros', 'file' => './pag/book.php'],
-    2 => ['title' => 'Detalhes', 'file' => './pag/view-info.php'],
-    3 => ['title' => 'Tipos de Utilizador', 'file' => './config/user-type/user-type.php'],
-    900 => ['title' => 'Login', 'file' => './login.php']
+    'catalog' => ['title' => 'Catálogo', 'file' => './pag/catalog.php'],
 ];
 
 $page_title = isset($page_config[$pagina]) ? $page_config[$pagina]['title'] : 'Not Found';
@@ -68,12 +65,10 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
     <header class="topbar">
         <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.php">
-                    <b class="logo-icon ps-2">
-                        <img src="../assets/images/logo-icon.png" alt="homepage" class="light-logo" width="25" />
-                    </b>
-                    <span class="logo-text ms-2">
-                        <img src="../assets/images/logo-text.png" alt="homepage" class="light-logo" />
+                <a class="navbar-brand" href="index.php?pagina=home">
+
+                    <span class="logo-text ms-2 text-danger">
+                        EmprestaFácil
                     </span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -83,17 +78,19 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent"
-                    style="background-color: #343A40  !important;">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    style="background-color: #343A40 !important;">
+                    <!-- Links de Navegação - Centralizados e Alinhados Verticalmente -->
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center">
                         <li class="nav-item">
-                            <a class="nav-link active h5" href="?pagina=home">
-                                <i class="mdi mdi-home"></i> Página Inicial
+                            <a class="nav-link active h5 mb-0 d-flex align-items-center" href="?pagina=home">
+                                <i class="mdi mdi-home me-2"></i> Página Inicial
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link h5" aria-current="page"
+                            <a class="nav-link h5 mb-0 d-flex align-items-center" aria-current="page"
                                 href="?pagina=catalog">
-                                <i class="mdi mdi-library"></i> Catálogo</a>
+                                <i class="mdi mdi-library me-2"></i> Catálogo
+                            </a>
                         </li>
                     </ul>
                     <ul class="navbar-nav float-end">
@@ -130,21 +127,12 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                                 </div>
                             </ul>
                         </li>
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- ============================================================== -->
-    <!-- End Topbar header -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- Left Sidebar - style you can find in sidebar.scss  -->
-    <!-- ============================================================== -->
     <!-- <aside class="left-sidebar" data-sidebarbg="skin5">
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
@@ -262,11 +250,12 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
 
             <?php
             switch ($pagina) {
+
                 case 'home':
                     $page_file = "./pag/home.php";
                     break;
 
-                case 1:
+                case 'catalog':
                     $page_file = "./pag/catalog.php";
                     break;
                 case 2:

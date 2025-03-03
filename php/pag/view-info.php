@@ -1,6 +1,5 @@
 <style>
     #commentText {
-        font-size: 16px;
         padding: 10px;
         border: 2px solid #adb5bd;
         border-radius: 5px;
@@ -136,7 +135,7 @@
                             <form id="commentFormId">
                                 <div class="mb-3">
                                     <label class="form-label">Deixe seu comentário</label>
-                                    <textarea placeholder="Ótimo livro! Divertido, e etc..." class="form-control"
+                                    <textarea placeholder="Ótimo livro! Divertido, e etc..." class="form-control text-dark"
                                         id="commentText" rows="3" required></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-outline-success 
