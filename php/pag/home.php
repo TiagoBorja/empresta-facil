@@ -88,7 +88,7 @@
                 <h5 class="card-title">Explore o Catálogo Completo</h5>
                 <p class="card-text">Descubra uma vasta coleção de livros e materiais que podem enriquecer sua
                     jornada de aprendizado. Navegue por categorias e encontre o que mais combina com seus interesses!
-                </p><a href="?pagina=catalog" class="btn btn-outline-primary">Ver no Catálogo</a>
+                </p><a href="?page=catalog" class="btn btn-outline-primary">Ver no Catálogo</a>
             </div>
         </div>
     </div>
@@ -99,7 +99,7 @@
             <div class="card-body">
                 <h5 class="card-title">Livros Mais Requisitados</h5>
                 <p class="card-text">Confira os livros mais populares entre os nossos usuários! Não perca a chance
-                    de ler os títulos que estão fazendo sucesso na biblioteca.</p><a href="?pagina=view-info"
+                    de ler os títulos que estão fazendo sucesso na biblioteca.</p><a href="?page=view-info"
                     class="btn btn-outline-primary">Veja os mais requisitados</a>
             </div>
         </div>
@@ -112,7 +112,7 @@
                 <h5 class="card-title">Livros que Você Pode Gostar</h5>
                 <p class="card-text">Com base nos seus gostos,
                     selecionamos livros que podem ser do seu interesse. Explore essas sugestões personalizadas e
-                    expanda seus horizontes literários!</p><a href="?pagina=3" class="btn btn-outline-primary">Veja
+                    expanda seus horizontes literários!</p><a href="?page=3" class="btn btn-outline-primary">Veja
                     suas recomendações</a>
             </div>
         </div>
@@ -129,7 +129,7 @@
                     <h5 class="card-title">Card title 1</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk
                         of the card's content.</p>
-                    <a href="?pagina=catalog" class="btn btn-primary">Ver no Catálogo</a>
+                    <a href="?page=catalog" class="btn btn-primary">Ver no Catálogo</a>
                 </div>
             </div>
         </div>
@@ -140,7 +140,7 @@
                     <h5 class="card-title">Card title 2</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk
                         of the card's content.</p>
-                    <a href="?pagina=catalog" class="btn btn-primary">Ver no Catálogo</a>
+                    <a href="?page=catalog" class="btn btn-primary">Ver no Catálogo</a>
                 </div>
             </div>
         </div>
@@ -151,7 +151,7 @@
                     <h5 class="card-title">Card title 3</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk
                         of the card's content.</p>
-                    <a href="?pagina=catalog" class="btn btn-primary">Ver no Catálogo</a>
+                    <a href="?page=catalog" class="btn btn-primary">Ver no Catálogo</a>
                 </div>
             </div>
         </div>
@@ -162,7 +162,7 @@
                     <h5 class="card-title">Card title 4</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk
                         of the card's content.</p>
-                    <a href="?pagina=catalog" class="btn btn-primary">Ver no Catálogo</a>
+                    <a href="?page=catalog" class="btn btn-primary">Ver no Catálogo</a>
                 </div>
             </div>
         </div>
@@ -173,7 +173,7 @@
                     <h5 class="card-title">Card title 5</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk
                         of the card's content.</p>
-                    <a href="?pagina=catalog" class="btn btn-primary">Ver no Catálogo</a>
+                    <a href="?page=catalog" class="btn btn-primary">Ver no Catálogo</a>
                 </div>
             </div>
         </div>

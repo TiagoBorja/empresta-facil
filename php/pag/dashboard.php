@@ -1,7 +1,7 @@
 <div class="row">
 
     <div class="col-md-6 col-lg-4 col-xlg-3">
-        <a href="?pagina=1">
+        <a href="?page=">
             <div class="card card-hover">
                 <div class="box bg-info text-center">
                     <h1 class="font-light text-white">
@@ -14,7 +14,7 @@
     </div>
 
     <div class="col-md-6 col-lg-4 col-xlg-3">
-        <a href="?pagina=">
+        <a href="?page=">
             <div class="card card-hover">
                 <div class="box bg-success text-center">
                     <h1 class="font-light text-white">
@@ -27,7 +27,7 @@
     </div>
 
     <div class="col-md-6 col-lg-4 col-xlg-3">
-        <a href="?pagina=">
+        <a href="?page=">
             <div class="card card-hover">
                 <div class="box bg-orange text-center">
                     <h1 class="font-light text-white">
@@ -46,7 +46,7 @@
 <div class="row">
 
     <div class="col-md-6 col-lg-3 col-xlg-3">
-        <a href="?pagina=">
+        <a href="?page=">
             <div class="card card-hover">
                 <div class="box bg-primary text-center">
                     <h1 class="font-light text-white">
@@ -59,7 +59,7 @@
     </div>
 
     <div class="col-md-6 col-lg-3 col-xlg-3">
-        <a href="?pagina=">
+        <a href="?page=">
             <div class="card card-hover">
                 <div class="box bg-warning text-center">
                     <h1 class="font-light text-white">
@@ -72,7 +72,7 @@
     </div>
 
     <div class="col-md-6 col-lg-3 col-xlg-3">
-        <a href="?pagina=">
+        <a href="?page=">
             <div class="card card-hover">
                 <div class="box bg-dark text-center">
                     <h1 class="font-light text-white">
@@ -85,7 +85,7 @@
     </div>
 
     <div class="col-md-6 col-lg-3 col-xlg-3">
-        <a href="?pagina=">
+        <a href="?page=">
             <div class="card card-hover">
                 <div class="box bg-danger text-center">
                     <h1 class="font-light text-white">

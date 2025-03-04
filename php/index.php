@@ -1,7 +1,7 @@
 <?php
-$pagina = 0;
-if (isset($_GET["pagina"]))
-    $pagina = $_GET["pagina"];
+$page = 0;
+if (isset($_GET["page"]))
+    $page = $_GET["page"];
 
 $page_file = "";
 
@@ -12,8 +12,8 @@ $page_config = [
     'view-info' => ['title' => 'Informações', 'file' => './pag/view-info.php'],
 ];
 
-$page_title = isset($page_config[$pagina]) ? $page_config[$pagina]['title'] : 'Not Found';
-$page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './pag/not_found.php';
+$page_title = isset($page_config[$page]) ? $page_config[$page]['title'] : 'Not Found';
+$page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/not_found.php';
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +60,7 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
     <header class="topbar">
         <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.php?pagina=home">
+                <a class="navbar-brand" href="index.php?page=home">
 
                     <span class="logo-text ms-2 text-danger">
                         EmprestaFácil
@@ -77,13 +77,14 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                     <!-- Links de Navegação - Centralizados e Alinhados Verticalmente -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center">
                         <li class="nav-item">
-                            <a class="nav-link active h5 mb-0 d-flex align-items-center" href="?pagina=home">
+                            <a class="nav-link <?= $page == 'home' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                href="?page=home">
                                 <i class="mdi mdi-home me-2"></i> Página Inicial
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link h5 mb-0 d-flex align-items-center" aria-current="page"
-                                href="?pagina=catalog">
+                            <a class="nav-link <?= $page == 'catalog' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                aria-current="page" href="?page=catalog">
                                 <i class="mdi mdi-library me-2"></i> Catálogo
                             </a>
                         </li>
@@ -138,7 +139,7 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                                 <i class="mdi mdi-home"></i><span class="hide-menu">Página Inicial</span></a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="?pagina=1"
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="?page=1"
                                 aria-expanded="false">
                                 <i class="mdi mdi-library"></i><span class="hide-menu">Catálogo</span></a>
                         </li>
@@ -166,7 +167,7 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                                     </a>
                                     <ul aria-expanded="false" class="collapse second-level">
                                         <li class="sidebar-item">
-                                            <a href="?pagina=3" class="sidebar-link">
+                                            <a href="?page=3" class="sidebar-link">
                                                 <i class="mdi mdi-account-tie"></i>
                                                 <span class="hide-menu">Tipos de Utilizadores</span>
                                             </a>
@@ -244,7 +245,7 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
         <div class="container-fluid">
 
             <?php
-            switch ($pagina) {
+            switch ($page) {
 
                 case 'home':
                     $page_file = "./pag/home.php";
