@@ -11,6 +11,11 @@
         box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
         outline: none;
     }
+
+    .card,
+    .list-group-item {
+        background-color: #f1f1f1;
+    }
 </style>
 
 <div class="row justify-content-center">
@@ -61,92 +66,92 @@
 
 
     <div class="col-md-12 p-4">
-        <div class="card border border-dark">
-            <div class="card-title ms-2 me-2 mt-2 border border-dark">
-                <h4 class="fw-bold shadow">Localizações</h4>
+        <div class="card shadow-sm">
+            <div class="card-header bg-light border border-dark">
+                <h4 class="fw-bold text-dark text-center mb-0">Localizações</h4>
             </div>
-            <div class="card-body border border-dark ms-2 me-2 mb-2">
-                <table class="table table-bordered table-striped text text-center">
-                    <thead>
+            <div class="card-body">
+                <table class="table text-center">
+                    <thead class="bg-dark">
+
                         <tr>
-                            <th>Biblioteca</th>
-                            <th>Quantidade Disponível</th>
+                            <th class="fw-bold text-white">Biblioteca</th>
+                            <th class="fw-bold text-white">Quantidade Disponível</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Biblioteca Central</td>
-                            <td>4</td>
+                            <td class="fw-normal">Biblioteca Central</td>
+                            <td class="fw-normal">4</td>
                         </tr>
                         <tr>
-                            <td>Biblioteca de Gaia</td>
-                            <td>3</td>
+                            <td class="fw-normal">Biblioteca de Gaia</td>
+                            <td class="fw-normal">3</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-
-
     </div>
 
+
     <div class="col-md-12 p-4">
-        <div class="card border border-dark">
-            <div class="card-title ms-2 me-2 mt-2 border border-dark">
-                <h4 class="fw-bold">Comentários e Avaliações</h4>
+        <div class="card shadow-sm">
+            <div class="card-header bg-light border border-dark">
+                <h4 class="fw-bold text-dark text-center mb-0">Comentários e Avaliações</h4>
             </div>
 
-            <div id="commentForm" class="border border-dark me-2 ms-2">
+            <!-- Formulário de Comentário -->
+            <div id="commentForm" class="p-3">
                 <form id="commentFormId">
                     <div class="mb-3">
-                        <label class="form-label">Deixe seu comentário</label>
-                        <textarea placeholder="Ótimo livro! Divertido, e etc..." class="form-control text-dark"
-                            id="commentText" rows="3" required></textarea>
+                        <label class="form-label fw-semibold">Deixe seu comentário:</label>
+                        <textarea placeholder="Ótimo livro! Divertido, e etc..."
+                            class="form-control text-dark border rounded-3 shadow-sm" id="commentText" rows="3"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-outline-success 
-                            d-inline-flex
-                            align-items-center
-                            gap-2 
-                            float-end
-                            mb-3">
+                    <button type="submit" class="btn btn-outline-success d-flex align-items-center gap-2 float-end">
                         <i class="mdi mdi-send"></i>
                         <span>Enviar</span>
                     </button>
                 </form>
             </div>
 
+            <hr class="m-0">
 
-            <div class="card-body ms-2 me-2 mb-2 mt-2 border border-dark">
-                <div id="commentContent">
-                    <div id="commentsList" class="mt-4">
+            <div id="commentsList" class="p-3 mt-3">
+                <div class="comment-widgets scrollable bg-white rounded-3 shadow-lg">
+                    <!-- Comment Row -->
+                    <div class="d-flex flex-row comment-row mt-0">
+                        .
+                        <img src="../assets/images/users/2.jpg" alt="user" width="50" class="rounded-circle" />
 
-                        <div class="d-flex align-items-center">
-                            <img src="../assets/images/users/1.jpg" alt="Ícone de perfil" class="rounded-circle"
-                                width="31">
-                            <div class="d-flex align-items-center ms-2">
-                                <p class="mb-0">
-                                    <strong>João Silva:</strong> Ótima leitura para crianças!
-                                </p>
-                            </div>
+                        <div class="comment-text w-100">
+
+                            <span class="text-muted float-end">Publicado em: 04 de Março, 2025</span>
+
+                            <h6 class="fw-bold text-info">Maria Santos</h6>
+                            <span class="d-block ms-2">História muito divertida e educativa.</span>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div id="commentsList" class="p-3">
+                <div class="comment-widgets scrollable bg-white rounded-3 shadow-lg">
+                    <!-- Comment Row -->
+                    <div class="d-flex flex-row comment-row mt-0">
+                        .
+                        <img src="../assets/images/users/2.jpg" alt="user" width="50" class="rounded-circle" />
 
+                        <div class="comment-text w-100">
 
-                        <hr class="bg-secondary">
+                            <span class="text-muted float-end">Publicado em: 04 de Março, 2025</span>
 
-                        <div class="d-flex align-items-center">
-                            <img src="../assets/images/users/2.jpg" alt="Ícone de perfil" class="rounded-circle"
-                                width="31">
-                            <div class="d-flex align-items-center ms-2">
-                                <p class="mb-0">
-                                    <strong>Maria Santos:</strong> História muito divertida e educativa.
-                                </p>
-                            </div>
+                            <h6 class="fw-bold text-info">Maria Santos</h6>
+                            <span class="d-block ms-2">História muito divertida e educativa.</span>
                         </div>
-                        <hr class="bg-secondary">
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
