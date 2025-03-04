@@ -57,7 +57,7 @@
                               btn-outline
                               image-popup-vertical-fit
                               el-link
-                            " href="?pagina=2"><i class="mdi mdi-magnify-plus"></i></a>
+                            " href="?pagina=view-info"><i class="mdi mdi-magnify-plus"></i></a>
                             </li>
                             <li class="el-item">
                                 <a class="btn default btn-outline el-link" href="javascript:void(0);"><i

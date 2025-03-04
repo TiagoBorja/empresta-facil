@@ -9,6 +9,7 @@ $page_file = "";
 $page_config = [
     'home' => ['title' => 'Página Inicial', 'file' => './pag/home.php'],
     'catalog' => ['title' => 'Catálogo', 'file' => './pag/catalog.php'],
+    'view-info' => ['title' => 'Informações', 'file' => './pag/view-info.php'],
 ];
 
 $page_title = isset($page_config[$pagina]) ? $page_config[$pagina]['title'] : 'Not Found';
@@ -37,6 +38,8 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
     <link href="../dist/css/style.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="../assets/extra-libs/multicheck/multicheck.css">
 
+    <link rel="stylesheet" href="../dist/css/custom-css/global-config.css">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
@@ -45,7 +48,6 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
 </head>
 
 <body>
-    <style></style>
 
     <div class="preloader">
         <div class="lds-ripple">
@@ -233,7 +235,7 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
         <div class="page-breadcrumb">
             <div class="row">
                 <div class="col-12 d-flex align-items-center">
-                    <h4 class="page-title"><?php echo $page_title; ?></h4>
+                    <h4 class="page-title ms-1"><?php echo $page_title; ?></h4>
                 </div>
             </div>
         </div>
@@ -251,7 +253,7 @@ $page_file = isset($page_config[$pagina]) ? $page_config[$pagina]['file'] : './p
                 case 'catalog':
                     $page_file = "./pag/catalog.php";
                     break;
-                case 2:
+                case 'view-info':
                     $page_file = "./pag/view-info.php";
                     break;
                 case 3:

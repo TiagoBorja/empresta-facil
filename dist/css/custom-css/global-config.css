@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body {
+    background-color: #fff5d7;
+    /* Fundo bege suave */
+    font-family: 'Poppins', sans-serif;
+    /* Aplica a fonte no site todo */
+    color: #333;
+    /* Cor do texto para boa legibilidade */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    /* Títulos em negrito */
+}
+
+p {
+    font-weight: 400;
+    /* Parágrafos com peso normal */
+}
+
+.menu,
+.navbar {
+    font-weight: 500;
+    /* Textos do menu um pouco mais destacados */
+}

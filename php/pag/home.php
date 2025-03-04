@@ -99,7 +99,7 @@
             <div class="card-body">
                 <h5 class="card-title">Livros Mais Requisitados</h5>
                 <p class="card-text">Confira os livros mais populares entre os nossos usuários! Não perca a chance
-                    de ler os títulos que estão fazendo sucesso na biblioteca.</p><a href="?pagina=2"
+                    de ler os títulos que estão fazendo sucesso na biblioteca.</p><a href="?pagina=view-info"
                     class="btn btn-outline-primary">Veja os mais requisitados</a>
             </div>
         </div>

@@ -14,17 +14,21 @@
 </style>
 
 <div class="row justify-content-center">
-    <div class="col-md-12 p-3">
+    <div class="col-md-12 p-4">
         <div class="card shadow-lg">
             <div class="row g-0">
                 <!-- Imagem dentro do Card -->
-                <div class="col-md-4 d-flex align-items-center p-2">
+                <div class="col-md-4 d-flex align-items-center">
                     <img src="../assets/images/big/img1.jpg" class="img-fluid rounded-start p-2 w-100"
                         alt="Capa do livro">
                 </div>
-                
+
+                <div class="col-md-1 mt-2 mb-2 d-flex justify-content-center align-items-center">
+                    <div class="vr" style="height: 100%; width: 2px; background-color: #ddd;"></div>
+                </div>
+
                 <!-- Informações do Livro -->
-                <div class="col-md-8 d-flex align-items-center">
+                <div class="col-md-7 d-flex align-items-cente">
                     <div class="card-body">
                         <h1 class="card-title text-center text-dark">A abelha Zarelha</h1>
                         <hr>
@@ -56,53 +60,64 @@
     </div>
 
 
-    <div class="card mt-4">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#localTab" role="tab" aria-selected="true">
-                    <span class="hidden-sm-up"></span>
-                    <span class="hidden-xs-down">Localização</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#commentsTab" role="tab" aria-selected="false">
-                    <span class="hidden-sm-up"></span>
-                    <span class="hidden-xs-down">Comentários</span>
-                </a>
-            </li>
-        </ul>
+    <div class="col-md-12 p-4">
+        <div class="card border border-dark">
+            <div class="card-title ms-2 me-2 mt-2 border border-dark">
+                <h4 class="fw-bold shadow">Localizações</h4>
+            </div>
+            <div class="card-body border border-dark ms-2 me-2 mb-2">
+                <table class="table table-bordered table-striped text text-center">
+                    <thead>
+                        <tr>
+                            <th>Biblioteca</th>
+                            <th>Quantidade Disponível</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Biblioteca Central</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>Biblioteca de Gaia</td>
+                            <td>3</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-        <!-- Tab panes -->
-        <div class="tab-content tabcontent-border">
-            <!-- Localização -->
-            <div class="tab-pane active" id="localTab" role="tabpanel">
-                <div id="localContent">
-                    <table class="table table-bordered table-striped text text-center">
-                        <thead>
-                            <tr>
-                                <th>Biblioteca</th>
-                                <th>Quantidade Disponível</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Biblioteca Central</td>
-                                <td>4</td>
-                            </tr>
-                            <tr>
-                                <td>Biblioteca de Gaia</td>
-                                <td>3</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+
+    </div>
+
+    <div class="col-md-12 p-4">
+        <div class="card border border-dark">
+            <div class="card-title ms-2 me-2 mt-2 border border-dark">
+                <h4 class="fw-bold">Comentários e Avaliações</h4>
+            </div>
+
+            <div id="commentForm" class="border border-dark me-2 ms-2">
+                <form id="commentFormId">
+                    <div class="mb-3">
+                        <label class="form-label">Deixe seu comentário</label>
+                        <textarea placeholder="Ótimo livro! Divertido, e etc..." class="form-control text-dark"
+                            id="commentText" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-outline-success 
+                            d-inline-flex
+                            align-items-center
+                            gap-2 
+                            float-end
+                            mb-3">
+                        <i class="mdi mdi-send"></i>
+                        <span>Enviar</span>
+                    </button>
+                </form>
             </div>
 
 
-            <div class="tab-pane p-3" id="commentsTab" role="tabpanel">
+            <div class="card-body ms-2 me-2 mb-2 mt-2 border border-dark">
                 <div id="commentContent">
-
                     <div id="commentsList" class="mt-4">
 
                         <div class="d-flex align-items-center">
@@ -128,25 +143,6 @@
                             </div>
                         </div>
                         <hr class="bg-secondary">
-                    </div>
-
-                    <div id="commentForm">
-                        <form id="commentFormId">
-                            <div class="mb-3">
-                                <label class="form-label">Deixe seu comentário</label>
-                                <textarea placeholder="Ótimo livro! Divertido, e etc..." class="form-control text-dark"
-                                    id="commentText" rows="3" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-outline-success 
-                                    d-inline-flex
-                                    align-items-center
-                                    gap-2 
-                                    float-end
-                                    mb-3">
-                                <i class="mdi mdi-send"></i>
-                                <span>Enviar</span>
-                            </button>
-                        </form>
                     </div>
                 </div>
             </div>
