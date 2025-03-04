@@ -39,6 +39,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
     <link rel="stylesheet" type="text/css" href="../assets/extra-libs/multicheck/multicheck.css">
 
     <link rel="stylesheet" href="../dist/css/custom-css/global-config.css">
+    <link rel="stylesheet" href="../dist/css/custom-css/stars-evaluation.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">

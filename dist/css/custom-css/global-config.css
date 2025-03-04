@@ -29,3 +29,15 @@ p {
     font-weight: 500;
     /* Textos do menu um pouco mais destacados */
 }
+
+.card,
+.list-group-item {
+    background-color: #f1f1f1;
+}
+
+.vertical-row {
+    height: 100%;
+    width: 2.5px;
+    background-color: #343A40;
+    border-radius: 2px;
+}
