@@ -16,37 +16,7 @@ $page_title = isset($page_config[$page]) ? $page_config[$page]['title'] : 'Not F
 $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/not_found.php';
 ?>
 
-<!DOCTYPE html>
-<html dir="ltr" lang="pt-pt">
-
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="keywords"
-        content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Matrix lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Matrix admin lite design, Matrix admin lite dashboard bootstrap 5 dashboard template" />
-    <meta name="description"
-        content="Matrix Admin Lite Free Version is powerful and clean admin dashboard template, inpired from Bootstrap Framework" />
-    <meta name="robots" content="noindex,nofollow" />
-    <title><?php echo $page_title; ?></title>
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png" />
-    <!-- Custom CSS -->
-    <link href="../assets/libs/flot/css/float-chart.css" rel="stylesheet" />
-    <!-- Custom CSS -->
-    <link href="../dist/css/style.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="../assets/extra-libs/multicheck/multicheck.css">
-
-    <link rel="stylesheet" href="../dist/css/custom-css/global-config.css">
-    <link rel="stylesheet" href="../dist/css/custom-css/stars-evaluation.css">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-</head>
+<?= include 'includes/header.php'; ?>
 
 <body>
 
@@ -58,7 +28,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
     </div>
 
 
-    <header class="topbar">
+    <header class="">
         <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="index.php?page=home">
@@ -279,36 +249,9 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
 
         </div>
     </div>
-    <footer class="footer text-center">
-        All Rights Reserved by Matrix-admin. Designed and Developed by
-        <a href="https://www.wrappixel.com">WrapPixel</a>.
-    </footer>
 
+    <?= include 'includes/footer.php'; ?>
 
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-    <script src="../assets/extra-libs/sparkline/sparkline.js"></script>
-    <!--Wave Effects -->
-    <script src="../dist/js/waves.js"></script>
-    <!--Menu sidebar -->
-    <script src="../dist/js/sidebarmenu.js"></script>
-    <!--Custom JavaScript -->
-    <script src="../dist/js/custom.min.js"></script>
-    <!--This page JavaScript -->
-    <!-- <script src="../dist/js/pages/dashboards/dashboard1.js"></script> -->
-    <!-- Charts js Files -->
-    <script src="../assets/libs/flot/excanvas.js"></script>
-    <script src="../assets/libs/flot/jquery.flot.js"></script>
-    <script src="../assets/libs/flot/jquery.flot.pie.js"></script>
-    <script src="../assets/libs/flot/jquery.flot.time.js"></script>
-    <script src="../assets/libs/flot/jquery.flot.stack.js"></script>
-    <script src="../assets/libs/flot/jquery.flot.crosshair.js"></script>
-    <script src="../assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-    <script src="../dist/js/pages/chart/chart-page-init.js"></script>
 </body>
 
 </html>
