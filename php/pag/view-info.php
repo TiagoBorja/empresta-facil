@@ -50,48 +50,145 @@
         </div>
     </div>
 
-
     <div class="col-md-12 p-4">
-        <div class="card shadow-lg">
-            <div class="card-header bg-light border border border-dark">
-                <h4 class="fw-bold text-dark text-center mb-0">Localizações</h4>
-            </div>
-            <div class="card-body">
-                <table class="table table-hover text-center">
-                    <thead class="bg-dark">
+        <div class="card">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#home" role="tab">
+                        <span class="hidden-sm-up"></span>
+                        <span class="hidden-xs-down">Comentários e Avaliações</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#location" role="tab">
+                        <span class="hidden-sm-up"></span>
+                        <span class="hidden-xs-down">Localizações</span>
+                    </a>
+                </li>
+            </ul>
 
-                        <tr>
-                            <th class="fw-bold text-white">Biblioteca</th>
-                            <th class="fw-bold text-white">Quantidade Disponível</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white">
-                        <tr class="border-bottom border-dark">
-                            <td class="fw-normal text-dark">Biblioteca Central</td>
-                            <td class="fw-normal text-dark">4</td>
-                        </tr>
-                        <tr class="border-bottom border-dark">
-                            <td class="fw-normal text-dark">Biblioteca de Gaia</td>
-                            <td class="fw-normal text-dark">3</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Tab panes -->
+            <div class="tab-content tabcontent-border">
+                <!-- Comentários e Avaliações Tab -->
+                <div class="tab-pane active" id="home" role="tabpanel">
+                    <div class="card-body">
+                        <div class="card shadow-lg rounded-3">
+                            <!-- Formulário de Comentário -->
+                            <div id="commentForm" class="p-3 rounded shadow-sm">
+                                <form id="commentFormId">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold fs-5">Deixe sua avaliação e seu comentário
+                                            (opcional):</label>
+                                        <div class="rate">
+                                            <input type="radio" id="star5" name="rate" value="5" />
+                                            <label for="star5" title="5 estrelas">★</label>
+                                            <input type="radio" id="star4" name="rate" value="4" />
+                                            <label for="star4" title="4 estrelas">★</label>
+                                            <input type="radio" id="star3" name="rate" value="3" />
+                                            <label for="star3" title="3 estrelas">★</label>
+                                            <input type="radio" id="star2" name="rate" value="2" />
+                                            <label for="star2" title="2 estrelas">★</label>
+                                            <input type="radio" id="star1" name="rate" value="1" />
+                                            <label for="star1" title="1 estrela">★</label>
+                                        </div>
+                                        <textarea placeholder="Ótimo livro! Divertido, e etc..."
+                                            class="form-control text-dark border rounded-3 shadow-sm mt-3"
+                                            id="commentText" rows="3"></textarea>
+                                    </div>
+                                    <button type="submit"
+                                        class="btn btn-outline-success d-flex align-items-center gap-2 float-end">
+                                        <i class="mdi mdi-send"></i>
+                                        <span>Enviar</span>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <hr class="m-0">
+
+                            <div id="commentsList" class="p-3 mt-3">
+                                <div class="comment-widgets scrollable bg-white rounded-3 shadow-lg">
+                                    <!-- Comment Row -->
+                                    <div class="d-flex flex-row comment-row mt-0">
+                                        <img src="../assets/images/users/2.jpg" alt="user" width="50"
+                                            class="rounded-circle" />
+                                        <div class="comment-text w-100">
+                                            <span class="text-muted float-end">Publicado em: 04 de Março, 2025</span>
+                                            <h6 class="text-info">Maria Santos</h6>
+                                            <span class="d-block ms-2">História muito divertida e educativa.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="commentsList" class="p-3">
+                                <div class="comment-widgets scrollable bg-white rounded-3 shadow-lg">
+                                    <!-- Comment Row -->
+                                    <div class="d-flex flex-row comment-row mt-0">
+                                        <img src="../assets/images/users/2.jpg" alt="user" width="50"
+                                            class="rounded-circle" />
+                                        <div class="comment-text w-100">
+                                            <span class="text-muted float-end">Publicado em: 04 de Março, 2025</span>
+                                            <h6 class="text-info">Maria Santos</h6>
+                                            <span class="d-block ms-2">Lorem ipsum, dolor sit amet consectetur
+                                                adipisicing
+                                                elit.
+                                                Consequuntur itaque recusandae cupiditate modi architecto, eaque nostrum
+                                                natus
+                                                quasi dolorum sed eveniet enim tempore! Voluptatem, dicta corporis
+                                                dolore
+                                                veritatis
+                                                tempore ipsa.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Localizações Tab -->
+                <div class="tab-pane" id="location" role="tabpanel">
+                    <div class="card-body">
+                        <table class="table table-hover text-center">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="text-white">Biblioteca</th>
+                                    <th class="text-white">Quantidade Disponível</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                                <tr class="border-bottom border-dark">
+                                    <td class="fw-normal text-dark">Biblioteca Central</td>
+                                    <td class="fw-normal text-dark">4</td>
+                                </tr>
+                                <tr class="border-bottom border-dark">
+                                    <td class="fw-normal text-dark">Biblioteca de Gaia</td>
+                                    <td class="fw-normal text-dark">3</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
 
-    <div class="col-md-12 p-4">
+
+    <!-- Left Column for Comments and Reviews (col-md-8) -->
+    <div class="col-md-7 p-4">
         <div class="card shadow-lg rounded-3">
             <div class="card-header bg-light border border-dark">
-                <h4 class="fw-bold text-dark text-center mb-0">Comentários e Avaliações</h4>
+                <h4 class="text-dark text-center mb-0">Comentários e Avaliações</h4>
             </div>
 
             <!-- Formulário de Comentário -->
             <div id="commentForm" class="p-3 rounded shadow-sm">
                 <form id="commentFormId">
                     <div class="mb-3">
-                        <label class="form-label fw-semibold fs-5">Deixe sua avaliação e seu comentário (opcional):</label>
+                        <label class="form-label fw-semibold fs-5">Deixe sua avaliação e seu comentário
+                            (opcional):</label>
                         <div class="rate">
                             <input type="radio" id="star5" name="rate" value="5" />
                             <label for="star5" title="5 estrelas">★</label>
@@ -108,13 +205,12 @@
                             class="form-control text-dark border rounded-3 shadow-sm mt-3" id="commentText"
                             rows="3"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-outline-success btn-lg d-flex align-items-center gap-2 float-end">
+                    <button type="submit" class="btn btn-outline-success d-flex align-items-center gap-2 float-end">
                         <i class="mdi mdi-send"></i>
                         <span>Enviar</span>
                     </button>
                 </form>
             </div>
-
 
             <hr class="m-0">
 
@@ -122,35 +218,60 @@
                 <div class="comment-widgets scrollable bg-white rounded-3 shadow-lg">
                     <!-- Comment Row -->
                     <div class="d-flex flex-row comment-row mt-0">
-                        .
                         <img src="../assets/images/users/2.jpg" alt="user" width="50" class="rounded-circle" />
-
                         <div class="comment-text w-100">
-
                             <span class="text-muted float-end">Publicado em: 04 de Março, 2025</span>
-
-                            <h6 class="fw-bold text-info">Maria Santos</h6>
+                            <h6 class="text-info">Maria Santos</h6>
                             <span class="d-block ms-2">História muito divertida e educativa.</span>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div id="commentsList" class="p-3">
                 <div class="comment-widgets scrollable bg-white rounded-3 shadow-lg">
                     <!-- Comment Row -->
                     <div class="d-flex flex-row comment-row mt-0">
-                        .
                         <img src="../assets/images/users/2.jpg" alt="user" width="50" class="rounded-circle" />
-
                         <div class="comment-text w-100">
-
                             <span class="text-muted float-end">Publicado em: 04 de Março, 2025</span>
-
-                            <h6 class="fw-bold text-info">Maria Santos</h6>
-                            <span class="d-block ms-2">História muito divertida e educativa.</span>
+                            <h6 class="text-info">Maria Santos</h6>
+                            <span class="d-block ms-2">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                Consequuntur itaque recusandae cupiditate modi architecto, eaque nostrum natus
+                                quasi dolorum sed eveniet enim tempore! Voluptatem, dicta corporis dolore
+                                veritatis
+                                tempore ipsa.</span>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5 p-4">
+        <div class="card shadow-lg">
+            <div class="card-header bg-light border border border-dark">
+                <h4 class="text-dark text-center">Localizações</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover text-center">
+                    <thead class="bg-dark">
+                        <tr>
+                            <th class="text-white">Biblioteca</th>
+                            <th class="text-white">Quantidade Disponível</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                        <tr class="border-bottom border-dark">
+                            <td class="fw-normal text-dark">Biblioteca Central</td>
+                            <td class="fw-normal text-dark">4</td>
+                        </tr>
+                        <tr class="border-bottom border-dark">
+                            <td class="fw-normal text-dark">Biblioteca de Gaia</td>
+                            <td class="fw-normal text-dark">3</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

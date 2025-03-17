@@ -31,6 +31,8 @@ p {
 }
 
 .card,
+.nav,
+.nav-tabs,
 .list-group-item {
     background-color: #f1f1f1;
 }
