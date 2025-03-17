@@ -59,6 +59,24 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
                                 <i class="mdi mdi-library me-2"></i> Catálogo
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                aria-current="page" href="#">
+                                <i class="mdi mdi-trophy-award me-2"></i> Mais Requisitados
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                aria-current="page" href="#">
+                                <i class="mdi mdi-newspaper me-2"></i> Novidades
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                aria-current="page" href="#">
+                                <i class="mdi mdi-book-open-page-variant me-2"></i> Recomendações
+                            </a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav float-end">
 

@@ -119,7 +119,7 @@
     </div>
 </div>
 
-<h2 class="text-center p-3">Destaques</h2>
+<h2 class="text-center p-3">Novidades</h2>
 <div id="carouselExampleControls" class="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
