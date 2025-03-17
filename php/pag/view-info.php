@@ -3,17 +3,17 @@
         <div class="card shadow-lg">
             <div class="row g-0">
                 <!-- Imagem dentro do Card -->
-                <div class="col-md-4 d-flex align-items-center">
+                <div class="col-md-4 ms-3 mt-2 mb-2 d-flex align-items-center">
                     <img src="../assets/images/big/img1.jpg" class="img-fluid rounded-start p-2 w-100"
                         alt="Capa do livro">
                 </div>
 
-                <div class="col-md-1 mt-2 mb-2 d-flex justify-content-center align-items-center">
+                <div class="col-md-1 mt-3 mb-3 d-flex justify-content-center align-items-center">
                     <div class="vertical-row bg-dark"></div>
                 </div>
 
                 <!-- Informações do Livro -->
-                <div class="col-md-7 d-flex align-items-cente">
+                <div class="col-md-6 md-flex align-items-cente">
                     <div class="card-body">
                         <h1 class="card-title text-center text-dark">A abelha Zarelha</h1>
                         <hr>
