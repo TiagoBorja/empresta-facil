@@ -37,7 +37,7 @@ p {
 
 .vertical-row {
     height: 100%;
-    width: 2.5px;
-    background-color: #343A40;
+    width: 1.6px;
+    /* background-color: #343A40; */
     border-radius: 2px;
 }

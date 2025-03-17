@@ -48,7 +48,7 @@
 </div>
 
 
-<div class="col-md-12 p-4">
+<div class="col-md-12 p-3">
     <div class="row el-element-overlay">
         <div class="col-lg-3 col-md-6 mb-3">
             <div class="card shadow-lg">

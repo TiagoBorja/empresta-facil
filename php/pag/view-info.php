@@ -9,7 +9,7 @@
                 </div>
 
                 <div class="col-md-1 mt-2 mb-2 d-flex justify-content-center align-items-center">
-                    <div class="vertical-row"></div>
+                    <div class="vertical-row bg-dark"></div>
                 </div>
 
                 <!-- Informações do Livro -->
@@ -53,7 +53,7 @@
 
     <div class="col-md-12 p-4">
         <div class="card shadow-lg">
-            <div class="card-header bg-light border border-2 border-dark">
+            <div class="card-header bg-light border border border-dark">
                 <h4 class="fw-bold text-dark text-center mb-0">Localizações</h4>
             </div>
             <div class="card-body">
@@ -108,7 +108,7 @@
                             class="form-control text-dark border rounded-3 shadow-sm mt-3" id="commentText"
                             rows="3"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-success text-white d-flex align-items-center gap-2 float-end">
+                    <button type="submit" class="btn btn-outline-success btn-lg d-flex align-items-center gap-2 float-end">
                         <i class="mdi mdi-send"></i>
                         <span>Enviar</span>
                     </button>
