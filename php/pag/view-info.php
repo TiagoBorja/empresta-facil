@@ -16,7 +16,6 @@
                 <div class="col-md-6 md-flex align-items-cente">
                     <div class="card-body">
                         <h1 class="card-title text-center text-dark">A abelha Zarelha</h1>
-                        <hr>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><strong>Autor:</strong>
                                 <span class="text-danger">Raquel
@@ -55,13 +54,19 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="true">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#commentsList" role="tab"
+                        aria-selected="true">
                         Comentários e Avaliações
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#location" role="tab" aria-selected="false">
+                    <a class="nav-link" data-bs-toggle="tab" href="#libraryLocation" role="tab" aria-selected="false">
                         Localizações
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#userComment" role="tab" aria-selected="false">
+                        Comentar
                     </a>
                 </li>
             </ul>
@@ -69,10 +74,142 @@
             <!-- Tab panes -->
             <div class="tab-content tabcontent-border">
                 <!-- Comentários e Avaliações Tab -->
-                <div class="tab-pane fade show active" id="home" role="tabpanel">
+                <div class="tab-pane fade show active" id="commentsList" role="tabpanel">
+                    <div class="rounded-3">
+                        <div class="card-body">
+                            <div class="comment-widgets scrollable ps-container bg-white"
+                                data-ps-id="1e4dd06c-c079-4682-737c-ce90567c7b40">
+
+                                <div class="d-flex flex-row comment-row mt-0">
+                                    <div class="p-2">
+                                        <img src="../assets/images/users/1.jpg" alt="user" width="50"
+                                            class="rounded-circle">
+                                    </div>
+                                    <div class="comment-text w-100">
+                                        <h6 class="font-medium text-info">James Anderson</h6>
+                                        <span class="mb-3 d-block">Lorem Ipsum is simply dummy text of the printing and
+                                            type setting industry.
+                                        </span>
+                                        <div class="comment-footer">
+                                            <span class="text-muted float-start">18 de Março, 2025</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Comment Row -->
+                                <hr>
+
+
+                                <div class="d-flex flex-row comment-row">
+                                    <div class="p-2">
+                                        <img src="../assets/images/users/4.jpg" alt="user" width="50"
+                                            class="rounded-circle">
+                                    </div>
+                                    <div class="comment-text active w-100">
+                                        <h6 class="font-medium text-info">Michael Jorden</h6>
+                                        <span class="mb-3 d-block">Lorem Ipsum is simply dummy text of the printing and
+                                            type setting industry.
+                                        </span>
+                                        <div class="comment-footer">
+                                            <span class="text-muted float-start">18 de Março, 2025</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Comment Row -->
+                                <hr>
+
+                                <div class="d-flex flex-row comment-row">
+                                    <div class="p-2">
+                                        <img src="../assets/images/users/5.jpg" alt="user" width="50"
+                                            class="rounded-circle">
+                                    </div>
+                                    <div class="comment-text w-100">
+                                        <h6 class="font-medium text-info">Johnathan Doeting</h6>
+                                        <span class="mb-3 d-block">Lorem Ipsum is simply dummy text of the printing
+                                            andLorem Ipsum
+                                            is simply dummy text of the printing andLorem Ipsum is simply dummy text of
+                                            the printing
+                                            andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
+                                            dummy text
+                                            of the printing andLorem Ipsum is simply dummy text of the printing andLorem
+                                            Ipsum is
+                                            simply dummy text of the printing andLorem Ipsum is simply dummy text of the
+                                            printing
+                                            andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
+                                            dummy text
+                                            of the printing andLorem Ipsum is simply dummy text of the printing andLorem
+                                            Ipsum is
+                                            simply dummy text of the printing andLorem Ipsum is simply dummy text of the
+                                            printing
+                                            andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
+                                            dummy text
+                                            of the printing andLorem Ipsum is simply dummy text of the printing andLorem
+                                            Ipsum is
+                                            simply dummy text of the printing andLorem Ipsum is simply dummy text of the
+                                            printing
+                                            andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
+                                            dummy text
+                                            of the printing andLorem Ipsum is simply dummy text of the printing andLorem
+                                            Ipsum is
+                                            simply dummy text of the printing andLorem Ipsum is simply dummy text of the
+                                            printing
+                                            andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
+                                            dummy text
+                                            of the printing andLorem Ipsum is simply dummy text of the printing andLorem
+                                            Ipsum is
+                                            simply dummy text of the printing andLorem Ipsum is simply dummy text of the
+                                            printing
+                                            and</span>
+                                        <div class="comment-footer">
+                                            <span class="text-muted float-start">18 de Março, 2025</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                                    <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                                </div>
+                                <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
+                                    <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                                </div>
+                                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                                    <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                                </div>
+                                <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
+                                    <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Localizações Tab -->
+                <div class="tab-pane fade" id="libraryLocation" role="tabpanel">
+                    <div class="card-body">
+                        <table class="table table-hover text-center">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="text-white">Biblioteca</th>
+                                    <th class="text-white">Quantidade Disponível</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                                <tr class="border-bottom border-dark">
+                                    <td class="fw-normal text-dark">Biblioteca Central</td>
+                                    <td class="fw-normal text-dark">4</td>
+                                </tr>
+                                <tr class="border-bottom border-dark">
+                                    <td class="fw-normal text-dark">Biblioteca de Gaia</td>
+                                    <td class="fw-normal text-dark">3</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="userComment" role="tabpanel">
                     <div class="card-body">
                         <div class="card shadow-lg rounded-3">
-                            <!-- Formulário de Comentário -->
+
                             <div id="commentForm" class="p-3 rounded shadow-sm">
                                 <form id="commentFormId">
                                     <div class="mb-3">
@@ -101,65 +238,7 @@
                                     </button>
                                 </form>
                             </div>
-
-                            <hr class="m-0">
-
-                            <div id="commentsList" class="p-3 mt-3">
-                                <div class="comment-widgets scrollable bg-white rounded-3 shadow-lg">
-                                    <!-- Comment Row -->
-                                    <div class="d-flex flex-row comment-row mt-0">
-                                        <img src="../assets/images/users/2.jpg" alt="user" width="50"
-                                            class="rounded-circle" />
-                                        <div class="comment-text w-100">
-                                            <span class="text-muted float-end">Publicado em: 04 de Março, 2025</span>
-                                            <h6 class="text-info">Maria Santos</h6>
-                                            <span class="d-block ms-2">História muito divertida e educativa.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="commentsList" class="p-3">
-                                <div class="comment-widgets scrollable bg-white rounded-3 shadow-lg">
-                                    <!-- Comment Row -->
-                                    <div class="d-flex flex-row comment-row mt-0">
-                                        <img src="../assets/images/users/2.jpg" alt="user" width="50"
-                                            class="rounded-circle" />
-                                        <div class="comment-text w-100">
-                                            <span class="text-muted float-end">Publicado em: 04 de Março, 2025</span>
-                                            <h6 class="text-info">Maria Santos</h6>
-                                            <span class="d-block ms-2">Lorem ipsum dolor sit amet, consectetur
-                                                adipisicing elit. Consequuntur itaque recusandae cupiditate modi
-                                                architecto...</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Localizações Tab -->
-                <div class="tab-pane fade" id="location" role="tabpanel">
-                    <div class="card-body">
-                        <table class="table table-hover text-center">
-                            <thead class="bg-dark">
-                                <tr>
-                                    <th class="text-white">Biblioteca</th>
-                                    <th class="text-white">Quantidade Disponível</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white">
-                                <tr class="border-bottom border-dark">
-                                    <td class="fw-normal text-dark">Biblioteca Central</td>
-                                    <td class="fw-normal text-dark">4</td>
-                                </tr>
-                                <tr class="border-bottom border-dark">
-                                    <td class="fw-normal text-dark">Biblioteca de Gaia</td>
-                                    <td class="fw-normal text-dark">3</td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
