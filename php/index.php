@@ -78,7 +78,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
                             </a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav float-end">
+                    <ul class="navbar-nav float-end mb-2 mb-lg-0 d-flex align-items-center">
 
                         <li class="nav-item dropdown">
                             <a class="
@@ -93,23 +93,21 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
                             <ul class="dropdown-menu dropdown-menu-end user-dd animated"
                                 aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="javascript:void(0)"><i
-                                        class="mdi mdi-account me-1 ms-1"></i>
-                                    My
-                                    Profile</a>
+                                        class="mdi mdi-account me-1 ms-1 text-info"></i>
+                                    Meu Perfil</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="javascript:void(0)"><i
-                                        class="mdi mdi-settings me-1 ms-1"></i> Account
-                                    Setting</a>
+                                        class="fas fa-heart me-1 ms-1 text-danger"></i>
+                                    Favoritos</a>
                                 <div class="dropdown-divider"></div>
-                                <a id="logout" class="dropdown-item" href="javascript:void(0)"><i
-                                        class="fa fa-power-off me-1 ms-1"></i>
-                                    Logout</a>
+                                <a class="dropdown-item" href="javascript:void(0)">
+                                    <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições
+                                </a>
                                 <div class="dropdown-divider"></div>
-                                <div class="ps-4 p-10">
-                                    <a href="javascript:void(0)"
-                                        class="btn btn-sm btn-success btn-rounded text-white">View
-                                        Profile</a>
-                                </div>
+                                <a id="logout" class="dropdown-item" href="javascript:void(0)">
+                                    <i class="fa fa-power-off text-danger me-1 ms-1"></i>
+                                    Sair
+                                </a>
                             </ul>
                         </li>
                     </ul>
@@ -270,6 +268,23 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
 
     <?= include 'includes/footer.php'; ?>
 
+
+
 </body>
+<!-- <script>
+
+    const heartIcon = document.querySelector('.fa-heart');
+
+    heartIcon.addEventListener('mouseover', () => {
+        heartIcon.classList.remove('far');
+        heartIcon.classList.add('fas');
+    });
+
+    heartIcon.addEventListener('mouseout', () => {
+        heartIcon.classList.remove('fas');
+        heartIcon.classList.add('far');
+    });
+
+</script> -->
 
 </html>
