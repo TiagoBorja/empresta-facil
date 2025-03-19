@@ -80,36 +80,58 @@
                             <div class="comment-widgets scrollable ps-container bg-white"
                                 data-ps-id="1e4dd06c-c079-4682-737c-ce90567c7b40">
 
-                                <div class="d-flex flex-row comment-row mt-0">
+                                <div class="d-flex flex-row comment-row">
                                     <div class="p-2">
-                                        <img src="../assets/images/users/1.jpg" alt="user" width="50"
+                                        <img src="../assets/images/users/2.jpg" alt="user" width="50"
                                             class="rounded-circle">
                                     </div>
                                     <div class="comment-text w-100">
-                                        <h6 class="font-medium text-info">James Anderson</h6>
-                                        <span class="mb-3 d-block">Lorem Ipsum is simply dummy text of the printing and
-                                            type setting industry.
-                                        </span>
+                                        <div class="d-flex justify-content align-items-center">
+                                            <h6 class="font-medium text-info mb-0">Fulano da Silva</h6>
+                                            <span class="star-shadow fs-3 me-2 text-warning ms-2">
+                                                <i class="mdi mdi-star"></i>
+                                                <i class="mdi mdi-star"></i>
+                                                <i class="mdi mdi-star"></i>
+                                                <i class="mdi mdi-star-outline"></i>
+                                                <i class="mdi mdi-star-outline"></i>
+                                            </span>
+                                        </div>
+                                        <span class="mb-3 d-block">Lorem Ipsum is simply dummy text of the printing
+                                            andLorem Ipsum
+                                            is simply dummy text of the printing andLorem Ipsum is simply dummy text of
+                                            the printing
+                                            andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
+                                            dummy text</span>
                                         <div class="comment-footer">
                                             <span class="text-muted float-start">18 de Março, 2025</span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Comment Row -->
                                 <hr>
-
 
                                 <div class="d-flex flex-row comment-row">
                                     <div class="p-2">
-                                        <img src="../assets/images/users/4.jpg" alt="user" width="50"
+                                        <img src="../assets/images/users/5.jpg" alt="user" width="50"
                                             class="rounded-circle">
                                     </div>
-                                    <div class="comment-text active w-100">
-                                        <h6 class="font-medium text-info">Michael Jorden</h6>
-                                        <span class="mb-3 d-block">Lorem Ipsum is simply dummy text of the printing and
-                                            type setting industry.
-                                        </span>
+                                    <div class="comment-text w-100">
+                                        <div class="d-flex align-items-center justify-content">
+                                            <h6 class="font-medium text-info fs-5 mb-0">Fulano da Silva</h6>
+                                            <span class="star-shadow fs-3 me-2 text-warning ms-2">
+                                                <i class="mdi mdi-star"></i>
+                                                <i class="mdi mdi-star"></i>
+                                                <i class="mdi mdi-star"></i>
+                                                <i class="mdi mdi-star-outline"></i>
+                                                <i class="mdi mdi-star-outline"></i>
+                                            </span>
+                                        </div>
+                                        <span class="mb-3 d-block">Lorem Ipsum is simply dummy text of the printing
+                                            andLorem Ipsum
+                                            is simply dummy text of the printing andLorem Ipsum is simply dummy text of
+                                            the printing
+                                            andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
+                                            dummy text</span>
                                         <div class="comment-footer">
                                             <span class="text-muted float-start">18 de Março, 2025</span>
                                         </div>
@@ -124,42 +146,22 @@
                                             class="rounded-circle">
                                     </div>
                                     <div class="comment-text w-100">
-                                        <h6 class="font-medium text-info">Johnathan Doeting</h6>
+                                        <div class="d-flex justify-content align-items-center">
+                                            <h6 class="font-medium fs-5 text-info mb-0">Johnathan Doeting</h6>
+                                            <span class="star-shadow fs-3 me-2 text-warning ms-2">
+                                                <i class="mdi mdi-star"></i>
+                                                <i class="mdi mdi-star"></i>
+                                                <i class="mdi mdi-star"></i>
+                                                <i class="mdi mdi-star-outline"></i>
+                                                <i class="mdi mdi-star-outline"></i>
+                                            </span>
+                                        </div>
                                         <span class="mb-3 d-block">Lorem Ipsum is simply dummy text of the printing
                                             andLorem Ipsum
                                             is simply dummy text of the printing andLorem Ipsum is simply dummy text of
                                             the printing
                                             andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
-                                            dummy text
-                                            of the printing andLorem Ipsum is simply dummy text of the printing andLorem
-                                            Ipsum is
-                                            simply dummy text of the printing andLorem Ipsum is simply dummy text of the
-                                            printing
-                                            andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
-                                            dummy text
-                                            of the printing andLorem Ipsum is simply dummy text of the printing andLorem
-                                            Ipsum is
-                                            simply dummy text of the printing andLorem Ipsum is simply dummy text of the
-                                            printing
-                                            andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
-                                            dummy text
-                                            of the printing andLorem Ipsum is simply dummy text of the printing andLorem
-                                            Ipsum is
-                                            simply dummy text of the printing andLorem Ipsum is simply dummy text of the
-                                            printing
-                                            andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
-                                            dummy text
-                                            of the printing andLorem Ipsum is simply dummy text of the printing andLorem
-                                            Ipsum is
-                                            simply dummy text of the printing andLorem Ipsum is simply dummy text of the
-                                            printing
-                                            andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
-                                            dummy text
-                                            of the printing andLorem Ipsum is simply dummy text of the printing andLorem
-                                            Ipsum is
-                                            simply dummy text of the printing andLorem Ipsum is simply dummy text of the
-                                            printing
-                                            and</span>
+                                            dummy text</span>
                                         <div class="comment-footer">
                                             <span class="text-muted float-start">18 de Março, 2025</span>
                                         </div>

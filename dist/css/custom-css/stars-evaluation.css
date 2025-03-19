@@ -18,10 +18,12 @@
 
 .rate label:hover,
 .rate label:hover~label {
+    -webkit-text-stroke: 1px black;
     color: #deb217;
 }
 
 .rate input:checked~label {
+    -webkit-text-stroke: 1px black;
     color: #ffc700;
 }
 
@@ -30,15 +32,18 @@
 .rate input:checked~label:hover,
 .rate input:checked~label:hover~label,
 .rate label:hover~input:checked~label {
+    -webkit-text-stroke: 1px black;
     color: #c59b08;
 }
 
-/* Ajuste na textarea para expandir ao focar */
-/* #commentText {
-    transition: all 0.3s;
+.star-shadow i {
+    color: orange; /* Cor das estrelas preenchidas */
+    font-size: 22px; /* Ajuste conforme necessário */
+    -webkit-text-stroke: 1px black; /* Contorno preto apenas nas estrelas preenchidas */
 }
 
-#commentText:focus {
-    border-color: #28a745;
-    box-shadow: 0 0 8px rgba(40, 167, 69, 0.6);
-} */
+.star-shadow .mdi-star-outline {
+    -webkit-text-stroke: 0px; /* Remove contorno das estrelas vazias */
+    color: black; /* Define um cinza para as estrelas vazias */
+}
+
