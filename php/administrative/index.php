@@ -1,12 +1,11 @@
 <?php
-session_start();
 
 // if (!isset($_SESSION['user'])) {
 //     require './pag/login-form.php';
 //     exit();
 // }
 
-$page = 'home';
+$page = 'dashboard';
 if (isset($_GET["page"]))
     $page = $_GET["page"];
 
@@ -18,7 +17,7 @@ $page_config = [
     'catalog' => ['title' => 'Catálogo', 'file' => './pag/catalog.php'],
     'view-info' => ['title' => 'Informações', 'file' => './pag/view-info.php'],
     'auth' => ['title' => 'Login', 'file' => './pag/login-form.php'],
-    'administrative' => ['title' => 'Painel Administrativo', 'file' => './administrative/index.php'],
+    'administrative' => ['title' => 'Login', 'file' => './pag/login-form.php'],
 ];
 
 $page_title = isset($page_config[$page]) ? $page_config[$page]['title'] : 'Not Found';
@@ -40,7 +39,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
     <header class="">
         <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.php?page=home">
+                <a class="navbar-brand" href="index.php?page=dashboard">
 
                     <span class="logo-text ms-2 text-danger">
                         EmprestaFácil
@@ -53,7 +52,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent"
-                    style="background-color: #343A40 !important;">
+                    style="background-color: #343A40 !important">
                     <!-- Links de Navegação - Centralizados e Alinhados Verticalmente -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center">
                         <li class="nav-item">
@@ -123,11 +122,11 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
 
                                 <?= (isset($_SESSION['user']['tipo']) && $_SESSION['user']['tipo'] === 'Administrador')
                                     ? '<div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="./administrative/index.php">
+                                        <a class="dropdown-item" href="javascript:void(0)">
                                         <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições
                                         </a>'
                                     : ''
-                                ?>
+                                    ?>
 
                             </ul>
                         </li>
@@ -138,107 +137,107 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
     </header>
 
     <!-- <aside class="left-sidebar" data-sidebarbg="skin5">
-            <div class="scroll-sidebar">
-                <nav class="sidebar-nav">
-                    <ul id="sidebarnav" class="pt-4">
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="index.php"
-                                aria-expanded="false">
-                                <i class="mdi mdi-home"></i><span class="hide-menu">Página Inicial</span></a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="?page=1"
-                                aria-expanded="false">
-                                <i class="mdi mdi-library"></i><span class="hide-menu">Catálogo</span></a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false">
-                                <i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false">
-                                <i class="mdi mdi-book"></i><span class="hide-menu">Livros</span></a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
-                                aria-expanded="false">
-                                <i class="mdi mdi-settings"></i>
-                                <span class="hide-menu">Configurações</span>
-                            </a>
-                            <ul aria-expanded="false" class="collapse first-level">
+        <div class="scroll-sidebar">
+            <nav class="sidebar-nav">
+                <ul id="sidebarnav" class="pt-4">
+                    <li class="sidebar-item">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="index.php"
+                            aria-expanded="false">
+                            <i class="mdi mdi-home"></i><span class="hide-menu">Página Inicial</span></a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="?page=1"
+                            aria-expanded="false">
+                            <i class="mdi mdi-library"></i><span class="hide-menu">Catálogo</span></a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false">
+                            <i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false">
+                            <i class="mdi mdi-book"></i><span class="hide-menu">Livros</span></a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
+                            aria-expanded="false">
+                            <i class="mdi mdi-settings"></i>
+                            <span class="hide-menu">Configurações</span>
+                        </a>
+                        <ul aria-expanded="false" class="collapse first-level">
 
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
-                                        aria-expanded="false">
-                                        <i class="mdi mdi-account-multiple"></i>
-                                        <span class="hide-menu">Utilizadores</span>
-                                    </a>
-                                    <ul aria-expanded="false" class="collapse second-level">
-                                        <li class="sidebar-item">
-                                            <a href="?page=3" class="sidebar-link">
-                                                <i class="mdi mdi-account-tie"></i>
-                                                <span class="hide-menu">Tipos de Utilizadores</span>
-                                            </a>
-                                        </li>
-                                        <li class="sidebar-item">
-                                            <a href="/gestao-alunos" class="sidebar-link">
-                                                <i class="mdi mdi-account-school"></i>
-                                                <span class="hide-menu">Gestão de Alunos</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
+                                    aria-expanded="false">
+                                    <i class="mdi mdi-account-multiple"></i>
+                                    <span class="hide-menu">Utilizadores</span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse second-level">
+                                    <li class="sidebar-item">
+                                        <a href="?page=3" class="sidebar-link">
+                                            <i class="mdi mdi-account-tie"></i>
+                                            <span class="hide-menu">Tipos de Utilizadores</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="/gestao-alunos" class="sidebar-link">
+                                            <i class="mdi mdi-account-school"></i>
+                                            <span class="hide-menu">Gestão de Alunos</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
-                                        aria-expanded="false">
-                                        <i class="mdi mdi-book"></i>
-                                        <span class="hide-menu">Livros</span>
-                                    </a>
-                                    <ul aria-expanded="false" class="collapse second-level">
-                                        <li class="sidebar-item">
-                                            <a href="/categorias-generos" class="sidebar-link">
-                                                <i class="mdi mdi-bookmark-multiple"></i>
-                                                <span class="hide-menu">Categorias de Géneros</span>
-                                            </a>
-                                        </li>
-                                        <li class="sidebar-item">
-                                            <a href="/categorias-materiais" class="sidebar-link">
-                                                <i class="mdi mdi-library-books"></i>
-                                                <span class="hide-menu">Categorias de Materiais</span>
-                                            </a>
-                                        </li>
-                                        <li class="sidebar-item">
-                                            <a href="/condicao-materiais" class="sidebar-link">
-                                                <i class="mdi mdi-information"></i>
-                                                <span class="hide-menu">Condição dos Materiais</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
+                                    aria-expanded="false">
+                                    <i class="mdi mdi-book"></i>
+                                    <span class="hide-menu">Livros</span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse second-level">
+                                    <li class="sidebar-item">
+                                        <a href="/categorias-generos" class="sidebar-link">
+                                            <i class="mdi mdi-bookmark-multiple"></i>
+                                            <span class="hide-menu">Categorias de Géneros</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="/categorias-materiais" class="sidebar-link">
+                                            <i class="mdi mdi-library-books"></i>
+                                            <span class="hide-menu">Categorias de Materiais</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="/condicao-materiais" class="sidebar-link">
+                                            <i class="mdi mdi-information"></i>
+                                            <span class="hide-menu">Condição dos Materiais</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
-                                        aria-expanded="false">
-                                        <i class="mdi mdi-tune"></i>
-                                        <span class="hide-menu">Gerais</span>
-                                    </a>
-                                    <ul aria-expanded="false" class="collapse second-level">
-                                        <li class="sidebar-item">
-                                            <a href="/funcoes-permissoes" class="sidebar-link">
-                                                <i class="mdi mdi-account-settings"></i>
-                                                <span class="hide-menu">Funções e Permissões</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
+                                    aria-expanded="false">
+                                    <i class="mdi mdi-tune"></i>
+                                    <span class="hide-menu">Gerais</span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse second-level">
+                                    <li class="sidebar-item">
+                                        <a href="/funcoes-permissoes" class="sidebar-link">
+                                            <i class="mdi mdi-account-settings"></i>
+                                            <span class="hide-menu">Funções e Permissões</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </aside> -->
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </aside> -->
 
     <div class="">
         <div class="page-breadcrumb">
@@ -255,8 +254,8 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
             <?php
             switch ($page) {
 
-                case 'home':
-                    $page_file = "./pag/home.php";
+                case 'dashboard':
+                    $page_file = "./pag/dashboard.php";
                     break;
 
                 case 'catalog':
@@ -271,11 +270,6 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
                 case 'logout':
                     $page_file = "./config/user-login/logout.php";
                     break;
-                case 'administrative':
-                    $page_file = "./administrative/index.php";
-                    break;
-
-                    
                 case 3:
                     $page_file = "./config/user-type/user-type.php";
                     break;

@@ -11,7 +11,8 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     $pdo = $connection->getConnection();
 
     // Primeiro, busca o utilizador pelo email
-    $query = 'SELECT * FROM utilizador WHERE email = :email';
+    $query = 'SELECT u.*, t.tipo AS tipo FROM utilizador u
+            JOIN tipo_utilizador t ON u.tipo_utilizador_fk = t.id WHERE email = :email';
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmt->execute();
