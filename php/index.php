@@ -17,8 +17,7 @@ $page_config = [
     'home' => ['title' => 'Página Inicial', 'file' => './pag/home.php'],
     'catalog' => ['title' => 'Catálogo', 'file' => './pag/catalog.php'],
     'view-info' => ['title' => 'Informações', 'file' => './pag/view-info.php'],
-    'auth' => ['title' => 'Login', 'file' => './pag/login-form.php'],
-    'logout' => ['title' => 'Login', 'file' => './config/user-login/logout.php'],
+    'auth' => ['title' => 'Login', 'file' => './pag/login-form.php']
 ];
 
 $page_title = isset($page_config[$page]) ? $page_config[$page]['title'] : 'Not Found';
@@ -120,7 +119,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
                                     </a>
                                 <?php } else { ?>
                                     <a id="logout" class="dropdown-item" href="?page=auth">
-                                        <i class="fa fa-power-on text-danger me-1 ms-1"></i>
+                                        <i class="mdi mdi-login text-info me-1 ms-1"></i>
                                         Entrar
                                     </a>
                                 <?php } ?>
