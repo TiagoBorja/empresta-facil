@@ -76,7 +76,10 @@
     }
 </style>
 
-<h1 class="p-3 text-center mt-3">Seja bem-vindo, Fulano!</h1>
+<h1 class="p-3 text-center mt-3">
+    Seja bem-vindo<?= isset($_SESSION['user']['primeiro_nome']) ? ', ' . $_SESSION['user']['primeiro_nome'] : '!' ?>
+</h1>
+
 <p class="text-center mb-4">Explore o catálogo de livros e aproveite as nossas recomendações personalizadas!</p>
 
 <div class="row mt-3 p-2">
