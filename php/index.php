@@ -1,11 +1,12 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user'])) {
-    require './pag/login-form.php';
-    exit();
-}
-$page = 0;
+// if (!isset($_SESSION['user'])) {
+//     require './pag/login-form.php';
+//     exit();
+// }
+
+$page = 'home';
 if (isset($_GET["page"]))
     $page = $_GET["page"] ?? 'home';
 
@@ -17,6 +18,7 @@ $page_config = [
     'catalog' => ['title' => 'Catálogo', 'file' => './pag/catalog.php'],
     'view-info' => ['title' => 'Informações', 'file' => './pag/view-info.php'],
     'auth' => ['title' => 'Login', 'file' => './pag/login-form.php'],
+    'logout' => ['title' => 'Login', 'file' => './config/user-login/logout.php'],
 ];
 
 $page_title = isset($page_config[$page]) ? $page_config[$page]['title'] : 'Not Found';
@@ -111,10 +113,17 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
                                     <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a id="logout" class="dropdown-item" href="./config/user-login/logout.php">
-                                    <i class="fa fa-power-off text-danger me-1 ms-1"></i>
-                                    Sair
-                                </a>
+                                <?php if (isset(($_SESSION['user']))) { ?>
+                                    <a id="logout" class="dropdown-item" href="./config/user-login/logout.php">
+                                        <i class="fa fa-power-off text-danger me-1 ms-1"></i>
+                                        Sair
+                                    </a>
+                                <?php } else { ?>
+                                    <a id="logout" class="dropdown-item" href="?page=auth">
+                                        <i class="fa fa-power-on text-danger me-1 ms-1"></i>
+                                        Entrar
+                                    </a>
+                                <?php } ?>
                             </ul>
                         </li>
                     </ul>
@@ -253,6 +262,9 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
                     break;
                 case 'auth':
                     $page_file = "./pag/login-form.php";
+                    break;
+                case 'logout':
+                    $page_file = "./config/user-login/logout.php";
                     break;
                 case 3:
                     $page_file = "./config/user-type/user-type.php";

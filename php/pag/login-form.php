@@ -1,6 +1,4 @@
-<?= include 'includes/header.php'; ?>
-
-<body class="container mt-5 text-center">
+<div class="col-md-12 p-3">
     <div class="card">
         <div class="card-body">
             <main class="form-signin">
@@ -37,6 +35,4 @@
             </main>
         </div>
     </div>
-</body>
-
-<?= include 'includes/footer.php'; ?>
+</div>

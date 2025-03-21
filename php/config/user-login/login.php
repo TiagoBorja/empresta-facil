@@ -20,13 +20,13 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 
     if (!$row) {
         $_SESSION['login-error'] = "Utilizador não encontrado!";
-        header('Location: ../../?page=auth');
+        header('Location: ../../index.php?page=auth');
         exit();
     }
 
     if ($password !== $row['senha']) {
         $_SESSION['login-error'] = "Senha inválida!";
-        header('Location: ../../?page=auth');
+        header('Location: ../../index.php?page=auth');
         exit();
     }
 
