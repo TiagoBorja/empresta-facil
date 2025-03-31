@@ -43,3 +43,22 @@ p {
     /* background-color: #343A40; */
     border-radius: 2px;
 }
+
+/* Quando a sidebar estiver minimizada */
+.mini-sidebar .logo-text {
+    display: none !important; /* Oculta o texto do logo */
+}
+
+.mini-sidebar .logo-icon {
+    display: flex !important; /* Garante que o ícone fique visível */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    width: 100%; /* Garante que ocupa toda a largura do menu */
+}
+
+/* Ajuste para evitar desformatar */
+.mini-sidebar .navbar-brand {
+    display: flex;
+    justify-content: center;
+}
+

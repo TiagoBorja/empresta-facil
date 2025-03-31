@@ -28,26 +28,29 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
     </div>
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="mini-sidebar"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+
         <header class="">
             <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
 
-
                 <div class="container-fluid">
-
                     <div class="navbar-header" data-logobg="skin5">
-
                         <a class="navbar-brand" href="index.html">
-                            <b class="logo-icon ps-2">
-                                <img src="../assets/images/logo-icon.png" alt="homepage" class="light-logo" width="25">
+                            <!-- Logo icon -->
+                            <b class="logo-icon ms-2">
+                                <img src="../public/assets/images/logo-icon.png" alt="homepage" class="light-logo"
+                                    width="26">
                             </b>
                             <span class="logo-text ms-2">
-                                <img src="../assets/images/logo-text.png" alt="homepage" class="light-logo">
+                                <span class="text-danger">EmprestaFacil</span>
                             </span>
-
                         </a>
+
+
                         <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
                                 class="ti-menu ti-close"></i></a>
+
                     </div>
+
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -148,7 +151,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
         <aside class="left-sidebar" style="background-color: #343A40 !important;>
             <div class=" scroll-sidebar">
             <nav class="sidebar-nav">
-                <ul id="sidebarnav" class="pt-4">
+                <ul id="sidebarnav" class="">
                     <li class="sidebar-item">
                         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="index.php"
                             aria-expanded="false">
@@ -160,7 +163,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                             <i class="mdi mdi-library"></i><span class="hide-menu">Catálogo</span></a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="?page=dashboard" aria-expanded="false">
                             <i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a>
                     </li>
                     <li class="sidebar-item">
