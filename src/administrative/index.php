@@ -10,7 +10,9 @@ $page_config = [
     'catalog' => ['title' => 'Catálogo', 'file' => './pages/catalog.php'],
     'view-info' => ['title' => 'Informações', 'file' => './pages/view-info.php'],
     'auth' => ['title' => 'Login', 'file' => './pages/login-form.php'],
-    'administrative' => ['title' => 'Painel Administrativo', 'file' => './administrative/index.php'],
+
+    'dashboard' => ['title' => 'Painel Administrativo', 'file' => './pages/dashboard.php'],
+    'user-config' => ['title' => 'Utilizadores', 'file' => './pages/user-config.php'],
 ];
 
 $page_title = isset($page_config[$page]) ? $page_config[$page]['title'] : 'Not Found';
@@ -163,7 +165,8 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                             <i class="mdi mdi-library"></i><span class="hide-menu">Catálogo</span></a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="?page=dashboard" aria-expanded="false">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="?page=dashboard"
+                            aria-expanded="false">
                             <i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a>
                     </li>
                     <li class="sidebar-item">
@@ -276,6 +279,10 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
 
                 case 'dashboard':
                     $page_file = "./pages/dashboard.php";
+                    break;
+
+                case 'user-config':
+                    $page_file = "./pages/user-config.php";
                     break;
 
                 default:
