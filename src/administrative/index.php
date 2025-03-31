@@ -1,11 +1,4 @@
-<?php
-
-// if (!isset($_SESSION['user'])) {
-//     require './pages/login-form.php';
-//     exit();
-// }
-
-$page = 'dashboard';
+<?php $page = 'dashboard';
 if (isset($_GET["page"]))
     $page = $_GET["page"];
 
@@ -17,7 +10,7 @@ $page_config = [
     'catalog' => ['title' => 'Catálogo', 'file' => './pages/catalog.php'],
     'view-info' => ['title' => 'Informações', 'file' => './pages/view-info.php'],
     'auth' => ['title' => 'Login', 'file' => './pages/login-form.php'],
-    'administrative' => ['title' => 'Login', 'file' => './pages/login-form.php'],
+    'administrative' => ['title' => 'Painel Administrativo', 'file' => './administrative/index.php'],
 ];
 
 $page_title = isset($page_config[$page]) ? $page_config[$page]['title'] : 'Not Found';
@@ -26,118 +19,134 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
 
 <?= include '../includes/header.php'; ?>
 
-<body>
-
-    <div class="preloader">
+<body cz-shortcut-listen="true">
+    <div class="preloader" style="display: none;">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
             <div class="lds-pos"></div>
         </div>
     </div>
+    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="mini-sidebar"
+        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+        <header class="">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
 
 
-    <header class="">
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.php?page=dashboard">
+                <div class="container-fluid">
 
-                    <span class="logo-text ms-2 text-danger">
-                        EmprestaFácil
-                    </span>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <div class="navbar-header" data-logobg="skin5">
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent"
-                    style="background-color: #343A40 !important">
-                    <!-- Links de Navegação - Centralizados e Alinhados Verticalmente -->
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center">
-                        <li class="nav-item">
-                            <a class="nav-link <?= $page == 'home' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
-                                href="?page=home">
-                                <i class="mdi mdi-home me-2"></i> Página Inicial
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?= $page == 'catalog' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
-                                aria-current="page" href="?page=catalog">
-                                <i class="mdi mdi-library me-2"></i> Catálogo
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
-                                aria-current="page" href="#">
-                                <i class="mdi mdi-trophy-award me-2"></i> Mais Requisitados
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
-                                aria-current="page" href="#">
-                                <i class="mdi mdi-newspaper me-2"></i> Novidades
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
-                                aria-current="page" href="#">
-                                <i class="mdi mdi-book-open-page-variant me-2"></i> Recomendações
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav float-end mb-2 mb-lg-0 d-flex align-items-center">
+                        <a class="navbar-brand" href="index.html">
+                            <b class="logo-icon ps-2">
+                                <img src="../assets/images/logo-icon.png" alt="homepage" class="light-logo" width="25">
+                            </b>
+                            <span class="logo-text ms-2">
+                                <img src="../assets/images/logo-text.png" alt="homepage" class="light-logo">
+                            </span>
 
-                        <li class="nav-item dropdown">
-                            <a class="
+                        </a>
+                        <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
+                                class="ti-menu ti-close"></i></a>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent"
+                        style="background-color: #343A40 !important;">
+                        <!-- Links de Navegação - Centralizados e Alinhados Verticalmente -->
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center">
+                            <li class="nav-item d-none d-lg-block">
+                                <a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)"
+                                    data-sidebartype="mini-sidebar">
+                                    <i class="mdi mdi-menu font-24"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <?= $page == 'home' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                    href="?page=home">
+                                    <i class="mdi mdi-home me-2"></i> Página Inicial
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <?= $page == 'catalog' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                    aria-current="page" href="?page=catalog">
+                                    <i class="mdi mdi-library me-2"></i> Catálogo
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                    aria-current="page" href="#">
+                                    <i class="mdi mdi-trophy-award me-2"></i> Mais Requisitados
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                    aria-current="page" href="#">
+                                    <i class="mdi mdi-newspaper me-2"></i> Novidades
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                    aria-current="page" href="#">
+                                    <i class="mdi mdi-book-open-page-variant me-2"></i> Recomendações
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav float-end mb-2 mb-lg-0 d-flex align-items-center">
+
+                            <li class="nav-item dropdown">
+                                <a class="
                         nav-link
                         dropdown-toggle
                         text-muted
                         waves-effect waves-dark
                         pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <img src="../assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31" />
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end user-dd animated"
-                                aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="javascript:void(0)"><i
-                                        class="mdi mdi-account me-1 ms-1 text-info"></i>
-                                    Meu Perfil</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i
-                                        class="fas fa-heart me-1 ms-1 text-danger"></i>
-                                    Favoritos</a>
-                                <div class="dropdown-divider"></div>
+                                    aria-expanded="false">
+                                    <img src="../public/assets/images/users/1.jpg" alt="user" class="rounded-circle"
+                                        width="31" />
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end user-dd animated"
+                                    aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="javascript:void(0)"><i
+                                            class="mdi mdi-account me-1 ms-1 text-info"></i>
+                                        Meu Perfil</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="javascript:void(0)"><i
+                                            class="fas fa-heart me-1 ms-1 text-danger"></i>
+                                        Favoritos</a>
+                                    <div class="dropdown-divider"></div>
 
-                                <?= isset(($_SESSION['user']))
-                                    ? '<a id="logout" class="dropdown-item" href="./config/user-login/logout.php">
+                                    <?= isset(($_SESSION['user']))
+                                        ? '<a id="logout" class="dropdown-item" href="./config/auth/logout.php">
                                         <i class="fa fa-power-off text-danger me-1 ms-1"></i>
                                         Sair
                                     </a>'
-                                    : '<a id="login" class="dropdown-item" href="?page=auth">
+                                        : '<a id="login" class="dropdown-item" href="?page=auth">
                                         <i class="mdi mdi-login text-info me-1 ms-1"></i>
                                         Entrar
                                     </a>'
-                                    ?>
+                                        ?>
 
-                                <?= (isset($_SESSION['user']['tipo']) && $_SESSION['user']['tipo'] === 'Administrador')
-                                    ? '<div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="javascript:void(0)">
+                                    <?= (isset($_SESSION['user']['tipo']) && $_SESSION['user']['tipo'] === 'Administrador')
+                                        ? '<div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="../administrative/index.php">
                                         <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições
                                         </a>'
-                                    : ''
-                                    ?>
+                                        : ''
+                                        ?>
 
-                            </ul>
-                        </li>
-                    </ul>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- <aside class="left-sidebar" data-sidebarbg="skin5">
-        <div class="scroll-sidebar">
+            </nav>
+        </header>
+        <aside class="left-sidebar" style="background-color: #343A40 !important;>
+            <div class=" scroll-sidebar">
             <nav class="sidebar-nav">
                 <ul id="sidebarnav" class="pt-4">
                     <li class="sidebar-item">
@@ -236,19 +245,27 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                     </li>
                 </ul>
             </nav>
-        </div>
-    </aside> -->
+    </div>
+    </aside>
 
-    <div class="">
+    <div class="page-wrapper" style="background-color: #fff5d7 !important;">
         <div class="page-breadcrumb">
             <div class="row">
-                <div class="col-12 d-flex align-items-center">
-                    <h4 class="page-title ms-1"><?php echo $page_title; ?></h4>
+                <div class="col-12 d-flex no-block align-items-center">
+                    <h4 class="page-title">Dashboard</h4>
+                    <div class="ms-auto text-end">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    Library
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>
-
-
         <div class="container-fluid">
 
             <?php
@@ -258,55 +275,20 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                     $page_file = "./pages/dashboard.php";
                     break;
 
-                case 'catalog':
-                    $page_file = "./pages/catalog.php";
-                    break;
-                case 'view-info':
-                    $page_file = "./pages/view-info.php";
-                    break;
-                case 'auth':
-                    $page_file = "./pages/login-form.php";
-                    break;
-                case 'logout':
-                    $page_file = "./config/user-login/logout.php";
-                    break;
-                case 3:
-                    $page_file = "./config/user-type/user-type.php";
-                    break;
-
                 default:
-                    $page_file = "./pages/not_found.php";
+                    $page_file = "../public/pages/not_found.php";
                     break;
             }
 
             if (!file_exists($page_file))
-                include("../html/error-404.html");
+                include("../public/html/error-404.html");
 
             include($page_file);
             ?>
 
         </div>
     </div>
-
     <?= include '../includes/footer.php'; ?>
-
-
-
 </body>
-<!-- <script>
-
-    const heartIcon = document.querySelector('.fa-heart');
-
-    heartIcon.addEventListener('mouseover', () => {
-        heartIcon.classList.remove('far');
-        heartIcon.classList.add('fas');
-    });
-
-    heartIcon.addEventListener('mouseout', () => {
-        heartIcon.classList.remove('fas');
-        heartIcon.classList.add('far');
-    });
-
-</script> -->
 
 </html>
