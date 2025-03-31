@@ -1,7 +1,7 @@
 <?php
 
 // if (!isset($_SESSION['user'])) {
-//     require './pag/login-form.php';
+//     require './pages/login-form.php';
 //     exit();
 // }
 
@@ -13,18 +13,18 @@ $page_file = "";
 
 
 $page_config = [
-    'home' => ['title' => 'Página Inicial', 'file' => './pag/home.php'],
-    'catalog' => ['title' => 'Catálogo', 'file' => './pag/catalog.php'],
-    'view-info' => ['title' => 'Informações', 'file' => './pag/view-info.php'],
-    'auth' => ['title' => 'Login', 'file' => './pag/login-form.php'],
-    'administrative' => ['title' => 'Login', 'file' => './pag/login-form.php'],
+    'home' => ['title' => 'Página Inicial', 'file' => './pages/home.php'],
+    'catalog' => ['title' => 'Catálogo', 'file' => './pages/catalog.php'],
+    'view-info' => ['title' => 'Informações', 'file' => './pages/view-info.php'],
+    'auth' => ['title' => 'Login', 'file' => './pages/login-form.php'],
+    'administrative' => ['title' => 'Login', 'file' => './pages/login-form.php'],
 ];
 
 $page_title = isset($page_config[$page]) ? $page_config[$page]['title'] : 'Not Found';
-$page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/not_found.php';
+$page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages/not_found.php';
 ?>
 
-<?= include 'includes/header.php'; ?>
+<?= include '../includes/header.php'; ?>
 
 <body>
 
@@ -255,17 +255,17 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
             switch ($page) {
 
                 case 'dashboard':
-                    $page_file = "./pag/dashboard.php";
+                    $page_file = "./pages/dashboard.php";
                     break;
 
                 case 'catalog':
-                    $page_file = "./pag/catalog.php";
+                    $page_file = "./pages/catalog.php";
                     break;
                 case 'view-info':
-                    $page_file = "./pag/view-info.php";
+                    $page_file = "./pages/view-info.php";
                     break;
                 case 'auth':
-                    $page_file = "./pag/login-form.php";
+                    $page_file = "./pages/login-form.php";
                     break;
                 case 'logout':
                     $page_file = "./config/user-login/logout.php";
@@ -275,7 +275,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
                     break;
 
                 default:
-                    $page_file = "./pag/not_found.php";
+                    $page_file = "./pages/not_found.php";
                     break;
             }
 
@@ -288,7 +288,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
         </div>
     </div>
 
-    <?= include 'includes/footer.php'; ?>
+    <?= include '../includes/footer.php'; ?>
 
 
 

@@ -4,7 +4,7 @@
             <div class="row g-0">
                 <!-- Imagem dentro do Card -->
                 <div class="col-md-4 ms-3 mt-2 mb-2 d-flex align-items-center">
-                    <img src="../assets/images/big/img1.jpg" class="img-fluid rounded-start p-2 w-100"
+                    <img src="../public/assets/images/big/img1.jpg" class="img-fluid rounded-start p-2 w-100"
                         alt="Capa do livro">
                 </div>
 

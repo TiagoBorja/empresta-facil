@@ -2,7 +2,7 @@
 session_start();
 
 // if (!isset($_SESSION['user'])) {
-//     require './pag/login-form.php';
+//     require './pages/login-form.php';
 //     exit();
 // }
 
@@ -14,18 +14,18 @@ $page_file = "";
 
 
 $page_config = [
-    'home' => ['title' => 'Página Inicial', 'file' => './pag/home.php'],
-    'catalog' => ['title' => 'Catálogo', 'file' => './pag/catalog.php'],
-    'view-info' => ['title' => 'Informações', 'file' => './pag/view-info.php'],
-    'auth' => ['title' => 'Login', 'file' => './pag/login-form.php'],
+    'home' => ['title' => 'Página Inicial', 'file' => './pages/home.php'],
+    'catalog' => ['title' => 'Catálogo', 'file' => './pages/catalog.php'],
+    'view-info' => ['title' => 'Informações', 'file' => './pages/view-info.php'],
+    'auth' => ['title' => 'Login', 'file' => './pages/login-form.php'],
     'administrative' => ['title' => 'Painel Administrativo', 'file' => './administrative/index.php'],
 ];
 
 $page_title = isset($page_config[$page]) ? $page_config[$page]['title'] : 'Not Found';
-$page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/not_found.php';
+$page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages/not_found.php';
 ?>
 
-<?= include 'includes/header.php'; ?>
+<?= include '../includes/header.php'; ?>
 
 <body>
 
@@ -97,7 +97,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
                         waves-effect waves-dark
                         pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                <img src="../assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31" />
+                                <img src="../public/assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31" />
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end user-dd animated"
                                 aria-labelledby="navbarDropdown">
@@ -111,7 +111,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
                                 <div class="dropdown-divider"></div>
 
                                 <?= isset(($_SESSION['user']))
-                                    ? '<a id="logout" class="dropdown-item" href="./config/user-login/logout.php">
+                                    ? '<a id="logout" class="dropdown-item" href="./config/auth/logout.php">
                                         <i class="fa fa-power-off text-danger me-1 ms-1"></i>
                                         Sair
                                     </a>'
@@ -123,7 +123,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
 
                                 <?= (isset($_SESSION['user']['tipo']) && $_SESSION['user']['tipo'] === 'Administrador')
                                     ? '<div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="./administrative/index.php">
+                                        <a class="dropdown-item" href="../administrative/index.php">
                                         <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições
                                         </a>'
                                     : ''
@@ -256,37 +256,37 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
             switch ($page) {
 
                 case 'home':
-                    $page_file = "./pag/home.php";
+                    $page_file = "../public/pages/home.php";
                     break;
 
                 case 'catalog':
-                    $page_file = "./pag/catalog.php";
+                    $page_file = "../public/pages/catalog.php";
                     break;
                 case 'view-info':
-                    $page_file = "./pag/view-info.php";
+                    $page_file = "../public/pages/view-info.php";
                     break;
                 case 'auth':
-                    $page_file = "./pag/login-form.php";
+                    $page_file = "../public/pages/login-form.php";
                     break;
                 case 'logout':
-                    $page_file = "./config/user-login/logout.php";
+                    $page_file = "../public/config/auth/logout.php";
                     break;
                 case 'administrative':
-                    $page_file = "./administrative/index.php";
+                    $page_file = "../public/administrative/index.php";
                     break;
 
                     
                 case 3:
-                    $page_file = "./config/user-type/user-type.php";
+                    $page_file = "../public/config/user-type/user-type.php";
                     break;
 
                 default:
-                    $page_file = "./pag/not_found.php";
+                    $page_file = "../public/pages/not_found.php";
                     break;
             }
 
             if (!file_exists($page_file))
-                include("../html/error-404.html");
+                include("../public/html/error-404.html");
 
             include($page_file);
             ?>
@@ -294,7 +294,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pag/n
         </div>
     </div>
 
-    <?= include 'includes/footer.php'; ?>
+    <?= include '../includes/footer.php'; ?>
 
 
 

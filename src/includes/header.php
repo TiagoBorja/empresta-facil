@@ -13,15 +13,15 @@
     <meta name="robots" content="noindex,nofollow" />
     <title><?php echo $page_title; ?></title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../public/assets/images/favicon.png" />
     <!-- Custom CSS -->
-    <link href="../assets/libs/flot/css/float-chart.css" rel="stylesheet" />
+    <link href="../public/assets/libs/flot/css/float-chart.css" rel="stylesheet" />
     <!-- Custom CSS -->
-    <link href="../dist/css/style.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="../assets/extra-libs/multicheck/multicheck.css">
+    <link href="../public/dist/css/style.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../public/assets/extra-libs/multicheck/multicheck.css">
 
-    <link rel="stylesheet" href="../dist/css/custom-css/global-config.css">
-    <link rel="stylesheet" href="../dist/css/custom-css/stars-evaluation.css">
+    <link rel="stylesheet" href="../public/dist/css/custom-css/global-config.css">
+    <link rel="stylesheet" href="../public/dist/css/custom-css/stars-evaluation.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">

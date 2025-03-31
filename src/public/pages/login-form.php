@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-body">
             <main class="form-signin">
-                <form method="POST" action="./config/user-login/login.php">
+                <form method="POST" action="./config/auth/login.php">
                     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
                     <?php
