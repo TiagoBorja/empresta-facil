@@ -1,17 +1,17 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("JavaScript carregado com sucesso!");
-    document.querySelector("#saveUserType").addEventListener("submit", async function (e) {
+
+    document.querySelector("#saveUserRole").addEventListener("submit", async function (e) {
         e.preventDefault();
 
         const formData = new FormData(this);
-        formData.append("saveUserType", true);
+        formData.append("saveUserRole", true);
 
-        const modal = bootstrap.Modal.getInstance(document.querySelector("#addUserType"));
+        const modal = bootstrap.Modal.getInstance(document.querySelector("#addUserRole"));
         const myTable = document.getElementById("myTable");
 
         try {
-            const response = await fetch('./config/user-type/code.php', {
+            const response = await fetch('../administrative/user-roles/code.php', {
                 method: 'POST',
                 body: formData
             });

@@ -2,10 +2,10 @@
 
 include_once 'Connection.php';
 
-class UserType
+class UserRole
 {
     private $id;
-    private $type;
+    private $role;
     private $description;
     private $pdo;
 
@@ -20,14 +20,14 @@ class UserType
         $this->id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
     }
 
-    public function getType()
+    public function getRole()
     {
-        return $this->type;
+        return $this->role;
     }
 
-    public function setType($type)
+    public function setRole($role)
     {
-        $this->type = filter_var($type, FILTER_SANITIZE_SPECIAL_CHARS);
+        $this->role = filter_var($role, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     public function getDescription()
@@ -47,7 +47,7 @@ class UserType
 
 
 
-    public function getUserType()
+    public function getUserRole()
     {
         $query = "SELECT * FROM tipo_utilizador";
         $query_run = $this->pdo->prepare($query);
@@ -55,32 +55,33 @@ class UserType
         try {
 
             $query_run->execute();
-            $userTypes = $query_run->fetchAll(PDO::FETCH_ASSOC);
+            $userRoles = $query_run->fetchAll(PDO::FETCH_ASSOC);
 
-            if (count($userTypes) < 1)
+            if (count($userRoles) < 1)
                 echo "<tr><td colspan='3'>Nenhum tipo de utilizador encontrado</td></tr>";
 
-            foreach ($userTypes as $type) {
-?>
+            foreach ($userRoles as $role) {
+                ?>
                 <tr>
                     <th>
                         <label>
-                            <input type="radio" class="form-check-input" name="userTypeRadio" class="editRadioBtn" value="<?= $type['id']; ?>" />
+                            <input type="radio" class="form-check-input" name="userRoleRadio" class="editRadioBtn"
+                                value="<?= $role['id']; ?>" />
                         </label>
                     </th>
-                    <td><?= $type['tipo']; ?></td>
-                    <td><?= $type['descricao']; ?></td>
+                    <td><?= $role['tipo']; ?></td>
+                    <td><?= $role['descricao']; ?></td>
                 </tr>
-<?php
+                <?php
             }
         } catch (PDOException $e) {
             echo "<tr><td colspan='3'>Erro ao buscar os tipos de utilizador: " . $e->getMessage() . "</td></tr>";
         }
     }
 
-    public function getUserTypeById()
+    public function getUserRoleById()
     {
-        $query = "SELECT * FROM user_type WHERE id = :id";
+        $query = "SELECT * FROM tipo_utilizador WHERE id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
 
@@ -90,10 +91,10 @@ class UserType
         return null;
     }
 
-    public function newUserType()
+    public function newUserRole()
     {
 
-        if (empty($this->type) || empty($this->description)) {
+        if (empty($this->role) || empty($this->description)) {
             return json_encode([
                 'status' => 422,
                 'message' => "Preencha todos os campos antes de prosseguir."
@@ -105,7 +106,7 @@ class UserType
 
 
         $data = [
-            ':tipo' => $this->type,
+            ':tipo' => $this->role,
             ':descricao' => $this->description,
         ];
 
@@ -126,11 +127,11 @@ class UserType
         }
     }
 
-    public function editUserType()
+    public function editUserRole()
     {
 
 
-        if (empty($this->type) || empty($this->description)) {
+        if (empty($this->role) || empty($this->description)) {
             return json_encode([
                 'status' => 422,
                 'message' => "Preencha todos os campos antes de prosseguir."
@@ -145,7 +146,7 @@ class UserType
 
         $data = [
             ':id' => $this->id,
-            ':tipo' => $this->type,
+            ':tipo' => $this->role,
             ':descricao' => $this->description,
         ];
 
