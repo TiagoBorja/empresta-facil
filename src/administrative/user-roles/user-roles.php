@@ -96,3 +96,11 @@
     </div>
 </div>
 <script src="../js/user-roles.js"></script>
+
+<script>
+
+    const els = Array.from(document.querySelectorAll('[id*=role-]'));
+    console.log(els.length);
+    els.forEach(el => el.onclick = () => console.log('Clicked el:', el));
+
+</script>
