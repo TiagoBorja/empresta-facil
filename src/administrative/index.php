@@ -13,6 +13,7 @@ $page_config = [
 
     'dashboard' => ['title' => 'Painel Administrativo', 'file' => './pages/dashboard.php'],
     'user-roles' => ['title' => 'Tipos de Utilizadores', 'file' => './pages/user-roles.php'],
+    'role-form' => ['title' => 'Tipos de Utilizadores', 'file' => './pages/role-form.php'],
 ];
 
 $page_title = isset($page_config[$page]) ? $page_config[$page]['title'] : 'Not Found';
@@ -191,7 +192,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                         <li class="sidebar-item">
                                             <a href="?page=user-roles" class="sidebar-link">
                                                 <i class="mdi mdi-account-tie"></i>
-                                                <span class="hide-menu">Tipos de Utilizadores</span>
+                                                <span class="hide-menu">Permissões</span>
                                             </a>
                                         </li>
                                         <li class="sidebar-item">
@@ -283,6 +284,10 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
 
                     case 'user-roles':
                         $page_file = "./user-roles/user-roles.php";
+                        break;
+
+                    case 'role-form':
+                        $page_file = "./pages/role-form.php";
                         break;
 
                     default:

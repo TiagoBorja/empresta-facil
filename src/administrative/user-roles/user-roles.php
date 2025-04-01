@@ -1,7 +1,7 @@
 <?php include '../php/classes/UserRole.php' ?>
 
-<div class="row">
-    <div class="col-12">
+<div class="row justify-content-center">
+    <div class="col-md-12 me-3">
         <div class="card">
             <div class="card-body" style="text-align: center; border-bottom: 1px solid #d4d4d4;">
                 <h5 class="card-title mb-0">Tipos de Utilizador</h5>
@@ -101,6 +101,9 @@
 
     const els = Array.from(document.querySelectorAll('[id*=role-]'));
     console.log(els.length);
-    els.forEach(el => el.onclick = () => console.log('Clicked el:', el));
+    els.forEach(el => el.onclick = () => {
+        console.log('Clicked el:', el);
+        window.location.href = '?page=role-form';
+    });
 
 </script>

@@ -62,7 +62,7 @@ class UserRole
 
             foreach ($userRoles as $role) {
                 ?>
-                <tr>
+                <tr id="role-<?= $role['id'] ?>">
                     <th>
                         <label>
                             <input type="radio" class="form-check-input" name="userRoleRadio" class="editRadioBtn"
