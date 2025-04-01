@@ -38,5 +38,37 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Erro ao processar a solicitação", error);
         }
     });
+
+    const selectedRows = Array.from(document.querySelectorAll('[id*=role-]'));
+
+    selectedRows.forEach(row => {
+        row.onclick = async function () {
+            try {
+                const roleId = row.id.replace('role-', '');
+                const response = await fetch(`../administrative/user-roles/code.php?roleId=${roleId}`);
+
+                if (!response.ok) throw new Error('Erro na requisição');
+
+                const data = await response.json();
+
+                console.log(data);
+
+                if (data.status === 200) {
+                    // Armazena os dados no localStorage antes de redirecionar
+                    localStorage.setItem('roleData', JSON.stringify(data.data));
+
+                    // Redireciona para o formulário
+                    window.location.href = '?page=role-form';
+                } else {
+                    console.warn("Aviso:", data.message);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        };
+    });
+
+
+
 });
 

@@ -1,22 +1,27 @@
 <div class="row justify-content-center">
     <div class="col-md-12 p-4">
 
-        <div class="card">
+        <a class="text-info" href="?page=user-roles">
+            <i class="mdi mdi-undo"></i>
+            Voltar
+        </a>
+
+        <div class="card mt-3">
             <div class="card-header">
                 <h4 class="card-title">
                     <i class="mdi mdi-account-tie"></i>
                     <span class="hide-menu"> Permissões</span>
-                    <span class="float-end badge rounded-pill bg-success">Ativo</span>
+                    <span id="active" class="float-end badge rounded-pill bg-success"></span>
                 </h4>
             </div>
             <div class="card-body">
                 <div class="mb-3">
                     <label class="form-label">Nome da Permissão</label>
-                    <input type="text" name="role" class="form-control" required>
+                    <input type="text" id="role" name="role" class="form-control" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Descrição da Permissão</label>
-                    <input type="text" name="description" class="form-control" required>
+                    <input type="text" id="description" name="description" class="form-control" required>
                 </div>
             </div>
             <div class="card-footer">
@@ -38,3 +43,25 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const storedData = localStorage.getItem('roleData');
+
+        if (storedData) {
+            const data = JSON.parse(storedData);
+
+            document.getElementById('role').value = data.tipo;
+            document.getElementById('description').value = data.descricao;
+
+            const activeBadge = document.getElementById('active');
+            activeBadge.textContent = data.ativo ? 'Ativo' : 'Inativo';
+            activeBadge.classList.toggle('bg-success', data.ativo);
+            activeBadge.classList.toggle('bg-danger', !data.ativo);
+
+            // Limpa o localStorage para evitar dados persistentes indesejados
+            localStorage.removeItem('roleData');
+        }
+    });
+
+</script>

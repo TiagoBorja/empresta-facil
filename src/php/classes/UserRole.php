@@ -79,16 +79,36 @@ class UserRole
         }
     }
 
-    public function getUserRoleById()
+    public function getUserRoleById($id)
     {
+        $this->id = $id;
         $query = "SELECT * FROM tipo_utilizador WHERE id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
 
-        if ($stmt->execute()) {
-            return $stmt->fetch(PDO::FETCH_ASSOC); // Retorna os dados encontrados
+        try {
+            $stmt->execute();
+
+            $result = $stmt->fetch(PDO::FETCH_ASSOC); // Obtém os dados
+
+            if ($result) {
+                echo json_encode([
+                    'status' => 200,
+                    'message' => "Tipo de utilizador encontrado.",
+                    'data' => $result // Inclui os dados no JSON
+                ]);
+            } else {
+                echo json_encode([
+                    'status' => 404,
+                    'message' => "Tipo de utilizador não encontrado."
+                ]);
+            }
+        } catch (PDOException $e) {
+            echo json_encode([
+                'status' => 500,
+                'message' => "Erro ao encontrar: " . $e->getMessage()
+            ]);
         }
-        return null;
     }
 
     public function newUserRole()
