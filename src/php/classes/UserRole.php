@@ -63,14 +63,13 @@ class UserRole
             foreach ($userRoles as $role) {
                 ?>
                 <tr id="role-<?= $role['id'] ?>">
-                    <th>
-                        <label>
-                            <input type="radio" class="form-check-input" name="userRoleRadio" class="editRadioBtn"
-                                value="<?= $role['id']; ?>" />
-                        </label>
-                    </th>
                     <td><?= $role['tipo']; ?></td>
-                    <td><?= $role['descricao']; ?></td>
+                    <td><?= $role['descricao'] ?? 'Sem descrição'; ?></td>
+                    <td>
+                        <?= $role['ativo'] == 'Y' ? '<span class="badge rounded-pill bg-success">Ativo</span>' :
+                            '<span class="badge rounded-pill bg-danger">Inativo</span>'
+                            ?>
+                    </td>
                 </tr>
                 <?php
             }
