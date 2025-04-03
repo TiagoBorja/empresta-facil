@@ -9,9 +9,9 @@
         <div class="card mt-3">
             <div class="card-header">
                 <h4 class="card-title">
-                    <i class="mdi mdi-account-tie"></i>
-                    <span id="permissionName" class="hide-menu">Permissões</span>
                     <form id="changeStatus">
+                        <i class="mdi mdi-account-tie"></i>
+                        <span id="permissionName" class="hide-menu">Permissões</span>
                         <button id="active" class="float-end badge rounded-pill bg-success"></button>
                     </form>
                 </h4>
