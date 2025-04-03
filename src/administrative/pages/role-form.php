@@ -11,7 +11,9 @@
                 <h4 class="card-title">
                     <i class="mdi mdi-account-tie"></i>
                     <span id="permissionName" class="hide-menu">Permissões</span>
-                    <button id="active" class="float-end badge rounded-pill bg-success"></button>
+                    <form id="changeStatus">
+                        <button id="active" class="float-end badge rounded-pill bg-success"></button>
+                    </form>
                 </h4>
             </div>
             <form id="roleForm">
@@ -31,7 +33,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="text-center">
-                        <button name="updateData" type="submit"
+                        <button name="saveData" type="submit"
                             class="btn btn-success text-white rounded-0 d-inline-flex align-items-center">
                             <i class="mdi mdi-content-save d-flex align-items-center align-text-icon"></i>
                             <span class="ms-1">Guardar</span>

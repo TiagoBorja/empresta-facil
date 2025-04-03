@@ -7,6 +7,7 @@ class UserRole
     private $id;
     private $role;
     private $description;
+    private $active;
     private $pdo;
 
 
@@ -39,6 +40,15 @@ class UserRole
     {
         $this->description = filter_var($description, FILTER_SANITIZE_SPECIAL_CHARS);
     }
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    public function setActive($active)
+    {
+        $this->active = filter_var($active, FILTER_SANITIZE_SPECIAL_CHARS);
+    }
     public function __construct()
     {
         $connection = new Connection();
@@ -66,8 +76,9 @@ class UserRole
                     <td><?= $role['tipo']; ?></td>
                     <td><?= $role['descricao'] === '' ? 'Sem descrição definida' : $role['descricao']; ?></td>
                     <td>
-                        <?= $role['ativo'] == 'Y' ? '<span class="badge rounded-pill bg-success">Ativo</span>' :
-                            '<span class="badge rounded-pill bg-danger">Inativo</span>'
+                        <?= $role['ativo'] == 'Y'
+                            ? '<span class="badge rounded-pill bg-success">Ativo</span>'
+                            : '<span class="badge rounded-pill bg-danger">Inativo</span>'
                             ?>
                     </td>
                 </tr>
@@ -169,13 +180,43 @@ class UserRole
 
             echo json_encode([
                 'status' => 200,
-                'message' => "Tipo de utilizador criado com sucesso."
+                'message' => "Tipo de utilizador atualizado com sucesso."
             ]);
         } catch (PDOException $e) {
 
             return json_encode(value: [
                 'status' => 500,
                 'message' => "Erro ao inserir: " . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function changeActiveStatus($id, $status)
+    {
+        $this->id = $id;
+        $this->active = $status;
+
+        $query = 'UPDATE tipo_utilizador
+                  SET ativo = :active
+                  WHERE id = :id';
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':active', $this->active);
+
+        try {
+
+            $stmt->execute();
+
+            echo json_encode([
+                'status' => 200,
+                'message' => "Status atualizado com sucesso!"
+            ]);
+        } catch (PDOException $e) {
+
+            return json_encode(value: [
+                'status' => 500,
+                'message' => "Erro ao atualizar: " . $e->getMessage()
             ]);
         }
     }
