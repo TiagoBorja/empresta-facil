@@ -64,7 +64,7 @@ class UserRole
                 ?>
                 <tr id="role-<?= $role['id'] ?>">
                     <td><?= $role['tipo']; ?></td>
-                    <td><?= $role['descricao'] ?? 'Sem descrição'; ?></td>
+                    <td><?= $role['descricao'] === '' ? 'Sem descrição definida' : $role['descricao']; ?></td>
                     <td>
                         <?= $role['ativo'] == 'Y' ? '<span class="badge rounded-pill bg-success">Ativo</span>' :
                             '<span class="badge rounded-pill bg-danger">Inativo</span>'
@@ -112,8 +112,7 @@ class UserRole
 
     public function newUserRole()
     {
-
-        if (empty($this->role) || empty($this->description)) {
+        if (empty($this->role)) {
             return json_encode([
                 'status' => 422,
                 'message' => "Preencha todos os campos antes de prosseguir."
@@ -121,36 +120,35 @@ class UserRole
         }
 
         $query = "INSERT INTO tipo_utilizador (tipo, descricao) VALUES (:tipo, :descricao)";
-        $query_run = $this->pdo->prepare($query);
+        $stmt = $this->pdo->prepare($query);
 
-
-        $data = [
-            ':tipo' => $this->role,
-            ':descricao' => $this->description,
-        ];
+        // Bind dos parâmetros
+        $stmt->bindParam(':tipo', $this->role);
+        $stmt->bindParam(':descricao', $this->description);
 
         try {
-
-            $query_run->execute($data);
+            // Execute sem passar os dados novamente, pois os dados já estão vinculados com bindParam
+            $stmt->execute();
 
             echo json_encode([
                 'status' => 200,
                 'message' => "Tipo de utilizador criado com sucesso."
             ]);
         } catch (PDOException $e) {
-
-            return json_encode(value: [
+            return json_encode([
                 'status' => 500,
                 'message' => "Erro ao inserir: " . $e->getMessage()
             ]);
         }
     }
 
-    public function editUserRole()
+
+    public function updateUserRole($id)
     {
 
+        $this->id = $id;
 
-        if (empty($this->role) || empty($this->description)) {
+        if (empty($this->role)) {
             return json_encode([
                 'status' => 422,
                 'message' => "Preencha todos os campos antes de prosseguir."
@@ -158,20 +156,16 @@ class UserRole
         }
 
         $query = "UPDATE tipo_utilizador 
-                  SET tipo = :tipo, descricao: descricao
+                  SET tipo = :tipo, descricao = :descricao
                   WHERE id = :id";
-        $query_run = $this->pdo->prepare($query);
-
-
-        $data = [
-            ':id' => $this->id,
-            ':tipo' => $this->role,
-            ':descricao' => $this->description,
-        ];
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':id', var: $this->id);
+        $stmt->bindParam(':tipo', $this->role);
+        $stmt->bindParam(':descricao', $this->description);
 
         try {
 
-            $query_run->execute($data);
+            $stmt->execute();
 
             echo json_encode([
                 'status' => 200,

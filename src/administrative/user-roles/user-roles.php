@@ -11,11 +11,11 @@
                     <span class="hide-menu">Permissões</span>
                 </h4>
 
-                <button class="float-end badge rounded-pill bg-success d-inline-flex align-items-center" data-bs-toggle="modal"
-                    data-bs-target="#addUserRole">
+                <a class="float-end badge rounded-pill bg-success d-inline-flex align-items-center"
+                    href="?page=role-form" data-bs-target="#addUserRole">
                     <i class="mdi mdi-plus d-flex align-items-center"></i>
                     <span class="ms-1">Adicionar</span>
-                </button>
+                </a>
             </div>
 
             <div class="card-body">
@@ -40,30 +40,42 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const toastMessage = sessionStorage.getItem('toastMessage');
 
-<div class="modal fade" id="addUserRole" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Nova Função</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="saveUserRole">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Nome da Função</label>
-                        <input type="text" name="role" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Descrição da Função</label>
-                        <input type="text" name="description" class="form-control" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-outline-success">Confirmar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<script src="../js/user-roles.js"></script>
+        if (toastMessage === 'success') {
+            toastr.success("Operação realizada com sucesso!", "Sucesso!");
+        } else if (toastMessage === 'error') {
+            toastr.error("Ocorreu um erro ao processar a solicitação.", "Erro!");
+        }
+        sessionStorage.removeItem('toastMessage');
+
+        initializeRowSelection();
+    });
+
+    function initializeRowSelection() {
+        const selectedRows = document.querySelectorAll("[id*=role-]");
+
+        selectedRows.forEach(row => {
+            row.addEventListener("click", () => fetchRoleData(row.id));
+        });
+    }
+
+    async function fetchRoleData(rowId) {
+        try {
+            const roleId = rowId.replace("role-", "");
+            const response = await fetch(`../administrative/user-roles/code.php?roleId=${roleId}`);
+
+            if (!response.ok) throw new Error("Erro na requisição");
+
+            const data = await response.json();
+
+            if (data.status === 200) {
+                window.location.href = `?page=role-form&roleId=${roleId}`;
+            }
+        } catch (error) {
+            console.error("Erro ao obter os dados da role:", error);
+        }
+    }
+</script>

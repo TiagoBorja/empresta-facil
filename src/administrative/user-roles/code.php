@@ -13,13 +13,29 @@ if (isset($_GET['roleId'])) {
     echo $userRole->getUserRoleById($id);
 }
 
-if (isset($_POST['saveUserRole'])) {
+if (isset($_POST['updateData'])) {
+
+    $id = filter_input(INPUT_GET, 'roleId', FILTER_SANITIZE_NUMBER_INT);
+    
+    if (empty($id)) {
+        $id = filter_input(INPUT_POST, 'roleId', FILTER_SANITIZE_NUMBER_INT);
+    }
+
     $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_SPECIAL_CHARS);
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_SPECIAL_CHARS);
 
     $userRole = new UserRole();
-    $userRole->setRole($role);
-    $userRole->setDescription($description);
+    if (!empty($id)) {
+        $userRole->setId($id);
+        $userRole->setRole($role);
+        $userRole->setDescription($description);
 
-    echo $userRole->newUserRole();
+        echo $userRole->updateUserRole($id);
+    } else {
+
+        $userRole->setRole($role);
+        $userRole->setDescription($description);
+
+        echo $userRole->newUserRole();
+    }
 }
