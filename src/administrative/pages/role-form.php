@@ -41,23 +41,34 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const storedData = localStorage.getItem('roleData');
+    document.addEventListener('DOMContentLoaded', async function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const roleId = urlParams.get("roleId");
 
-        if (storedData) {
-            const data = JSON.parse(storedData);
+        if (!roleId) {
+            toastr.error('Falha ao carregar os dados!', "Erro!");
+            return;
+        }
 
-            const permissionName = document.getElementById('permissionName');
-            permissionName.textContent = `Permissão - ${data.tipo}`;
-            document.getElementById('role').value = data.tipo;
-            document.getElementById('description').value = data.descricao;
+        try {
+            const response = await fetch(`../administrative/user-roles/code.php?roleId=${roleId}`);
 
-            const activeBadge = document.getElementById('active');
-            activeBadge.textContent = data.ativo === 'Y' ? 'Ativo' : 'Inativo';
-            activeBadge.classList.toggle('bg-success', data.ativo);
-            activeBadge.classList.toggle('bg-danger', data.ativo === 'N');
+            if (!response.ok) throw new Error("Erro na requisição");
 
-            localStorage.removeItem('roleData');
+            const result = await response.json();
+
+            if (result.status === 200) {
+                document.getElementById("permissionName").textContent = `Permissão - ${result.data.tipo}`;
+                document.getElementById("role").value = result.data.tipo;
+                document.getElementById("description").value = result.data.descricao;
+
+                const activeBadge = document.getElementById("active");
+                activeBadge.textContent = result.data.ativo === "Y" ? "Ativo" : "Inativo";
+                activeBadge.classList.toggle("bg-success", result.data.ativo === "Y");
+                activeBadge.classList.toggle("bg-danger", result.data.ativo === "N");
+            }
+        } catch (error) {
+            toastr.error(error, "Erro!");
         }
     });
 

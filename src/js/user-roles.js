@@ -73,13 +73,9 @@ async function fetchRoleData(rowId) {
         if (!response.ok) throw new Error("Erro na requisição");
 
         const data = await response.json();
-        console.log(data);
 
         if (data.status === 200) {
-            localStorage.setItem("roleData", JSON.stringify(data.data));
-            window.location.href = "?page=role-form";
-        } else {
-            console.warn("Aviso:", data.message);
+            window.location.href = `?page=role-form&roleId=${roleId}`;
         }
     } catch (error) {
         console.error("Erro ao obter os dados da role:", error);
