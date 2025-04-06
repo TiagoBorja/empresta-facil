@@ -38,7 +38,7 @@
                             <i class="mdi mdi-content-save d-flex align-items-center align-text-icon"></i>
                             <span class="ms-1">Guardar</span>
                         </button>
-                        <button id="clear" onclick="clearInputs(event)" type="button"
+                        <button id="clear" type="button"
                             class="btn btn-primary text-white rounded-0 d-inline-flex align-items-center">
                             <i class="mdi mdi-refresh d-flex align-items-center align-text-icon"></i>
                             <span class="ms-1">Limpar</span>
@@ -51,4 +51,4 @@
 </div>
 
 <script src="../js/user-roles.js"></script>
-<script src="../js/role-form.js"></script>
+<script type="module" src="../js/role-form.js"></script>

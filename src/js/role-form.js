@@ -1,5 +1,4 @@
-let originalRoleValue;
-let originalDescriptionValue;
+import * as utils from './utils.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
     const urlParams = new URLSearchParams(window.location.search);
@@ -23,24 +22,16 @@ document.addEventListener('DOMContentLoaded', async function () {
             activeBadge.classList.toggle("bg-danger", result.data.ativo === "N");
         }
 
+        const originalValues = [
+            { elementId: 'role', originalValue: document.getElementById("role").value },
+            { elementId: 'description', originalValue: document.getElementById("description").value },
+        ]
 
-        originalRoleValue = document.getElementById("role").value;
-        originalDescriptionValue = document.getElementById("description").value;
-
+        document.getElementById('clear').addEventListener('click', () => {
+            utils.clearInputs(originalValues);
+        });
     } catch (error) {
         toastr.error(error, "Erro!");
     }
 });
 
-function clearInputs() {
-    const roleElement = document.getElementById("role");
-    const descriptionElement = document.getElementById("description");
-
-    if (roleElement.value !== originalRoleValue) {
-        roleElement.value = originalRoleValue;
-    }
-
-    if (descriptionElement.value !== originalDescriptionValue) {
-        descriptionElement.value = originalDescriptionValue;
-    }
-}
