@@ -6,3 +6,12 @@ export function clearInputs(inputs) {
         }
     });
 }
+
+export async function handleFormResponse(result, form) {
+    if (result.status === 200) {
+        form.reset();
+        toastr.success(result.message, "Sucesso!");
+    } else if (result.status === 422) {
+        toastr.warning(result.message, "Atenção!");
+    }
+}
