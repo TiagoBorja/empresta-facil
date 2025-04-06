@@ -38,7 +38,8 @@
                             <i class="mdi mdi-content-save d-flex align-items-center align-text-icon"></i>
                             <span class="ms-1">Guardar</span>
                         </button>
-                        <button class="btn btn-primary text-white rounded-0 d-inline-flex align-items-center">
+                        <button id="clear" onclick="clearInputs(event)" type="button"
+                            class="btn btn-primary text-white rounded-0 d-inline-flex align-items-center">
                             <i class="mdi mdi-refresh d-flex align-items-center align-text-icon"></i>
                             <span class="ms-1">Limpar</span>
                         </button>
@@ -50,32 +51,4 @@
 </div>
 
 <script src="../js/user-roles.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', async function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        const roleId = urlParams.get("roleId");
-
-        try {
-            const response = await fetch(`../administrative/user-roles/code.php?roleId=${roleId}`);
-
-            if (!response.ok) throw new Error("Erro na requisição");
-
-            const result = await response.json();
-
-            if (result.status === 200) {
-                document.getElementById("permissionName").textContent = `Permissão - ${result.data.tipo}`;
-                document.getElementById("roleId").value = result.data.id;
-                document.getElementById("role").value = result.data.tipo;
-                document.getElementById("description").value = result.data.descricao;
-
-                const activeBadge = document.getElementById("active");
-                activeBadge.textContent = result.data.ativo === "Y" ? "Ativo" : "Inativo";
-                activeBadge.classList.toggle("bg-success", result.data.ativo === "Y");
-                activeBadge.classList.toggle("bg-danger", result.data.ativo === "N");
-            }
-        } catch (error) {
-            toastr.error(error, "Erro!");
-        }
-    });
-
-</script>
+<script src="../js/role-form.js"></script>

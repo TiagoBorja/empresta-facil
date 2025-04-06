@@ -9,8 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     newUserRole();
-
-    initializeRowSelection();
 });
 
 function newUserRole() {
