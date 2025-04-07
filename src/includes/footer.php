@@ -18,6 +18,9 @@
 <script src="../public/dist/js/sidebarmenu.js"></script>
 <!--Custom JavaScript -->
 <script src="../public/dist/js/custom.min.js"></script>
+<script src="../public/assets/libs/jquery-steps/build/jquery.steps.min.js"></script>
+<script src="../public/assets/libs/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="../public/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
 <!--This page JavaScript -->
 <!-- <script src="../public/dist/js/pages/dashboards/dashboard1.js"></script> -->
 <!-- Charts js Files -->
