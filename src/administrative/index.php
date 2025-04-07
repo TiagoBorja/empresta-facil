@@ -12,6 +12,8 @@ $page_config = [
     'auth' => ['title' => 'Login', 'file' => './pages/login-form.php'],
 
     'dashboard' => ['title' => 'Painel Administrativo', 'file' => './pages/dashboard.php'],
+    'users' => ['title' => 'Utilizadores', 'file' => './pages/users.php'],
+    'user-form' => ['title' => 'Utilizadores', 'file' => './pages/user-form.php'],
     'user-roles' => ['title' => 'Tipos de Utilizadores', 'file' => './pages/user-roles.php'],
     'role-form' => ['title' => 'Tipos de Utilizadores', 'file' => './pages/role-form.php'],
 ];
@@ -280,6 +282,13 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
 
                     case 'dashboard':
                         $page_file = "./pages/dashboard.php";
+                        break;
+
+                    case 'users':
+                        $page_file = "./users/users.php";
+                        break;
+                    case 'user-form':
+                        $page_file = "./pages/user-form.php";
                         break;
 
                     case 'user-roles':

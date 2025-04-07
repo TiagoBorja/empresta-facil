@@ -16,13 +16,14 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../public/assets/images/favicon.png" />
     <!-- Custom CSS -->
     <link href="../public/assets/libs/flot/css/float-chart.css" rel="stylesheet" />
+    <link href="../public/assets/libs/jquery-steps/steps.css" rel="stylesheet">
+    <link href="../public/assets/libs/jquery-steps/jquery.steps.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="../public/dist/css/style.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="../public/assets/extra-libs/multicheck/multicheck.css">
 
     <link rel="stylesheet" href="../public/dist/css/custom-css/global-config.css">
     <link rel="stylesheet" href="../public/dist/css/custom-css/stars-evaluation.css">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 

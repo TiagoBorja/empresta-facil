@@ -62,7 +62,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3 col-xlg-3">
-                <a href="?page=user-config">
+                <a href="?page=users">
                     <div class="card card-hover">
                         <div class="box bg-warning text-center">
                             <h1 class="font-light text-white">
