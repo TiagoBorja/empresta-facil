@@ -1,14 +1,17 @@
-import * as bdUtils from './bdUtils.js';
-
+import * as bdUtils from './bd-utils.js';
+import * as utils from './utils.js';
 const API_URL = '../administrative/user-roles/code.php';
 let urlParams;
-let roleId;
+let id;
 
 document.addEventListener("DOMContentLoaded", () => {
+    
+    utils.initializeRowSelection(API_URL, '?page=role-form');
+    
     urlParams = new URLSearchParams(window.location.search);
-    roleId = urlParams.get("roleId");
+    id = urlParams.get("id");
 
-    if (roleId) {
+    if (id) {
         updateUserRole();
         changeActiveStatus();
         return;
@@ -56,7 +59,7 @@ function changeActiveStatus() {
 
         const formData = new FormData(this);
         formData.append("changeStatus", true);
-        formData.append("roleId", roleId);
+        formData.append("id", id);
         formData.append("active", currentStatus);
 
         bdUtils.changeActiveStatus(API_URL, formData, activeBadge, currentStatus)

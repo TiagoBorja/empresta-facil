@@ -1,3 +1,5 @@
+import * as utils from './utils.js';
+
 export async function newData(API_URL, formData, form, pageRedirect) {
     try {
         const response = await fetch(API_URL, {
@@ -17,7 +19,7 @@ export async function newData(API_URL, formData, form, pageRedirect) {
             return;
         }
 
-        handleFormResponse(result, form);
+        utils.handleFormResponse(result, form);
 
         if (result.status === 200) {
             sessionStorage.setItem('toastMessage', 'success');
@@ -48,7 +50,7 @@ export async function updateData(API_URL, formData, form, pageRedirect) {
             return;
         }
 
-        handleFormResponse(result, form);
+        utils.handleFormResponse(result, form);
 
         if (result.status === 200) {
             sessionStorage.setItem('toastMessage', 'success');

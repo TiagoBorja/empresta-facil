@@ -40,6 +40,7 @@
         </div>
     </div>
 </div>
+<script type="module" src="../js/user-roles.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const toastMessage = sessionStorage.getItem('toastMessage');
@@ -51,31 +52,5 @@
         }
         sessionStorage.removeItem('toastMessage');
 
-        initializeRowSelection();
     });
-
-    function initializeRowSelection() {
-        const selectedRows = document.querySelectorAll("[id*=role-]");
-
-        selectedRows.forEach(row => {
-            row.addEventListener("click", () => fetchRoleData(row.id));
-        });
-    }
-
-    async function fetchRoleData(rowId) {
-        try {
-            const roleId = rowId.replace("role-", "");
-            const response = await fetch(`../administrative/user-roles/code.php?roleId=${roleId}`);
-
-            if (!response.ok) throw new Error("Erro na requisição");
-
-            const data = await response.json();
-
-            if (data.status === 200) {
-                window.location.href = `?page=role-form&roleId=${roleId}`;
-            }
-        } catch (error) {
-            console.error("Erro ao obter os dados da role:", error);
-        }
-    }
 </script>

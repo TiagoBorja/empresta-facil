@@ -2,10 +2,10 @@ import * as utils from './utils.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
     const urlParams = new URLSearchParams(window.location.search);
-    const roleId = urlParams.get("roleId");
+    const id = urlParams.get("id");
 
     try {
-        const response = await fetch(`../administrative/user-roles/code.php?roleId=${roleId}`);
+        const response = await fetch(`../administrative/user-roles/code.php?id=${id}`);
 
         if (!response.ok) throw new Error("Erro na requisição");
 
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         if (result.status === 200) {
             document.getElementById("permissionName").textContent = `Permissão - ${result.data.tipo}`;
-            document.getElementById("roleId").value = result.data.id;
+            document.getElementById("id").value = result.data.id;
             document.getElementById("role").value = result.data.tipo;
             document.getElementById("description").value = result.data.descricao;
             const activeBadge = document.getElementById("active");

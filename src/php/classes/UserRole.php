@@ -72,7 +72,7 @@ class UserRole
 
             foreach ($userRoles as $role) {
                 ?>
-                <tr id="role-<?= $role['id'] ?>">
+                <tr id="id-<?= $role['id'] ?>">
                     <td><?= $role['tipo']; ?></td>
                     <td><?= $role['descricao'] === '' ? 'Sem descrição definida' : $role['descricao']; ?></td>
                     <td>

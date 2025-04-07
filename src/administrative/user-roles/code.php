@@ -4,8 +4,8 @@ header('Content-Type: application/json');
 include_once '../../php/classes/UserRole.php';
 
 
-if (isset($_GET['roleId'])) {
-    $id = filter_input(INPUT_GET, 'roleId', FILTER_SANITIZE_NUMBER_INT);
+if (isset($_GET['id'])) {
+    $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
     $userRole = new UserRole();
     $userRole->setId($id);
@@ -13,12 +13,13 @@ if (isset($_GET['roleId'])) {
     echo $userRole->getUserRoleById($id);
 }
 
+
 if (isset($_POST['saveData'])) {
 
-    $id = filter_input(INPUT_GET, 'roleId', FILTER_SANITIZE_NUMBER_INT);
+    $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
     if (empty($id)) {
-        $id = filter_input(INPUT_POST, 'roleId', FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
     }
 
     $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -41,10 +42,10 @@ if (isset($_POST['saveData'])) {
 }
 
 if (isset($_POST['changeStatus'])) {
-    $id = filter_input(INPUT_POST, 'roleId', FILTER_SANITIZE_NUMBER_INT);
+    $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
     $status = filter_input(INPUT_POST, 'active', FILTER_SANITIZE_SPECIAL_CHARS);
 
-    $status = ($status === 'Y') ? 'N' : 'Y'; 
+    $status = ($status === 'Y') ? 'N' : 'Y';
 
     $userRole = new UserRole();
 
