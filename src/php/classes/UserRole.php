@@ -70,20 +70,7 @@ class UserRole
             if (count($userRoles) < 1)
                 echo "<tr><td colspan='3'>Nenhum tipo de utilizador encontrado</td></tr>";
 
-            foreach ($userRoles as $role) {
-                ?>
-                <tr id="id-<?= $role['id'] ?>">
-                    <td><?= $role['tipo']; ?></td>
-                    <td><?= $role['descricao'] === '' ? 'Sem descrição definida' : $role['descricao']; ?></td>
-                    <td>
-                        <?= $role['ativo'] == 'Y'
-                            ? '<span class="badge rounded-pill bg-success">Ativo</span>'
-                            : '<span class="badge rounded-pill bg-danger">Inativo</span>'
-                            ?>
-                    </td>
-                </tr>
-                <?php
-            }
+            return json_encode($userRoles);
         } catch (PDOException $e) {
             echo "<tr><td colspan='3'>Erro ao buscar os tipos de utilizador: " . $e->getMessage() . "</td></tr>";
         }

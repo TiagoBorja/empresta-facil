@@ -5,9 +5,10 @@ let urlParams;
 let id;
 
 document.addEventListener("DOMContentLoaded", () => {
-    
+
+    getUserRole();
     utils.initializeRowSelection(API_URL, '?page=role-form');
-    
+
     urlParams = new URLSearchParams(window.location.search);
     id = urlParams.get("id");
 
@@ -19,6 +20,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
     newUserRole();
 });
+
+
+async function getUserRole() {
+
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error("Resposta inválida do servidor");
+
+        const result = await response.json();
+        showUserRole(result)
+    } catch {
+
+    }
+}
+function showUserRole(roles) {
+    let table = "";
+
+    roles.forEach((role) => {
+        // Condicional dentro da string para adicionar a badge correta diretamente na construção da tabela
+        const ativoClass = role.ativo === 'Y'
+            ? '<span class="badge rounded-pill bg-success">Ativo</span>'
+            : (role.ativo === 'N'
+                ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
+                : '');
+
+        table += `<tr>
+                  <td scope="row">${role.tipo}</td>
+                  <td>${role.descricao}</td>
+                  <td>${ativoClass}</td> <!-- Insere a badge correta aqui --> 
+                  </tr>`;
+    });
+
+    const tableBody = document.getElementById("tbody"); // Altere "tbody" para o ID do seu <tbody>
+    tableBody.innerHTML = table;
+}
+
 
 function newUserRole() {
     const form = document.querySelector("#roleForm");

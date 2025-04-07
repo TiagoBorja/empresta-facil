@@ -45,7 +45,7 @@
         </div>
     </div>
 </div>
-<script type="module" src="../js/user-roles.js"></script>
+<script type="module" src="../js/users.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const toastMessage = sessionStorage.getItem('toastMessage');

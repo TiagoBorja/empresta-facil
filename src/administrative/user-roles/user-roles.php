@@ -28,11 +28,7 @@
                                 <th scope="col">Ativo</th>
                             </tr>
                         </thead>
-                        <tbody class="customtable">
-                            <?php
-                            $UserRole = new UserRole();
-                            $UserRole->getUserRole();
-                            ?>
+                        <tbody id="tbody" class="customtable">
                         </tbody>
                     </table>
                 </div>

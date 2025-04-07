@@ -11,7 +11,7 @@
                 <h4 class="card-title">
                     <form id="changeStatus">
                         <i class="mdi mdi-account-tie"></i>
-                        <span id="permissionName" class="hide-menu">Permissões</span>
+                        <span id="permissionName" class="hide-menu">Utilizador</span>
                         <button id="active" class="float-end badge rounded-pill bg-success"></button>
                     </form>
                 </h4>
@@ -25,19 +25,23 @@
                         <legend>Informações Pessoais</legend>
                         <div class="mb-3">
                             <label class="form-label" for="first_name">Primeiro Nome</label>
-                            <input type="text" id="first_name" name="first_name" class="form-control">
+                            <input type="text" id="first_name" name="first_name" class="form-control"
+                                placeholder="Exemplo: João">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="last_name">Último Nome</label>
-                            <input type="text" id="last_name" name="last_name" class="form-control">
+                            <input type="text" id="last_name" name="last_name" class="form-control"
+                                placeholder="Exemplo: Silva">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="birth_date">Data de Nascimento</label>
-                            <input type="date" id="birth_date" name="birth_date" class="form-control">
+                            <input type="date" id="birth_date" name="birth_date" class="form-control"
+                                placeholder="Exemplo: 1990-01-01">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="nif">NIF</label>
-                            <input type="text" id="nif" name="nif" class="form-control">
+                            <input type="text" id="nif" name="nif" class="form-control"
+                                placeholder="Exemplo: 123456789">
                         </div>
                     </fieldset>
 
@@ -46,11 +50,12 @@
                         <legend>Identificação</legend>
                         <div class="mb-3">
                             <label class="form-label" for="cc">Cartão de Cidadão</label>
-                            <input type="text" id="cc" name="cc" class="form-control">
+                            <input type="text" id="cc" name="cc" class="form-control" placeholder="Exemplo: 12345678Z">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="gender">Género</label>
-                            <input type="text" id="gender" name="gender" class="form-control">
+                            <input type="text" id="gender" name="gender" class="form-control"
+                                placeholder="Exemplo: Masculino">
                         </div>
                     </fieldset>
 
@@ -59,7 +64,8 @@
                         <legend>Endereço</legend>
                         <div class="mb-3">
                             <label class="form-label" for="address">Morada</label>
-                            <textarea id="address" name="address" class="form-control"></textarea>
+                            <textarea id="address" name="address" class="form-control"
+                                placeholder="Exemplo: Rua da Liberdade, 123"></textarea>
                         </div>
                     </fieldset>
 
@@ -68,26 +74,26 @@
                         <legend>Contato</legend>
                         <div class="mb-3">
                             <label class="form-label" for="phone_number">Telemóvel</label>
-                            <input type="text" id="phone_number" name="phone_number" class="form-control">
+                            <input type="text" id="phone_number" name="phone_number" class="form-control"
+                                placeholder="Exemplo: 912345678">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="username">Nome de Utilizador</label>
-                            <input type="text" id="username" name="username" class="form-control">
+                            <input type="text" id="username" name="username" class="form-control"
+                                placeholder="Exemplo: joao.silva">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="email">Email</label>
-                            <input type="email" id="email" name="email" class="form-control">
+                            <input type="email" id="email" name="email" class="form-control"
+                                placeholder="Exemplo: joao.silva@email.com">
                         </div>
                     </fieldset>
 
                     <!-- Tipo de Utilizador -->
                     <div class="mb-3">
-                        <label class="form-label" for="user_type_fk">Tipo de Utilizador</label>
-                        <select id="user_type_fk" name="user_type_fk" class="form-select">
+                        <label class="form-label" for="user_type_fk">Permissão</label>
+                        <select id="roleId" class="form-select">
                             <option value="">Selecionar</option>
-                            <option value="1">Administrador</option>
-                            <option value="2">Bibliotecário</option>
-                            <option value="3">Aluno</option>
                         </select>
                     </div>
 
