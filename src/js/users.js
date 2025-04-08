@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         const result = await response.json();
-
+        fillSelect(result);
 
         if (result.error) {
             console.error(result.error);
@@ -23,4 +23,16 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error('Erro ao fazer requisição:', error);
     }
 });
+
+function fillSelect(roles) {
+    let option = "";
+
+    roles.forEach((role) => {
+
+        option += `<option value="${role.id}">${role.tipo}</option>`;
+    });
+
+    const select = document.getElementById("roleSelect");
+    select.innerHTML = option;
+}
 

@@ -92,7 +92,7 @@
                     <!-- Tipo de Utilizador -->
                     <div class="mb-3">
                         <label class="form-label" for="user_type_fk">Permissão</label>
-                        <select id="roleId" class="form-select">
+                        <select id="roleSelect" class="form-select">
                             <option value="">Selecionar</option>
                         </select>
                     </div>
@@ -115,3 +115,4 @@
         </div>
     </div>
 </div>
+<script type="module" src="../js/users.js"></script>
