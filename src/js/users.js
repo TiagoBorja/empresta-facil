@@ -29,7 +29,7 @@ function fillSelect(roles) {
 
     roles.forEach((role) => {
 
-        option += `<option value="${role.id}">${role.tipo}</option>`;
+        option += `<option value="${role.id}">${role.tipo} - ${role.descricao}</option>`;
     });
 
     const select = document.getElementById("roleSelect");
