@@ -89,19 +89,19 @@ class UserRole
             $result = $stmt->fetch(PDO::FETCH_ASSOC); // Obtém os dados
 
             if ($result) {
-                echo json_encode([
+                return json_encode([
                     'status' => 200,
                     'message' => "Tipo de utilizador encontrado.",
                     'data' => $result // Inclui os dados no JSON
                 ]);
             } else {
-                echo json_encode([
+                return json_encode([
                     'status' => 404,
                     'message' => "Tipo de utilizador não encontrado."
                 ]);
             }
         } catch (PDOException $e) {
-            echo json_encode([
+            return json_encode([
                 'status' => 500,
                 'message' => "Erro ao encontrar: " . $e->getMessage()
             ]);
@@ -120,15 +120,13 @@ class UserRole
         $query = "INSERT INTO tipo_utilizador (tipo, descricao) VALUES (:tipo, :descricao)";
         $stmt = $this->pdo->prepare($query);
 
-        // Bind dos parâmetros
         $stmt->bindParam(':tipo', $this->role);
         $stmt->bindParam(':descricao', $this->description);
 
         try {
-            // Execute sem passar os dados novamente, pois os dados já estão vinculados com bindParam
             $stmt->execute();
 
-            echo json_encode([
+            return json_encode([
                 'status' => 200,
                 'message' => "Tipo de utilizador criado com sucesso."
             ]);
@@ -165,7 +163,7 @@ class UserRole
 
             $stmt->execute();
 
-            echo json_encode([
+            return json_encode([
                 'status' => 200,
                 'message' => "Tipo de utilizador atualizado com sucesso."
             ]);
@@ -195,7 +193,7 @@ class UserRole
 
             $stmt->execute();
 
-            echo json_encode([
+            return json_encode([
                 'status' => 200,
                 'message' => "Status atualizado com sucesso!"
             ]);

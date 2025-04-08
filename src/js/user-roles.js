@@ -7,7 +7,6 @@ let id;
 document.addEventListener("DOMContentLoaded", () => {
 
     getUserRole();
-    utils.initializeRowSelection(API_URL, '?page=role-form');
 
     urlParams = new URLSearchParams(window.location.search);
     id = urlParams.get("id");
@@ -29,7 +28,9 @@ async function getUserRole() {
         if (!response.ok) throw new Error("Resposta inválida do servidor");
 
         const result = await response.json();
-        showUserRole(result)
+        showUserRole(result);
+
+        utils.initializeRowSelection(API_URL, '?page=role-form');
     } catch {
 
     }
@@ -45,7 +46,7 @@ function showUserRole(roles) {
                 ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
                 : '');
 
-        table += `<tr>
+        table += `<tr id="id-${role.id}">
                   <td scope="row">${role.tipo}</td>
                   <td>${role.descricao}</td>
                   <td>${ativoClass}</td> <!-- Insere a badge correta aqui --> 
