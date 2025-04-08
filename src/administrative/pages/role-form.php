@@ -19,7 +19,7 @@
             <form id="roleForm">
                 <div class="card-body">
                     <div class="mb-3">
-                        <input type="hidden" id="id" name="id" class="form-control" readonly>
+                        <input type="text" id="id" name="id" class="form-control" readonly>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Nome da Permissão</label>

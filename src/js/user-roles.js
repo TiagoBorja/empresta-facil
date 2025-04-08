@@ -28,7 +28,7 @@ async function getUserRole() {
         if (!response.ok) throw new Error("Resposta inválida do servidor");
 
         const result = await response.json();
-        showUserRole(result);
+        showUserRole(result)
 
         utils.initializeRowSelection(API_URL, '?page=role-form');
     } catch {
@@ -39,7 +39,6 @@ function showUserRole(roles) {
     let table = "";
 
     roles.forEach((role) => {
-        // Condicional dentro da string para adicionar a badge correta diretamente na construção da tabela
         const ativoClass = role.ativo === 'Y'
             ? '<span class="badge rounded-pill bg-success">Ativo</span>'
             : (role.ativo === 'N'
@@ -49,11 +48,11 @@ function showUserRole(roles) {
         table += `<tr id="id-${role.id}">
                   <td scope="row">${role.tipo}</td>
                   <td>${role.descricao}</td>
-                  <td>${ativoClass}</td> <!-- Insere a badge correta aqui --> 
+                  <td>${ativoClass}</td>
                   </tr>`;
     });
 
-    const tableBody = document.getElementById("tbody"); // Altere "tbody" para o ID do seu <tbody>
+    const tableBody = document.getElementById("tbody");
     tableBody.innerHTML = table;
 }
 

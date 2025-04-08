@@ -5,7 +5,7 @@ include_once '../../php/classes/UserRole.php';
 
 $userRole = new UserRole();
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
     echo $userRole->getUserRole();
     exit;
 }
