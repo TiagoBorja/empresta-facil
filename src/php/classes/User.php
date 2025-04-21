@@ -171,7 +171,14 @@ class User
 
     public function getUsers()
     {
-        $query = "SELECT u.*, tu.tipo
+        $query = "SELECT 
+                    u.id, 
+                    u.primeiro_nome, 
+                    u.ultimo_nome, 
+                    u.nome_utilizador, 
+                    u.email,
+                    tu.tipo,
+                    u.ativo
                   FROM utilizador u
                   INNER JOIN tipo_utilizador tu ON u.tipo_utilizador_fk = tu.id";
         $query_run = $this->pdo->prepare($query);
@@ -181,26 +188,7 @@ class User
             $query_run->execute();
             $users = $query_run->fetchAll(PDO::FETCH_ASSOC);
 
-            if (count($users) < 1)
-                echo "<tr><td colspan='3'>Sem resultados</td></tr>";
-
-            foreach ($users as $user) {
-                ?>
-                <tr id="id-<?= $user['id'] ?>">
-                    <td><?= $user['primeiro_nome'] ?></td>
-                    <td><?= $user['ultimo_nome'] ?></td>
-                    <td><?= $user['nome_utilizador'] ?></td>
-                    <td><?= $user['email'] ?></td>
-                    <td><?= $user['tipo'] ?></td>
-                    <td>
-                        <?= $user['ativo'] == 'Y'
-                            ? '<span class="badge rounded-pill bg-success">Ativo</span>'
-                            : '<span class="badge rounded-pill bg-danger">Inativo</span>'
-                            ?>
-                    </td>
-                </tr>
-                <?php
-            }
+            return json_encode($users);
         } catch (PDOException $e) {
             echo "<tr><td colspan='3'>Sem resultados</td></tr>";
         }

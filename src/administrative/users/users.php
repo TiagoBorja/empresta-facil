@@ -33,11 +33,7 @@
 
 
                         </thead>
-                        <tbody class="customtable">
-                            <?php
-                            $user = new User();
-                            $user->getUsers();
-                            ?>
+                        <tbody id="tbody" class="customtable">
                         </tbody>
                     </table>
                 </div>
