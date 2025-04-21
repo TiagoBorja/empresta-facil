@@ -39,7 +39,7 @@ function showUserRole(roles) {
     let table = "";
 
     roles.forEach((role) => {
-        const ativoClass = role.ativo === 'Y'
+        const active = role.ativo === 'Y'
             ? '<span class="badge rounded-pill bg-success">Ativo</span>'
             : (role.ativo === 'N'
                 ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
@@ -48,7 +48,7 @@ function showUserRole(roles) {
         table += `<tr id="id-${role.id}">
                   <td scope="row">${role.tipo}</td>
                   <td>${role.descricao}</td>
-                  <td>${ativoClass}</td>
+                  <td>${active}</td>
                   </tr>`;
     });
 
