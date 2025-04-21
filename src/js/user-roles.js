@@ -8,8 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     getUserRole();
 
-
-
     urlParams = new URLSearchParams(window.location.search);
     id = urlParams.get("id");
 
@@ -30,7 +28,7 @@ async function getUserRole() {
         if (!response.ok) throw new Error("Resposta inválida do servidor");
 
         const result = await response.json();
-        showUserRole(result);
+        showUserRole(result)
 
         utils.initializeRowSelection(API_URL, '?page=role-form');
     } catch {
@@ -41,8 +39,7 @@ function showUserRole(roles) {
     let table = "";
 
     roles.forEach((role) => {
-
-        const active = role.ativo === 'Y'
+        const ativoClass = role.ativo === 'Y'
             ? '<span class="badge rounded-pill bg-success">Ativo</span>'
             : (role.ativo === 'N'
                 ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
@@ -51,7 +48,7 @@ function showUserRole(roles) {
         table += `<tr id="id-${role.id}">
                   <td scope="row">${role.tipo}</td>
                   <td>${role.descricao}</td>
-                  <td>${active}</td>
+                  <td>${ativoClass}</td>
                   </tr>`;
     });
 
