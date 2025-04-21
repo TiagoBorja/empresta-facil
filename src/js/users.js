@@ -13,8 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (currentPath === '?page=user-form') {
         fetchRoles(ROLE_API_URL);
+        newUser();
         return;
-    }    
+    }
+
 });
 
 async function getUsers() {
@@ -30,6 +32,19 @@ async function getUsers() {
     } catch (error) {
         console.warn(error)
     }
+}
+
+function newUser() {
+    const form = document.querySelector("#userForm");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        formData.append("saveData", true);
+        bdUtils.newData(API_URL, formData, form, '?page=users');
+    });
 }
 
 function showUsers(users) {
@@ -58,10 +73,10 @@ function showUsers(users) {
 
 function fetchRoles(API_URL) {
     const select = document.getElementById("roleSelect");
-    const rolesLoaded = false;
+    let rolesLoaded = false;
 
     select.addEventListener("focus", async function () {
-        if (rolesLoaded || select.options.length > 1) return;
+        if (rolesLoaded) return;
         try {
             const response = await fetch(API_URL);
 
@@ -72,6 +87,7 @@ function fetchRoles(API_URL) {
             const result = await response.json();
 
             fillSelect(result);
+            rolesLoaded = true;
         } catch (error) {
             console.error('Erro ao fazer requisição:', error);
         }

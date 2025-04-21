@@ -17,7 +17,7 @@ class User
     private $username;
     private $email;
     private $password;
-    private $permission;
+    private $role;
     private $active;
 
     private $pdo;
@@ -143,14 +143,14 @@ class User
         $this->password = $password;
     }
 
-    public function getPermission()
+    public function getRole()
     {
-        return $this->permission;
+        return $this->role;
     }
 
-    public function setPermission($permission)
+    public function setRole($role)
     {
-        $this->permission = $permission;
+        $this->role = $role;
     }
 
     public function getActive()
@@ -191,6 +191,73 @@ class User
             return json_encode($users);
         } catch (PDOException $e) {
             echo "<tr><td colspan='3'>Sem resultados</td></tr>";
+        }
+    }
+
+    public function newUser()
+    {
+        if (empty($this->firstName) || empty($this->lastName) || empty($this->birthDay) || empty($this->phoneNumber) || empty($this->username) || empty($this->password) || empty($this->email) || empty($this->role)) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Preencha todos os campos antes de prosseguir."
+            ]); 
+        }
+
+        $query = "INSERT INTO utilizador (
+                    primeiro_nome, 
+                    ultimo_nome, 
+                    data_nascimento, 
+                    nif, 
+                    cc, 
+                    genero, 
+                    morada, 
+                    telemovel, 
+                    nome_utilizador, 
+                    senha, 
+                    email, 
+                    tipo_utilizador_fk
+                  ) VALUES (
+                    :firstName, 
+                    :lastName, 
+                    :birthDay, 
+                    :nif, 
+                    :cc, 
+                    :gender, 
+                    :location, 
+                    :phoneNumber, 
+                    :username, 
+                    :password, 
+                    :email, 
+                    :role
+                  )";
+
+        $stmt = $this->pdo->prepare($query);
+
+        $stmt->bindParam(':firstName', $this->firstName);
+        $stmt->bindParam(':lastName', $this->lastName);
+        $stmt->bindParam(':birthDay', $this->birthDay);
+        $stmt->bindParam(':nif', $this->nif);
+        $stmt->bindParam(':cc', $this->cc);
+        $stmt->bindParam(':gender', $this->gender);
+        $stmt->bindParam(':location', $this->location);
+        $stmt->bindParam(':phoneNumber', $this->phoneNumber);
+        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':role', $this->role);
+
+        try {
+            $stmt->execute();
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Utilizador criado com sucesso!"
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao realizar a inserção!",
+            ]);
         }
     }
 }

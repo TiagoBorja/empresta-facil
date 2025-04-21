@@ -28,16 +28,16 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" id="first_name" name="first_name" class="form-control"
+                                    <input type="text" id="firstName" name="firstName" class="form-control"
                                         placeholder="João">
-                                    <label for="first_name">Primeiro Nome</label>
+                                    <label for="firstName">Primeiro Nome</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" id="last_name" name="last_name" class="form-control"
+                                    <input type="text" id="lastName" name="lastName" class="form-control"
                                         placeholder="Silva">
-                                    <label for="last_name">Último Nome</label>
+                                    <label for="lastName">Último Nome</label>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -66,9 +66,9 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input type="date" id="birth_day" name="birth_day" class="form-control"
+                                    <input type="date" id="birthDay" name="birthDay" class="form-control"
                                         placeholder="123456789">
-                                    <label for="birth_day">Data de Nascimento</label>
+                                    <label for="birthDay">Data de Nascimento</label>
                                 </div>
                             </div>
                     </fieldset>
@@ -97,9 +97,9 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
-                                    <input type="text" id="phone_number" name="phone_number" class="form-control"
+                                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
                                         placeholder="Exemplo: 912345678">
-                                    <label class="form-label" for="phone_number">Telemóvel</label>
+                                    <label class="form-label" for="phoneNumber">Telemóvel</label>
                                 </div>
                             </div>
 
@@ -139,10 +139,10 @@
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <div class="form-floating">
-                                <select class="form-select" id="roleSelect">
+                                <select class="form-select" id="roleSelect" name="role">
                                     <option value="">Selecionar</option>
                                 </select>
-                                <label class="form-label" for="user_type_fk">Permissão</label>
+                                <label class="form-label" for="role">Permissão</label>
                             </div>
                         </div>
                     </div>
