@@ -5,7 +5,16 @@ const ROLE_API_URL = '../administrative/user-roles/code.php';
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    getUsers();
+    const currentPath = window.location.search;
+    if (currentPath === '?page=users') {
+        getUsers();
+        return;
+    }
+
+    if (currentPath === '?page=user-form') {
+        fetchRoles(ROLE_API_URL);
+        return;
+    }    
 });
 
 async function getUsers() {
@@ -18,11 +27,11 @@ async function getUsers() {
         showUsers(result)
 
         utils.initializeRowSelection(API_URL, '?page=user-form');
-        fetchRoles(ROLE_API_URL);
     } catch (error) {
         console.warn(error)
     }
 }
+
 function showUsers(users) {
     let table = "";
 
@@ -47,26 +56,29 @@ function showUsers(users) {
     tableBody.innerHTML = table;
 }
 
-async function fetchRoles(API_URL) {
-    try {
-        const response = await fetch(API_URL);
+function fetchRoles(API_URL) {
+    const select = document.getElementById("roleSelect");
+    const rolesLoaded = false;
 
-        if (!response.ok) {
-            throw new Error('Erro na requisição: ' + response.statusText);
+    select.addEventListener("focus", async function () {
+        if (rolesLoaded || select.options.length > 1) return;
+        try {
+            const response = await fetch(API_URL);
+
+            if (!response.ok) {
+                throw new Error('Erro na requisição: ' + response.statusText);
+            }
+
+            const result = await response.json();
+
+            fillSelect(result);
+        } catch (error) {
+            console.error('Erro ao fazer requisição:', error);
         }
-
-        const result = await response.json();
-        fillSelect(result);
-
-        if (result.error) {
-            console.error(result.error);
-        } else {
-            console.log(result);
-        }
-    } catch (error) {
-        console.error('Erro ao fazer requisição:', error);
-    }
+    });
 }
+
+
 function fillSelect(roles) {
     let option = "";
 
