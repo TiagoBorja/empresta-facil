@@ -11,7 +11,7 @@
                 <h4 class="card-title">
                     <form id="changeStatus">
                         <i class="mdi mdi-account-tie"></i>
-                        <span id="permissionName" class="hide-menu">Utilizador</span>
+                        <span id="userName" class="hide-menu">Utilizador</span>
                         <button id="active" class="float-end badge rounded-pill bg-success"></button>
                     </form>
                 </h4>
@@ -20,6 +20,7 @@
             <form id="userForm">
                 <div class="card-body">
 
+                    <input type="hidden" id="id">
                     <!-- Informações Pessoais -->
                     <fieldset class="mb-4">
                         <legend class="fs-5 fw-bold text-primary border-bottom pb-2 text-center">
@@ -130,7 +131,7 @@
                                 <div class="form-floating">
                                     <input type="password" id="password" name="password" class="form-control"
                                         placeholder="Exemplo: 12344566">
-                                    <label class="form-label" for="email">Senha</label>
+                                    <label id="labelPassword" class="form-label" for="email">Senha</label>
                                 </div>
                             </div>
                         </div>
@@ -166,3 +167,4 @@
     </div>
 </div>
 <script type="module" src="../js/users.js"></script>
+<script type="module" src="../js/forms/user-form.js"></script>

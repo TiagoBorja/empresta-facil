@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    if (currentPath === '?page=user-form') {
+    if (currentPath.includes('?page=user-form')) {
         fetchRoles(ROLE_API_URL);
         newUser();
         return;

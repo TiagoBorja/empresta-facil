@@ -194,13 +194,48 @@ class User
         }
     }
 
+    public function getUserById($id)
+    {
+        $this->id = $id;
+        $query = "SELECT 
+                    u.*, tu.tipo 
+                  FROM utilizador u
+                  INNER JOIN tipo_utilizador tu ON u.tipo_utilizador_fk = tu.id
+                  WHERE u.id = :id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':id', $this->id);
+
+        try {
+            $stmt->execute();
+
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($result) {
+                return json_encode([
+                    'status' => 200,
+                    'message' => "Utilizador encontrado.",
+                    'data' => $result
+                ]);
+            } else {
+                return json_encode([
+                    'status' => 404,
+                    'message' => "Utilizador não encontrado."
+                ]);
+            }
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao encontrar: " . $e->getMessage()
+            ]);
+        }
+    }
     public function newUser()
     {
         if (empty($this->firstName) || empty($this->lastName) || empty($this->birthDay) || empty($this->phoneNumber) || empty($this->username) || empty($this->password) || empty($this->email) || empty($this->role)) {
             return json_encode([
                 'status' => 422,
                 'message' => "Preencha todos os campos antes de prosseguir."
-            ]); 
+            ]);
         }
 
         $query = "INSERT INTO utilizador (
