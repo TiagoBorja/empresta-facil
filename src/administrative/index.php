@@ -13,6 +13,7 @@ $page_config = [
 
     'dashboard' => ['title' => 'Painel Administrativo', 'file' => './pages/dashboard.php'],
     'users' => ['title' => 'Utilizadores', 'file' => './pages/users.php'],
+    'state' => ['title' => 'Gestão de Estados', 'file' => './pages/state.php'],
     'user-form' => ['title' => 'Utilizadores', 'file' => './pages/user-form.php'],
     'user-roles' => ['title' => 'Tipos de Utilizadores', 'file' => './pages/user-roles.php'],
     'role-form' => ['title' => 'Tipos de Utilizadores', 'file' => './pages/role-form.php'],
@@ -266,7 +267,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                             </a>
                             <ul aria-expanded="false" class="collapse ms-2">
                                 <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=gestao-estados">
+                                    <a class="sidebar-link" href="?page=state">
                                         <i class="mdi mdi-tune"></i><span class="hide-menu">Gestão de Estados</span>
                                     </a>
                                 </li>
@@ -294,6 +295,12 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
 
                     case 'users':
                         $page_file = "./users/users.php";
+                        break;
+                    case 'state':
+                        $page_file = "./state/state.php";
+                        break;
+                    case 'state-form':
+                        $page_file = "./pages/state-form.php";
                         break;
                     case 'user-form':
                         $page_file = "./pages/user-form.php";
