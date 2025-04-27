@@ -16,7 +16,7 @@
                         </h4>
                         <i class="mdi mdi-register fs-4 ms-2"></i>
                     </div>
-                    <button class="btn btn-outline-success rounded-0" name="saveData" type="submit">
+                    <button class="btn btn-outline-success rounded-0" name="registerUser" type="submit">
                         <i class="mdi mdi-send"></i>
                         <span class="ms-1">Enviar</span>
                     </button>

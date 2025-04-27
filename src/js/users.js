@@ -5,10 +5,14 @@ const ROLE_API_URL = '../administrative/user-roles/code.php';
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    alert('oiS');
     const currentPath = window.location.search;
     if (currentPath === '?page=users') {
         getUsers();
+        return;
+    }
+
+    if (currentPath === '?page=register') {
+        registerUser();
         return;
     }
 
@@ -108,3 +112,17 @@ function fillSelect(roles) {
     select.innerHTML = option;
 }
 
+function registerUser() {
+    const form = document.querySelector("#registerForm");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        console.log([...formData.entries()]); // Verifique se os campos estão sendo capturados
+        formData.append("registerUser", true);
+
+        bdUtils.newData(API_URL, formData, form, '?page=auth');
+    });
+}
