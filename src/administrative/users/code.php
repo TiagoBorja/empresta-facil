@@ -45,7 +45,7 @@ if (isset($_POST['saveData'])) {
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $user->setEmail($email);
 
-    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
+    $password = password_hash(filter_input(INPUT_POST, 'password'), PASSWORD_DEFAULT);
     $user->setPassword($password);
 
     $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -94,7 +94,7 @@ if (isset($_POST['registerUser'])) {
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $user->setEmail($email);
 
-    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
+    $password = password_hash(filter_input(INPUT_POST, 'password'), PASSWORD_DEFAULT);
     $user->setPassword($password);
 
     echo $user->registerUser(); // método de inserção

@@ -4,13 +4,12 @@ include_once '../../classes/Connection.php';
 
 if (isset($_POST['usernameOrEmail']) && isset($_POST['password'])) {
 
-    $usernameOrEmail = $_POST['usernameOrEmail']; 
-    $password = $_POST['password'];
+    $usernameOrEmail = $_POST['usernameOrEmail'];
+    $password = $_POST['password']; 
 
     $connection = new Connection();
     $pdo = $connection->getConnection();
 
-    // Primeiro, busca o utilizador pelo email
     $query = 'SELECT u.*, t.tipo AS tipo FROM utilizador u
               JOIN tipo_utilizador t ON u.tipo_utilizador_fk = t.id 
               WHERE email = :usernameOrEmail OR nome_utilizador = :usernameOrEmail';
@@ -26,11 +25,12 @@ if (isset($_POST['usernameOrEmail']) && isset($_POST['password'])) {
         exit();
     }
 
-    if ($password !== $row['senha']) {
+    if (!password_verify($password, $row['senha'])) {
         $_SESSION['login-error'] = "Senha inválida!";
         header('Location: ../../index.php?page=auth');
         exit();
     }
+
 
     $_SESSION['user'] = $row;
     $_SESSION['username'] = $row['nome_utilizador'];
