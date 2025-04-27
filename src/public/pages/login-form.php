@@ -15,7 +15,7 @@
                     ?>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingInput" name="email" required
+                        <input type="text" class="form-control" id="floatingInput" name="usernameOrEmail" required
                             placeholder="Nome de Utilizador ou Email">
                         <label for="floatingInput">Nome de Utilizador ou Email</label>
                     </div>
