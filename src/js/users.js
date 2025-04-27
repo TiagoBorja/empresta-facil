@@ -5,6 +5,7 @@ const ROLE_API_URL = '../administrative/user-roles/code.php';
 
 document.addEventListener("DOMContentLoaded", function () {
 
+    alert('oiS');
     const currentPath = window.location.search;
     if (currentPath === '?page=users') {
         getUsers();

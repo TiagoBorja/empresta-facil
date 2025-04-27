@@ -37,7 +37,7 @@
 
                     <div class="text-center">
                         <small class="text-muted">
-                            Ainda não tem conta? <a href="./register.php" class="text-decoration-none">Registe-se
+                            Ainda não tem conta? <a href="?page=register" class="text-decoration-none">Registe-se
                                 aqui</a>.
                         </small>
                     </div>
