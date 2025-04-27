@@ -21,125 +21,148 @@
                 <div class="card-body">
 
                     <!-- Informações Pessoais -->
-                    <fieldset>
-                        <legend class="text-center mb-3">Informações Pessoais</legend>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" for="first_name">Primeiro Nome</label>
-                                <input type="text" id="first_name" name="first_name" class="form-control"
-                                    placeholder="Exemplo: João">
+                    <fieldset class="mb-4">
+                        <legend class="fs-5 fw-bold text-primary border-bottom pb-2 text-center">
+                            <i class="mdi mdi-card-account-details me-2"></i>Informações Pessoais
+                        </legend>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="firstName" name="firstName" class="form-control"
+                                        placeholder="João">
+                                    <label for="firstName">Primeiro Nome</label>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" for="last_name">Último Nome</label>
-                                <input type="text" id="last_name" name="last_name" class="form-control"
-                                    placeholder="Exemplo: Silva">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="lastName" name="lastName" class="form-control"
+                                        placeholder="Silva">
+                                    <label for="lastName">Último Nome</label>
+                                </div>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label" for="nif">NIF</label>
-                                <input type="text" id="nif" name="nif" class="form-control"
-                                    placeholder="Exemplo: 123456789">
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="text" id="nif" name="nif" class="form-control" placeholder="123456789">
+                                    <label for="nif">NIF</label>
+                                </div>
                             </div>
-                            <div class="col-md-8 mb-3">
-                                <label class="form-label" for="birth_date">Data de Nascimento</label>
-                                <input type="date" id="birth_date" name="birth_date" class="form-control">
+
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="text" id="cc" name="cc" class="form-control" placeholder="123456789">
+                                    <label for="cc">Cartão de Cidadão</label>
+                                </div>
                             </div>
-                        </div>
-                    </fieldset>
-                    <hr>
-                    <!-- Identificação -->
-                    <fieldset>
-                        <legend>Identificação</legend>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" for="cc">Cartão de Cidadão</label>
-                                <input type="text" id="cc" name="cc" class="form-control"
-                                    placeholder="Exemplo: 12345678Z">
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <select class="form-select" name="gender" id="gender">
+                                        <option value="">Selecionar</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Feminino</option>
+                                        <option value="O">Outro</option>
+                                    </select>
+                                    <label for="gender">Género</label>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" for="gender">Género</label>
-                                <input type="text" id="gender" name="gender" class="form-control"
-                                    placeholder="Exemplo: Masculino">
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="date" id="birthDay" name="birthDay" class="form-control"
+                                        placeholder="123456789">
+                                    <label for="birthDay">Data de Nascimento</label>
+                                </div>
                             </div>
-                        </div>
                     </fieldset>
                     <hr>
                     <!-- Endereço -->
-                    <fieldset>
-                        <legend>Endereço</legend>
+                    <fieldset class="mb-4">
+                        <legend class="fs-5 fw-bold text-primary border-bottom pb-2 text-center">
+                            <i class="mdi mdi-home me-2"></i>Morada
+                        </legend>
                         <div class="row">
                             <div class="col-md-12 mb-3">
-                                <label class="form-label" for="address">Morada</label>
-                                <textarea id="address" name="address" class="form-control"
-                                    placeholder="Exemplo: Rua da Liberdade, 123"></textarea>
+                                <div class="form-floating">
+                                    <textarea id="address" name="address" class="form-control"
+                                        placeholder="Exemplo: Rua da Liberdade, 123"></textarea>
+                                    <label class="form-label" for="address">Morada</label>
+                                </div>
                             </div>
                         </div>
                     </fieldset>
                     <hr>
                     <!-- Contato -->
-                    <fieldset>
-                        <legend>Contato</legend>
+                    <fieldset class="mb-4">
+                        <legend class="fs-5 fw-bold text-primary border-bottom pb-2 text-center">
+                            <i class="mdi mdi-phone me-2"></i>Contato
+                        </legend>
                         <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label" for="phone_number">Telemóvel</label>
-                                <input type="text" id="phone_number" name="phone_number" class="form-control"
-                                    placeholder="Exemplo: 912345678">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-floating">
+                                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
+                                        placeholder="Exemplo: 912345678">
+                                    <label class="form-label" for="phoneNumber">Telemóvel</label>
+                                </div>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label" for="username">Nome de Utilizador</label>
-                                <input type="text" id="username" name="username" class="form-control"
-                                    placeholder="Exemplo: joao.silva">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label" for="email">Email</label>
-                                <input type="email" id="email" name="email" class="form-control"
-                                    placeholder="Exemplo: joao.silva@email.com">
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-floating">
+                                    <input type="email" id="email" name="email" class="form-control"
+                                        placeholder="Exemplo: joao.silva@email.com">
+                                    <label class="form-label" for="email">Email</label>
+                                </div>
                             </div>
                         </div>
                     </fieldset>
                     <hr>
-                    <fieldset>
-                        <legend>Login</legend>
+                    <fieldset class="mb-4">
+                        <legend class="fs-5 fw-bold text-primary border-bottom pb-2 text-center">
+                            <i class="mdi mdi-login me-2"></i>Informações de Acesso
+                        </legend>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label" for="username">Nome de Utilizador</label>
-                                <input type="text" id="username" name="username" class="form-control"
-                                    placeholder="Exemplo: joao.silva">
+                                <div class="form-floating">
+                                    <input type="text" id="username" name="username" class="form-control"
+                                        placeholder="Exemplo: joao.silva">
+                                    <label class="form-label" for="username">Nome de Utilizador</label>
+                                </div>
                             </div>
+
                             <div class="col-md-6 mb-3">
-                                <label class="form-label" for="email">Senha</label>
-                                <input type="password" id="password" name="password" class="form-control"
-                                    placeholder="Exemplo: 12344566">
+                                <div class="form-floating">
+                                    <input type="password" id="password" name="password" class="form-control"
+                                        placeholder="Exemplo: 12344566">
+                                    <label class="form-label" for="email">Senha</label>
+                                </div>
                             </div>
                         </div>
                     </fieldset>
                     <!-- Tipo de Utilizador -->
                     <div class="row">
-                        <div class="col-md-8 mb-3">
-                            <label class="form-label" for="user_type_fk">Permissão</label>
-                            <select id="roleSelect" class="form-select">
-                                <option value="">Selecionar</option>
-                            </select>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-floating">
+                                <select class="form-select" id="roleSelect" name="role">
+                                    <option value="">Selecionar</option>
+                                </select>
+                                <label class="form-label" for="role">Permissão</label>
+                            </div>
                         </div>
                     </div>
-
-
                 </div>
-
-                <div class="card-footer">
-                    <div class="text-center">
-                        <button name="saveData" type="submit" class="btn btn-success text-white rounded-0">
-                            <i class="mdi mdi-content-save"></i>
-                            <span class="ms-1">Guardar</span>
-                        </button>
-                        <button id="clear" type="button" class="btn btn-primary text-white rounded-0">
-                            <i class="mdi mdi-refresh"></i>
-                            <span class="ms-1">Limpar</span>
-                        </button>
-                    </div>
-                </div>
-            </form>
-
         </div>
+
+        <div class="card-footer">
+            <div class="text-center">
+                <button name="saveData" type="submit" class="btn btn-success text-white rounded-0">
+                    <i class="mdi mdi-content-save"></i>
+                    <span class="ms-1">Guardar</span>
+                </button>
+                <button id="clear" type="button" class="btn btn-primary text-white rounded-0">
+                    <i class="mdi mdi-refresh"></i>
+                    <span class="ms-1">Limpar</span>
+                </button>
+            </div>
+        </div>
+        </form>
+
     </div>
 </div>
 <script type="module" src="../js/users.js"></script>
