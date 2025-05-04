@@ -11,7 +11,7 @@
                 <h4 class="card-title">
                     <form id="changeStatus">
                         <i class="mdi mdi-alert-circle me-2"></i>
-                        <span class="hide-menu">Estado</span>
+                        <span id="stateName" class="hide-menu">Estado</span>
                         <button id="active" class="float-end badge rounded-pill bg-success"></button>
                     </form>
                 </h4>
@@ -58,3 +58,4 @@
 </div>
 
 <script type="module" src="../js/state.js"></script>
+<script type="module" src="../js/state-form.js"></script>
