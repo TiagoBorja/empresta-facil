@@ -26,7 +26,6 @@
                             <tr>
                                 <th scope="col">Estado</th>
                                 <th scope="col">Observações</th>
-                                <th scope="col">Ativo</th>
                             </tr>
                         </thead>
                         <tbody id="tbody" class="customtable">

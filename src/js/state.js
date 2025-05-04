@@ -41,16 +41,9 @@ function showStates(states) {
     let table = "";
 
     states.forEach((state) => {
-        const active = state.ativo === 'Y'
-            ? '<span class="badge rounded-pill bg-success">Ativo</span>'
-            : (state.ativo === 'N'
-                ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
-                : '');
-
         table += `<tr id="id-${state.id}">
                   <td scope="row">${state.estado}</td>
                   <td>${state.oberservacoes ?? 'Sem Observações'}</td>
-                  <td>${active}</td>
                   </tr>`;
     });
 

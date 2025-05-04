@@ -16,10 +16,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             document.getElementById("id").value = result.data.id;
             document.getElementById("state").value = result.data.estado;
             document.getElementById("observation").value = result.data.observacoes;
-            const activeBadge = document.getElementById("active");
-            activeBadge.textContent = result.data.ativo === "Y" ? "Ativo" : "Inativo";
-            activeBadge.classList.toggle("bg-success", result.data.ativo === "Y");
-            activeBadge.classList.toggle("bg-danger", result.data.ativo === "N");
         }
 
         const originalValues = [

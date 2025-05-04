@@ -9,11 +9,8 @@
         <div class="card mt-3">
             <div class="card-header">
                 <h4 class="card-title">
-                    <form id="changeStatus">
-                        <i class="mdi mdi-alert-circle me-2"></i>
-                        <span id="stateName" class="hide-menu">Estado</span>
-                        <button id="active" class="float-end badge rounded-pill bg-success"></button>
-                    </form>
+                    <i class="mdi mdi-alert-circle me-2"></i>
+                    <span id="stateName" class="hide-menu">Estado</span>
                 </h4>
             </div>
             <form id="stateForm">
