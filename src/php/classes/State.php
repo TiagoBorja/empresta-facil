@@ -125,4 +125,41 @@ class State
             ]);
         }
     }
+
+    public function updateState($id)
+    {
+
+        $this->id = $id;
+
+        if (empty($this->state)) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Preencha todos os campos antes de prosseguir."
+            ]);
+        }
+
+        $query = "UPDATE estado 
+                  SET estado = :state, observacoes = :observation
+                  WHERE id = :id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':id', var: $this->id);
+        $stmt->bindParam(':state', $this->state);
+        $stmt->bindParam(':observation', $this->observation);
+
+        try {
+
+            $stmt->execute();
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Estado atualizado com sucesso."
+            ]);
+        } catch (PDOException $e) {
+
+            return json_encode(value: [
+                'status' => 500,
+                'message' => "Erro ao atualizar: " . $e->getMessage()
+            ]);
+        }
+    }
 }

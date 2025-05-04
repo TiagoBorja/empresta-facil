@@ -27,7 +27,7 @@ if (isset($_POST['saveData'])) {
 
     if (!empty($id)) {
         $stateClass->setId($id);
-        // echo $stateClass->updateUserRole($id);
+        echo $stateClass->updateState($id);
     } else {
         echo $stateClass->newState();
     }
