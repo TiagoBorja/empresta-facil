@@ -187,15 +187,19 @@ DELETE FROM `emprestimo_recurso`;
 DROP TABLE IF EXISTS `estado`;
 CREATE TABLE IF NOT EXISTS `estado` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `estado` varchar(50) DEFAULT NULL,
+  `estado` varchar(50) NOT NULL,
   `observacoes` text DEFAULT NULL,
-  `criado_em` timestamp NULL DEFAULT NULL,
+  `criado_em` timestamp NULL DEFAULT current_timestamp(),
   `atualizado_em` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.estado: ~0 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.estado: ~3 rows (aproximadamente)
 DELETE FROM `estado`;
+INSERT INTO `estado` (`id`, `estado`, `observacoes`, `criado_em`, `atualizado_em`) VALUES
+	(1, 'ta novin 2', ':observation 22', '2025-04-27 17:54:51', NULL),
+	(2, 'sssss', 'aaaa', '2025-04-27 17:58:50', NULL),
+	(3, 'sssssss sds', 'aaaa', '2025-05-04 21:37:19', NULL);
 
 -- A despejar estrutura para tabela empresta_facil.foto_recurso
 DROP TABLE IF EXISTS `foto_recurso`;
