@@ -108,3 +108,15 @@ if (isset($_POST['registerUser'])) {
 
     exit;
 }
+
+if (isset($_POST['changeStatus'])) {
+    $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+    $status = filter_input(INPUT_POST, 'active', FILTER_SANITIZE_SPECIAL_CHARS);
+    $status = ($status === 'Y') ? 'N' : 'Y';
+
+    $user->setId($id);
+    $user->setActive($status);
+
+    echo $user->changeActiveStatus($id, $status);
+    exit;
+}

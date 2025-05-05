@@ -417,4 +417,34 @@ class User
             ]);
         }
     }
+
+    public function changeActiveStatus($id, $status)
+    {
+        $this->id = $id;
+        $this->active = $status;
+
+        $query = 'UPDATE utilizador
+              SET ativo = :active
+              WHERE id = :id';
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':active', $this->active);
+
+        try {
+
+            $stmt->execute();
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Status atualizado com sucesso!"
+            ]);
+        } catch (PDOException $e) {
+
+            return json_encode(value: [
+                'status' => 500,
+                'message' => "Erro ao atualizar: " . $e->getMessage()
+            ]);
+        }
+    }
 }
