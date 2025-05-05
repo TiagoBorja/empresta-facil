@@ -2,10 +2,16 @@ import * as bdUtils from './bd-utils.js';
 import * as utils from './utils.js';
 const API_URL = '../administrative/users/code.php';
 const ROLE_API_URL = '../administrative/user-roles/code.php';
+let urlParams;
+let id;
+
 
 document.addEventListener("DOMContentLoaded", function () {
 
     const currentPath = window.location.search;
+    urlParams = new URLSearchParams(currentPath);
+    id = urlParams.get("id");
+
     if (currentPath === '?page=users') {
         getUsers();
         return;
@@ -16,14 +22,15 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    if (currentPath === '?page=register') {
-        registerUser();
-        return;
-    }
-
     if (currentPath.includes('?page=user-form')) {
         fetchRoles(ROLE_API_URL);
-        newUser();
+
+        if (id) {
+            updateUser();
+        } else {
+            newUser();
+        }
+
         return;
     }
 
@@ -129,5 +136,20 @@ function registerUser() {
         formData.append("registerUser", true);
 
         bdUtils.newData(API_URL, formData, form, '?page=auth');
+    });
+}
+
+function updateUser() {
+
+    const form = document.querySelector("#userForm");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        formData.append("saveData", true);
+        formData.append("id", id);
+        bdUtils.updateData(API_URL, formData, form, '?page=users');
     });
 }

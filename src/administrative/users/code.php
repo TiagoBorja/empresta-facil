@@ -58,11 +58,11 @@ if (isset($_POST['saveData'])) {
     $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_SPECIAL_CHARS);
     $user->setRole($role);
 
-    // if (!empty($id)) {
-    //     $user->setId($id);
-    //     // echo $user->updateUser();
-    //     exit;
-    // }
+    if (!empty($id)) {
+        $user->setId($id);
+        echo $user->updateUser($id);
+        exit;
+    }
 
     echo $user->newUser(); // método de inserção
 

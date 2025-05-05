@@ -302,7 +302,7 @@ class User
             return json_encode([
                 'status' => 422,
                 'message' => "Preencha todos os campos antes de prosseguir."
-            ]); 
+            ]);
         }
 
         $query = "INSERT INTO utilizador (
@@ -356,6 +356,64 @@ class User
             return json_encode([
                 'status' => 500,
                 'message' => "Erro ao realizar a inserção!" . $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function updateUser($id)
+    {
+        $this->id = $id;
+
+        // Verificação dos campos obrigatórios
+        if (empty($this->firstName) || empty($this->lastName) || empty($this->birthDay) || empty($this->phoneNumber) || empty($this->username) || empty($this->email)) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Preencha todos os campos antes de prosseguir."
+            ]);
+        }
+
+        $query = "UPDATE utilizador SET 
+                    primeiro_nome = :firstName,
+                    ultimo_nome = :lastName,
+                    data_nascimento = :birthDay,
+                    nif = :nif,
+                    cc = :cc,
+                    genero = :gender,
+                    morada = :location,
+                    telemovel = :phoneNumber,
+                    nome_utilizador = :username,
+                    senha = :password,
+                    email = :email,
+                    tipo_utilizador_fk = :role
+                  WHERE id = :id";
+
+        $stmt = $this->pdo->prepare($query);
+
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':firstName', $this->firstName);
+        $stmt->bindParam(':lastName', $this->lastName);
+        $stmt->bindParam(':birthDay', $this->birthDay);
+        $stmt->bindParam(':nif', $this->nif);
+        $stmt->bindParam(':cc', $this->cc);
+        $stmt->bindParam(':gender', $this->gender);
+        $stmt->bindParam(':location', $this->location);
+        $stmt->bindParam(':phoneNumber', $this->phoneNumber);
+        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':role', $this->role);
+
+        try {
+            $stmt->execute();
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Dados do utilizador atualizados com sucesso!"
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao atualizar o utilizador: " . $e->getMessage()
             ]);
         }
     }

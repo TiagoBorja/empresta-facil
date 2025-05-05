@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     id = urlParams.get("id");
 
     if (id) {
-        updateUserRole();
+        updateState();
         changeActiveStatus();
         return;
     }
@@ -64,7 +64,7 @@ function newState() {
     });
 }
 
-function updateUserRole() {
+function updateState() {
 
     const form = document.querySelector("#stateForm");
     if (!form) return;
