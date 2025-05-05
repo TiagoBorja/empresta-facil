@@ -27,9 +27,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             document.getElementById("username").value = result.data.nome_utilizador;
             document.getElementById("roleSelect").value = result.data.tipo;
 
-            const labelPassword = document.getElementById("labelPassword");
-            labelPassword.innerText = 'Nova Senha';
-
             const activeBadge = document.getElementById("active");
             activeBadge.textContent = result.data.ativo === "Y" ? "Ativo" : "Inativo";
             activeBadge.classList.toggle("bg-success", result.data.ativo === "Y");
