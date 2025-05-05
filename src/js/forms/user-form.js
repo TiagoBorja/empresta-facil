@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         const result = await response.json();
 
         if (result.status === 200) {
+            console.log(result.data.tipo);
+            
             document.getElementById("userName").textContent = `Utilizador - ${result.data.primeiro_nome} ${result.data.ultimo_nome}`;
             document.getElementById("id").value = result.data.id;
             document.getElementById("firstName").value = result.data.primeiro_nome;

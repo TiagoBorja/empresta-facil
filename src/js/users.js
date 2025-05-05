@@ -6,14 +6,14 @@ let urlParams;
 let id;
 
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
 
     const currentPath = window.location.search;
     urlParams = new URLSearchParams(currentPath);
     id = urlParams.get("id");
 
     if (currentPath === '?page=users') {
-        getUsers();
+        await getUsers();
         return;
     }
 
@@ -23,13 +23,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (currentPath.includes('?page=user-form')) {
-        fetchRoles(ROLE_API_URL);
+        await fetchRoles(ROLE_API_URL);
 
-        if (id) {
-            updateUser();
-        } else {
+        if (!id) {
             newUser();
+            return;
         }
+        updateUser();
 
         return;
     }
@@ -88,27 +88,21 @@ function showUsers(users) {
     tableBody.innerHTML = table;
 }
 
-function fetchRoles(API_URL) {
-    const select = document.getElementById("roleSelect");
-    let rolesLoaded = false;
+async function fetchRoles(API_URL) {
 
-    select.addEventListener("focus", async function () {
-        if (rolesLoaded) return;
-        try {
-            const response = await fetch(API_URL);
+    try {
+        const response = await fetch(API_URL);
 
-            if (!response.ok) {
-                throw new Error('Erro na requisição: ' + response.statusText);
-            }
-
-            const result = await response.json();
-
-            fillSelect(result);
-            rolesLoaded = true;
-        } catch (error) {
-            console.error('Erro ao fazer requisição:', error);
+        if (!response.ok) {
+            throw new Error('Erro na requisição: ' + response.statusText);
         }
-    });
+
+        const result = await response.json();
+
+        fillSelect(result);
+    } catch (error) {
+        console.error('Erro ao fazer requisição:', error);
+    };
 }
 
 
