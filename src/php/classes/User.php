@@ -295,4 +295,68 @@ class User
             ]);
         }
     }
+
+    public function registerUser()
+    {
+        if (empty($this->firstName) || empty($this->lastName) || empty($this->birthDay) || empty($this->phoneNumber) || empty($this->username) || empty($this->password) || empty($this->email)) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Preencha todos os campos antes de prosseguir."
+            ]); 
+        }
+
+        $query = "INSERT INTO utilizador (
+                    primeiro_nome, 
+                    ultimo_nome, 
+                    data_nascimento, 
+                    nif, 
+                    cc, 
+                    genero, 
+                    morada, 
+                    telemovel, 
+                    nome_utilizador, 
+                    senha, 
+                    email
+                  ) VALUES (
+                    :firstName, 
+                    :lastName, 
+                    :birthDay, 
+                    :nif, 
+                    :cc, 
+                    :gender, 
+                    :location, 
+                    :phoneNumber, 
+                    :username, 
+                    :password, 
+                    :email
+                  )";
+
+        $stmt = $this->pdo->prepare($query);
+
+        $stmt->bindParam(':firstName', $this->firstName);
+        $stmt->bindParam(':lastName', $this->lastName);
+        $stmt->bindParam(':birthDay', $this->birthDay);
+        $stmt->bindParam(':nif', $this->nif);
+        $stmt->bindParam(':cc', $this->cc);
+        $stmt->bindParam(':gender', $this->gender);
+        $stmt->bindParam(':location', $this->location);
+        $stmt->bindParam(':phoneNumber', $this->phoneNumber);
+        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':email', $this->email);
+
+        try {
+            $stmt->execute();
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Utilizador criado com sucesso!"
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao realizar a inserção!" . $e->getMessage(),
+            ]);
+        }
+    }
 }

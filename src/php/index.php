@@ -97,7 +97,8 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         waves-effect waves-dark
                         pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                <img src="../public/assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31" />
+                                <img src="../public/assets/images/users/1.jpg" alt="user" class="rounded-circle"
+                                    width="31" />
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end user-dd animated"
                                 aria-labelledby="navbarDropdown">
@@ -127,7 +128,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                         <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições
                                         </a>'
                                     : ''
-                                ?>
+                                    ?>
 
                             </ul>
                         </li>
@@ -268,6 +269,9 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                 case 'auth':
                     $page_file = "../public/pages/login-form.php";
                     break;
+                case 'register':
+                    $page_file = "../public/pages/register-form.php";
+                    break;
                 case 'logout':
                     $page_file = "../public/config/auth/logout.php";
                     break;
@@ -275,7 +279,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                     $page_file = "../public/administrative/index.php";
                     break;
 
-                    
+
                 case 3:
                     $page_file = "../public/config/user-type/user-type.php";
                     break;

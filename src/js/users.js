@@ -11,6 +11,16 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
+    if (currentPath === '?page=register') {
+        registerUser();
+        return;
+    }
+
+    if (currentPath === '?page=register') {
+        registerUser();
+        return;
+    }
+
     if (currentPath.includes('?page=user-form')) {
         fetchRoles(ROLE_API_URL);
         newUser();
@@ -107,3 +117,17 @@ function fillSelect(roles) {
     select.innerHTML = option;
 }
 
+function registerUser() {
+    const form = document.querySelector("#registerForm");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        console.log([...formData.entries()]); // Verifique se os campos estão sendo capturados
+        formData.append("registerUser", true);
+
+        bdUtils.newData(API_URL, formData, form, '?page=auth');
+    });
+}
