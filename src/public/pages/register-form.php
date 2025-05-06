@@ -16,10 +16,6 @@
                         </h4>
                         <i class="mdi mdi-register fs-4 ms-2"></i>
                     </div>
-                    <button class="btn btn-outline-success rounded-0" name="registerUser" type="submit">
-                        <i class="mdi mdi-send"></i>
-                        <span class="ms-1">Enviar</span>
-                    </button>
                 </div>
 
                 <div class="card-body">
@@ -121,6 +117,13 @@
                             </div>
                         </fieldset>
                     </div>
+                </div>
+                
+                <div class="card-footer clearfix">
+                    <button class="btn btn-outline-primary float-end rounded-0" name="registerUser" type="submit">
+                        <i class="mdi mdi-send"></i>
+                        <span class="ms-1">Registar</span>
+                    </button>
                 </div>
             </form>
         </div>

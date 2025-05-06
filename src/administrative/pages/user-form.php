@@ -129,7 +129,7 @@
                     </div> -->
         <div class="card-footer">
             <div class="text-center">
-                <button name="saveData" type="submit" class="btn btn-success text-white rounded-0">
+                <button name="saveData" type="submit" class="btn btn-danger text-white rounded-0">
                     <i class="mdi mdi-content-save"></i>
                     <span class="ms-1">Guardar</span>
                 </button>
