@@ -1,4 +1,12 @@
-<?php $page = 'dashboard';
+<?php
+session_start();
+
+if (!isset($_SESSION['user']) && $_SESSION['user']['tipo'] !== 'Administrador') {
+    session_abort();
+    header("Location: ../php/index.php?page=auth");
+    exit;
+}
+$page = 'dashboard';
 if (isset($_GET["page"]))
     $page = $_GET["page"];
 

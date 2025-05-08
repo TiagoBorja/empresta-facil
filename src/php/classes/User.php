@@ -395,7 +395,6 @@ class User
                     morada = :address,
                     telemovel = :phoneNumber,
                     nome_utilizador = :username,
-                    senha = :password,
                     email = :email,
                     img_url = :imgUrl,
                     tipo_utilizador_fk = :role
@@ -413,7 +412,6 @@ class User
         $stmt->bindParam(':address', $this->address);
         $stmt->bindParam(':phoneNumber', $this->phoneNumber);
         $stmt->bindParam(':username', $this->username);
-        $stmt->bindParam(':password', $this->password);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':imgUrl', $this->imgUrl);
         $stmt->bindParam(':role', $this->role);

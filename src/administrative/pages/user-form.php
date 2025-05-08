@@ -66,7 +66,7 @@
                                         <label for="gender">Género</label>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-8">
                                     <div class="form-floating">
                                         <input type="date" id="birthDay" name="birthDay" class="form-control"
                                             placeholder="Data de Nascimento">
@@ -74,13 +74,6 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        <input type="file" id="imgProfile" name="imgProfile" accept="image/png"
-                                            class="form-control">
-                                        <label for="imgProfile">Foto de Perfil</label>
-                                    </div>
-                                </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
@@ -124,6 +117,26 @@
                                         </select>
                                         <label class="form-label" for="role">Permissão</label>
                                     </div>
+                                </div>
+
+
+
+                                <div class="col-md-12">
+                                    <div class="col-md-8">
+                                        <div class="form-floating">
+                                            <!-- Upload de nova imagem -->
+                                            <input type="file" id="imgProfile" name="imgProfile"
+                                                accept="image/png, image/jpeg" class="form-control">
+                                            <label for="imgProfile">Foto de Perfil</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-floating mb-2">
+                                            <img id="profilePreview" src="" alt="Foto de Perfil Atual"
+                                                class="img-fluid rounded" style="max-height: 150px;">
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </fieldset>

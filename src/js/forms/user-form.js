@@ -1,5 +1,3 @@
-import * as utils from '../utils.js';
-
 document.addEventListener('DOMContentLoaded', async function () {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get("id");
@@ -21,12 +19,13 @@ document.addEventListener('DOMContentLoaded', async function () {
             document.getElementById("gender").value = result.data.genero;
             document.getElementById("birthDay").value = result.data.data_nascimento;
             document.getElementById("address").value = result.data.morada;
-            document.getElementById("birthDay").value = result.data.data_nascimento;
             document.getElementById("phoneNumber").value = result.data.telemovel;
             document.getElementById("email").value = result.data.email;
-            document.getElementById("imgProfile").value = result.data.foto_url;
             document.getElementById("username").value = result.data.nome_utilizador;
             document.getElementById("roleSelect").value = result.data.tipo;
+            document.getElementById("profilePreview").src = `./users/${result.data.img_url}`;
+            console.log('./users/' + result.data.img_url);
+
 
             const activeBadge = document.getElementById("active");
             activeBadge.textContent = result.data.ativo === "Y" ? "Ativo" : "Inativo";
@@ -34,15 +33,19 @@ document.addEventListener('DOMContentLoaded', async function () {
             activeBadge.classList.toggle("bg-danger", result.data.ativo === "N");
         }
 
-        // const originalValues = [
-        //     { elementId: 'role', originalValue: document.getElementById("role").value },
-        //     { elementId: 'description', originalValue: document.getElementById("description").value },
-        // ]
-
-        // document.getElementById('clear').addEventListener('click', () => {
-        //     utils.clearInputs(originalValues);
-        // });
     } catch (error) {
         toastr.error(error, "Erro!");
     }
+
+    // Previsão de imagem ao escolher novo arquivo
+    document.getElementById("imgProfile").addEventListener("change", function (event) {
+        const [file] = event.target.files;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("profilePreview").src = e.target.result;
+            };
+            reader.readAsDataURL(file); // Lê o arquivo como URL
+        }
+    });
 });
