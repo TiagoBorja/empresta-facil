@@ -11,11 +11,12 @@ class User
     private $nif;
     private $cc;
     private $gender;
-    private $location;
+    private $address;
     private $phoneNumber;
 
     private $username;
     private $email;
+    private $imgUrl;
     private $password;
     private $role;
     private $active;
@@ -93,14 +94,14 @@ class User
         $this->gender = $gender;
     }
 
-    public function getLocation()
+    public function getAdress()
     {
-        return $this->location;
+        return $this->address;
     }
 
-    public function setLocation($location)
+    public function setAddress($address)
     {
-        $this->location = $location;
+        $this->address = $address;
     }
 
     public function getPhoneNumber()
@@ -131,6 +132,15 @@ class User
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+    public function getImgUrl()
+    {
+        return $this->imgUrl;
+    }
+
+    public function setImgUrl($imgUrl)
+    {
+        $this->imgUrl = $imgUrl;
     }
 
     public function getPassword()
@@ -249,7 +259,8 @@ class User
                     telemovel, 
                     nome_utilizador, 
                     senha, 
-                    email, 
+                    email,
+                    img_url 
                     tipo_utilizador_fk
                   ) VALUES (
                     :firstName, 
@@ -258,11 +269,12 @@ class User
                     :nif, 
                     :cc, 
                     :gender, 
-                    :location, 
+                    :address, 
                     :phoneNumber, 
                     :username, 
                     :password, 
-                    :email, 
+                    :email,
+                    :imgUrl, 
                     :role
                   )";
 
@@ -274,11 +286,12 @@ class User
         $stmt->bindParam(':nif', $this->nif);
         $stmt->bindParam(':cc', $this->cc);
         $stmt->bindParam(':gender', $this->gender);
-        $stmt->bindParam(':location', $this->location);
+        $stmt->bindParam(':address', $this->address);
         $stmt->bindParam(':phoneNumber', $this->phoneNumber);
         $stmt->bindParam(':username', $this->username);
         $stmt->bindParam(':password', $this->password);
         $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':imgUrl', $this->imgUrl);
         $stmt->bindParam(':role', $this->role);
 
         try {
@@ -316,7 +329,7 @@ class User
                     telemovel, 
                     nome_utilizador, 
                     senha, 
-                    email
+                    email,
                   ) VALUES (
                     :firstName, 
                     :lastName, 
@@ -324,7 +337,7 @@ class User
                     :nif, 
                     :cc, 
                     :gender, 
-                    :location, 
+                    :address, 
                     :phoneNumber, 
                     :username, 
                     :password, 
@@ -339,7 +352,7 @@ class User
         $stmt->bindParam(':nif', $this->nif);
         $stmt->bindParam(':cc', $this->cc);
         $stmt->bindParam(':gender', $this->gender);
-        $stmt->bindParam(':location', $this->location);
+        $stmt->bindParam(':address', $this->address);
         $stmt->bindParam(':phoneNumber', $this->phoneNumber);
         $stmt->bindParam(':username', $this->username);
         $stmt->bindParam(':password', $this->password);
@@ -379,11 +392,12 @@ class User
                     nif = :nif,
                     cc = :cc,
                     genero = :gender,
-                    morada = :location,
+                    morada = :address,
                     telemovel = :phoneNumber,
                     nome_utilizador = :username,
                     senha = :password,
                     email = :email,
+                    img_url = :imgUrl,
                     tipo_utilizador_fk = :role
                   WHERE id = :id";
 
@@ -396,11 +410,12 @@ class User
         $stmt->bindParam(':nif', $this->nif);
         $stmt->bindParam(':cc', $this->cc);
         $stmt->bindParam(':gender', $this->gender);
-        $stmt->bindParam(':location', $this->location);
+        $stmt->bindParam(':address', $this->address);
         $stmt->bindParam(':phoneNumber', $this->phoneNumber);
         $stmt->bindParam(':username', $this->username);
         $stmt->bindParam(':password', $this->password);
         $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':imgUrl', $this->imgUrl);
         $stmt->bindParam(':role', $this->role);
 
         try {

@@ -2,8 +2,10 @@
 
 header('Content-Type: application/json');
 include_once '../../php/classes/User.php';
+include_once '../../php/classes/Utils.php';
 
 $user = new User();
+$utils = new Utils();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
     echo $user->getUsers();
@@ -40,8 +42,8 @@ if (isset($_POST['saveData'])) {
     $gender = filter_input(INPUT_POST, 'gender', FILTER_SANITIZE_SPECIAL_CHARS);
     $user->setGender($gender);
 
-    $location = filter_input(INPUT_POST, 'location', FILTER_SANITIZE_SPECIAL_CHARS);
-    $user->setLocation($location);
+    $address = filter_input(INPUT_POST, 'address ', FILTER_SANITIZE_SPECIAL_CHARS);
+    $user->setAddress($address);
 
     $phoneNumber = filter_input(INPUT_POST, 'phoneNumber', FILTER_SANITIZE_NUMBER_INT);
     $user->setPhoneNumber($phoneNumber);
@@ -52,19 +54,21 @@ if (isset($_POST['saveData'])) {
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $user->setEmail($email);
 
-    $password = password_hash(filter_input(INPUT_POST, 'password'), PASSWORD_DEFAULT);
-    $user->setPassword($password);
-
     $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_SPECIAL_CHARS);
     $user->setRole($role);
 
+    if (isset($_FILES["imgProfile"]) && $_FILES["imgProfile"]["tmp_name"] != "") {
+        $imgPath = $utils::uploadImage('./upload', 'imgProfile');
+
+        $user->setImgUrl($imgPath);
+    }
     if (!empty($id)) {
         $user->setId($id);
         echo $user->updateUser($id);
         exit;
     }
 
-    echo $user->newUser(); // método de inserção
+    echo $user->newUser();
 
     exit;
 }
@@ -89,8 +93,8 @@ if (isset($_POST['registerUser'])) {
     $gender = filter_input(INPUT_POST, 'gender', FILTER_SANITIZE_SPECIAL_CHARS);
     $user->setGender($gender);
 
-    $location = filter_input(INPUT_POST, 'location', FILTER_SANITIZE_SPECIAL_CHARS);
-    $user->setLocation($location);
+    $address = filter_input(INPUT_POST, 'address', FILTER_SANITIZE_SPECIAL_CHARS);
+    $user->setAddress($address);
 
     $phoneNumber = filter_input(INPUT_POST, 'phoneNumber', FILTER_SANITIZE_NUMBER_INT);
     $user->setPhoneNumber($phoneNumber);
@@ -120,3 +124,4 @@ if (isset($_POST['changeStatus'])) {
     echo $user->changeActiveStatus($id, $status);
     exit;
 }
+

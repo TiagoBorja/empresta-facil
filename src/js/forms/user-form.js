@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             document.getElementById("birthDay").value = result.data.data_nascimento;
             document.getElementById("phoneNumber").value = result.data.telemovel;
             document.getElementById("email").value = result.data.email;
+            document.getElementById("imgProfile").value = result.data.foto_url;
             document.getElementById("username").value = result.data.nome_utilizador;
             document.getElementById("roleSelect").value = result.data.tipo;
 

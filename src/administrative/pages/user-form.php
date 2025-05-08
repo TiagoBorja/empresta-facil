@@ -17,7 +17,7 @@
                 </h4>
             </div>
 
-            <form id="userForm">
+            <form id="userForm" enctype="multipart/form-data">
 
                 <div class="card-body">
                     <div class="row g-3"> <!-- g-3 para dar espaço entre os fieldsets -->
@@ -66,11 +66,19 @@
                                         <label for="gender">Género</label>
                                     </div>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-4">
                                     <div class="form-floating">
                                         <input type="date" id="birthDay" name="birthDay" class="form-control"
                                             placeholder="Data de Nascimento">
                                         <label for="birthDay">Data de Nascimento</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="file" id="imgProfile" name="imgProfile" accept="image/png"
+                                            class="form-control">
+                                        <label for="imgProfile">Foto de Perfil</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
