@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-// if (!isset($_SESSION['user'])) {
-//     require './pages/login-form.php';
-//     exit();
-// }
+
+$imgPath = isset($_SESSION['user']['img_url']) && $_SESSION['user']['img_url']
+    ? '../administrative/users/' . $_SESSION['user']['img_url']
+    : '../administrative/users/upload/default-icon.jpg';
 
 $page = 'home';
 if (isset($_GET["page"]))
@@ -23,6 +23,7 @@ $page_config = [
 
 $page_title = isset($page_config[$page]) ? $page_config[$page]['title'] : 'Not Found';
 $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages/not_found.php';
+
 ?>
 
 <?= include '../includes/header.php'; ?>
@@ -97,8 +98,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         waves-effect waves-dark
                         pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                <img src="../public/assets/images/users/1.jpg" alt="user" class="rounded-circle"
-                                    width="31" />
+                                <img src="<?= $imgPath ?> " alt="user" class="rounded-circle" width="31" />
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end user-dd animated"
                                 aria-labelledby="navbarDropdown">
@@ -136,169 +136,65 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                 </div>
             </div>
         </nav>
-    </header>
 
-    <!-- <aside class="left-sidebar" data-sidebarbg="skin5">
-            <div class="scroll-sidebar">
-                <nav class="sidebar-nav">
-                    <ul id="sidebarnav" class="pt-4">
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="index.php"
-                                aria-expanded="false">
-                                <i class="mdi mdi-home"></i><span class="hide-menu">Página Inicial</span></a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="?page=1"
-                                aria-expanded="false">
-                                <i class="mdi mdi-library"></i><span class="hide-menu">Catálogo</span></a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false">
-                                <i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false">
-                                <i class="mdi mdi-book"></i><span class="hide-menu">Livros</span></a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
-                                aria-expanded="false">
-                                <i class="mdi mdi-settings"></i>
-                                <span class="hide-menu">Configurações</span>
-                            </a>
-                            <ul aria-expanded="false" class="collapse first-level">
-
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
-                                        aria-expanded="false">
-                                        <i class="mdi mdi-account-multiple"></i>
-                                        <span class="hide-menu">Utilizadores</span>
-                                    </a>
-                                    <ul aria-expanded="false" class="collapse second-level">
-                                        <li class="sidebar-item">
-                                            <a href="?page=3" class="sidebar-link">
-                                                <i class="mdi mdi-account-tie"></i>
-                                                <span class="hide-menu">Tipos de Utilizadores</span>
-                                            </a>
-                                        </li>
-                                        <li class="sidebar-item">
-                                            <a href="/gestao-alunos" class="sidebar-link">
-                                                <i class="mdi mdi-account-school"></i>
-                                                <span class="hide-menu">Gestão de Alunos</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
-                                        aria-expanded="false">
-                                        <i class="mdi mdi-book"></i>
-                                        <span class="hide-menu">Livros</span>
-                                    </a>
-                                    <ul aria-expanded="false" class="collapse second-level">
-                                        <li class="sidebar-item">
-                                            <a href="/categorias-generos" class="sidebar-link">
-                                                <i class="mdi mdi-bookmark-multiple"></i>
-                                                <span class="hide-menu">Categorias de Géneros</span>
-                                            </a>
-                                        </li>
-                                        <li class="sidebar-item">
-                                            <a href="/categorias-materiais" class="sidebar-link">
-                                                <i class="mdi mdi-library-books"></i>
-                                                <span class="hide-menu">Categorias de Materiais</span>
-                                            </a>
-                                        </li>
-                                        <li class="sidebar-item">
-                                            <a href="/condicao-materiais" class="sidebar-link">
-                                                <i class="mdi mdi-information"></i>
-                                                <span class="hide-menu">Condição dos Materiais</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
-                                        aria-expanded="false">
-                                        <i class="mdi mdi-tune"></i>
-                                        <span class="hide-menu">Gerais</span>
-                                    </a>
-                                    <ul aria-expanded="false" class="collapse second-level">
-                                        <li class="sidebar-item">
-                                            <a href="/funcoes-permissoes" class="sidebar-link">
-                                                <i class="mdi mdi-account-settings"></i>
-                                                <span class="hide-menu">Funções e Permissões</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </aside> -->
-
-    <div class="">
-        <div class="page-breadcrumb">
-            <div class="row">
-                <div class="col-12 d-flex align-items-center">
-                    <h4 class="page-title ms-1"><?php echo $page_title; ?></h4>
+        <div class="">
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-12 d-flex align-items-center">
+                        <h4 class="page-title ms-1"><?php echo $page_title; ?></h4>
+                    </div>
                 </div>
             </div>
+
+
+            <div class="container-fluid">
+
+                <?php
+                switch ($page) {
+
+                    case 'home':
+                        $page_file = "../public/pages/home.php";
+                        break;
+
+                    case 'catalog':
+                        $page_file = "../public/pages/catalog.php";
+                        break;
+                    case 'view-info':
+                        $page_file = "../public/pages/view-info.php";
+                        break;
+                    case 'auth':
+                        $page_file = "../public/pages/login-form.php";
+                        break;
+                    case 'register':
+                        $page_file = "../public/pages/register-form.php";
+                        break;
+                    case 'logout':
+                        $page_file = "../public/config/auth/logout.php";
+                        break;
+                    case 'administrative':
+                        $page_file = "../public/administrative/index.php";
+                        break;
+
+
+                    case 3:
+                        $page_file = "../public/config/user-type/user-type.php";
+                        break;
+
+                    default:
+                        $page_file = "../public/pages/not_found.php";
+                        break;
+                }
+
+                if (!file_exists($page_file))
+                    include("../public/html/error-404.html");
+
+                include($page_file);
+                ?>
+
+            </div>
         </div>
 
-
-        <div class="container-fluid">
-
-            <?php
-            switch ($page) {
-
-                case 'home':
-                    $page_file = "../public/pages/home.php";
-                    break;
-
-                case 'catalog':
-                    $page_file = "../public/pages/catalog.php";
-                    break;
-                case 'view-info':
-                    $page_file = "../public/pages/view-info.php";
-                    break;
-                case 'auth':
-                    $page_file = "../public/pages/login-form.php";
-                    break;
-                case 'register':
-                    $page_file = "../public/pages/register-form.php";
-                    break;
-                case 'logout':
-                    $page_file = "../public/config/auth/logout.php";
-                    break;
-                case 'administrative':
-                    $page_file = "../public/administrative/index.php";
-                    break;
-
-
-                case 3:
-                    $page_file = "../public/config/user-type/user-type.php";
-                    break;
-
-                default:
-                    $page_file = "../public/pages/not_found.php";
-                    break;
-            }
-
-            if (!file_exists($page_file))
-                include("../public/html/error-404.html");
-
-            include($page_file);
-            ?>
-
-        </div>
-    </div>
-
-    <?= include '../includes/footer.php'; ?>
+        <?= include '../includes/footer.php'; ?>
 
 
 

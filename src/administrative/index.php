@@ -1,9 +1,8 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user']) && $_SESSION['user']['tipo'] !== 'Administrador') {
-    session_abort();
-    header("Location: ../php/index.php?page=auth");
+if (!isset($_SESSION['user']) || $_SESSION['user']['tipo'] !== 'Administrador') {
+    header("Location: ../php/index.php?page=home");
     exit;
 }
 $page = 'dashboard';
@@ -122,8 +121,8 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         waves-effect waves-dark
                         pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
-                                    <img src="../public/assets/images/users/1.jpg" alt="user" class="rounded-circle"
-                                        width="31" />
+                                    <img src="./users/<?= $_SESSION['user']['img_url'] ?>" alt="user"
+                                        class="rounded-circle" width="31" />
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end user-dd animated"
                                     aria-labelledby="navbarDropdown">
