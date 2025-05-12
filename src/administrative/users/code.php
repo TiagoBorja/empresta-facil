@@ -108,8 +108,7 @@ if (isset($_POST['registerUser'])) {
     $password = password_hash(filter_input(INPUT_POST, 'password'), PASSWORD_DEFAULT);
     $user->setPassword($password);
 
-    echo $user->registerUser(); // método de inserção
-
+    echo $user->registerUser();
     exit;
 }
 

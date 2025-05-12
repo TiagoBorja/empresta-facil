@@ -329,7 +329,7 @@ class User
                     telemovel, 
                     nome_utilizador, 
                     senha, 
-                    email,
+                    email
                   ) VALUES (
                     :firstName, 
                     :lastName, 
@@ -360,6 +360,10 @@ class User
 
         try {
             $stmt->execute();
+
+            if (!Utils::sendConfirmationEmail('recipient@example.com', $this->getFirstName())) {
+                exit;
+            }
 
             return json_encode([
                 'status' => 200,

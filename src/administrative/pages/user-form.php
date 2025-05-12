@@ -112,6 +112,13 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating">
+                                        <input type="text" id="password" name="password" class="form-control"
+                                            placeholder="Exemplo: joao.silva" required>
+                                        <label for="password">Senha</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating">
                                         <select class="form-select" id="roleSelect" name="role">
                                             <option value="">Selecionar</option>
                                         </select>
