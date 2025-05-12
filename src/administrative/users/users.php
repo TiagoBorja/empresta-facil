@@ -20,15 +20,35 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="myTable" class="table table-hover">
+                    <table id="zero_config" class="table table-striped table-bordered dataTable" role="grid"
+                        aria-describedby="zero_config_info">
                         <thead class="thead-dark">
-                            <tr>
-                                <th>Primeiro Nome</th>
-                                <th>Último Nome</th>
-                                <th>Nome de Utilizador</th>
-                                <th>Email</th>
-                                <th>Permissão</th>
-                                <th>Ativo</th>
+                            <tr class="role">
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 126.375px;">
+                                    Primeiro Nome
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 126.375px;">
+                                    Último Nome</th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 126.375px;">
+                                    Nome de Utilizador</th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 126.375px;">
+                                    Email</th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 126.375px;">
+                                    Permissão</th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 126.375px;">
+                                    Ativo</th>
                             </tr>
 
 

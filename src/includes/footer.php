@@ -18,6 +18,8 @@
 <script src="../public/dist/js/sidebarmenu.js"></script>
 <!--Custom JavaScript -->
 <script src="../public/dist/js/custom.min.js"></script>
+<script src="../public/assets/extra-libs/multicheck/datatable-checkbox-init.js"></script>
+<script src="../public/assets/extra-libs/DataTables/datatables.min.js"></script>
 <script src="../public/assets/libs/jquery-steps/build/jquery.steps.min.js"></script>
 <script src="../public/assets/libs/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="../public/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
@@ -32,3 +34,12 @@
 <script src="../public/assets/libs/flot/jquery.flot.crosshair.js"></script>
 <script src="../public/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
 <script src="../public/dist/js/pages/chart/chart-page-init.js"></script>
+
+<script>
+
+    /****************************************
+     *       Basic Table                   *
+     ****************************************/
+    $("#zero_config").DataTable();
+
+</script>

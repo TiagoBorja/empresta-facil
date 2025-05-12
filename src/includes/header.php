@@ -18,6 +18,7 @@
     <link href="../public/assets/libs/flot/css/float-chart.css" rel="stylesheet" />
     <link href="../public/assets/libs/jquery-steps/steps.css" rel="stylesheet">
     <link href="../public/assets/libs/jquery-steps/jquery.steps.css" rel="stylesheet">
+    <link href="../public/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="../public/dist/css/style.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="../public/assets/extra-libs/multicheck/multicheck.css">

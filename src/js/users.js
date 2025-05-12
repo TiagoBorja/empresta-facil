@@ -1,5 +1,5 @@
-import * as bdUtils from './bd-utils.js';
-import * as utils from './utils.js';
+import * as bdUtils from './utils/bd-utils.js';
+import * as utils from './utils/utils.js';
 const API_URL = '../administrative/users/code.php';
 const ROLE_API_URL = '../administrative/user-roles/code.php';
 let urlParams;
@@ -66,7 +66,7 @@ function newUser() {
 
 function showUsers(users) {
     let table = "";
-
+    console.log(users);
     users.forEach((user) => {
         const active = user.ativo === 'Y'
             ? '<span class="badge rounded-pill bg-success">Ativo</span>'
@@ -74,7 +74,7 @@ function showUsers(users) {
                 ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
                 : '');
 
-        table += `<tr id="id-${user.id}">
+        table += `<tr id="id-${user.id} role="row" class="odd">
                   <td scope="row">${user.primeiro_nome}</td>
                   <td>${user.ultimo_nome}</td>
                   <td>${user.nome_utilizador}</td>
