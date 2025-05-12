@@ -1,4 +1,4 @@
-import * as utils from './utils.js';
+import * as utils from '../utils/utils.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
     const urlParams = new URLSearchParams(window.location.search);
