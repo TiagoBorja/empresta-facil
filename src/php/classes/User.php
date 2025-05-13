@@ -260,7 +260,7 @@ class User
                     nome_utilizador, 
                     senha, 
                     email,
-                    img_url 
+                    img_url, 
                     tipo_utilizador_fk
                   ) VALUES (
                     :firstName, 

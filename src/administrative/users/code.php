@@ -53,6 +53,9 @@ if (isset($_POST['saveData'])) {
 
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $user->setEmail($email);
+    
+    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
+    $user->setPassword($password);
 
     $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_SPECIAL_CHARS);
     $user->setRole($role);

@@ -75,9 +75,14 @@ function showUsers(users) {
 
     // Adiciona linhas
     users.forEach((user) => {
-        const active = user.ativo === 'Y' ? 'Ativo' : 'Inativo';
+        const active = user.ativo === 'Y'
+            ? '<span class="badge rounded-pill bg-success">Ativo</span>'
+            : (user.ativo === 'N'
+                ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
+                : '');
+
         tableBody.append(`
-            <tr>
+            <tr id="id-${user.id}" class="selectable-row">
                 <td>${user.primeiro_nome}</td>
                 <td>${user.ultimo_nome}</td>
                 <td>${user.nome_utilizador}</td>
