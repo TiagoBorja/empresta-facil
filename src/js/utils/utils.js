@@ -9,7 +9,6 @@ export function clearInputs(inputs) {
 
 export function initializeRowSelection(API_URL, formRedirect) {
     const selectedRows = document.querySelectorAll("[id*=id-]");
-    console.log(selectedRows);
 
     selectedRows.forEach(row => {
         row.addEventListener("click", () => fetchData(API_URL, row.id, formRedirect));

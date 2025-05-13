@@ -29,7 +29,6 @@ async function getStates() {
 
         const result = await response.json();
         showStates(result)
-        console.log(result)
 
         utils.initializeRowSelection(API_URL, '?page=state-form');
     } catch {

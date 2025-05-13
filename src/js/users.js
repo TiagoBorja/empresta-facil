@@ -65,27 +65,35 @@ function newUser() {
 }
 
 function showUsers(users) {
-    let table = "";
-    console.log(users);
-    users.forEach((user) => {
-        const active = user.ativo === 'Y'
-            ? '<span class="badge rounded-pill bg-success">Ativo</span>'
-            : (user.ativo === 'N'
-                ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
-                : '');
+    // Limpa e destroi a DataTable se já existir
+    if ($.fn.DataTable.isDataTable('#zero_config')) {
+        $('#zero_config').DataTable().destroy();
+    }
 
-        table += `<tr id="id-${user.id} role="row" class="odd">
-                  <td scope="row">${user.primeiro_nome}</td>
-                  <td>${user.ultimo_nome}</td>
-                  <td>${user.nome_utilizador}</td>
-                  <td>${user.email}</td>
-                  <td>${user.tipo}</td>
-                  <td>${active}</td>
-                  </tr>`;
+    const tableBody = $('#zero_config tbody');
+    tableBody.empty(); // Limpa o conteúdo
+
+    // Adiciona linhas
+    users.forEach((user) => {
+        const active = user.ativo === 'Y' ? 'Ativo' : 'Inativo';
+        tableBody.append(`
+            <tr>
+                <td>${user.primeiro_nome}</td>
+                <td>${user.ultimo_nome}</td>
+                <td>${user.nome_utilizador}</td>
+                <td>${user.email}</td>
+                <td>${user.tipo}</td>
+                <td>${active}</td>
+            </tr>`
+        );
     });
 
-    const tableBody = document.getElementById("tbody");
-    tableBody.innerHTML = table;
+    // Inicializa/reinicializa o DataTable
+    $('#zero_config').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese.json'
+        }
+    });
 }
 
 async function fetchRoles(API_URL) {
@@ -126,7 +134,6 @@ function registerUser() {
         e.preventDefault();
 
         const formData = new FormData(this);
-        console.log([...formData.entries()]); // Verifique se os campos estão sendo capturados
         formData.append("registerUser", true);
 
         bdUtils.newData(API_URL, formData, form, '?page=auth');

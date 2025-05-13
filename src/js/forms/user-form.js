@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             document.getElementById("username").value = result.data.nome_utilizador;
             document.getElementById("roleSelect").value = result.data.tipo;
             document.getElementById("profilePreview").src = `./users/${result.data.img_url}`;
-            console.log('./users/' + result.data.img_url);
 
 
             const activeBadge = document.getElementById("active");
