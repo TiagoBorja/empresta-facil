@@ -1,5 +1,5 @@
-import * as bdUtils from './utils/bd-utils.js';
-import * as utils from './utils/utils.js';
+import * as bdUtils from '../utils/bd-utils.js';
+import * as utils from '../utils/utils.js';
 const API_URL = '../administrative/users/code.php';
 const ROLE_API_URL = '../administrative/user-roles/code.php';
 let urlParams;

@@ -50,5 +50,5 @@
     </div>
 </div>
 
-<script type="module" src="../js/user-roles.js"></script>
+<script type="module" src="../js/pages/user-roles-page.js"></script>
 <script type="module" src="../js/forms/role-form.js"></script>

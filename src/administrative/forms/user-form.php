@@ -171,5 +171,5 @@
 
     </div>
 </div>
-<script type="module" src="../js/users.js"></script>
+<script type="module" src="../js/pages/users-page.js"></script>
 <script type="module" src="../js/forms/user-form.js"></script>

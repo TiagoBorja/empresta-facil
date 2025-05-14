@@ -54,5 +54,5 @@
     </div>
 </div>
 
-<script type="module" src="../js/state.js"></script>
-<script type="module" src="../js/state-form.js"></script>
+<script type="module" src="../js/pages/state.js"></script>
+<script type="module" src="../js/forms/state-form.js"></script>

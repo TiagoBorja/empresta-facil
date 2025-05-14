@@ -36,7 +36,7 @@
         </div>
     </div>
 </div>
-<script type="module" src="../js/state.js"></script>
+<script type="module" src="../js/pages/state-page.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const toastMessage = sessionStorage.getItem('toastMessage');

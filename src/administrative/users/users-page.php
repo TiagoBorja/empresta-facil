@@ -61,7 +61,7 @@
         </div>
     </div>
 </div>
-<script type="module" src="../js/users.js"></script>
+<script type="module" src="../js/pages/users-page.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const toastMessage = sessionStorage.getItem('toastMessage');

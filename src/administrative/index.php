@@ -19,13 +19,17 @@ $page_config = [
     'auth' => ['title' => 'Login', 'file' => './pages/login-form.php'],
 
     'dashboard' => ['title' => 'Painel Administrativo', 'file' => './pages/dashboard.php'],
-    'users' => ['title' => 'Utilizadores', 'file' => './pages/users.php'],
-    'state' => ['title' => 'Gestão de Estados', 'file' => './pages/state.php'],
+    'users' => ['title' => 'Utilizadores', 'file' => './pages/users-page.php'],
+    'user-roles' => ['title' => 'Tipos de Utilizadores', 'file' => './pages/user-roles-page.php'],
+    
+    'state' => ['title' => 'Gestão de Estados', 'file' => './pages/state-page.php'],
+    'state-form' => ['title' => 'Gestão de Estados', 'file' => './forms/state-form.php'],
+    
     'categories' => ['title' => 'Gestão de Categorias', 'file' => './pages/category.php'],
     'category-form' => ['title' => 'Gestão de Categorias', 'file' => './forms/category-form.php'],
-    'user-form' => ['title' => 'Utilizadores', 'file' => './pages/user-form.php'],
-    'user-roles' => ['title' => 'Tipos de Utilizadores', 'file' => './pages/user-roles.php'],
-    'role-form' => ['title' => 'Tipos de Utilizadores', 'file' => './pages/role-form.php'],
+    
+    'user-form' => ['title' => 'Utilizadores', 'file' => './forms/user-form.php'],
+    'role-form' => ['title' => 'Tipos de Utilizadores', 'file' => './forms/role-form.php'],
 ];
 
 $page_title = isset($page_config[$page]) ? $page_config[$page]['title'] : 'Not Found';
@@ -303,11 +307,11 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         break;
 
                     case 'users':
-                        $page_file = "./users/users.php";
+                        $page_file = "./users/users-page.php";
                         break;
 
                     case 'user-form':
-                        $page_file = "./pages/user-form.php";
+                        $page_file = "./forms/user-form.php";
                         break;
 
 
@@ -320,18 +324,18 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         break;
 
                     case 'state':
-                        $page_file = "./state/state.php";
+                        $page_file = "./state/state-page.php";
                         break;
                     case 'state-form':
-                        $page_file = "./pages/state-form.php";
+                        $page_file = "./forms/state-form.php";
                         break;
 
                     case 'user-roles':
-                        $page_file = "./user-roles/user-roles.php";
+                        $page_file = "./user-roles/user-roles-page.php";
                         break;
 
                     case 'role-form':
-                        $page_file = "./pages/role-form.php";
+                        $page_file = "./forms/role-form.php";
                         break;
 
                     default:
