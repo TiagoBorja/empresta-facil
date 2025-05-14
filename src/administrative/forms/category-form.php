@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-md-12 me-3">
 
-        <a class="text-info" href="?page=user-roles">
+        <a class="text-info" href="?page=categories">
             <i class="mdi mdi-undo"></i>
             Voltar
         </a>
@@ -11,22 +11,22 @@
                 <h4 class="card-title">
                     <form id="changeStatus">
                         <i class="mdi mdi-account-tie"></i>
-                        <span id="permissionName" class="hide-menu">Permissões</span>
+                        <span id="categoryName" class="hide-menu">Categorias</span>
                         <button id="active" class="float-end badge rounded-pill bg-success"></button>
                     </form>
                 </h4>
             </div>
-            <form id="roleForm">
+            <form id="categoryForm">
                 <div class="card-body">
                     <div class="mb-3">
-                        <input type="text" id="id" name="id" class="form-control" readonly>
+                        <input type="hidden" id="id" name="id" class="form-control" readonly>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Nome da Permissão</label>
-                        <input type="text" id="role" name="role" class="form-control">
+                        <label class="form-label">Nome da Categoria</label>
+                        <input type="text" id="category" name="category" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Descrição da Permissão</label>
+                        <label class="form-label">Descrição da Categoria</label>
                         <input type="text" id="description" name="description" class="form-control">
                     </div>
 
@@ -50,5 +50,5 @@
     </div>
 </div>
 
-<script type="module" src="../js/user-roles.js"></script>
-<script type="module" src="../js/forms/role-form.js"></script>
+<script type="module" src="../js/pages/category-page.js"></script>
+<script type="module" src="../js/forms/category-form.js"></script>

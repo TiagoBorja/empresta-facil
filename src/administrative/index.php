@@ -21,6 +21,8 @@ $page_config = [
     'dashboard' => ['title' => 'Painel Administrativo', 'file' => './pages/dashboard.php'],
     'users' => ['title' => 'Utilizadores', 'file' => './pages/users.php'],
     'state' => ['title' => 'Gestão de Estados', 'file' => './pages/state.php'],
+    'categories' => ['title' => 'Gestão de Categorias', 'file' => './pages/category.php'],
+    'category-form' => ['title' => 'Gestão de Categorias', 'file' => './forms/category-form.php'],
     'user-form' => ['title' => 'Utilizadores', 'file' => './pages/user-form.php'],
     'user-roles' => ['title' => 'Tipos de Utilizadores', 'file' => './pages/user-roles.php'],
     'role-form' => ['title' => 'Tipos de Utilizadores', 'file' => './pages/role-form.php'],
@@ -191,7 +193,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                     </a>
                                 </li>
                                 <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=categorias">
+                                    <a class="sidebar-link" href="?page=categories">
                                         <i class="mdi mdi-bookmark-multiple"></i><span
                                             class="hide-menu">Categorias</span>
                                     </a>
@@ -303,14 +305,25 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                     case 'users':
                         $page_file = "./users/users.php";
                         break;
+
+                    case 'user-form':
+                        $page_file = "./pages/user-form.php";
+                        break;
+
+
+                    case 'categories':
+                        $page_file = "./category/category-page.php";
+                        break;
+
+                    case 'category-form':
+                        $page_file = "./forms/category-form.php";
+                        break;
+
                     case 'state':
                         $page_file = "./state/state.php";
                         break;
                     case 'state-form':
                         $page_file = "./pages/state-form.php";
-                        break;
-                    case 'user-form':
-                        $page_file = "./pages/user-form.php";
                         break;
 
                     case 'user-roles':
