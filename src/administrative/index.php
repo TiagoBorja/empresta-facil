@@ -21,13 +21,13 @@ $page_config = [
     'dashboard' => ['title' => 'Painel Administrativo', 'file' => './pages/dashboard.php'],
     'users' => ['title' => 'Utilizadores', 'file' => './pages/users-page.php'],
     'user-roles' => ['title' => 'Tipos de Utilizadores', 'file' => './pages/user-roles-page.php'],
-    
+
     'state' => ['title' => 'Gestão de Estados', 'file' => './pages/state-page.php'],
     'state-form' => ['title' => 'Gestão de Estados', 'file' => './forms/state-form.php'],
-    
+
     'categories' => ['title' => 'Gestão de Categorias', 'file' => './pages/category.php'],
     'category-form' => ['title' => 'Gestão de Categorias', 'file' => './forms/category-form.php'],
-    
+
     'user-form' => ['title' => 'Utilizadores', 'file' => './forms/user-form.php'],
     'role-form' => ['title' => 'Tipos de Utilizadores', 'file' => './forms/role-form.php'],
 ];
@@ -321,6 +321,14 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
 
                     case 'category-form':
                         $page_file = "./forms/category-form.php";
+                        break;
+
+                    case 'subcategories':
+                        $page_file = "./subcategory/subcategory-page.php";
+                        break;
+
+                    case 'subcategory-form':
+                        $page_file = "./forms/subcategory-form.php";
                         break;
 
                     case 'state':

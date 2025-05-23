@@ -1,6 +1,7 @@
 import * as bdUtils from '../utils/bd-utils.js';
 import * as utils from '../utils/utils.js';
-const API_URL = '../administrative/category/code.php';
+const API_URL = '../administrative/subcategory/code.php';
+const CATEGORIES_API_URL = '../administrative/category/code.php';
 let urlParams;
 let id;
 
@@ -10,22 +11,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     urlParams = new URLSearchParams(currentPath);
     id = urlParams.get("id");
 
-    if (currentPath === '?page=categories') {
-        await getCategories();
+    if (currentPath === '?page=subcategories') {
+        await getAll();
         return;
     }
 
     if (id) {
-        updateCategory();
+        updateSubcategory();
         changeActiveStatus();
         return;
     }
 
-    newCategory();
+    await utils.fetchSelect(CATEGORIES_API_URL, "categoria", "category");
+    newSubcategory();
+    return;
+
+
 });
 
 
-async function getCategories() {
+async function getAll() {
 
     try {
         const response = await fetch(API_URL);
@@ -33,27 +38,28 @@ async function getCategories() {
 
         const result = await response.json();
 
-        showCategories(result);
+        showSubtegories(result);
 
-        utils.initializeRowSelection(API_URL, '?page=category-form');
+        utils.initializeRowSelection(API_URL, '?page=subcategory-form');
     } catch (error) {
         console.error("Erro ao obter categorias:", error);
         toastr.warning("Não foi possível carregar as categorias. Tenta novamente mais tarde.", "Atenção!");
     }
 }
-function showCategories(categories) {
+function showSubtegories(subcategories) {
     let table = "";
 
-    categories.forEach((category) => {
-        const active = category.ativo === 'Y'
+    subcategories.forEach((subcategory) => {
+        const active = subcategory.ativo === 'Y'
             ? '<span class="badge rounded-pill bg-success">Ativo</span>'
-            : (category.ativo === 'N'
+            : (subcategory.ativo === 'N'
                 ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
                 : '');
 
-        table += `<tr id="id-${category.id}">
-                  <td scope="row">${category.categoria}</td>
-                  <td>${category.descricao}</td>
+        table += `<tr id="id-${subcategory.id}">
+                  <td scope="row">${subcategory.categoria}</td>
+                  <td scope="row">${subcategory.subcategoria}</td>
+                  <td scope="row">${subcategory.descricao}</td>
                   <td>${active}</td>
                   </tr>`;
     });
@@ -63,8 +69,8 @@ function showCategories(categories) {
 }
 
 
-function newCategory() {
-    const form = document.querySelector("#categoryForm");
+function newSubcategory() {
+    const form = document.querySelector("#subcategoryForm");
     if (!form) return;
 
     form.addEventListener("submit", async function (e) {
@@ -72,21 +78,24 @@ function newCategory() {
 
         const formData = new FormData(this);
         formData.append("saveData", true);
-        bdUtils.newData(API_URL, formData, form, '?page=categories');
+        bdUtils.newData(API_URL, formData, form, '?page=subcategories');
     });
 }
 
-function updateCategory() {
+function updateSubcategory() {
+    console.log("Função updateSubcategory foi chamada");
 
-    const form = document.querySelector("#categoryForm");
+    const form = document.querySelector("#subcategoryForm");
     if (!form) return;
 
     form.addEventListener("submit", async function (e) {
         e.preventDefault();
+        console.log("Formulário submetido, preventDefault aplicado");
 
         const formData = new FormData(this);
         formData.append("saveData", true);
-        bdUtils.updateData(API_URL, formData, form, '?page=categories');
+        formData.append("id", id);
+        bdUtils.updateData(API_URL, formData, form, '?page=subcategories');
     });
 }
 
