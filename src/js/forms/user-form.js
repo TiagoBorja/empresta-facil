@@ -1,3 +1,6 @@
+import * as utils from '../utils/utils.js';
+const ROLE_API_URL = '../administrative/user-roles/code.php';
+
 document.addEventListener('DOMContentLoaded', async function () {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get("id");
@@ -22,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             document.getElementById("phoneNumber").value = result.data.telemovel;
             document.getElementById("email").value = result.data.email;
             document.getElementById("username").value = result.data.nome_utilizador;
-            document.getElementById("roleSelect").value = result.data.tipo;
+            // document.getElementById("roleSelect").value = result.data.tipo;
             document.getElementById("profilePreview").src = `./users/${result.data.img_url}`;
 
 
@@ -30,6 +33,8 @@ document.addEventListener('DOMContentLoaded', async function () {
             activeBadge.textContent = result.data.ativo === "Y" ? "Ativo" : "Inativo";
             activeBadge.classList.toggle("bg-success", result.data.ativo === "Y");
             activeBadge.classList.toggle("bg-danger", result.data.ativo === "N");
+
+            await utils.fetchSelect(ROLE_API_URL, 'tipo', "roleSelect", result.data.tipo_utilizador_fk);
         }
 
     } catch (error) {

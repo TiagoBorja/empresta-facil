@@ -23,9 +23,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     if (currentPath.includes('?page=user-form')) {
-        await fetchRoles(ROLE_API_URL);
 
         if (!id) {
+            await utils.fetchSelect(ROLE_API_URL, 'tipo', "roleSelect");
             newUser();
             return;
         }
@@ -99,36 +99,6 @@ function showUsers(users) {
             url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese.json'
         }
     });
-}
-
-async function fetchRoles(API_URL) {
-
-    try {
-        const response = await fetch(API_URL);
-
-        if (!response.ok) {
-            throw new Error('Erro na requisição: ' + response.statusText);
-        }
-
-        const result = await response.json();
-
-        fillSelect(result);
-    } catch (error) {
-        console.error('Erro ao fazer requisição:', error);
-    };
-}
-
-
-function fillSelect(roles) {
-    let option = "";
-
-    roles.forEach((role) => {
-
-        option += `<option value="${role.id}">${role.tipo} - ${role.descricao}</option>`;
-    });
-
-    const select = document.getElementById("roleSelect");
-    select.innerHTML = option;
 }
 
 function registerUser() {

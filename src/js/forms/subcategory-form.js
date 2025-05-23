@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             activeBadge.classList.toggle("bg-success", result.data.ativo === "Y");
             activeBadge.classList.toggle("bg-danger", result.data.ativo === "N");
 
-            await utils.fetchSelect(CATEGORIES_API_URL, "categoria", "category", result.data.categoria_id);
+            await utils.fetchSelect(CATEGORIES_API_URL, "categoria", "category", result.data.categoria_fk);
         }
     } catch (error) {
         toastr.error(error, "Erro!");

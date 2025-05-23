@@ -70,7 +70,7 @@ class Subcategory
 
     public function getAll()
     {
-        $query = "SELECT sub.id, cat.categoria, sub.subcategoria, sub.descricao, sub.ativo
+        $query = "SELECT sub.*, cat.categoria
                   FROM " . $this->tableName . " sub
                   INNER JOIN categoria cat ON sub.categoria_fk = cat.id";
         $query_run = $this->pdo->prepare($query);
