@@ -40,3 +40,33 @@ export async function handleFormResponse(result, form) {
         toastr.warning(result.message, "Atenção!");
     }
 }
+
+function fillSelect(items, labelValue, elementId, selectedValue = null) {
+    let option = "";
+
+    items.forEach((item) => {
+        const label = item[labelValue];
+        const isSelected = selectedValue !== null && item.id == selectedValue ? ' selected' : '';
+        option += `<option value="${item.id}"${isSelected}>${label}</option>`;
+    });
+
+    const select = document.getElementById(elementId);
+    select.innerHTML = option;
+}
+
+
+export async function fetchSelect(API_URL, labelValue, elementId, selectedValue = null) {
+    try {
+        const response = await fetch(API_URL);
+
+        if (!response.ok) {
+            throw new Error('Erro na requisição: ' + response.statusText);
+        }
+
+        const result = await response.json();
+
+        fillSelect(result, labelValue, elementId, selectedValue);
+    } catch (error) {
+        console.error('Erro ao fazer requisição:', error);
+    }
+}
