@@ -338,6 +338,14 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                     case 'library-form':
                         $page_file = "./forms/library-form.php";
                         break;
+                    
+                        case 'locations':
+                        $page_file = "./location/location-page.php";
+                        break;
+
+                    case 'location-form':
+                        $page_file = "./forms/location-form.php";
+                        break;
 
                     case 'state':
                         $page_file = "./state/state-page.php";

@@ -36,9 +36,9 @@ export async function handleFormResponse(result, form) {
     if (result.status === 200) {
         form.reset();
         toastr.success(result.message, "Sucesso!");
-    } else if (result.status === 422) {
+    } else if (result.status === 422 || result.status === 409) {
         toastr.warning(result.message, "Atenção!");
-    }
+    } 
 }
 
 function fillSelect(items, labelValue, elementId, selectedValue = null) {
