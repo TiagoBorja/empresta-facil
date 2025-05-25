@@ -62,7 +62,8 @@ class Location
     {
         $query = "SELECT l.*, b.nome
                   FROM " . $this->tableName . " l 
-                  INNER JOIN biblioteca b ON l.biblioteca_fk = b.id";
+                  INNER JOIN biblioteca b ON l.biblioteca_fk = b.id
+                  ORDER BY b.nome, l.cod_local asc";
         $query_run = $this->pdo->prepare($query);
 
         try {

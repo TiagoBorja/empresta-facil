@@ -65,15 +65,14 @@ function newUser() {
 }
 
 function showUsers(users) {
-    // Limpa e destroi a DataTable se já existir
+
     if ($.fn.DataTable.isDataTable('#zero_config')) {
         $('#zero_config').DataTable().destroy();
     }
 
     const tableBody = $('#zero_config tbody');
-    tableBody.empty(); // Limpa o conteúdo
+    tableBody.empty(); 
 
-    // Adiciona linhas
     users.forEach((user) => {
         const active = user.ativo === 'Y'
             ? '<span class="badge rounded-pill bg-success">Ativo</span>'
@@ -93,7 +92,6 @@ function showUsers(users) {
         );
     });
 
-    // Inicializa/reinicializa o DataTable
     $('#zero_config').DataTable({
         language: {
             url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese.json'

@@ -15,13 +15,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         await getAll();
         return;
     }
-    
+
     if (id) {
         update();
         changeActiveStatus();
         return;
     }
-    
+
     await utils.fetchSelect(LIBRARY_API_URL, "nome", "library");
     create();
     return;
@@ -47,7 +47,13 @@ async function getAll() {
     }
 }
 function showLocations(locations) {
-    let table = "";
+
+    if ($.fn.DataTable.isDataTable('#zero_config')) {
+        $('#zero_config').DataTable().destroy();
+    }
+
+    const tableBody = $('#zero_config tbody');
+    tableBody.empty();
 
     locations.forEach((location) => {
         const active = location.ativo === 'Y'
@@ -56,15 +62,20 @@ function showLocations(locations) {
                 ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
                 : '');
 
-        table += `<tr id="id-${location.id}">
-                  <td scope="row">${location.cod_local}</td>
-                  <td scope="row">${location.nome}</td>
-                  <td>${active}</td>
-                  </tr>`;
+        tableBody.append(`
+            <tr id="id-${location.id}" class="selectable-row">
+                <td>${location.cod_local}</td>
+                <td>${location.nome}</td>
+                <td>${active}</td>
+            </tr>`
+        );
     });
 
-    const tableBody = document.getElementById("tbody");
-    tableBody.innerHTML = table;
+    $('#zero_config').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese.json'
+        }
+    });
 }
 
 

@@ -10,7 +10,7 @@
             <div class="card-header">
                 <form id="changeStatus">
                     <h4 class="card-title">
-                        <i class="mdi mdi-library"></i>
+                        <i class="mdi mdi-map-marker"></i>
                         <span id="locationName" class="hide-menu">Códigos de Localização</span>
                         <button id="active" class="float-end badge rounded-pill bg-success"></button>
                     </h4>
