@@ -346,6 +346,13 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                     case 'location-form':
                         $page_file = "./forms/location-form.php";
                         break;
+                        case 'publishers':
+                        $page_file = "./publisher/publisher-page.php";
+                        break;
+
+                    case 'publisher-form':
+                        $page_file = "./forms/publisher-form.php";
+                        break;
 
                     case 'state':
                         $page_file = "./state/state-page.php";
