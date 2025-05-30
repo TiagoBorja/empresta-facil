@@ -1,99 +1,77 @@
 import * as bdUtils from '../utils/bd-utils.js';
 import * as utils from '../utils/utils.js';
-const API_URL = '../administrative/users/code.php';
-const ROLE_API_URL = '../administrative/user-roles/code.php';
+const API_URL = '../administrative/author/code.php';
 let urlParams;
 let id;
 
-
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", async () => {
 
     const currentPath = window.location.search;
     urlParams = new URLSearchParams(currentPath);
     id = urlParams.get("id");
 
-    if (currentPath === '?page=users') {
-        await getUsers();
+    if (currentPath === '?page=authors') {
+        await getAll();
         return;
     }
 
-    if (currentPath === '?page=register') {
-        registerUser();
-        return;
-    }
-
-    if (currentPath.includes('?page=user-form')) {
-
-        if (!id) {
-            await utils.fetchSelect(ROLE_API_URL, 'tipo', "roleSelect");
-            newUser();
-            return;
-        }
-        updateUser();
+    if (id) {
+        update();
         changeActiveStatus();
         return;
     }
 
+    create();
+    return;
+
+
 });
 
-async function getUsers() {
+
+async function getAll() {
 
     try {
         const response = await fetch(API_URL);
         if (!response.ok) throw new Error("Resposta inválida do servidor");
 
         const result = await response.json();
-        showUsers(result)
 
-        utils.initializeRowSelection(API_URL, '?page=user-form');
+        showAuthors(result);
+
+        utils.initializeRowSelection(API_URL, '?page=author-form');
     } catch (error) {
-        console.warn(error)
+        console.error("Erro ao obter bibliotecas:", error);
+        toastr.warning("Não foi possível carregar as bibliotecas. Tenta novamente mais tarde.", "Atenção!");
     }
 }
+function showAuthors(authors) {
 
-function newUser() {
-    const form = document.querySelector("#userForm");
-    if (!form) return;
-
-    form.addEventListener("submit", async function (e) {
-        e.preventDefault();
-
-        const formData = new FormData(this);
-        formData.append("saveData", true);
-        bdUtils.newData(API_URL, formData, form, '?page=users');
-    });
-}
-
-function showUsers(users) {
-    // Limpa e destroi a DataTable se já existir
     if ($.fn.DataTable.isDataTable('#zero_config')) {
         $('#zero_config').DataTable().destroy();
     }
 
     const tableBody = $('#zero_config tbody');
-    tableBody.empty(); // Limpa o conteúdo
+    tableBody.empty();
 
-    // Adiciona linhas
-    users.forEach((user) => {
-        const active = user.ativo === 'Y'
+    authors.forEach((author) => {
+        const active = author.ativo === 'Y'
             ? '<span class="badge rounded-pill bg-success">Ativo</span>'
-            : (user.ativo === 'N'
+            : (author.ativo === 'N'
                 ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
                 : '');
 
         tableBody.append(`
-            <tr id="id-${user.id}" class="selectable-row">
-                <td>${user.primeiro_nome}</td>
-                <td>${user.ultimo_nome}</td>
-                <td>${user.nome_utilizador}</td>
-                <td>${user.email}</td>
-                <td>${user.tipo}</td>
+            <tr id="id-${author.id}" class="selectable-row">
+                <td>${author.primeiro_nome}</td>
+                <td>${author.ultimo_nome}</td>
+                <td>${author.data_nascimento}</td>
+                <td>${author.nacionalidade}</td>
+                <td>${author.biografia}</td>
                 <td>${active}</td>
             </tr>`
         );
     });
 
-    // Inicializa/reinicializa o DataTable
     $('#zero_config').DataTable({
         language: {
             url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese.json'
@@ -101,23 +79,23 @@ function showUsers(users) {
     });
 }
 
-function registerUser() {
-    const form = document.querySelector("#registerForm");
+
+function create() {
+    const form = document.querySelector("#authorForm");
     if (!form) return;
 
     form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
         const formData = new FormData(this);
-        formData.append("registerUser", true);
-
-        bdUtils.newData(API_URL, formData, form, '?page=auth');
+        formData.append("saveData", true);
+        bdUtils.newData(API_URL, formData, form, '?page=authors');
     });
 }
 
-function updateUser() {
+function update() {
 
-    const form = document.querySelector("#userForm");
+    const form = document.querySelector("#authorForm");
     if (!form) return;
 
     form.addEventListener("submit", async function (e) {
@@ -126,7 +104,7 @@ function updateUser() {
         const formData = new FormData(this);
         formData.append("saveData", true);
         formData.append("id", id);
-        bdUtils.updateData(API_URL, formData, form, '?page=users');
+        bdUtils.updateData(API_URL, formData, form, '?page=authors');
     });
 }
 

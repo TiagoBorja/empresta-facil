@@ -313,6 +313,13 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                     case 'user-form':
                         $page_file = "./forms/user-form.php";
                         break;
+                    case 'authors':
+                        $page_file = "./author/author-page.php";
+                        break;
+
+                    case 'author-form':
+                        $page_file = "./forms/author-form.php";
+                        break;
 
 
                     case 'categories':
