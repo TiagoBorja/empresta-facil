@@ -38,7 +38,7 @@ export async function handleFormResponse(result, form) {
         toastr.success(result.message, "Sucesso!");
     } else if (result.status === 422 || result.status === 409) {
         toastr.warning(result.message, "Atenção!");
-    } 
+    }
 }
 
 function fillSelect(items, labelValue, elementId, selectedValue = null) {
@@ -70,3 +70,24 @@ export async function fetchSelect(API_URL, labelValue, elementId, selectedValue 
         console.error('Erro ao fazer requisição:', error);
     }
 }
+
+export function showContentAfterLoading(loadingId, contentIds = []) {
+    const loading = document.getElementById(loadingId);
+    if (loading) loading.style.display = 'none';
+
+    contentIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'block';
+    });
+}
+
+export function showLoadingHideContent(loadingId, contentIds = []) {
+    const loading = document.getElementById(loadingId);
+    if (loading) loading.style.display = 'flex';
+
+    contentIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
+}
+

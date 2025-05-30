@@ -1,4 +1,13 @@
-<div class="row justify-content-center">
+<div id="loading" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <div class="text-center">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">A carregar...</span>
+        </div>
+        <p class="mt-3">A carregar...</p>
+    </div>
+</div>
+
+<div id="content" class="row justify-content-center" style="display: none;">
     <div class="col-md-12 me-3">
         <nav aria-label="Navegação secundária">
             <a class="text-info" href="?page=authors">
