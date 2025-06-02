@@ -337,6 +337,13 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                     case 'subcategory-form':
                         $page_file = "./forms/subcategory-form.php";
                         break;
+                    case 'type-resources':
+                        $page_file = "./type-resource/type-resource-page.php";
+                        break;
+
+                    case 'type-resource-form':
+                        $page_file = "./forms/type-resource-form.php";
+                        break;
 
                     case 'libraries':
                         $page_file = "./library/library-page.php";
