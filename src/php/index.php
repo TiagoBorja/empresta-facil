@@ -111,6 +111,14 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                     Favoritos</a>
                                 <div class="dropdown-divider"></div>
 
+                                <?= (isset($_SESSION['user']['tipo']) && $_SESSION['user']['tipo'] === 'Administrador')
+                                    ? '<div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="../administrative/index.php">
+                                        <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições
+                                        </a>'
+                                    : ''
+                                    ?>
+
                                 <?= isset(($_SESSION['user']))
                                     ? '<a id="logout" class="dropdown-item" href="./config/auth/logout.php">
                                         <i class="fa fa-power-off text-danger me-1 ms-1"></i>
@@ -121,15 +129,6 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                         Entrar
                                     </a>'
                                     ?>
-
-                                <?= (isset($_SESSION['user']['tipo']) && $_SESSION['user']['tipo'] === 'Administrador')
-                                    ? '<div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="../administrative/index.php">
-                                        <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições
-                                        </a>'
-                                    : ''
-                                    ?>
-
                             </ul>
                         </li>
                     </ul>
