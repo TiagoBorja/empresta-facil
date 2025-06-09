@@ -149,7 +149,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                         ?>
 
                                     <div class="dropdown-divider"></div>
-                                    
+
                                     <?= isset(($_SESSION['user']))
                                         ? '<a id="logout" class="dropdown-item" href="./config/auth/logout.php">
                                         <i class="fa fa-power-off text-danger me-1 ms-1"></i>
@@ -357,9 +357,19 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         $page_file = "./location/location-page.php";
                         break;
 
+
                     case 'location-form':
                         $page_file = "./forms/location-form.php";
                         break;
+
+                    case 'books':
+                        $page_file = "./book/book-page.php";
+                        break;
+
+                    case 'book-form':
+                        $page_file = "./forms/book-form.php";
+                        break;
+
                     case 'publishers':
                         $page_file = "./publisher/publisher-page.php";
                         break;

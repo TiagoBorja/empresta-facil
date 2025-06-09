@@ -58,12 +58,17 @@ class Location
         $this->active = $active;
     }
 
-    public function getAll()
+    public function getAll($onlyActive = false)
     {
         $query = "SELECT l.*, b.nome
-                  FROM " . $this->tableName . " l 
-                  INNER JOIN biblioteca b ON l.biblioteca_fk = b.id
-                  ORDER BY b.nome, l.cod_local asc";
+              FROM " . $this->tableName . " l 
+              INNER JOIN biblioteca b ON l.biblioteca_fk = b.id";
+
+        if ($onlyActive) {
+            $query .= " WHERE l.ativo = 'Y' ";
+        }
+
+        $query .= " ORDER BY b.nome, l.cod_local asc";
         $query_run = $this->pdo->prepare($query);
 
         try {
@@ -75,6 +80,7 @@ class Location
             return json_encode($e->getMessage());
         }
     }
+
     public function getById($id)
     {
         $this->id = $id;
@@ -166,7 +172,7 @@ class Location
 
         $checkoQuery = "SELECT id FROM " . $this->tableName . " 
                    WHERE cod_local = :locationCode AND biblioteca_fk = :library;";
-        
+
         $checkStmt = $this->pdo->prepare($checkoQuery);
         $checkStmt->bindParam(':locationCode', $this->locationCode);
         $checkStmt->bindParam(':library', $this->library);

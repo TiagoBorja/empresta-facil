@@ -6,7 +6,8 @@ include_once '../../php/classes/Location.php';
 $location = new Location();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
-    echo $location->getAll();
+    $onlyActive = isset($_GET['activeOnly']) && $_GET['activeOnly'] === 'true';
+    echo $location->getAll($onlyActive);
     exit;
 }
 

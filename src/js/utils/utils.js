@@ -41,20 +41,6 @@ export async function handleFormResponse(result, form) {
     }
 }
 
-function fillSelect(items, labelValue, elementId, selectedValue = null) {
-    let option = "";
-
-    items.forEach((item) => {
-        const label = item[labelValue];
-        const isSelected = selectedValue !== null && item.id == selectedValue ? ' selected' : '';
-        option += `<option value="${item.id}"${isSelected}>${label}</option>`;
-    });
-
-    const select = document.getElementById(elementId);
-    select.innerHTML = option;
-}
-
-
 export async function fetchSelect(API_URL, labelValue, elementId, selectedValue = null) {
     try {
         const response = await fetch(API_URL);
@@ -70,6 +56,23 @@ export async function fetchSelect(API_URL, labelValue, elementId, selectedValue 
         console.error('Erro ao fazer requisição:', error);
     }
 }
+
+function fillSelect(items, labelValue, elementId, selectedValue = null) {
+    let option = "";
+
+    const fields = labelValue.split(' - ').map(f => f.trim());
+
+    items.forEach((item) => {
+        const label = fields.map(f => item[f] || '').join(' - ');
+
+        const isSelected = selectedValue !== null && item.id == selectedValue ? ' selected' : '';
+        option += `<option value="${item.id}"${isSelected}>${label}</option>`;
+    });
+
+    const select = document.getElementById(elementId);
+    select.innerHTML = option;
+}
+
 
 export function showContentAfterLoading(loadingId, contentIds = []) {
     const loading = document.getElementById(loadingId);
