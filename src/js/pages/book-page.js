@@ -2,11 +2,9 @@ import * as bdUtils from '../utils/bd-utils.js';
 import * as utils from '../utils/utils.js';
 
 const BASE_API_URL = '../administrative/book/code.php';
-const PUBLISHER_API_URL = '../administrative/publisher/code.php';
-const CATEGORY_API_URL = '../administrative/category/code.php';
-const SUBCATEGORY_API_URL = '../administrative/subcategory/code.php';
-const LOCATION_API_URL = '../administrative/location/code.php';
-const STATE_API_URL = '../administrative/state/code.php';
+const PUBLISHER_API_URL = '../administrative/publisher/code.php?activeOnly=true';
+const CATEGORY_API_URL = '../administrative/category/code.php?activeOnly=true';
+const SUBCATEGORY_API_URL = '../administrative/subcategory/code.php?activeOnly=true';
 
 let urlParams;
 let id;
@@ -31,12 +29,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     await utils.fetchSelect(PUBLISHER_API_URL, 'editora', "publisher");
     await utils.fetchSelect(CATEGORY_API_URL, 'categoria', "category");
     await utils.fetchSelect(SUBCATEGORY_API_URL, 'subcategoria', "subcategory");
-    await utils.fetchSelect(LOCATION_API_URL + '?activeOnly=true', 'cod_local - nome', "location");
-    const response = await fetch(LOCATION_API_URL + '?activeOnly=true');
-    const result = await response.json();
-    console.log(result);
-
-    await utils.fetchSelect(STATE_API_URL, 'estado', "status");
 
     create();
     return;
@@ -81,11 +73,11 @@ function showBooks(books) {
         tableBody.append(`
             <tr id="id-${book.id}" class="selectable-row">
                 <td>${book.titulo}</td>
+                <td>${book.categoria}</td>
+                <td>${book.subcategoria}</td>
                 <td>${book.ano_lancamento}</td>
                 <td>${book.idioma}</td>
                 <td>${book.quantidade}</td>
-                <td>${book.nome_biblioteca}</td>
-                <td>${book.cod_local}</td>
                 <td>${active}</td>
             </tr>`
         );

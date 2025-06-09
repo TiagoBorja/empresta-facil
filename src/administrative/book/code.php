@@ -31,30 +31,25 @@ if (isset($_POST['saveData'])) {
     $publisherFk = filter_input(INPUT_POST, 'publisher', FILTER_SANITIZE_NUMBER_INT);
     $categoryFk = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_NUMBER_INT);
     $subcategoryFk = filter_input(INPUT_POST, 'subcategory', FILTER_SANITIZE_NUMBER_INT);
-    $locationFk = filter_input(INPUT_POST, 'location', FILTER_SANITIZE_NUMBER_INT);
-    $stateFk = filter_input(INPUT_POST, 'status', FILTER_SANITIZE_SPECIAL_CHARS);
     $synopsis = filter_input(INPUT_POST, 'synopsis', FILTER_SANITIZE_SPECIAL_CHARS);
 
-    $livro->setTitle($title);
-    $livro->setIsbn($isbn);
-    $livro->setReleaseYear($releaseYear);
-    $livro->setLanguage($language);
-    $livro->setQuantity($quantity);
-    $livro->setResourceType($resourceType);
-    $livro->setPublisherFk($publisherFk);
-    $livro->setCategoryFk($categoryFk);
-    $livro->setSubcategoryFk($subcategoryFk);
-    $livro->setLocationFk($locationFk);
-    $livro->setStateFk($stateFk);
-    $livro->setSynopsis($synopsis);
+    $book->setTitle($title);
+    $book->setIsbn($isbn);
+    $book->setReleaseYear($releaseYear);
+    $book->setLanguage($language);
+    $book->setQuantity($quantity);
+    $book->setPublisher($publisherFk);
+    $book->setCategory($categoryFk);
+    $book->setSubcategory($subcategoryFk);
+    $book->setSynopsis($synopsis);
 
     if (!empty($id)) {
-        $livro->setId($id);
-        echo $livro->update($id);
+        $book->setId($id);
+        echo $book->update($id);
         exit;
     }
 
-    echo $livro->create();
+    echo $book->create();
     exit;
 }
 

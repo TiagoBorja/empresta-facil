@@ -6,7 +6,9 @@ include_once '../../php/classes/Subcategory.php';
 $subcategoryClass = new Subcategory();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
-    echo $subcategoryClass->getAll();
+    $onlyActive = isset($_GET['activeOnly']) && $_GET['activeOnly'] === 'true';
+    $returnedId = isset($_GET['returnedId']) ? (int) $_GET['returnedId'] : null;
+    echo $subcategoryClass->getAll($onlyActive, $returnedId);
     exit;
 }
 
@@ -34,7 +36,7 @@ if (isset($_POST['saveData'])) {
         echo $subcategoryClass->update($id);
         exit;
     }
-    
+
     echo $subcategoryClass->create();
     exit;
 }

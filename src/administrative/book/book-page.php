@@ -24,8 +24,18 @@
                             <tr class="role">
                                 <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
                                     aria-sort="ascending" aria-label="Name: activate to sort column descending"
-                                    style="width: 126.375px;">
+                                    style="width:200px;">
                                     Título
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 126.375px;">
+                                    Categoria
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 126.375px;">
+                                    Subcategoria
                                 </th>
                                 <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
                                     aria-sort="ascending" aria-label="Name: activate to sort column descending"
@@ -41,16 +51,6 @@
                                     aria-sort="ascending" aria-label="Name: activate to sort column descending"
                                     style="width: 126.375px;">
                                     Quantidade
-                                </th>
-                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
-                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
-                                    style="width: 126.375px;">
-                                    Biblioteca
-                                </th>
-                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
-                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
-                                    style="width: 126.375px;">
-                                    Localização
                                 </th>
                                 <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
                                     aria-sort="ascending" aria-label="Name: activate to sort column descending"

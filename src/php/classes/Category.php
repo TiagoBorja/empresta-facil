@@ -58,22 +58,31 @@ class Category
         $this->pdo = $connection->getConnection();
     }
 
-    public function getCategories()
+    public function getAll($onlyActive = false, $returnedId = null)
     {
         $query = "SELECT * FROM categoria";
+
+        if ($onlyActive) {
+            if ($returnedId !== null) {
+                $query .= " WHERE ativo = 'Y' OR id = :returnedId";
+            } else {
+                $query .= " WHERE ativo = 'Y'";
+            }
+        }
+
         $query_run = $this->pdo->prepare($query);
 
-        try {
+        if ($onlyActive && $returnedId !== null) {
+            $query_run->bindParam(':returnedId', $returnedId, PDO::PARAM_INT);
+        }
 
+        try {
             $query_run->execute();
             $category = $query_run->fetchAll(PDO::FETCH_ASSOC);
 
-            if (count($category) < 1)
-                echo "<tr><td colspan='3'>Sem resultados</td></tr>";
-
             return json_encode($category);
         } catch (PDOException $e) {
-            echo "<tr><td colspan='3'>Sem resultados</td></tr>";
+            return json_encode(['error' => 'Erro ao buscar categorias', 'details' => $e->getMessage()]);
         }
     }
 

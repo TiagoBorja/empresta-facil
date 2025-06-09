@@ -15,8 +15,6 @@ class Book
     private $publisherFk;
     private $categoryFk;
     private $subcategoryFk;
-    private $locationFk;
-    private $stateFk;
     private $active;
 
     private $pdo;
@@ -117,24 +115,6 @@ class Book
         $this->subcategoryFk = $subcategoryFk;
     }
 
-    public function getLocation()
-    {
-        return $this->locationFk;
-    }
-    public function setLocation($locationFk)
-    {
-        $this->locationFk = $locationFk;
-    }
-
-    public function getState()
-    {
-        return $this->stateFk;
-    }
-    public function setState($stateFk)
-    {
-        $this->stateFk = $stateFk;
-    }
-
     public function getActive()
     {
         return $this->active;
@@ -147,14 +127,11 @@ class Book
     public function getAll()
     {
 
-        $query = "SELECT 
-                    l.*, 
-                    b.nome AS nome_biblioteca, 
-                    lc.cod_local
+        $query = "SELECT l.*, e.editora, c.categoria, s.subcategoria
                   FROM " . $this->tableName . " l
-                    INNER JOIN localizacao lc ON l.localizacao_fk = lc.id
-                    INNER JOIN biblioteca b ON lc.biblioteca_fk = b.id
-                  ORDER BY b.nome, l.titulo";
+                  INNER JOIN editora e ON l.editora_fk = e.id
+                  INNER JOIN categoria c ON l.categoria_fk = c.id
+                  INNER JOIN subcategoria s ON l.subcategoria_fk = s.id";
         $query_run = $this->pdo->prepare($query);
 
         try {
@@ -169,14 +146,12 @@ class Book
     public function getById($id)
     {
         $this->id = $id;
-        $query = "SELECT 
-                    l.*, 
-                    b.nome AS nome_biblioteca, 
-                    lc.cod_local
+        $query = "SELECT l.*, e.editora, c.categoria, s.subcategoria
                   FROM " . $this->tableName . " l
-                    INNER JOIN localizacao lc ON l.localizacao_fk = lc.id
-                    INNER JOIN biblioteca b ON lc.biblioteca_fk = b.id
-                  WHERE id = : id";
+                  INNER JOIN editora e ON l.editora_fk = e.id
+                  INNER JOIN categoria c ON l.categoria_fk = c.id
+                  INNER JOIN subcategoria s ON l.subcategoria_fk = s.id
+                  WHERE l.id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
 
@@ -209,8 +184,7 @@ class Book
         if (
             empty($this->title) || empty($this->isbn) || empty($this->releaseYear) ||
             empty($this->synopsis) || empty($this->language) || empty($this->quantity) ||
-            empty($this->publisherFk) || empty($this->categoryFk) || empty($this->subcategoryFk) ||
-            empty($this->locationFk) || empty($this->stateFk)
+            empty($this->publisherFk) || empty($this->categoryFk) || empty($this->subcategoryFk)
         ) {
             return json_encode([
                 'status' => 422,
@@ -218,7 +192,10 @@ class Book
             ]);
         }
 
-        $checkQuery = "SELECT COUNT(*) FROM " . $this->tableName . " WHERE isbn = :isbn";
+        $checkQuery = "SELECT COUNT(*) FROM " . $this->tableName . " 
+                       WHERE titulo = :title
+                       AND isbn = :isbn
+                       AND idioma = :language";
         $checkStmt = $this->pdo->prepare($checkQuery);
         $checkStmt->bindParam(':isbn', $this->isbn);
         $checkStmt->execute();
@@ -231,12 +208,12 @@ class Book
         }
 
         $query = "INSERT INTO " . $this->tableName . " (
-        titulo, isbn, ano_lancamento, sinopse, idioma, quantidade, 
-        editora_fk, categoria_fk, subcategoria_fk, localizacao_fk, estado_fk, ativo
-    ) VALUES (
-        :title, :isbn, :releaseYear, :synopsis, :language, :quantity, 
-        :publisherFk, :categoryFk, :subcategoryFk, :locationFk, :stateFk, :active
-    )";
+                titulo, isbn, ano_lancamento, sinopse, idioma, quantidade, 
+                editora_fk, categoria_fk, subcategoria_fk
+                ) VALUES (
+                    :title, :isbn, :releaseYear, :synopsis, :language, :quantity, 
+                    :publisherFk, :categoryFk, :subcategoryFk
+                )";
 
         $stmt = $this->pdo->prepare($query);
 
@@ -249,8 +226,6 @@ class Book
         $stmt->bindParam(':publisherFk', $this->publisherFk);
         $stmt->bindParam(':categoryFk', $this->categoryFk);
         $stmt->bindParam(':subcategoryFk', $this->subcategoryFk);
-        $stmt->bindParam(':locationFk', $this->locationFk);
-        $stmt->bindParam(':stateFk', $this->stateFk);
 
         try {
             $stmt->execute();
@@ -270,43 +245,60 @@ class Book
 
     public function update($id)
     {
-
         $this->id = $id;
 
-        if (empty($this->type) && empty($this->description)) {
+        if (empty($this->title) || empty($this->isbn) || empty($this->releaseYear)) {
             return json_encode([
                 'status' => 422,
-                'message' => "Preencha todos os campos antes de prosseguir."
+                'message' => "Por favor, preencha os campos título, ISBN e ano de lançamento."
             ]);
         }
 
         $checkQuery = "SELECT id FROM " . $this->tableName . " 
-                       WHERE tipo = :type";
-
+                       WHERE titulo = :title
+                       AND isbn = :isbn
+                       AND idioma = :language";
         $checkStmt = $this->pdo->prepare($checkQuery);
-        $checkStmt->bindParam(':type', $this->type);
+        $checkStmt->bindParam(':title', $this->title);
+        $checkStmt->bindParam(':isbn', $this->isbn);
+        $checkStmt->bindParam(':language', $this->language);
         $checkStmt->execute();
 
         $existing = $checkStmt->fetchColumn();
-        if ($existing > 0 && $existing !== (int) $this->id) {
+
+        if ($existing !== false && (int) $existing !== (int) $this->id) {
             return json_encode([
                 'status' => 409,
-                'message' => "Já existe uma Livro criado esse nome."
+                'message' => "Já existe um livro com este título."
             ]);
         }
 
-        $query = "UPDATE " . $this->tableName . " 
-                  SET tipo = :type,
-                  descricao = :description
-                  WHERE id = :id";
+        $query = "UPDATE " . $this->tableName . " SET
+                titulo = :title,
+                isbn = :isbn,
+                ano_lancamento = :releaseYear,
+                sinopse = :synopsis,
+                idioma = :language,
+                quantidade = :quantity,
+                editora_fk = :publisherFk,
+                categoria_fk = :categoryFk,
+                subcategoria_fk = :subcategoryFk
+              WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':id', var: $this->id);
-        $stmt->bindParam(':type', $this->type);
-        $stmt->bindParam(':description', $this->description);
+
+        $stmt->bindParam(':title', $this->title);
+        $stmt->bindParam(':isbn', $this->isbn);
+        $stmt->bindParam(':releaseYear', $this->releaseYear);
+        $stmt->bindParam(':synopsis', $this->synopsis);
+        $stmt->bindParam(':language', $this->language);
+        $stmt->bindParam(':quantity', $this->quantity);
+        $stmt->bindParam(':publisherFk', $this->publisherFk);
+        $stmt->bindParam(':categoryFk', $this->categoryFk);
+        $stmt->bindParam(':subcategoryFk', $this->subcategoryFk);
+        $stmt->bindParam(':id', $this->id);
 
         try {
-
             $stmt->execute();
 
             return json_encode([
@@ -314,13 +306,13 @@ class Book
                 'message' => "Livro atualizado com sucesso."
             ]);
         } catch (PDOException $e) {
-
-            return json_encode(value: [
+            return json_encode([
                 'status' => 500,
-                'message' => "Erro ao atualizar: " . $e->getMessage()
+                'message' => "Erro ao atualizar o livro: " . $e->getMessage()
             ]);
         }
     }
+
 
     public function changeActiveStatus($id, $status)
     {

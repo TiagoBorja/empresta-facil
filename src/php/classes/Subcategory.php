@@ -68,22 +68,36 @@ class Subcategory
         $this->active = $active;
     }
 
-    public function getAll()
+    public function getAll($onlyActive = false, $returnedId = null)
     {
         $query = "SELECT sub.*, cat.categoria
                   FROM " . $this->tableName . " sub
                   INNER JOIN categoria cat ON sub.categoria_fk = cat.id";
+
+        if ($onlyActive) {
+            if ($returnedId) {
+                $query .= " WHERE sub.ativo = 'Y' OR sub.id = :returnedId";
+            } else {
+                $query .= " WHERE sub.ativo = 'Y'";
+            }
+        }
+
         $query_run = $this->pdo->prepare($query);
+
+        if ($onlyActive && $returnedId) {
+            $query_run->bindParam(':returnedId', $returnedId, PDO::PARAM_INT);
+        }
 
         try {
             $query_run->execute();
             $value = $query_run->fetchAll(PDO::FETCH_ASSOC);
-
             return json_encode($value);
         } catch (PDOException $e) {
             return json_encode($e->getMessage());
         }
     }
+
+
     public function getById($id)
     {
         $this->id = $id;
@@ -192,7 +206,7 @@ class Subcategory
         $this->id = $id;
         $this->active = $status;
 
-        $query = 'UPDATE categoria
+        $query = 'UPDATE subcategoria
                   SET ativo = :active
                   WHERE id = :id';
 

@@ -6,7 +6,10 @@ include_once '../../php/classes/Publisher.php';
 $publisher = new Publisher();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
-    echo $publisher->getAll();
+    $onlyActive = isset($_GET['activeOnly']) && $_GET['activeOnly'] === 'true';
+    $returnedId = isset($_GET['returnedId']) ? (int) $_GET['returnedId'] : null;
+
+    echo $publisher->getAll($onlyActive, $returnedId);
     exit;
 }
 

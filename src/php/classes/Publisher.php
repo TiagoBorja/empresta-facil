@@ -47,10 +47,23 @@ class Publisher
         $this->active = $active;
     }
 
-    public function getAll()
+    public function getAll($onlyActive = false, $returnedId = null)
     {
         $query = "SELECT * FROM " . $this->tableName;
+
+        if ($onlyActive) {
+            if ($returnedId) {
+                $query .= " WHERE ativo = 'Y' OR id = :returnedId";
+            } else {
+                $query .= " WHERE ativo = 'Y'";
+            }
+        }
+
         $query_run = $this->pdo->prepare($query);
+
+        if ($onlyActive && $returnedId) {
+            $query_run->bindParam(':returnedId', $returnedId, PDO::PARAM_INT);
+        }
 
         try {
             $query_run->execute();
@@ -61,6 +74,7 @@ class Publisher
             return json_encode($e->getMessage());
         }
     }
+
     public function getById($id)
     {
         $this->id = $id;
@@ -150,7 +164,7 @@ class Publisher
 
         $checkQuery = "SELECT id FROM " . $this->tableName . " 
                    WHERE editora = :publisher";
-        
+
         $checkStmt = $this->pdo->prepare($checkQuery);
         $checkStmt->bindParam(':publisher', $this->publisher);
         $checkStmt->execute();

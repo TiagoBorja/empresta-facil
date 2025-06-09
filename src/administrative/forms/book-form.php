@@ -67,7 +67,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-floating">
                                 <input type="number" id="quantity" name="quantity" class="form-control"
                                     placeholder="Quantidade" min="1">
@@ -75,72 +75,34 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="form-floating">
-                                <input type="text" id="resourceType" name="resourceType" class="form-control"
-                                    placeholder="Tipo de Recurso">
-                                <label for="resourceType">Tipo de Recurso</label>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="row g-3 mt-2">
-                        <div class="col-md-3">
+                        <div class="col-md-5">
                             <div class="form-floating">
                                 <select class="form-select" id="publisher" name="publisher">
                                     <option value="">Selecionar</option>
-                                    <!-- opções dinâmicas aqui -->
                                 </select>
                                 <label for="publisher">Editora</label>
                             </div>
                         </div>
+                    </section>
 
-                        <div class="col-md-3">
+                    <section class="row g-3 mt-2">
+                        <div class="col-md-6">
                             <div class="form-floating">
                                 <select class="form-select" id="category" name="category">
                                     <option value="">Selecionar</option>
-                                    <!-- opções dinâmicas aqui -->
                                 </select>
                                 <label for="category">Categoria</label>
                             </div>
                         </div>
-
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-floating">
                                 <select class="form-select" id="subcategory" name="subcategory">
                                     <option value="">Selecionar</option>
-                                    <!-- opções dinâmicas aqui -->
                                 </select>
                                 <label for="subcategory">Subcategoria</label>
                             </div>
                         </div>
-
-                        <div class="col-md-3">
-                            <div class="form-floating">
-                                <select class="form-select" id="location" name="location">
-                                    <option value="">Selecionar</option>
-                                    <!-- opções dinâmicas aqui -->
-                                </select>
-                                <label for="location">Localização</label>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="row g-3 mt-2">
-                        <div class="col-md-3">
-                            <div class="form-floating">
-                                <select class="form-select" id="status" name="status">
-                                    <option value="">Selecionar</option>
-                                    <option value="disponivel">Disponível</option>
-                                    <option value="emprestado">Emprestado</option>
-                                    <option value="reservado">Reservado</option>
-                                    <option value="indisponivel">Indisponível</option>
-                                </select>
-                                <label for="status">Estado</label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-9">
+                        <div class="col-md-12">
                             <div class="form-floating">
                                 <textarea id="synopsis" name="synopsis" class="form-control" placeholder="Sinopse"
                                     style="height: 100px"></textarea>
@@ -148,6 +110,7 @@
                             </div>
                         </div>
                     </section>
+
                 </div>
 
                 <footer class="card-footer">

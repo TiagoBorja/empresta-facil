@@ -6,7 +6,9 @@ include_once '../../php/classes/Category.php';
 $categoryClass = new Category();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
-    echo $categoryClass->getCategories();
+    $onlyActive = isset($_GET['activeOnly']) && $_GET['activeOnly'] === 'true';
+    $returnedId = isset($_GET['returnedId']) ? (int) $_GET['returnedId'] : null;
+    echo $categoryClass->getAll($onlyActive, $returnedId);
     exit;
 }
 
