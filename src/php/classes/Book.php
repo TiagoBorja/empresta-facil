@@ -239,7 +239,6 @@ class Book
             $stmt->execute();
             $bookId = $this->pdo->lastInsertId();
 
-            // Processar autores apenas se existirem
             if (!empty($authors) && is_array($authors)) {
                 foreach ($authors as $authorId) {
                     if (!empty($authorId)) {
@@ -269,7 +268,7 @@ class Book
     }
 
 
-    public function update($id)
+    public function update($id, $newAuthors = [])
     {
         $this->id = $id;
 
@@ -326,7 +325,7 @@ class Book
 
         try {
             $stmt->execute();
-
+            $this->updateAuthors($id, $newAuthors);
             return json_encode([
                 'status' => 200,
                 'message' => "Livro atualizado com sucesso."
@@ -339,7 +338,30 @@ class Book
         }
     }
 
+    private function updateAuthors($bookId, $newAuthors)
+    {
+        try {
+            $deleteQuery = "DELETE FROM autor_livro WHERE livro_fk = :bookId";
+            $deleteStmt = $this->pdo->prepare($deleteQuery);
+            $deleteStmt->bindParam(':bookId', $bookId);
+            $deleteStmt->execute();
 
+            if (!empty($newAuthors)) {
+                foreach ($newAuthors as $authorId) {
+                    $this->authorBook->setBook($bookId);
+                    $this->authorBook->setAuthor($authorId);
+                    $result = $this->authorBook->create();
+
+                    $response = json_decode($result, true);
+                    if ($response['status'] != 200) {
+                        throw new Exception("Erro ao associar autor: " . $response['message']);
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            throw new Exception("Erro ao atualizar autores: " . $e->getMessage());
+        }
+    }
     public function changeActiveStatus($id, $status)
     {
         $this->id = $id;

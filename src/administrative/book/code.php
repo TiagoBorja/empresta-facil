@@ -34,7 +34,7 @@ if (isset($_POST['saveData'])) {
     $subcategoryFk = filter_input(INPUT_POST, 'subcategory', FILTER_SANITIZE_NUMBER_INT);
     $synopsis = filter_input(INPUT_POST, 'synopsis', FILTER_SANITIZE_SPECIAL_CHARS);
 
-    $authors = isset($_POST['authors']) ? $_POST['authors'] : [];
+    $authors = $_POST['authors'] ?? [];
     $authors = array_filter(array_map(function ($authorId) {
         return filter_var($authorId, FILTER_SANITIZE_NUMBER_INT);
     }, $authors));
@@ -51,7 +51,7 @@ if (isset($_POST['saveData'])) {
 
     if (!empty($id)) {
         $book->setId($id);
-        echo $book->update($id);
+        echo $book->update($id, $authors);
         exit;
     }
     echo $book->create($authors);
