@@ -31,6 +31,8 @@ document.addEventListener('DOMContentLoaded', async function () {
             await populateSelectFields(bookData);
             createAuthorsCheckboxes(allAuthorsData, authorBookData);
         }
+
+
         showContentAfterLoading("loading", ["content"]);
     } catch (error) {
         toastr.error(error.message || "Erro ao carregar dados", "Erro!");
@@ -67,19 +69,15 @@ async function fetchAllAuthorsData() {
     }
 
     const result = await response.json();
-    console.log(result);
 
-    // Verifica se a resposta tem a estrutura esperada
     if (!result || typeof result !== 'object') {
         throw new Error("Resposta da API inválida");
     }
 
-    // Algumas APIs retornam sucesso sem status 200
     if (result.status && result.status !== 200) {
         throw new Error(result.message || "Autores não encontrados");
     }
 
-    // Se não houver status, assume que o array direto é os dados
     const authorsData = result.data || result;
 
     if (!Array.isArray(authorsData)) {
@@ -129,6 +127,33 @@ function createAuthorsCheckboxes(allAuthors, associatedAuthors) {
         return;
     }
 
+    const searchGroup = document.createElement('div');
+    searchGroup.className = 'input-group mb-3';
+
+    const searchIcon = document.createElement('span');
+    searchIcon.className = 'input-group-text';
+    searchIcon.innerHTML = `
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+    `;
+
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.id = 'authorSearch';
+    searchInput.className = 'form-control';
+    searchInput.placeholder = 'Buscar autores...';
+
+    searchGroup.appendChild(searchIcon);
+    searchGroup.appendChild(searchInput);
+
+    authorsCheckboxesDiv.appendChild(searchGroup);
+
+    const divider = document.createElement("hr");
+    divider.className = "my-2"; // Bootstrap: margem vertical
+    authorsCheckboxesDiv.appendChild(divider);
+
+
     const getFullName = (author) => {
         const firstName = author?.primeiro_nome || '';
         const lastName = author?.ultimo_nome || '';
@@ -142,7 +167,7 @@ function createAuthorsCheckboxes(allAuthors, associatedAuthors) {
     });
 
     if (sortedAuthors.length === 0) {
-        authorsCheckboxesDiv.innerHTML = `
+        authorsCheckboxesDiv.innerHTML += `
             <div class="alert alert-info">
                 Nenhum autor disponível
             </div>
@@ -162,7 +187,7 @@ function createAuthorsCheckboxes(allAuthors, associatedAuthors) {
         const authorName = getFullName(author) || 'Autor sem nome';
 
         const wrapper = document.createElement("div");
-        wrapper.classList.add("form-check", "mb-2");
+        wrapper.classList.add("form-check", "mb-2", "px-3");
 
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
@@ -174,12 +199,27 @@ function createAuthorsCheckboxes(allAuthors, associatedAuthors) {
         checkbox.addEventListener('change', updateAuthorsDropdownText);
 
         const label = document.createElement("label");
-        label.classList.add("form-check-label");
+        label.classList.add("form-check-label", "w-100");
         label.htmlFor = checkboxId;
         label.textContent = authorName;
 
         wrapper.append(checkbox, label);
         authorsCheckboxesDiv.appendChild(wrapper);
+    });
+
+    searchInput.addEventListener('input', function () {
+        const searchTerm = this.value.toLowerCase();
+        const checkboxes = authorsCheckboxesDiv.querySelectorAll('.form-check');
+
+        checkboxes.forEach(wrapper => {
+            if (wrapper.classList.contains('input-group')) return; // Pular o campo de busca
+
+            const label = wrapper.querySelector('.form-check-label');
+            if (label) {
+                const text = label.textContent.toLowerCase();
+                wrapper.style.display = text.includes(searchTerm) ? 'block' : 'none';
+            }
+        });
     });
 
     updateAuthorsDropdownText();
