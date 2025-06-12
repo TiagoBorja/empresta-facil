@@ -89,13 +89,36 @@ class AuthorBook
         }
     }
 
-
     public function create()
     {
-        if (empty($this->bookFk) && empty($this->bookFk)) {
+        $checkAuthor = "SELECT COUNT(*) FROM autor WHERE id = :authorId";
+        $stmtAuthor = $this->pdo->prepare($checkAuthor);
+        $stmtAuthor->bindParam(':authorId', $this->authorFk);
+        $stmtAuthor->execute();
+
+        $checkBook = "SELECT COUNT(*) FROM livro WHERE id = :bookId";
+        $stmtBook = $this->pdo->prepare($checkBook);
+        $stmtBook->bindParam(':bookId', $this->bookFk);
+        $stmtBook->execute();
+
+        if ($stmtAuthor->fetchColumn() == 0 || $stmtBook->fetchColumn() == 0) {
             return json_encode([
-                'status' => 422,
-                'message' => "Preencha todos os campos antes de prosseguir."
+                'status' => 404,
+                'message' => "Autor ou livro não encontrado."
+            ]);
+        }
+
+        $checkQuery = "SELECT COUNT(*) FROM " . $this->tableName . " 
+                  WHERE autor_fk = :authorFk AND livro_fk = :bookFk";
+        $checkStmt = $this->pdo->prepare($checkQuery);
+        $checkStmt->bindParam(':authorFk', $this->authorFk);
+        $checkStmt->bindParam(':bookFk', $this->bookFk);
+        $checkStmt->execute();
+
+        if ($checkStmt->fetchColumn() > 0) {
+            return json_encode([
+                'status' => 409,
+                'message' => "Este autor já está associado a este livro."
             ]);
         }
 
@@ -107,7 +130,6 @@ class AuthorBook
 
         try {
             $stmt->execute();
-
             return json_encode([
                 'status' => 200,
                 'message' => "Relação criada com sucesso."
@@ -115,7 +137,7 @@ class AuthorBook
         } catch (PDOException $e) {
             return json_encode([
                 'status' => 500,
-                'message' => "Erro ao inserir: " . $e->getMessage()
+                'message' => "Erro ao inserir relação: " . $e->getMessage()
             ]);
         }
     }

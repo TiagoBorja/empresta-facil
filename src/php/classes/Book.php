@@ -184,7 +184,7 @@ class Book
             ]);
         }
     }
-    public function create()
+    public function create($authors = [])
     {
 
         if (
@@ -237,14 +237,28 @@ class Book
 
         try {
             $stmt->execute();
+            $bookId = $this->pdo->lastInsertId();
 
-            $this->authorBook->setBook($this->pdo->lastInsertId());
-            $this->authorBook->create();
+            // Processar autores apenas se existirem
+            if (!empty($authors) && is_array($authors)) {
+                foreach ($authors as $authorId) {
+                    if (!empty($authorId)) {
+                        $this->authorBook->setBook($bookId);
+                        $this->authorBook->setAuthor($authorId);
+                        $authorResult = $this->authorBook->create();
 
+                        $authorResponse = json_decode($authorResult, true);
+                        if ($authorResponse['status'] != 200) {
+                            return $authorResult;
+                        }
+                    }
+                }
+            }
 
             return json_encode([
                 'status' => 200,
                 'message' => "Livro criado com sucesso.",
+                'bookId' => $bookId
             ]);
         } catch (PDOException $e) {
             return json_encode([

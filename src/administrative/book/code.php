@@ -31,9 +31,13 @@ if (isset($_POST['saveData'])) {
     $resourceType = filter_input(INPUT_POST, 'resourceType', FILTER_SANITIZE_SPECIAL_CHARS);
     $publisherFk = filter_input(INPUT_POST, 'publisher', FILTER_SANITIZE_NUMBER_INT);
     $categoryFk = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_NUMBER_INT);
-    $authorFk = filter_input(INPUT_POST, 'authors', FILTER_SANITIZE_NUMBER_INT);
     $subcategoryFk = filter_input(INPUT_POST, 'subcategory', FILTER_SANITIZE_NUMBER_INT);
     $synopsis = filter_input(INPUT_POST, 'synopsis', FILTER_SANITIZE_SPECIAL_CHARS);
+
+    $authors = isset($_POST['authors']) ? $_POST['authors'] : [];
+    $authors = array_filter(array_map(function ($authorId) {
+        return filter_var($authorId, FILTER_SANITIZE_NUMBER_INT);
+    }, $authors));
 
     $book->setTitle($title);
     $book->setIsbn($isbn);
@@ -44,14 +48,13 @@ if (isset($_POST['saveData'])) {
     $book->setCategory($categoryFk);
     $book->setSubcategory($subcategoryFk);
     $book->setSynopsis($synopsis);
-    $book->authorBook->setAuthor($authorFk);
 
     if (!empty($id)) {
         $book->setId($id);
         echo $book->update($id);
         exit;
     }
-    echo $book->create();
+    echo $book->create($authors);
     exit;
 }
 
