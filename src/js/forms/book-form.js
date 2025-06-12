@@ -12,38 +12,28 @@ const API_ENDPOINTS = {
 document.addEventListener('DOMContentLoaded', async function () {
     showLoadingHideContent("loading", ["content"]);
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const bookId = urlParams.get("id");
+    const isEditMode = bookId !== null; // Se tem ID, está editando
+
     try {
-        const bookId = new URLSearchParams(window.location.search).get("id");
-        if (!bookId) throw new Error("ID do livro não fornecido");
+        if (!isEditMode) {
+            const allAuthorsData = await fetchAllAuthorsData();
+            createAuthorsCheckboxes(allAuthorsData, []); // Array vazio para autores associados
+        } else {
+            const [bookData, authorBookData, allAuthorsData] = await Promise.all([
+                fetchBookData(bookId),
+                fetchAuthorBookData(bookId),
+                fetchAllAuthorsData()
+            ]);
 
-        const [bookData, authorBookData] = await Promise.all([
-            fetchBookData(bookId),
-            fetchAuthorBookData(bookId)
-        ]);
-
-        let allAuthorsData = [];
-        try {
-            allAuthorsData = await fetchAllAuthorsData();
-        } catch (error) {
-            console.error("Erro ao carregar autores:", error);
-            document.getElementById("authorsCheckboxes").innerHTML = `
-                <div class="alert alert-warning">
-                    Não foi possível carregar a lista de autores: ${error.message}
-                </div>
-            `;
-        }
-
-        populateBookForm(bookData);
-        await populateSelectFields(bookData);
-
-        if (allAuthorsData.length > 0) {
+            populateBookForm(bookData);
+            await populateSelectFields(bookData);
             createAuthorsCheckboxes(allAuthorsData, authorBookData);
         }
-
         showContentAfterLoading("loading", ["content"]);
     } catch (error) {
-        console.error("Erro principal:", error);
-        toastr.error(error.message || "Erro ao carregar dados do livro", "Erro!");
+        toastr.error(error.message || "Erro ao carregar dados", "Erro!");
         showContentAfterLoading("loading", ["content"]);
     }
 });
@@ -77,6 +67,7 @@ async function fetchAllAuthorsData() {
     }
 
     const result = await response.json();
+    console.log(result);
 
     // Verifica se a resposta tem a estrutura esperada
     if (!result || typeof result !== 'object') {
@@ -98,7 +89,6 @@ async function fetchAllAuthorsData() {
     return authorsData;
 }
 
-
 function populateBookForm(bookData) {
     document.getElementById("bookTitle").textContent = `Livro - ${bookData.titulo}`;
     document.getElementById("id").value = bookData.id;
@@ -118,7 +108,6 @@ function populateBookForm(bookData) {
     activeBadge.classList.toggle("bg-danger", bookData.ativo === "N");
 }
 
-// Função para preencher os selects (comboboxes)
 async function populateSelectFields(bookData) {
     await Promise.all([
         fetchSelect(`${API_ENDPOINTS.PUBLISHER}${bookData.editora_fk}`, 'editora', "publisher", bookData.editora_fk),
@@ -132,7 +121,6 @@ function createAuthorsCheckboxes(allAuthors, associatedAuthors) {
     authorsCheckboxesDiv.innerHTML = "";
 
     if (!Array.isArray(allAuthors)) {
-        console.error('allAuthors não é um array:', allAuthors);
         authorsCheckboxesDiv.innerHTML = `
             <div class="alert alert-danger">
                 Dados de autores inválidos
@@ -141,39 +129,33 @@ function createAuthorsCheckboxes(allAuthors, associatedAuthors) {
         return;
     }
 
-    const associatedAuthorIds = new Set(
-        Array.isArray(associatedAuthors)
-            ? associatedAuthors.map(author => author?.autor_fk).filter(Boolean)
-            : []
-    );
+    const getFullName = (author) => {
+        const firstName = author?.primeiro_nome || '';
+        const lastName = author?.ultimo_nome || '';
+        return `${firstName.trim()} ${lastName.trim()}`.trim();
+    };
 
     const sortedAuthors = [...allAuthors].sort((a, b) => {
-        const nameA = String(a?.nome_completo || '').toLowerCase();
-        const nameB = String(b?.nome_completo || '').toLowerCase();
+        const nameA = getFullName(a).toLowerCase();
+        const nameB = getFullName(b).toLowerCase();
         return nameA.localeCompare(nameB);
     });
 
     if (sortedAuthors.length === 0) {
         authorsCheckboxesDiv.innerHTML = `
             <div class="alert alert-info">
-                Nenhum autor disponível para seleção
+                Nenhum autor disponível
             </div>
         `;
         return;
     }
 
-    const getFullName = (author) => {
-        const firstName = author?.primeiro_nome || '';
-        const lastName = author?.ultimo_nome || '';
-
-        return `${firstName.trim()} ${lastName.trim()}`.trim();
-    };
+    const associatedAuthorIds = new Set(
+        associatedAuthors.map(author => author?.autor_fk).filter(Boolean)
+    );
 
     sortedAuthors.forEach(author => {
-        if (!author?.id) {
-            console.warn('Autor sem ID válido:', author);
-            return;
-        }
+        if (!author?.id) return;
 
         const checkboxId = `author_${author.id}`;
         const isChecked = associatedAuthorIds.has(author.id);
