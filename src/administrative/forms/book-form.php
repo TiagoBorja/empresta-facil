@@ -86,7 +86,7 @@
                     </section>
 
                     <section class="row g-3 mt-2">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-floating">
                                 <select class="form-select" id="category" name="category">
                                     <option value="">Selecionar</option>
@@ -94,12 +94,20 @@
                                 <label for="category">Categoria</label>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-floating">
                                 <select class="form-select" id="subcategory" name="subcategory">
                                     <option value="">Selecionar</option>
                                 </select>
                                 <label for="subcategory">Subcategoria</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <select class="form-select" id="authors" name="authors">
+                                    <option value="">Selecionar</option>
+                                </select>
+                                <label for="authors">Autor(es)</label>
                             </div>
                         </div>
                         <div class="col-md-12">

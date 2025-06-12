@@ -73,6 +73,28 @@ function fillSelect(items, labelValue, elementId, selectedValue = null) {
     select.innerHTML = option;
 }
 
+export async function fillAuthorCheckboxes(authors, labelFields, containerId, selectedValues = []) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = ''; // limpa antes de adicionar
+
+    const fields = labelFields.split(/[\s\-]+/).map(f => f.trim());
+    const separator = labelFields.includes(' - ') ? ' - ' : ' ';
+
+    authors.forEach(author => {
+        const label = fields.map(f => author[f] || '').join(separator);
+        const isChecked = selectedValues.includes(author.id) ? 'checked' : '';
+
+        const checkboxHTML = `
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="authors" value="${author.id}" id="author-${author.id}" ${isChecked}>
+                <label class="form-check-label" for="author-${author.id}">
+                    ${label}
+                </label>
+            </div>
+        `;
+        container.innerHTML += checkboxHTML;
+    });
+}
 
 export function showContentAfterLoading(loadingId, contentIds = []) {
     const loading = document.getElementById(loadingId);

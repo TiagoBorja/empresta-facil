@@ -2,6 +2,7 @@ import * as bdUtils from '../utils/bd-utils.js';
 import * as utils from '../utils/utils.js';
 
 const BASE_API_URL = '../administrative/book/code.php';
+const AUTHOR_API_URL = '../administrative/author/code.php';
 const PUBLISHER_API_URL = '../administrative/publisher/code.php?activeOnly=true';
 const CATEGORY_API_URL = '../administrative/category/code.php?activeOnly=true';
 const SUBCATEGORY_API_URL = '../administrative/subcategory/code.php?activeOnly=true';
@@ -26,14 +27,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
+    await utils.fetchSelect(AUTHOR_API_URL , 'primeiro_nome - ultimo_nome', "authors");
     await utils.fetchSelect(PUBLISHER_API_URL, 'editora', "publisher");
     await utils.fetchSelect(CATEGORY_API_URL, 'categoria', "category");
     await utils.fetchSelect(SUBCATEGORY_API_URL, 'subcategoria', "subcategory");
 
     create();
     return;
-
-
 });
 
 

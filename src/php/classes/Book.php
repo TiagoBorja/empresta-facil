@@ -1,6 +1,7 @@
 <?php
 
 include_once 'Connection.php';
+include_once 'AuthorBook.php';
 
 class Book
 {
@@ -14,8 +15,10 @@ class Book
     private $resourceType;
     private $publisherFk;
     private $categoryFk;
+    private $authorFk;
     private $subcategoryFk;
     private $active;
+    public $authorBook;
 
     private $pdo;
     private $tableName = 'livro';
@@ -24,6 +27,8 @@ class Book
     {
         $connection = new Connection();
         $this->pdo = $connection->getConnection();
+
+        $this->authorBook = new AuthorBook();
     }
 
     public function getId()
@@ -181,6 +186,7 @@ class Book
     }
     public function create()
     {
+
         if (
             empty($this->title) || empty($this->isbn) || empty($this->releaseYear) ||
             empty($this->synopsis) || empty($this->language) || empty($this->quantity) ||
@@ -197,7 +203,9 @@ class Book
                        AND isbn = :isbn
                        AND idioma = :language";
         $checkStmt = $this->pdo->prepare($checkQuery);
+        $checkStmt->bindParam(':title', $this->title);
         $checkStmt->bindParam(':isbn', $this->isbn);
+        $checkStmt->bindParam(':language', $this->language);
         $checkStmt->execute();
 
         if ($checkStmt->fetchColumn() > 0) {
@@ -230,9 +238,13 @@ class Book
         try {
             $stmt->execute();
 
+            $this->authorBook->setBook($this->pdo->lastInsertId());
+            $this->authorBook->create();
+
+
             return json_encode([
                 'status' => 200,
-                'message' => "Livro criado com sucesso."
+                'message' => "Livro criado com sucesso.",
             ]);
         } catch (PDOException $e) {
             return json_encode([
