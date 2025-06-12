@@ -103,11 +103,17 @@
                             </div>
                         </div>
                         <div class="col-md-4">
+                            <label for="author">Autor(es)</label>
                             <div class="form-floating">
-                                <select class="form-select" id="authors" name="authors">
-                                    <option value="">Selecionar</option>
-                                </select>
-                                <label for="authors">Autor(es)</label>
+                                <div class="dropdown mt-3">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                        id="authorsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Selecionar autores
+                                    </button>
+                                    <div id="authorsCheckboxes" class="dropdown-menu p-3"
+                                        aria-labelledby="authorsDropdown">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">

@@ -34,7 +34,8 @@ class AuthorBook
 
     public function getAll()
     {
-        $query = "SELECT a.primeiro_nome, l.titulo FROM " . $this->tableName . "
+        $query = "SELECT al.id as autor_livro_id, CONCAT(a.primeiro_nome, ' ', a.ultimo_nome) AS nome_completo, 
+                  l.titulo FROM " . $this->tableName . "
                   INNER JOIN autor a ON al.autor_fk = a.id
                   INNER JOIN livro l ON al.livro_fk = l.id";
         $query_run = $this->pdo->prepare($query);
@@ -53,37 +54,41 @@ class AuthorBook
         }
     }
 
-    public function getStateById($id)
+    public function getAuthorsByBookId($bookId)
     {
-        $this->id = $id;
-        $query = "SELECT * FROM estado WHERE id = :id";
+        $query = "SELECT al.autor_fk,
+        CONCAT(a.primeiro_nome, ' ', a.ultimo_nome) AS nome_completo
+              FROM autor_livro al
+              INNER JOIN autor a ON al.autor_fk = a.id
+              WHERE al.livro_fk = :bookId";
+
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':bookId', $bookId, PDO::PARAM_INT);
 
         try {
             $stmt->execute();
-
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             if ($result) {
                 return json_encode([
                     'status' => 200,
-                    'message' => "Estado encontrado.",
+                    'message' => "Autores encontrados.",
                     'data' => $result
                 ]);
             } else {
                 return json_encode([
                     'status' => 404,
-                    'message' => "Estado não encontrado."
+                    'message' => "Nenhum autor encontrado para este livro."
                 ]);
             }
         } catch (PDOException $e) {
             return json_encode([
                 'status' => 500,
-                'message' => "Erro ao encontrar: " . $e->getMessage()
+                'message' => "Erro ao buscar autores: " . $e->getMessage()
             ]);
         }
     }
+
 
     public function create()
     {
@@ -111,43 +116,6 @@ class AuthorBook
             return json_encode([
                 'status' => 500,
                 'message' => "Erro ao inserir: " . $e->getMessage()
-            ]);
-        }
-    }
-
-    public function updateState($id)
-    {
-
-        $this->id = $id;
-
-        if (empty($this->state)) {
-            return json_encode([
-                'status' => 422,
-                'message' => "Preencha todos os campos antes de prosseguir."
-            ]);
-        }
-
-        $query = "UPDATE estado 
-                  SET estado = :state, observacoes = :observation
-                  WHERE id = :id";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':id', var: $this->id);
-        $stmt->bindParam(':state', $this->state);
-        $stmt->bindParam(':observation', $this->observation);
-
-        try {
-
-            $stmt->execute();
-
-            return json_encode([
-                'status' => 200,
-                'message' => "Estado atualizado com sucesso."
-            ]);
-        } catch (PDOException $e) {
-
-            return json_encode(value: [
-                'status' => 500,
-                'message' => "Erro ao atualizar: " . $e->getMessage()
             ]);
         }
     }
