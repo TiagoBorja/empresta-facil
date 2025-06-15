@@ -4,11 +4,9 @@
             <a class="text-info" href="?page=catalog">
                 <i class="mdi mdi-undo"></i> Voltar
             </a>
-            <a href="?page=catalog">
-                <button class="btn btn-warning">
-                    <i class="mdi mdi-bookmark-plus-outline me-1"></i> Reservar
-                </button>
-            </a>
+            <button id="reservationBtn" class="btn btn-warning">
+                <i class="mdi mdi-bookmark-plus-outline me-1"></i> Reservar
+            </button>
         </div>
 
         <div class="card shadow-lg">
@@ -111,6 +109,7 @@
                             <thead class="bg-dark">
                                 <tr>
                                     <th class="text-white">Biblioteca</th>
+                                    <th class="text-white">Morada</th>
                                     <th class="text-white">Estante</th>
                                     <th class="text-white">Quantidade Disponível</th>
                                 </tr>
@@ -159,5 +158,38 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content border-danger shadow">
+            <div class="modal-header bg-danger text-white">
+                <h1 class="modal-title fs-5" id="reservationTitle">Reservar - </h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-light">
+                <form>
+                    <div class="mb-3">
+                        <label for="librarySelect" class="form-label text-danger">Biblioteca</label>
+                        <select class="form-select border-danger" id="librarySelect" name="library">
+                            <option selected disabled>Escolha a biblioteca</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pickupDate" class="form-label text-danger">Data de Levantamento</label>
+                        <input type="date" class="form-control border-danger" id="pickupDate" name="pickupDate">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <button class="btn btn-outline-success w-100 py-2">
+                    <i class="bi bi-check-circle me-2"></i> Concluir Reserva
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script type="module" src="../js/public-pages/book-info.js"></script>

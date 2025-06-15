@@ -1,16 +1,40 @@
-const BOOK_API_URL = '../administrative/book/code.php';
-const BOOK_LOCATIONS = './api/book-location-api.php';
-const AUTHOR_BOOK_API_URL = '../administrative/author-book/code.php';
+import { fetchSelect } from '../utils/utils.js';
+
+const API_ENDPOINTS = {
+    BOOK: '../administrative/book/code.php',
+    LOCATION: './api/book-location-api.php',
+    AUTHOR_BOOK: '../administrative/author-book/code.php'
+};
+
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get("id");
+
+let bookValue = {};
 
 document.addEventListener('DOMContentLoaded', async function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get("id");
+    fillFormData(id);
 
+    const reservationBtn = document.getElementById("reservationBtn");
+    const modalElement = document.getElementById("reservationModal");
+    const modalHeader = document.getElementById("reservationTitle");
+
+    const reservationModal = new bootstrap.Modal(modalElement);
+
+    reservationBtn.addEventListener('click', () => {
+        reservationModal.show();
+
+        modalHeader.textContent = `Reservar - ${bookValue.titulo}`;
+
+        fetchSelect(`${API_ENDPOINTS.LOCATION}?id=${id}`, 'nome', "librarySelect")
+    });
+});
+
+async function fillFormData(bookId) {
     try {
         const [bookResponse, bookLocationsResponse, authorBookResponse] = await Promise.all([
-            fetch(`${BOOK_API_URL}?id=${id}`),
-            fetch(`${BOOK_LOCATIONS}?id=${id}`),
-            fetch(`${AUTHOR_BOOK_API_URL}?id=${id}`)
+            fetch(`${API_ENDPOINTS.BOOK}?id=${bookId}`),
+            fetch(`${API_ENDPOINTS.LOCATION}?id=${bookId}`),
+            fetch(`${API_ENDPOINTS.AUTHOR_BOOK}?id=${bookId}`)
         ]);
 
         if (!bookResponse.ok || !authorBookResponse.ok || !bookLocationsResponse.ok) {
@@ -22,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const locations = await bookLocationsResponse.json();
 
         if (book.status === 200 && authors.status === 200 && locations.status === 200) {
-            const bookValue = book.data;
+            bookValue = book.data;
             const authorList = authors.data;
             const bookLocations = locations.data;
 
@@ -45,7 +69,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         console.error("Erro:", error);
         toastr.error("Erro ao carregar o livro.");
     }
-});
+}
 
 function showAuthors(authorContainer, authorList) {
     authorContainer.textContent = "";
@@ -64,9 +88,13 @@ function showLocations(locationsTableBody, bookLocations) {
         const tr = document.createElement("tr");
         tr.classList.add("border-bottom", "border-dark");
 
-        const tdLocation = document.createElement("td");
-        tdLocation.classList.add("fw-normal", "text-dark");
-        tdLocation.textContent = location.nome;
+        const tdLibrary = document.createElement("td");
+        tdLibrary.classList.add("fw-normal", "text-dark");
+        tdLibrary.textContent = location.nome;
+
+        const tdAddress = document.createElement("td");
+        tdAddress.classList.add("fw-normal", "text-dark");
+        tdAddress.textContent = location.morada;
 
         const tdLocalCode = document.createElement("td");
         tdLocalCode.classList.add("fw-normal", "text-dark");
@@ -74,9 +102,10 @@ function showLocations(locationsTableBody, bookLocations) {
 
         const tdQuantity = document.createElement("td");
         tdQuantity.classList.add("fw-normal", "text-dark");
-        tdQuantity.textContent = location.quantidade; // ajuste o nome da propriedade se necessário
+        tdQuantity.textContent = location.quantidade;
 
-        tr.appendChild(tdLocation);
+        tr.appendChild(tdLibrary);
+        tr.appendChild(tdAddress);
         tr.appendChild(tdLocalCode);
         tr.appendChild(tdQuantity);
 
