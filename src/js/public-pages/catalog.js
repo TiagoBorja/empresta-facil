@@ -1,6 +1,3 @@
-import * as bdUtils from '../utils/bd-utils.js';
-import * as utils from '../utils/utils.js';
-
 const BOOK_API_URL = '../administrative/book/code.php';
 const AUTHOR_BOOK_API_URL = '../administrative/author-book/code.php';
 
@@ -34,10 +31,6 @@ async function getAll() {
         });
 
         const enrichedBooks = books.map(book => {
-            console.log(authorsByBook);
-            console.log(book.id);
-
-
             const autores = authorsByBook[book.id] || ['Autor desconhecido'];
             return {
                 ...book,
@@ -68,7 +61,7 @@ function showBooks(books) {
                         <img src="${book.imagem || '../public/assets/images/big/img1.jpg'}" alt="Capa do livro" class="card-img-top">
                     </div>
                     <div class="el-card-content p-3">
-                        <a class="h5 d-block text-dark fw-semibold mb-1 text-decoration-none" href="?page=view-info&id=${book.id}">
+                        <a class="h5 d-block text-dark fw-semibold mb-1 text-decoration-none" href="?page=book-info&id=${book.id}">
                             ${book.titulo}
                         </a>
                         <span class="text-muted small d-block mb-2">${book.autor}</span>

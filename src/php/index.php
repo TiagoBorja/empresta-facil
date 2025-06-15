@@ -16,7 +16,7 @@ $page_file = "";
 $page_config = [
     'home' => ['title' => 'Página Inicial', 'file' => './pages/home.php'],
     'catalog' => ['title' => 'Catálogo', 'file' => './pages/catalog.php'],
-    'view-info' => ['title' => 'Informações', 'file' => './pages/view-info.php'],
+    'book-info' => ['title' => 'Informações', 'file' => './pages/book-info.php'],
     'auth' => ['title' => 'Login', 'file' => './pages/login-form.php'],
     'administrative' => ['title' => 'Painel Administrativo', 'file' => './administrative/index.php'],
 ];
@@ -159,8 +159,8 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                     case 'catalog':
                         $page_file = "../public/pages/catalog.php";
                         break;
-                    case 'view-info':
-                        $page_file = "../public/pages/view-info.php";
+                    case 'book-info':
+                        $page_file = "../public/pages/book-info.php";
                         break;
                     case 'auth':
                         $page_file = "../public/pages/login-form.php";

@@ -1,53 +1,54 @@
 <div class="row justify-content-center">
     <div class="col-md-12 p-4">
+        <nav aria-label="Navegação secundária">
+            <a class="text-info" href="?page=catalog">
+                <i class="mdi mdi-undo"></i>
+                Voltar
+            </a>
+        </nav>
         <div class="card shadow-lg">
             <div class="row g-0">
-                <!-- Imagem dentro do Card -->
                 <div class="col-md-4 ms-3 mt-2 mb-2 d-flex align-items-center">
-                    <img src="../public/assets/images/big/img1.jpg" class="img-fluid rounded-start p-2 w-100"
-                        alt="Capa do livro">
+                    <img id="bookCover" src="../public/assets/images/big/img1.jpg"
+                        class="img-fluid rounded-start p-2 w-100" alt="Book Cover">
                 </div>
 
                 <div class="col-md-1 mt-3 mb-3 d-flex justify-content-center align-items-center">
                     <div class="vertical-row bg-dark"></div>
                 </div>
 
-                <!-- Informações do Livro -->
-                <div class="col-md-6 md-flex align-items-cente">
+                <div class="col-md-6 md-flex align-items-center">
                     <div class="card-body">
-                        <h1 class="card-title text-center text-dark">A abelha Zarelha</h1>
+                        <h1 id="bookTitle" class="card-title text-center text-dark">Book Title</h1>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><strong>Autor:</strong>
-                                <span class="text-danger">Raquel
-                                    Patriarca</span>
+                                <span id="bookAuthor" class="text-danger"></span>
                             </li>
                             <li class="list-group-item"><strong>Ano de Lançamento:</strong>
-                                <span class="text-danger">2014</span>
+                                <span id="bookYear" class="text-danger"></span>
                             </li>
                             <li class="list-group-item"><strong>Idioma:</strong>
-                                <span class="text-danger">Português</span>
+                                <span id="bookLanguage" class="text-danger"></span>
                             </li>
                             <li class="list-group-item"><strong>ISBN:</strong>
-                                <span class="text-danger">9789899748385</span>
+                                <span id="bookISBN" class="text-danger"></span>
                             </li>
                             <li class="list-group-item"><strong>Editora:</strong>
-                                <span class="text-danger">Verso da História</span>
+                                <span id="bookPublisher" class="text-danger"></span>
                             </li>
                             <li class="list-group-item"><strong>Sinopse:</strong>
-                                <span class="text-danger">A Abelha Zarelha é o primeiro volume da coleção "Livro com
-                                    Bicho",
-                                    destinada a entreter os primeiros leitores. A história apresenta a Abelha Zarelha,
-                                    sempre
-                                    ocupada a zumbir de um lado para o outro.</span>
+                                <span id="bookSynopsis" class="text-danger"></span>
                             </li>
-                            <li class="list-group-item"><strong>Avaliação:</strong> <span
-                                    class="text-danger">4.73</span></li>
+                            <li class="list-group-item"><strong>Avaliação:</strong>
+                                <span id="bookRating" class="text-danger"></span>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
     <div class="col-md-12 p-4">
         <div class="card">
@@ -247,3 +248,5 @@
         </div>
     </div>
 </div>
+
+<script type="module" src="../js/public-pages/book-info.js"></script>
