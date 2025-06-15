@@ -12,7 +12,7 @@ async function getAll() {
     try {
         const [bookResponse, authorBookResponse] = await Promise.all([
             fetch(BOOK_API_URL),
-            fetch(`${AUTHOR_BOOK_API_URL}`)
+            fetch(AUTHOR_BOOK_API_URL)
         ]);
 
         if (!bookResponse.ok || !authorBookResponse.ok) {

@@ -1,11 +1,16 @@
 <div class="row justify-content-center">
     <div class="col-md-12 p-4">
-        <nav aria-label="Navegação secundária">
+        <div class="d-flex justify-content-between align-items-center mb-2">
             <a class="text-info" href="?page=catalog">
-                <i class="mdi mdi-undo"></i>
-                Voltar
+                <i class="mdi mdi-undo"></i> Voltar
             </a>
-        </nav>
+            <a href="?page=catalog">
+                <button class="btn btn-warning">
+                    <i class="mdi mdi-bookmark-plus-outline me-1"></i> Reservar
+                </button>
+            </a>
+        </div>
+
         <div class="card shadow-lg">
             <div class="row g-0">
                 <div class="col-md-4 ms-3 mt-2 mb-2 d-flex align-items-center">
@@ -17,7 +22,7 @@
                     <div class="vertical-row bg-dark"></div>
                 </div>
 
-                <div class="col-md-6 md-flex align-items-center">
+                <div class="col-md-6 d-flex align-items-center">
                     <div class="card-body">
                         <h1 id="bookTitle" class="card-title text-center text-dark">Book Title</h1>
                         <ul class="list-group list-group-flush">
@@ -50,6 +55,7 @@
     </div>
 
 
+
     <div class="col-md-12 p-4">
         <div class="card">
             <!-- Nav tabs -->
@@ -80,94 +86,6 @@
                         <div class="card-body">
                             <div class="comment-widgets scrollable ps-container bg-white"
                                 data-ps-id="1e4dd06c-c079-4682-737c-ce90567c7b40">
-
-                                <div class="d-flex flex-row comment-row">
-                                    <div class="p-2">
-                                        <img src="../assets/images/users/2.jpg" alt="user" width="50"
-                                            class="rounded-circle">
-                                    </div>
-                                    <div class="comment-text w-100">
-                                        <div class="d-flex justify-content align-items-center">
-                                            <h6 class="font-medium text-info mb-0">Fulano da Silva</h6>
-                                            <span class="star-shadow fs-3 me-2 text-warning ms-2">
-                                                <i class="mdi mdi-star"></i>
-                                                <i class="mdi mdi-star"></i>
-                                                <i class="mdi mdi-star"></i>
-                                                <i class="mdi mdi-star-outline"></i>
-                                                <i class="mdi mdi-star-outline"></i>
-                                            </span>
-                                        </div>
-                                        <span class="mb-3 d-block">Lorem Ipsum is simply dummy text of the printing
-                                            andLorem Ipsum
-                                            is simply dummy text of the printing andLorem Ipsum is simply dummy text of
-                                            the printing
-                                            andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
-                                            dummy text</span>
-                                        <div class="comment-footer">
-                                            <span class="text-muted float-start">18 de Março, 2025</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <hr>
-
-                                <div class="d-flex flex-row comment-row">
-                                    <div class="p-2">
-                                        <img src="../assets/images/users/5.jpg" alt="user" width="50"
-                                            class="rounded-circle">
-                                    </div>
-                                    <div class="comment-text w-100">
-                                        <div class="d-flex align-items-center justify-content">
-                                            <h6 class="font-medium text-info fs-5 mb-0">Fulano da Silva</h6>
-                                            <span class="star-shadow fs-3 me-2 text-warning ms-2">
-                                                <i class="mdi mdi-star"></i>
-                                                <i class="mdi mdi-star"></i>
-                                                <i class="mdi mdi-star"></i>
-                                                <i class="mdi mdi-star-outline"></i>
-                                                <i class="mdi mdi-star-outline"></i>
-                                            </span>
-                                        </div>
-                                        <span class="mb-3 d-block">Lorem Ipsum is simply dummy text of the printing
-                                            andLorem Ipsum
-                                            is simply dummy text of the printing andLorem Ipsum is simply dummy text of
-                                            the printing
-                                            andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
-                                            dummy text</span>
-                                        <div class="comment-footer">
-                                            <span class="text-muted float-start">18 de Março, 2025</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Comment Row -->
-                                <hr>
-
-                                <div class="d-flex flex-row comment-row">
-                                    <div class="p-2">
-                                        <img src="../assets/images/users/5.jpg" alt="user" width="50"
-                                            class="rounded-circle">
-                                    </div>
-                                    <div class="comment-text w-100">
-                                        <div class="d-flex justify-content align-items-center">
-                                            <h6 class="font-medium fs-5 text-info mb-0">Johnathan Doeting</h6>
-                                            <span class="star-shadow fs-3 me-2 text-warning ms-2">
-                                                <i class="mdi mdi-star"></i>
-                                                <i class="mdi mdi-star"></i>
-                                                <i class="mdi mdi-star"></i>
-                                                <i class="mdi mdi-star-outline"></i>
-                                                <i class="mdi mdi-star-outline"></i>
-                                            </span>
-                                        </div>
-                                        <span class="mb-3 d-block">Lorem Ipsum is simply dummy text of the printing
-                                            andLorem Ipsum
-                                            is simply dummy text of the printing andLorem Ipsum is simply dummy text of
-                                            the printing
-                                            andLorem Ipsum is simply dummy text of the printing andLorem Ipsum is simply
-                                            dummy text</span>
-                                        <div class="comment-footer">
-                                            <span class="text-muted float-start">18 de Março, 2025</span>
-                                        </div>
-                                    </div>
-                                </div>
                                 <hr>
                                 <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
                                     <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
@@ -193,18 +111,11 @@
                             <thead class="bg-dark">
                                 <tr>
                                     <th class="text-white">Biblioteca</th>
+                                    <th class="text-white">Estante</th>
                                     <th class="text-white">Quantidade Disponível</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white">
-                                <tr class="border-bottom border-dark">
-                                    <td class="fw-normal text-dark">Biblioteca Central</td>
-                                    <td class="fw-normal text-dark">4</td>
-                                </tr>
-                                <tr class="border-bottom border-dark">
-                                    <td class="fw-normal text-dark">Biblioteca de Gaia</td>
-                                    <td class="fw-normal text-dark">3</td>
-                                </tr>
+                            <tbody id="locationsTableBody" class="bg-white">
                             </tbody>
                         </table>
                     </div>
