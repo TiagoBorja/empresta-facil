@@ -34,8 +34,8 @@ class AuthorBook
 
     public function getAll()
     {
-        $query = "SELECT al.id as autor_livro_id, CONCAT(a.primeiro_nome, ' ', a.ultimo_nome) AS nome_completo, 
-                  l.titulo FROM " . $this->tableName . "
+        $query = "SELECT al.livro_fk, CONCAT(a.primeiro_nome, ' ', a.ultimo_nome) AS nome_completo, 
+                  l.titulo FROM " . $this->tableName . " al
                   INNER JOIN autor a ON al.autor_fk = a.id
                   INNER JOIN livro l ON al.livro_fk = l.id";
         $query_run = $this->pdo->prepare($query);
@@ -45,12 +45,12 @@ class AuthorBook
             $query_run->execute();
             $userRoles = $query_run->fetchAll(PDO::FETCH_ASSOC);
 
-            if (count($userRoles) < 1)
-                echo "<tr><td colspan='3'>Sem resultados</td></tr>";
-
             return json_encode($userRoles);
         } catch (PDOException $e) {
-            echo "<tr><td colspan='3'>Sem resultados</td></tr>";
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro na consulta: " . $e->getMessage()
+            ]);
         }
     }
 

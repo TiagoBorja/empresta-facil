@@ -47,21 +47,9 @@
     </div>
 </div>
 
-
 <div class="col-md-12 p-3">
-    <div class="row el-element-overlay">
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card shadow-lg">
-                <div class="el-card-item">
-                    <div class="el-card-avatar el-overlay-1">
-                        <img src="../public/assets/images/big/img1.jpg" alt="user">
-                    </div>
-                    <div class="el-card-content">
-                        <a class="h4 d-block mb-0" href="?page=view-info">Abelha Zarelha</a>
-                        <span class="text-muted">Raquel Patriarca</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div id="bookInfo" class="row el-element-overlay">
     </div>
 </div>
+
+<script type="module" src="../js/public-pages/catalog.js"></script>
