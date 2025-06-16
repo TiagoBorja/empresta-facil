@@ -65,10 +65,11 @@ export async function fetchSelect(API_URL, labelValue, elementId, selectedValue 
 function fillSelect(items, labelValue, elementId, selectedValue = null) {
     let option = "";
 
-    const fields = labelValue.split(' - ').map(f => f.trim());
+    const separator = labelValue.includes(' - ') ? ' - ' : ' ';
+    const fields = labelValue.split(separator).map(f => f.trim());
 
     items.forEach((item) => {
-        const label = fields.map(f => item[f] || '').join(' - ');
+        const label = fields.map(f => item[f] || '').join(separator);
 
         const isSelected = selectedValue !== null && item.id == selectedValue ? ' selected' : '';
         option += `<option value="${item.id}"${isSelected}>${label}</option>`;
