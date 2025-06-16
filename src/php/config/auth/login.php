@@ -5,7 +5,7 @@ include_once '../../classes/Connection.php';
 if (isset($_POST['usernameOrEmail']) && isset($_POST['password'])) {
 
     $usernameOrEmail = $_POST['usernameOrEmail'];
-    $password = $_POST['password']; 
+    $password = $_POST['password'];
 
     $connection = new Connection();
     $pdo = $connection->getConnection();
@@ -36,6 +36,11 @@ if (isset($_POST['usernameOrEmail']) && isset($_POST['password'])) {
     $_SESSION['username'] = $row['nome_utilizador'];
     $_SESSION['email'] = $row['email'];
 
-    header('Location: ../../index.php?page=home');
+    $pageRedirect = '';
+    $_SESSION['user']['tipo_utilizador'] === 'Utilizador Comum'
+        ? $pageRedirect = 'Location: ../../index.php?page=home'
+        : $pageRedirect = 'Location: ../../../administrative/index.php?page=dashboard';
+
+    header($pageRedirect);
     exit();
 }
