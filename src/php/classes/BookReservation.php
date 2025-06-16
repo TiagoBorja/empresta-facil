@@ -1,6 +1,7 @@
 <?php
 
 include_once 'Connection.php';
+include_once 'Utils.php';
 
 class BookReservation
 {
@@ -15,11 +16,13 @@ class BookReservation
     private $expirationDate;
     private $pickUpDate;
 
+    private $utils;
+
     public function __construct()
     {
         $connection = new Connection();
         $this->pdo = $connection->getConnection();
-
+        $this->utils = new Utils();
     }
 
     public function getId()
@@ -51,7 +54,7 @@ class BookReservation
     }
     public function getPickUpDate($pickUpDate)
     {
-        $this->pickUpDate = $pickUpDate;
+        return $this->pickUpDate = $pickUpDate;
     }
 
     public function setBookId($bookId)
@@ -84,16 +87,14 @@ class BookReservation
     public function create()
     {
         if (empty($this->pickUpDate)) {
-            echo json_encode([
-                'status' => 400,
+            return json_encode([
+                'status' => 409,
                 'message' => 'A data de levantamento é obrigatória.'
             ]);
-            exit;
         }
 
-
         $this->reservationDate = date('Y-m-d H:i:s');
-        $this->expirationDate = date('Y-m-d H:i:s', strtotime('+14 days'));
+        $this->expirationDate = date('Y-m-d H:i:s', strtotime($this->pickUpDate . ' +7 days'));
 
         $query = "INSERT INTO {$this->tableName} 
         (livro_localizacao_fk, utilizador_fk, data_reserva, data_levantamento, data_expiracao)
@@ -109,10 +110,38 @@ class BookReservation
         try {
             $stmt->execute();
 
-            return json_encode([
+            $bookQuery = "SELECT l.titulo , b.nome, b.morada
+                            FROM livro l
+                            JOIN livro_localizacao ll ON l.id = ll.livro_fk
+                            JOIN localizacao loc ON ll.localizacao_fk = loc.id
+                            JOIN biblioteca b ON loc.biblioteca_fk = b.id
+                        WHERE ll.id = :locationId";
+
+            $bookStmt = $this->pdo->prepare($bookQuery);
+            $bookStmt->bindParam(':locationId', $this->locationId);
+            $bookStmt->execute();
+
+            $book = $bookStmt->fetch(PDO::FETCH_ASSOC);
+            $bookTitle = $book['titulo'];
+            $libraryName = $book['nome'];
+            $libraryAddress = $book['morada'];
+
+            echo json_encode([
                 'status' => 200,
-                'message' => "Reserva criada com sucesso! Um email de confirmação será enviado em breve.",
+                'message' => "Reserva criada com sucesso! Um email será enviado em breve.",
             ]);
+
+            Utils::sendReservationEmail(
+                $_SESSION['user']['email'],
+                $_SESSION['user']['primeiro_nome'],
+                $bookTitle,
+                $this->pickUpDate,
+                $this->expirationDate,
+                $libraryName,
+                $libraryAddress
+            );
+
+            return;
         } catch (PDOException $e) {
             return json_encode([
                 'status' => 500,
@@ -120,7 +149,6 @@ class BookReservation
             ]);
         }
     }
-
 
     public function getById($id)
     {
