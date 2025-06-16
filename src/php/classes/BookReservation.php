@@ -111,7 +111,7 @@ class BookReservation
 
             return json_encode([
                 'status' => 200,
-                'message' => "Reserva criada com sucesso.",
+                'message' => "Reserva criada com sucesso! Um email de confirmação será enviado em breve.",
             ]);
         } catch (PDOException $e) {
             return json_encode([
