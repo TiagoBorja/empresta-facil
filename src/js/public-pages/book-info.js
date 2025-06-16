@@ -17,7 +17,7 @@ let bookLocations = {};
 document.addEventListener('DOMContentLoaded', async function () {
     const toastMessage = sessionStorage.getItem('toastMessage');
     if (toastMessage === 'success') {
-        toastr.success("Reserva criada com sucesso! Um email de confirmação será enviado em breve.", "Sucesso!");
+        toastr.info("Reserva criada com sucesso! Um email de confirmação será enviado em breve.", "Sucesso!");
         sessionStorage.removeItem('toastMessage');
     }
 
