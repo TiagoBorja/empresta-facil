@@ -10,8 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     urlParams = new URLSearchParams(window.location.search);
     id = urlParams.get("id");
-
+    
     if (id) {
+        console.log(id);
         updateState();
         changeActiveStatus();
         return;
@@ -73,6 +74,7 @@ function updateState() {
 
         const formData = new FormData(this);
         formData.append("saveData", true);
+        formData.append("id", id)
         bdUtils.updateData(API_URL, formData, form, '?page=state');
     });
 }

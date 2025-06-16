@@ -18,7 +18,7 @@
 
                     <div class="row g-3">
                         <div class="mb-3">
-                            <input type="hidden" id="id" name="id" class="form-control" readonly>
+                            <input type="text" id="id" name="id" class="form-control" readonly>
                         </div>
                         <div class="col-md-12 mb-3">
                             <div class="form-floating">
@@ -54,5 +54,5 @@
     </div>
 </div>
 
-<script type="module" src="../js/pages/state.js"></script>
+<script type="module" src="../js/pages/state-page.js"></script>
 <script type="module" src="../js/forms/state-form.js"></script>
