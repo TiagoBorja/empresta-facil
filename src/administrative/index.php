@@ -302,17 +302,6 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                 <?php
                 switch ($page) {
 
-                    case 'dashboard':
-                        $page_file = "./pages/dashboard.php";
-                        break;
-
-                    case 'users':
-                        $page_file = "./users/users-page.php";
-                        break;
-
-                    case 'user-form':
-                        $page_file = "./forms/user-form.php";
-                        break;
                     case 'authors':
                         $page_file = "./author/author-page.php";
                         break;
@@ -321,6 +310,13 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         $page_file = "./forms/author-form.php";
                         break;
 
+                    case 'books':
+                        $page_file = "./book/book-page.php";
+                        break;
+
+                    case 'book-form':
+                        $page_file = "./forms/book-form.php";
+                        break;
 
                     case 'categories':
                         $page_file = "./category/category-page.php";
@@ -330,19 +326,16 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         $page_file = "./forms/category-form.php";
                         break;
 
-                    case 'subcategories':
-                        $page_file = "./subcategory/subcategory-page.php";
+                    case 'dashboard':
+                        $page_file = "./pages/dashboard.php";
                         break;
 
-                    case 'subcategory-form':
-                        $page_file = "./forms/subcategory-form.php";
-                        break;
-                    case 'type-resources':
-                        $page_file = "./type-resource/type-resource-page.php";
+                    case 'employees':
+                        $page_file = "./pages/employee-page.php";
                         break;
 
-                    case 'type-resource-form':
-                        $page_file = "./forms/type-resource-form.php";
+                    case 'employee-form':
+                        $page_file = "./forms/employee-form.php";
                         break;
 
                     case 'libraries':
@@ -357,17 +350,8 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         $page_file = "./location/location-page.php";
                         break;
 
-
                     case 'location-form':
                         $page_file = "./forms/location-form.php";
-                        break;
-
-                    case 'books':
-                        $page_file = "./book/book-page.php";
-                        break;
-
-                    case 'book-form':
-                        $page_file = "./forms/book-form.php";
                         break;
 
                     case 'publishers':
@@ -381,8 +365,25 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                     case 'state':
                         $page_file = "./state/state-page.php";
                         break;
+
                     case 'state-form':
                         $page_file = "./forms/state-form.php";
+                        break;
+
+                    case 'subcategories':
+                        $page_file = "./subcategory/subcategory-page.php";
+                        break;
+
+                    case 'subcategory-form':
+                        $page_file = "./forms/subcategory-form.php";
+                        break;
+
+                    case 'type-resources':
+                        $page_file = "./type-resource/type-resource-page.php";
+                        break;
+
+                    case 'type-resource-form':
+                        $page_file = "./forms/type-resource-form.php";
                         break;
 
                     case 'user-roles':
@@ -393,10 +394,19 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         $page_file = "./forms/role-form.php";
                         break;
 
+                    case 'users':
+                        $page_file = "./users/users-page.php";
+                        break;
+
+                    case 'user-form':
+                        $page_file = "./forms/user-form.php";
+                        break;
+
                     default:
                         $page_file = "../public/pages/not_found.php";
                         break;
                 }
+
 
                 if (!file_exists($page_file))
                     include("../public/html/error-404.html");
