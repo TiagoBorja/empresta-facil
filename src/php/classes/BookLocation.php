@@ -57,7 +57,7 @@ class BookLocation
     public function getById($id)
     {
         $this->id = $id;
-        $query = "SELECT b.nome, b.morada, loc.cod_local, ll.quantidade
+        $query = "SELECT ll.id, b.nome, b.morada, loc.cod_local, ll.quantidade
               FROM " . $this->tableName . " b
               INNER JOIN localizacao loc ON loc.biblioteca_fk = b.id
               INNER JOIN livro_localizacao ll ON ll.localizacao_fk = loc.id

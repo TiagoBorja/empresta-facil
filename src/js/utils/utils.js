@@ -50,10 +50,12 @@ export async function fetchSelect(API_URL, labelValue, elementId, selectedValue 
         }
 
         const result = await response.json();
+
         if ('data' in result) {
             fillSelect(result.data, labelValue, elementId, selectedValue);
             return;
         }
+
         fillSelect(result, labelValue, elementId, selectedValue);
     } catch (error) {
         console.error('Erro ao fazer requisição:', error);

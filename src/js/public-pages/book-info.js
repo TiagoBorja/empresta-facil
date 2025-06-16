@@ -1,8 +1,10 @@
 import { fetchSelect } from '../utils/utils.js';
+import { newData } from '../utils/bd-utils.js';
 
 const API_ENDPOINTS = {
     BOOK: '../administrative/book/code.php',
     LOCATION: './api/book-location-api.php',
+    RESERVATION: './api/book-reservation-api.php',
     AUTHOR_BOOK: '../administrative/author-book/code.php'
 };
 
@@ -10,6 +12,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
 
 let bookValue = {};
+let bookLocations = {};
 
 document.addEventListener('DOMContentLoaded', async function () {
     fillFormData(id);
@@ -17,6 +20,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const reservationBtn = document.getElementById("reservationBtn");
     const modalElement = document.getElementById("reservationModal");
     const modalHeader = document.getElementById("reservationTitle");
+    const modalInputId = document.getElementById("bookId");
 
     const reservationModal = new bootstrap.Modal(modalElement);
 
@@ -24,8 +28,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         reservationModal.show();
 
         modalHeader.textContent = `Reservar - ${bookValue.titulo}`;
-
+        modalInputId.value = bookValue.id;
         fetchSelect(`${API_ENDPOINTS.LOCATION}?id=${id}`, 'nome', "librarySelect")
+
+        createReservation();
     });
 });
 
@@ -48,7 +54,7 @@ async function fillFormData(bookId) {
         if (book.status === 200 && authors.status === 200 && locations.status === 200) {
             bookValue = book.data;
             const authorList = authors.data;
-            const bookLocations = locations.data;
+            bookLocations = locations.data;
 
             document.getElementById("bookTitle").textContent = bookValue.titulo;
             document.getElementById("bookYear").textContent = bookValue.ano_lancamento;
@@ -111,4 +117,22 @@ function showLocations(locationsTableBody, bookLocations) {
 
         locationsTableBody.appendChild(tr);
     });
+}
+
+function createReservation() {
+    const form = document.querySelector("#reservationForm");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        formData.append("reservationSubmit", true);
+        formData.append("bookId", bookValue.id);
+        
+        newData(API_ENDPOINTS.RESERVATION, formData, form, `?page=book-info&id=${bookValue.id}`);
+        toastr.info('Reserva feita com sucesso! Foi enviado para seu email o seu recibo.', "Sucesso!");
+    });
+
+
 }
