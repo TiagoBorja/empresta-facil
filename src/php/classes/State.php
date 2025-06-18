@@ -53,12 +53,13 @@ class State
         try {
 
             $query_run->execute();
-            $userRoles = $query_run->fetchAll(PDO::FETCH_ASSOC);
+            $result = $query_run->fetchAll(PDO::FETCH_ASSOC);
 
-            if (count($userRoles) < 1)
-                echo "<tr><td colspan='3'>Sem resultados</td></tr>";
-
-            return json_encode($userRoles);
+            return json_encode([
+                'status' => 200,
+                'message' => "Reserva encontrada.",
+                'data' => $result
+            ]);
         } catch (PDOException $e) {
             echo "<tr><td colspan='3'>Sem resultados</td></tr>";
         }

@@ -57,6 +57,10 @@ class BookReservation
         return $this->pickUpDate = $pickUpDate;
     }
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
     public function setBookId($bookId)
     {
         $this->bookId = $bookId;
@@ -82,6 +86,75 @@ class BookReservation
     public function setPickUpDate($pickupDate)
     {
         $this->pickUpDate = $pickupDate; // Usa o "U" maiúsculo
+    }
+
+
+    public function getAll()
+    {
+        $query = "SELECT
+                    r.id,
+                    r.utilizador_fk,
+                    CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS nome_completo,
+                    l.titulo,
+                    r.data_reserva,
+                    r.data_levantamento,
+                    r.data_expiracao,
+                    e.estado AS estado_reserva
+                FROM reserva r
+                JOIN utilizador u ON r.utilizador_fk = u.id
+                JOIN estado e ON r.estado_fk = e.id
+                JOIN livro_localizacao ll ON r.livro_localizacao_fk = ll.id
+                JOIN livro l ON ll.livro_fk = l.id
+                ORDER BY r.data_reserva DESC";
+        $query_run = $this->pdo->prepare($query);
+
+        try {
+            $query_run->execute();
+            $value = $query_run->fetchAll(PDO::FETCH_ASSOC);
+
+            return json_encode($value);
+        } catch (PDOException $e) {
+            return json_encode($e->getMessage());
+        }
+    }
+    public function getById($id)
+    {
+        $query = "SELECT
+                r.id,
+                r.utilizador_fk,
+                CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS nome_completo,
+                ll.livro_fk,
+                l.titulo,
+                r.data_reserva,
+                r.data_levantamento,
+                r.data_expiracao,
+                e.estado AS estado_reserva
+            FROM reserva r
+            JOIN utilizador u ON r.utilizador_fk = u.id
+            JOIN estado e ON r.estado_fk = e.id
+            JOIN livro_localizacao ll ON r.livro_localizacao_fk = ll.id
+            JOIN livro l ON ll.livro_fk = l.id
+            WHERE r.id = :id
+            ORDER BY r.data_reserva DESC";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':id', $id);
+
+        try {
+            $stmt->execute();
+
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Reserva encontrada.",
+                'data' => $result
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => 'Erro ao obter a reserva: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function create()
@@ -147,35 +220,6 @@ class BookReservation
                 'status' => 500,
                 'message' => "Erro ao inserir: " . $e->getMessage()
             ]);
-        }
-    }
-
-    public function getById($id)
-    {
-        $query = "SELECT * FROM {$this->tableName} WHERE id = :id";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':id', $id);
-
-        try {
-            $stmt->execute();
-            $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($data) {
-                $this->id = $data['id'];
-                $this->userId = $data['utilizador_fk'];
-                $this->reservationDate = $data['data_reserva'];
-                $this->expirationDate = $data['data_expiracao'];
-            }
-
-            return [
-                'status' => 200,
-                'data' => $data
-            ];
-        } catch (PDOException $e) {
-            return [
-                'status' => 500,
-                'message' => 'Failed to retrieve reservation: ' . $e->getMessage()
-            ];
         }
     }
 }

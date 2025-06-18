@@ -7,15 +7,15 @@ export function clearInputs(inputs) {
     });
 }
 
-export function initializeRowSelection(API_URL, formRedirect) {
+export function initializeRowSelection(API_URL, formRedirect, specificRedirect) {
     const selectedRows = document.querySelectorAll("[id*=id-]");
 
     selectedRows.forEach(row => {
-        row.addEventListener("click", () => fetchData(API_URL, row.id, formRedirect));
+        row.addEventListener("click", () => fetchData(API_URL, row.id, formRedirect, specificRedirect));
     });
 }
 
-export async function fetchData(API_URL, rowId, formRedirect) {
+export async function fetchData(API_URL, rowId, formRedirect, specificRedirect) {
     try {
         const id = rowId.replace("id-", "");
         const response = await fetch(`${API_URL}?id=${id}`);
@@ -25,12 +25,14 @@ export async function fetchData(API_URL, rowId, formRedirect) {
         const data = await response.json();
 
         if (data.status === 200) {
-            window.location.href = `${formRedirect}&id=${id}`;
+            const paramKey = specificRedirect ? specificRedirect : "id";
+            window.location.href = `${formRedirect}&${paramKey}=${id}`;
         }
     } catch (error) {
         console.error("Erro ao obter os dados:", error);
     }
 }
+
 
 export async function handleFormResponse(result, form) {
     if (result.status === 200) {
@@ -122,3 +124,10 @@ export function showLoadingHideContent(loadingId, contentIds = []) {
     });
 }
 
+export function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // mm (0-indexed)
+    const year = date.getFullYear();                          // yyyy
+    return `${day}-${month}-${year}`;
+}

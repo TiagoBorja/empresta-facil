@@ -2,9 +2,8 @@ import * as bdUtils from '../utils/bd-utils.js';
 import * as utils from '../utils/utils.js';
 
 const API_ENDPOINTS = {
-    EMPLOYEE: '../php/api/employee-api.php',
-    LIBRARY: './library/code.php',
-    USER: './users/code.php',
+    RESERVATION: '../php/api/book-reservation-api.php',
+    LOAN: '../php/api/loan-api.php',
 };
 
 let urlParams;
@@ -16,19 +15,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     urlParams = new URLSearchParams(currentPath);
     id = urlParams.get("id");
 
-    if (currentPath === '?page=employees') {
+    if (currentPath === '?page=book-reservations') {
         await getAll();
         return;
     }
 
     if (id) {
         update();
-        changeActiveStatus();
         return;
     }
 
-    await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "users");
-    await utils.fetchSelect(API_ENDPOINTS.LIBRARY, "nome", "library");
 
     create();
     return;
@@ -37,26 +33,25 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function getAll() {
 
     try {
-        const [employeeResponse, libraryResponse] = await Promise.all([
-            fetch(API_ENDPOINTS.EMPLOYEE),
-            fetch(API_ENDPOINTS.LIBRARY)
+        const [reservationResponse] = await Promise.all([
+            fetch(API_ENDPOINTS.RESERVATION),
         ]);
 
-        if (!employeeResponse.ok || !libraryResponse.ok) {
+        if (!reservationResponse.ok) {
             throw new Error("Erro na requisição");
         }
 
-        const employee = await employeeResponse.json();
+        const reservation = await reservationResponse.json();
 
-        showEmployees(employee);
+        showReservation(reservation);
 
-        utils.initializeRowSelection(API_ENDPOINTS.EMPLOYEE, '?page=employee-form');
+        utils.initializeRowSelection(API_ENDPOINTS.LOAN, '?page=loan-form', 'reservationId');
     } catch (error) {
         console.error("Erro ao obter bibliotecas:", error);
         toastr.warning("Não foi possível carregar as bibliotecas. Tenta novamente mais tarde.", "Atenção!");
     }
 }
-function showEmployees(employees) {
+function showReservation(reservations) {
 
     if ($.fn.DataTable.isDataTable('#zero_config')) {
         $('#zero_config').DataTable().destroy();
@@ -65,20 +60,21 @@ function showEmployees(employees) {
     const tableBody = $('#zero_config tbody');
     tableBody.empty();
 
-    employees.forEach((employee) => {
-        const active = employee.ativo === 'Y'
-            ? '<span class="badge rounded-pill bg-success">Ativo</span>'
-            : (employee.ativo === 'N'
+    reservations.forEach((reservation) => {
+        const state = reservation.estado_reserva === 'Pendente'
+            ? '<span class="badge rounded-pill bg-warning">Pendente</span>'
+            : (reservation.ativo === 'N'
                 ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
                 : '');
 
         tableBody.append(`
-            <tr id="id-${employee.id}" class="selectable-row">
-                <td>${employee.primeiro_nome}</td>
-                <td>${employee.ultimo_nome}</td>
-                <td>${employee.biblioteca ?? 'Todas'}</td>
-                <td>${employee.permissao}</td>
-                <td>${active}</td>
+            <tr id="id-${reservation.id}" class="selectable-row">
+                <td class="text-truncate">${reservation.nome_completo}</td>
+                <td class="text-truncate">${reservation.titulo}</td>
+                <td class="text-truncate">${utils.formatDate(reservation.data_reserva)}</td>
+                <td class="text-truncate">${utils.formatDate(reservation.data_levantamento)}</td>
+                <td class="text-truncate">${utils.formatDate(reservation.data_expiracao)}</td>
+                <td class="text-truncate text-center">${state}</td>
             </tr>`
         );
     });
@@ -92,7 +88,7 @@ function showEmployees(employees) {
 
 
 function create() {
-    const form = document.querySelector("#employeeForm");
+    const form = document.querySelector("#libraryForm");
     if (!form) return;
 
     form.addEventListener("submit", async function (e) {
@@ -106,7 +102,7 @@ function create() {
 
 function update() {
 
-    const form = document.querySelector("#employeeForm");
+    const form = document.querySelector("#libraryForm");
     if (!form) return;
 
     form.addEventListener("submit", async function (e) {

@@ -196,9 +196,13 @@ class User
         try {
 
             $query_run->execute();
-            $users = $query_run->fetchAll(PDO::FETCH_ASSOC);
+            $result = $query_run->fetchAll(PDO::FETCH_ASSOC);
 
-            return json_encode($users);
+            return json_encode([
+                'status' => 200,
+                'message' => "Utilizadores encontrados.",
+                'data' => $result
+            ]);
         } catch (PDOException $e) {
             echo "<tr><td colspan='3'>Sem resultados</td></tr>";
         }

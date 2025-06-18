@@ -2,7 +2,8 @@ import * as bdUtils from '../utils/bd-utils.js';
 import * as utils from '../utils/utils.js';
 
 const API_ENDPOINTS = {
-    EMPLOYEE: '../php/api/employee-api.php',
+    LOAN: '../php/api/loan-api.php',
+    RESERVATION: '../php/api/book-reservation-api.php',
     LIBRARY: './library/code.php',
     USER: './users/code.php',
 };

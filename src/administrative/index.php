@@ -318,6 +318,10 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         $page_file = "./forms/book-form.php";
                         break;
 
+                    case 'book-reservations':
+                        $page_file = "./pages/book-reservation-page.php";
+                        break;
+                        
                     case 'categories':
                         $page_file = "./category/category-page.php";
                         break;
@@ -344,6 +348,14 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
 
                     case 'library-form':
                         $page_file = "./forms/library-form.php";
+                        break;
+
+                    case 'loans':
+                        $page_file = "./location/location-page.php";
+                        break;
+
+                    case 'loan-form':
+                        $page_file = "./forms/loan-form.php";
                         break;
 
                     case 'locations':

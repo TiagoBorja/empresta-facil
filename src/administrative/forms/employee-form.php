@@ -16,7 +16,7 @@
                     </h4>
                 </form>
             </div>
-            <form id="libraryForm">
+            <form id="employeeForm">
                 <div class="card-body">
                     <div class="mb-3">
                         <input type="hidden" id="id" name="id" class="form-control" readonly>
