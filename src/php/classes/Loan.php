@@ -120,4 +120,27 @@ class Loan
             ];
         }
     }
+
+    public function create()
+    {
+        $query = "INSERT INTO {$this->tableName} (utilizador_fk, funcionario_fk, data_devolucao) 
+                  VALUES (:utilizador_fk, :funcionario_fk, :data_devolucao)";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':utilizador_fk', $this->userFk, PDO::PARAM_INT);
+        $stmt->bindParam(':funcionario_fk', $this->employeeFk, PDO::PARAM_INT);
+        $stmt->bindParam(':data_devolucao', $this->returnDate, PDO::PARAM_STR);
+
+        try {
+            $stmt->execute();
+            return json_encode([
+                'status' => 200,
+                'message' => "Empréstimo criado com sucesso."
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => 'Erro ao criar empréstimo: ' . $e->getMessage()
+            ]);
+        }
+    }
 }

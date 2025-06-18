@@ -10,7 +10,7 @@
         </h4>
     </div>
     <div class="card-body">
-        <form id="reservationForm">
+        <form id="loanForm">
             <input type="hidden" name="id" id="id">
             <h5 class="mb-3">Informações da Reserva</h5>
             <div class="row">
@@ -63,6 +63,16 @@
                 </div>
             </div>
 
+            <h5 class="mt-4 mb-3">Datas</h5>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-floating mb-3">
+                        <input type="date" name="return_date" id="return_date" class="form-control" required>
+                        <label for="return_date">Data de Devolução</label>
+                    </div>
+                </div>
+            </div>
+
             <div class="card-footer">
                 <div class="text-center">
                     <button name="saveData" type="submit"
@@ -82,4 +92,5 @@
     </div>
 </div>
 
+<script type="module" src="../js/pages/loan-page.js"></script>
 <script type="module" src="../js/forms/loan-form.js"></script>

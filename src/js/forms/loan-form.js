@@ -14,6 +14,19 @@ let reservationId = urlParams.get("reservationId");
 
 document.addEventListener('DOMContentLoaded', async function () {
 
+    if (reservationId) {
+        showReservationForm();
+        return;
+    }
+
+    if (id) {
+        //showLoanForm();
+        return;
+    }
+
+});
+
+async function showReservationForm() {
     try {
         const [reservationResponse] = await Promise.all([
             fetch(`${API_ENDPOINTS.RESERVATION}?id=${reservationId}`),
@@ -32,11 +45,10 @@ document.addEventListener('DOMContentLoaded', async function () {
             document.getElementById("bookToLoan").textContent = `Reserva de ${reservationValue.nome_completo} - "${reservationValue.titulo}"`;
             document.getElementById("id").value = reservationValue.id;
 
-            await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user", reservationValue.utilizador_fk);
-            document.getElementById("user").disabled = true;
+            await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user", reservationValue.utilizador_fk, true);
 
-            await utils.fetchSelect(API_ENDPOINTS.BOOK, "titulo", "book", reservationValue.livro_fk);
-            document.getElementById("book").disabled = true;
+            await utils.fetchSelect(API_ENDPOINTS.BOOK, "titulo", "book", reservationValue.livro_fk, true);
+
 
             await utils.fetchSelect(API_ENDPOINTS.STATE, "estado", "state_pickup");
             await utils.fetchSelect(API_ENDPOINTS.STATE, "estado", "state_return");
@@ -45,10 +57,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     } catch (error) {
         toastr.error(error, "Erro!");
     }
-});
-
-function showReservationForm() {
-
 }
 
 

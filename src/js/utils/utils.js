@@ -43,7 +43,7 @@ export async function handleFormResponse(result, form) {
     }
 }
 
-export async function fetchSelect(API_URL, labelValue, elementId, selectedValue = null) {
+export async function fetchSelect(API_URL, labelValue, elementId, selectedValue = null, blockSelect = false) {
     try {
         const response = await fetch(API_URL);
 
@@ -54,7 +54,7 @@ export async function fetchSelect(API_URL, labelValue, elementId, selectedValue 
         const result = await response.json();
 
         if ('data' in result) {
-            fillSelect(result.data, labelValue, elementId, selectedValue);
+            fillSelect(result.data, labelValue, elementId, selectedValue, blockSelect);
             return;
         }
 
@@ -64,7 +64,7 @@ export async function fetchSelect(API_URL, labelValue, elementId, selectedValue 
     }
 }
 
-function fillSelect(items, labelValue, elementId, selectedValue = null) {
+function fillSelect(items, labelValue, elementId, selectedValue = null, blockSelect = false) {
     let option = "";
 
     const separator = labelValue.includes(' - ') ? ' - ' : ' ';
@@ -79,8 +79,18 @@ function fillSelect(items, labelValue, elementId, selectedValue = null) {
 
     const select = document.getElementById(elementId);
     select.innerHTML = option;
-}
 
+    if (blockSelect) {
+
+        const select = document.getElementById(elementId);
+        select.addEventListener('mousedown', function (e) {
+            e.preventDefault();
+        });
+        select.style.pointerEvents = 'none';
+        select.style.backgroundColor = '#eee';
+
+    }
+}
 export async function fillAuthorCheckboxes(authors, labelFields, containerId, selectedValues = []) {
     const container = document.getElementById(containerId);
     container.innerHTML = ''; // limpa antes de adicionar

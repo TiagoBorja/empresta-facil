@@ -10,31 +10,46 @@ if (isset($_POST['usernameOrEmail']) && isset($_POST['password'])) {
     $connection = new Connection();
     $pdo = $connection->getConnection();
 
-    $query = 'SELECT u.*, t.tipo AS tipo FROM utilizador u
+    $queryUser = 'SELECT u.*, t.tipo AS tipo FROM utilizador u
               JOIN tipo_utilizador t ON u.tipo_utilizador_fk = t.id 
               WHERE email = :usernameOrEmail OR nome_utilizador = :usernameOrEmail';
-    $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':usernameOrEmail', $usernameOrEmail, PDO::PARAM_STR);
-    $stmt->execute();
+    $stmtUser = $pdo->prepare($queryUser);
+    $stmtUser->bindParam(':usernameOrEmail', $usernameOrEmail, PDO::PARAM_STR);
+    $stmtUser->execute();
 
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $userRow = $stmtUser->fetch(PDO::FETCH_ASSOC);
 
-    if (!$row) {
+    $queryEmployee = "SELECT
+                        f.id,
+                        f.biblioteca_fk,
+                        CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS nome_completo
+                    FROM funcionario f
+                    JOIN utilizador u ON f.utilizador_fk = u.id
+                    WHERE f.utilizador_fk = :utilizadorFk";
+    $stmtEmployee = $pdo->prepare($queryEmployee);
+    $stmtEmployee->bindParam(':utilizadorFk', $userRow['id']);
+    $stmtEmployee->execute();
+
+    $employeeRow = $stmtEmployee->fetch(PDO::FETCH_ASSOC);
+
+    if (!$userRow) {
         $_SESSION['login-error'] = "Utilizador não encontrado!";
         header('Location: ../../index.php?page=auth');
         exit();
     }
 
-    if (!password_verify($password, $row['senha'])) {
+    if (!password_verify($password, $userRow['senha'])) {
         $_SESSION['login-error'] = "Senha inválida!";
         header('Location: ../../index.php?page=auth');
         exit();
     }
 
 
-    $_SESSION['user'] = $row;
-    $_SESSION['username'] = $row['nome_utilizador'];
-    $_SESSION['email'] = $row['email'];
+    $_SESSION['user'] = $userRow;
+    $_SESSION['username'] = $userRow['nome_utilizador'];
+    $_SESSION['email'] = $userRow['email'];
+
+    $_SESSION['employee'] = $employeeRow;
 
     $pageRedirect = '';
     $_SESSION['user']['tipo_utilizador'] === 'Utilizador Comum'
