@@ -45,10 +45,16 @@ class State
         $this->pdo = $connection->getConnection();
     }
 
-    public function getStates()
+    public function getStates($stateType)
     {
         $query = "SELECT * FROM estado";
+
+        if ($stateType) {
+            $query .= " WHERE observacoes = :observation";
+        }
+
         $query_run = $this->pdo->prepare($query);
+        $query_run->bindParam(':observation', $stateType, PDO::PARAM_STR);
 
         try {
 

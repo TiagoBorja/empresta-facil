@@ -222,4 +222,40 @@ class BookReservation
             ]);
         }
     }
+
+    public function updateReservationState($reservationId)
+    {
+        $queryState = "SELECT id FROM estado WHERE observacoes = 'RESERVA' AND estado = 'ATENDIDA'";
+        $stmtState = $this->pdo->prepare($queryState);
+        $stmtState->execute();
+        $stateIdRow = $stmtState->fetch(PDO::FETCH_ASSOC);
+
+        if (!$stateIdRow) {
+            return json_encode([
+                'status' => 404,
+                'message' => "Estado 'RESERVA - ATENDIDA' não encontrado na tabela estado."
+            ]);
+        }
+
+        $stateId = $stateIdRow['id'];
+
+        $query = "UPDATE {$this->tableName} SET estado_fk = :stateId WHERE id = :reservationId";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':stateId', $stateId, PDO::PARAM_INT);
+        $stmt->bindParam(':reservationId', $reservationId, PDO::PARAM_INT);
+
+        try {
+            $stmt->execute();
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Estado da reserva atualizado com sucesso!",
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao atualizar: " . $e->getMessage()
+            ]);
+        }
+    }
 }

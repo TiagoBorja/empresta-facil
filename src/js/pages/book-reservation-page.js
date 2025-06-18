@@ -61,12 +61,23 @@ function showReservation(reservations) {
     tableBody.empty();
 
     reservations.forEach((reservation) => {
-        const state = reservation.estado_reserva === 'Pendente'
-            ? '<span class="badge rounded-pill bg-warning">Pendente</span>'
-            : (reservation.ativo === 'N'
-                ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
-                : '');
 
+        let state = '';
+
+        switch (reservation.estado_reserva) {
+            case 'PENDENTE':
+                state = '<span class="badge rounded-pill bg-warning">Pendente</span>';
+                break;
+            case 'ATENDIDA':
+                state = '<span class="badge rounded-pill bg-success">Atendida</span>';
+                break;
+            case 'EXPIRADA':
+                state = '<span class="badge rounded-pill bg-secondary">Expirada</span>';
+                break;
+            case 'CANCELADA':
+                state = '<span class="badge rounded-pill bg-danger">Cancelada</span>';
+                break;
+        }
         tableBody.append(`
             <tr id="id-${reservation.id}" class="selectable-row">
                 <td class="text-truncate">${reservation.nome_completo}</td>
@@ -96,7 +107,7 @@ function create() {
 
         const formData = new FormData(this);
         formData.append("saveData", true);
-        bdUtils.newData(API_ENDPOINTS.EMPLOYEE, formData, form, '?page=employees');
+        bdUtils.newData(API_ENDPOINTS.EMPLOYEE, formData, form, '?page=book-reservations');
     });
 }
 
@@ -111,25 +122,6 @@ function update() {
         const formData = new FormData(this);
         formData.append("saveData", true);
         formData.append("id", id);
-        bdUtils.updateData(API_ENDPOINTS.EMPLOYEE, formData, form, '?page=employees');
-    });
-}
-
-function changeActiveStatus() {
-    const form = document.querySelector("#changeStatus");
-    if (!form) return;
-
-    form.addEventListener("submit", async function (e) {
-        e.preventDefault();
-
-        const activeBadge = document.getElementById("active");
-        const currentStatus = activeBadge.textContent === "Ativo" ? "Y" : "N";
-
-        const formData = new FormData(this);
-        formData.append("changeStatus", true);
-        formData.append("id", id);
-        formData.append("active", currentStatus);
-
-        bdUtils.changeActiveStatus(API_ENDPOINTS.EMPLOYEE, formData, activeBadge, currentStatus)
+        bdUtils.updateData(API_ENDPOINTS.EMPLOYEE, formData, form, '?page=book-reservations');
     });
 }

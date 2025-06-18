@@ -23,21 +23,23 @@ if (isset($_GET['reservationId'])) {
     $reservationId = filter_input(INPUT_GET, 'reservationId', FILTER_SANITIZE_NUMBER_INT);
     $reservation->setId($reservationId);
     echo $reservation->getById($reservationId);
+    echo $loan->getByReservationId($reservationId);
     exit;
 }
 
 if (isset($_POST['saveData'])) {
 
-    $userId = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_NUMBER_INT);
+    $reservationId = filter_input(INPUT_POST, 'reservationId', FILTER_SANITIZE_NUMBER_INT);
+    $userId = filter_input(INPUT_POST, 'user', filter: FILTER_SANITIZE_NUMBER_INT);
     $employeeFk = $_SESSION['employee']['id'];
     $loanDate = filter_input(INPUT_POST, 'loanDate', filter: FILTER_SANITIZE_SPECIAL_CHARS);
     $returnDate = filter_input(INPUT_POST, 'return_date', filter: FILTER_SANITIZE_SPECIAL_CHARS);
 
+    $loan->setReservationFk($reservationId);
     $loan->setUserFk($userId);
     $loan->setEmployeeFk($employeeFk);
     $loan->setReturnDate($returnDate);
 
     echo $loan->create();
-
     exit;
 }

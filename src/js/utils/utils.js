@@ -58,7 +58,7 @@ export async function fetchSelect(API_URL, labelValue, elementId, selectedValue 
             return;
         }
 
-        fillSelect(result, labelValue, elementId, selectedValue);
+        fillSelect(result, labelValue, elementId, selectedValue, blockSelect);
     } catch (error) {
         console.error('Erro ao fazer requisição:', error);
     }

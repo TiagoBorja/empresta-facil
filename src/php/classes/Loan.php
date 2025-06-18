@@ -8,6 +8,7 @@ class Loan
     private $tableName = 'emprestimo';
 
     private $id;
+    private $reservationFk;
     private $userFk;
     private $employeeFk;
     private $loanDate;
@@ -24,6 +25,11 @@ class Loan
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getReservationFk()
+    {
+        return $this->reservationFk;
     }
 
     public function getUserFk()
@@ -50,6 +56,12 @@ class Loan
     {
         $this->id = $id;
     }
+
+    public function setReservationFk($reservationFk)
+    {
+        $this->reservationFk = $reservationFk;
+    }
+
     public function setUserFk($userFk)
     {
         $this->userFk = $userFk;
@@ -121,17 +133,44 @@ class Loan
         }
     }
 
+    public function getByReservationId($reservationId)
+    {
+        $query = "SELECT * FROM {$this->tableName} WHERE reserva_fk = :reservationId";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':reservationId', $reservationId, PDO::PARAM_INT);
+
+        try {
+            $stmt->execute();
+
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Empréstimo encontrado.",
+                'data' => $result
+            ]);
+        } catch (PDOException $e) {
+            return [
+                'status' => 500,
+                'message' => 'Erro ao buscar empréstimo: ' . $e->getMessage()
+            ];
+        }
+    }
+
     public function create()
     {
-        $query = "INSERT INTO {$this->tableName} (utilizador_fk, funcionario_fk, data_devolucao) 
-                  VALUES (:utilizador_fk, :funcionario_fk, :data_devolucao)";
+        $query = "INSERT INTO {$this->tableName} (reserva_fk, utilizador_fk, funcionario_fk, data_devolucao) 
+                  VALUES (:reserva_fk, :utilizador_fk, :funcionario_fk, :data_devolucao)";
         $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':reserva_fk', $this->reservationFk, PDO::PARAM_INT);
         $stmt->bindParam(':utilizador_fk', $this->userFk, PDO::PARAM_INT);
         $stmt->bindParam(':funcionario_fk', $this->employeeFk, PDO::PARAM_INT);
         $stmt->bindParam(':data_devolucao', $this->returnDate, PDO::PARAM_STR);
 
         try {
             $stmt->execute();
+
+
             return json_encode([
                 'status' => 200,
                 'message' => "Empréstimo criado com sucesso."

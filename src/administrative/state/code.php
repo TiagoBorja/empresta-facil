@@ -6,7 +6,7 @@ include_once '../../php/classes/State.php';
 $stateClass = new State();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
-    echo $stateClass->getStates();
+    echo $stateClass->getStates($_GET['type'] ?? null);
     exit;
 }
 

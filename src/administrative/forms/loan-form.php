@@ -5,13 +5,14 @@
 <div class="card mt-2">
     <div class="card-header">
         <h4 class="card-title mb-0">
-            <i class="mdi mdi-map-marker"></i>
+            <i id="icon" class="mdi mdi-map-marker"></i>
             <span id="bookToLoan" class="hide-menu">Empréstimo</span>
         </h4>
     </div>
     <div class="card-body">
         <form id="loanForm">
-            <input type="hidden" name="id" id="id">
+            <input type="hidden" name="reservationId" id="reservationId">
+            <input type="hidden" name="loanId" id="loanId">
             <h5 class="mb-3">Informações da Reserva</h5>
             <div class="row">
                 <div class="col-md-6">
@@ -44,7 +45,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div id="stateReturnDiv" class="col-md-4">
                     <div class="form-floating mb-3">
                         <select name="state_return" id="state_return" class="form-select" required>
                             <option selected disabled>Selecione</option>
@@ -53,7 +54,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div id="loanStatusDiv" class="col-md-4">
                     <div class="form-floating mb-3">
                         <select name="loan_status" id="loan_status" class="form-select" required>
                             <option selected disabled>Selecione</option>
