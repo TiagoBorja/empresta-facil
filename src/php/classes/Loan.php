@@ -87,15 +87,25 @@ class Loan
     public function getAll()
     {
         $query = "SELECT 
-                    e.id,
-                    CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS utilizador,
+                    e.id, 
+                    CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS utilizador, 
                     CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS funcionario,
+                    l.titulo,
                     e.data_emprestimo,
-                    e.data_devolucao
-                  FROM {$this->tableName} e
-                  JOIN utilizador u ON e.utilizador_fk = u.id
-                  LEFT JOIN funcionario f ON e.funcionario_fk = f.id
-                  ORDER BY e.data_emprestimo DESC";
+                    e.data_devolucao,
+                    es_emprestimo.estado AS estado_emprestimo,
+                    es_levantou.estado AS estado_levantou,
+                    es_devolucao.estado AS estado_devolucao
+                FROM emprestimo e
+                JOIN utilizador u ON e.utilizador_fk = u.id
+                LEFT JOIN funcionario f ON e.funcionario_fk = f.id
+                JOIN emprestimo_livro el ON el.emprestimo_fk = e.id
+                JOIN livro_localizacao ll ON ll.id = el.livro_fk
+                JOIN livro l ON l.id = ll.livro_fk
+                JOIN estado es_emprestimo ON el.estado_emprestimo_fk = es_emprestimo.id
+                JOIN estado es_levantou ON el.estado_levantou_fk = es_levantou.id
+                LEFT JOIN estado es_devolucao ON el.estado_devolucao_fk = es_devolucao.id
+                ORDER BY e.data_emprestimo DESC";
 
         $stmt = $this->pdo->prepare($query);
 

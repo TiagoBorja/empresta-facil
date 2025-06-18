@@ -13,11 +13,15 @@ let id;
 let reservationId;
 
 document.addEventListener("DOMContentLoaded", async () => {
-
     const currentPath = window.location.search;
     urlParams = new URLSearchParams(currentPath);
     id = urlParams.get("id");
     reservationId = urlParams.get("reservationId");
+
+    if (currentPath === '?page=loans') {
+        await getAll();
+        return;
+    }
 
     if (id) {
         update();
@@ -30,6 +34,72 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
 });
 
+async function getAll() {
+
+    try {
+        const [loanResponse] = await Promise.all([
+            fetch(API_ENDPOINTS.LOAN),
+        ]);
+
+        if (!loanResponse.ok) {
+            throw new Error("Erro na requisição");
+        }
+
+        const loan = await loanResponse.json();
+        console.log(loan);
+        showLoan(loan);
+
+        utils.initializeRowSelection(API_ENDPOINTS.LOAN, '?page=loan-form', 'reservationId');
+    } catch (error) {
+        console.error("Erro ao obter bibliotecas:", error);
+        toastr.warning("Não foi possível carregar as bibliotecas. Tenta novamente mais tarde.", "Atenção!");
+    }
+}
+function showLoan(loans) {
+
+    if ($.fn.DataTable.isDataTable('#zero_config')) {
+        $('#zero_config').DataTable().destroy();
+    }
+
+    const tableBody = $('#zero_config tbody');
+    tableBody.empty();
+
+    loans.forEach((loan) => {
+
+        let state = '';
+
+        switch (loan.estado_emprestimo) {
+            case 'EM ANDAMENTO':
+                state = '<span class="badge rounded-pill bg-warning">Em Andamento</span>';
+                break;
+            case 'CONCLUIDO':
+                state = '<span class="badge rounded-pill bg-success">Concluído</span>';
+                break;
+            case 'CANCELADO':
+                state = '<span class="badge rounded-pill bg-secondary">Cancelado</span>';
+                break;
+            case 'ATRASADO':
+                state = '<span class="badge rounded-pill bg-danger">Atrasado</span>';
+                break;
+        }
+        tableBody.append(`
+            <tr id="id-${loan.id}" class="selectable-row">
+                <td class="text-truncate">${loan.utilizador}</td>
+                <td class="text-truncate">${loan.titulo}</td>
+                <td class="text-truncate">${utils.formatDate(loan.data_emprestimo)}</td>
+                <td class="text-truncate">${utils.formatDate(loan.data_devolucao)}</td>
+                <td class="text-truncate">${utils.formatDate(loan.data_devolucao)}</td>
+                <td class="text-truncate text-center">${state}</td>
+            </tr>`
+        );
+    });
+
+    $('#zero_config').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese.json'
+        }
+    });
+}
 
 function create() {
     const form = document.querySelector("#loanForm");
@@ -40,7 +110,7 @@ function create() {
 
         const formData = new FormData(this);
         formData.append("saveData", true);
-        bdUtils.newData(API_ENDPOINTS.LOAN, formData, form, '?page=book-reservations');
+        bdUtils.newData(API_ENDPOINTS.LOAN, formData, form, '?page=loans');
     });
 }
 

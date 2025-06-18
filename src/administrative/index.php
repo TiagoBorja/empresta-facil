@@ -146,7 +146,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                         <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições
                                         </a>'
                                         : ''
-                                        ?>
+                                    ?>
 
                                     <div class="dropdown-divider"></div>
 
@@ -159,7 +159,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                         <i class="mdi mdi-login text-info me-1 ms-1"></i>
                                         Entrar
                                     </a>'
-                                        ?>
+                                    ?>
                                 </ul>
                             </li>
                         </ul>
@@ -321,7 +321,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                     case 'book-reservations':
                         $page_file = "./pages/book-reservation-page.php";
                         break;
-                        
+
                     case 'categories':
                         $page_file = "./category/category-page.php";
                         break;
@@ -351,7 +351,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         break;
 
                     case 'loans':
-                        $page_file = "./location/location-page.php";
+                        $page_file = "./pages/loan-page.php";
                         break;
 
                     case 'loan-form':
