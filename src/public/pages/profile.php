@@ -4,7 +4,7 @@
             <div class="card shadow-lg rounded-4 border-0">
                 <div class="card-body p-4">
                     <div class="text-center mb-3">
-                        <img src="https://ui-avatars.com/api/?name=User&background=6c63ff&color=fff&size=56" class="rounded-circle shadow-sm mb-2" alt="Avatar do usuário" width="56" height="56">
+                        <img src="https://ui-avatars.com/api/?name=User&background=6c63ff&color=fff&size=56" class="rounded-circle shadow-sm mb-2" alt="Avatar do utilizador" width="56" height="56">
                         <h4 class="card-title mb-0">Meu Perfil</h4>
                         <small class="text-muted">Bem-vindo(a) de volta!</small>
                     </div>
@@ -33,24 +33,123 @@
                         <div class="col-md-8 col-lg-9 ps-md-4">
                             <div class="tab-content" id="profile-tabs-content">
                                 <div class="tab-pane fade show active" id="profile" role="tabpanel">
-                                    <h5 class="mb-3">Informações do Usuário</h5>
-                                    <p class="text-muted">Aqui vão as informações do usuário.</p>
+                                    <h5 class="mb-3">Informações do utilizador</h5>
+                                    <form class="mb-3">
+                                        <div class="mb-2">
+                                            <label class="form-label">Nome</label>
+                                            <input type="text" class="form-control" value="João Silva" readonly>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">E-mail</label>
+                                            <input type="email" class="form-control" value="joao@email.com" readonly>
+                                        </div>
+                                    </form>
                                 </div>
                                 <div class="tab-pane fade" id="comments" role="tabpanel">
                                     <h5 class="mb-3">Últimos Comentários</h5>
-                                    <p class="text-muted">Lista dos últimos comentários feitos pelo usuário.</p>
+                                    <ul class="list-group mb-4">
+                                        <li class="list-group-item">
+                                            <strong>"Ótimo livro!"</strong> em <em>Dom Casmurro</em> <span class="text-muted small">- 10/06/2024</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>"Recomendo para todos."</strong> em <em>O Pequeno Príncipe</em> <span class="text-muted small">- 05/06/2024</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>"Muito interessante."</strong> em <em>1984</em> <span class="text-muted small">- 01/06/2024</span>
+                                        </li>
+                                    </ul>
                                 </div>
                                 <div class="tab-pane fade" id="reservations" role="tabpanel">
                                     <h5 class="mb-3">Reservas</h5>
-                                    <p class="text-muted">Histórico de reservas do usuário.</p>
+                                    <table class="table table-bordered mb-4">
+                                        <thead>
+                                            <tr>
+                                                <th>Livro</th>
+                                                <th>Data da Reserva</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Dom Casmurro</td>
+                                                <td>08/06/2024</td>
+                                                <td><span class="badge bg-success">Ativa</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>O Pequeno Príncipe</td>
+                                                <td>02/06/2024</td>
+                                                <td><span class="badge bg-secondary">Expirada</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>1984</td>
+                                                <td>28/05/2024</td>
+                                                <td><span class="badge bg-danger">Cancelada</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="tab-pane fade" id="loans" role="tabpanel">
                                     <h5 class="mb-3">Empréstimos</h5>
-                                    <p class="text-muted">Histórico de empréstimos do usuário.</p>
+                                    <table class="table table-bordered mb-4">
+                                        <thead>
+                                            <tr>
+                                                <th>Livro</th>
+                                                <th>Data de Empréstimo</th>
+                                                <th>Data de Devolução</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Dom Casmurro</td>
+                                                <td>01/06/2024</td>
+                                                <td>10/06/2024</td>
+                                                <td><span class="badge bg-success">Devolvido</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>O Pequeno Príncipe</td>
+                                                <td>20/05/2024</td>
+                                                <td>30/05/2024</td>
+                                                <td><span class="badge bg-danger">Atrasado</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>1984</td>
+                                                <td>10/05/2024</td>
+                                                <td>20/05/2024</td>
+                                                <td><span class="badge bg-success">Devolvido</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="tab-pane fade" id="settings" role="tabpanel">
                                     <h5 class="mb-3">Configurações</h5>
-                                    <p class="text-muted">Configurações da conta do usuário.</p>
+                                    <form class="mb-3" id="settingsForm">
+                                        <div class="mb-2 position-relative">
+                                            <label class="form-label">Nome</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" value="João Silva" id="settingsName" name="settingsName" disabled>
+                                                <span class="input-group-text bg-white border-start-0" style="cursor:pointer;" onclick="toggleField('settingsName', this)"><i class="bi bi-pencil small text-muted"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2 position-relative">
+                                            <label class="form-label">E-mail</label>
+                                            <div class="input-group">
+                                                <input type="email" class="form-control" value="joao@email.com" id="settingsEmail" name="settingsEmail" disabled>
+                                                <span class="input-group-text bg-white border-start-0" style="cursor:pointer;" onclick="toggleField('settingsEmail', this)"><i class="bi bi-pencil small text-muted"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2 position-relative">
+                                            <label class="form-label">Telefone</label>
+                                            <div class="input-group">
+                                                <input type="tel" class="form-control" value="(11) 91234-5678" id="settingsPhone" name="settingsPhone" disabled>
+                                                <span class="input-group-text bg-white border-start-0" style="cursor:pointer;" onclick="toggleField('settingsPhone', this)"><i class="bi bi-pencil small text-muted"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <button type="submit" class="btn btn-primary" disabled id="settingsSave">Salvar Alterações</button>
+                                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Alterar Senha</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -72,4 +171,59 @@
             tabTrigger.show();
         });
     });
+</script>
+
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold" id="changePasswordModalLabel">
+                    <i class="bi bi-shield-lock me-2 text-primary"></i>Alterar Senha
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <p class="text-muted mb-4">Por favor, preencha os campos abaixo para alterar sua senha com segurança.</p>
+                <form>
+                    <div class="form-floating mb-3 position-relative">
+                        <input type="password" class="form-control ps-5" id="currentPassword" placeholder="Senha Atual" required>
+                        <label for="currentPassword">Senha Atual</label>
+                    </div>
+                    <div class="form-floating mb-3 position-relative">
+                        <input type="password" class="form-control ps-5" id="newPassword" placeholder="Nova Senha" required>
+                        <label for="newPassword">Nova Senha</label>
+                    </div>
+                    <div class="form-floating mb-3 position-relative">
+                        <input type="password" class="form-control ps-5" id="confirmPassword" placeholder="Confirmar Nova Senha" required>
+                        <label for="confirmPassword">Confirmar Nova Senha</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"><i class="bi bi-save me-1"></i>Guardar alterações</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleField(fieldId, iconElem) {
+        var input = document.getElementById(fieldId);
+
+        var isDisabled = input.disabled;
+        input.disabled = !isDisabled;
+
+        // Ajusta o foco e aparência do ícone
+        if (!input.disabled) {
+            input.focus();
+            iconElem.style.opacity = 0.4;
+        } else {
+            iconElem.style.opacity = 1;
+        }
+
+        var inputs = document.querySelectorAll('input');
+        var anyEnabled = Array.from(inputs).some(el => !el.disabled);
+
+        document.getElementById('settingsSave').disabled = !anyEnabled;
+    }
 </script>
