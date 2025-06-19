@@ -14,6 +14,7 @@ class Loan
     private $userFk;
     private $employeeFk;
     private $loanDate;
+    private $dueDate;
     private $returnDate;
 
     public function __construct()
@@ -49,7 +50,10 @@ class Loan
     {
         return $this->loanDate;
     }
-
+    public function getDueDate($dueDate)
+    {
+        $this->dueDate = $dueDate;
+    }
     public function getReturnDate()
     {
         return $this->returnDate;
@@ -80,6 +84,10 @@ class Loan
         $this->loanDate = $loanDate;
     }
 
+    public function setDueDate($dueDate)
+    {
+        $this->dueDate = $dueDate;
+    }
     public function setReturnDate($returnDate)
     {
         $this->returnDate = $returnDate;
@@ -202,12 +210,12 @@ class Loan
     public function create($books = [])
     {
         $query = "INSERT INTO {$this->tableName} (reserva_fk, utilizador_fk, funcionario_fk, data_devolucao) 
-                  VALUES (:reservationFk, :userFk, :employeeFk, :returnDate)";
+                  VALUES (:reservationFk, :userFk, :employeeFk, :dueDate)";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':reservationFk', $this->reservationFk, PDO::PARAM_INT);
         $stmt->bindParam(':userFk', $this->userFk, PDO::PARAM_INT);
         $stmt->bindParam(':employeeFk', $this->employeeFk, PDO::PARAM_INT);
-        $stmt->bindParam(':returnDate', $this->returnDate, PDO::PARAM_STR);
+        $stmt->bindParam(':dueDate', $this->dueDate, PDO::PARAM_STR);
 
         try {
             $stmt->execute();

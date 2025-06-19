@@ -1,4 +1,4 @@
-<a id="pageToUndo" class="text-info" href="?page=book-reservations">
+<a id="pageToRedirect" class="text-info" href="?page=book-reservations">
     <i class="mdi mdi-undo"></i>
     Voltar
 </a>
@@ -24,27 +24,22 @@
                     </div>
                 </div>
 
-                <div id="bookDropdownDiv" class="d-none">
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <button class="form-select text-start ps-3 pe-5 position-relative" type="button"
-                                id="booksDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span id="selectedBooksText" class="text-truncate">Selecionar livros</span>
-                            </button>
+                <div id="bookDropdownDiv" class="col-md-6 d-none">
+                    <div class="form-floating">
+                        <button class="form-select text-start ps-3 pe-5 position-relative" type="button"
+                            id="booksDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span id="selectedBooksText" class="text-truncate">Selecionar livros</span>
+                        </button>
 
-                            <div id="booksCheckboxes" class="dropdown-menu p-3 w-100"
-                                aria-labelledby="booksDropdown">
-                                <input type="text" name="searchInput" id="searchInput" placeholder="Nome">
-                            </div>
-
-                            <label for="booksDropdown" class="form-label">Livro(s)</label>
+                        <div id="booksCheckboxes" class="dropdown-menu p-3 w-100" aria-labelledby="booksDropdown">
+                            <input type="text" name="searchInput" id="searchInput" placeholder="Nome">
                         </div>
+
+                        <label for="booksDropdown" class="form-label">Livro(s)</label>
                     </div>
                 </div>
-            </div>
 
-            <div id="bookSelectDiv" class="d-none">
-                <div class="col-md-6">
+                <div id="bookSelectDiv" class="col-md-6 d-none">
                     <div class="form-floating mb-3">
                         <select name="bookSelect" id="bookSelect" class="form-select" required>
                             <option selected disabled>Selecione</option>
@@ -53,6 +48,7 @@
                     </div>
                 </div>
             </div>
+
 
             <h5 class="mt-4 mb-3">Estados</h5>
             <div class="row">
@@ -88,8 +84,14 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-floating mb-3">
-                        <input type="date" name="return_date" id="return_date" class="form-control" required>
-                        <label for="return_date">Data de Devolução</label>
+                        <input type="date" name="dueDate" id="dueDate" class="form-control" required>
+                        <label for="dueDate">Data de Devolução</label>
+                    </div>
+                </div>
+                <div class="col-md-4 d-none">
+                    <div class="form-floating mb-3">
+                        <input type="date" name="returnDate" id="returnDate" class="form-control" disabled>
+                        <label for="returnDate">Data de Devolvido</label>
                     </div>
                 </div>
             </div>

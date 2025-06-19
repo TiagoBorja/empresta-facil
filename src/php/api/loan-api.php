@@ -34,7 +34,7 @@ if (isset($_POST['saveData'])) {
     $userId = filter_input(INPUT_POST, 'user', filter: FILTER_SANITIZE_NUMBER_INT);
     $employeeFk = $_SESSION['employee']['id'];
     $loanDate = filter_input(INPUT_POST, 'loanDate', filter: FILTER_SANITIZE_SPECIAL_CHARS);
-    $returnDate = filter_input(INPUT_POST, 'return_date', filter: FILTER_SANITIZE_SPECIAL_CHARS);
+    $dueDate = filter_input(INPUT_POST, 'dueDate', filter: FILTER_SANITIZE_SPECIAL_CHARS);
 
     $books = $_POST['books'] ?? [];
     $books = array_filter(array_map(function ($bookId) {
@@ -44,7 +44,7 @@ if (isset($_POST['saveData'])) {
     $loan->setReservationFk($reservationId);
     $loan->setUserFk($userId);
     $loan->setEmployeeFk($employeeFk);
-    $loan->setReturnDate($returnDate);
+    $loan->setDueDate($dueDate);
 
     echo $loan->create($books);
     exit;

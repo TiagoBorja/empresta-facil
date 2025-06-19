@@ -74,7 +74,7 @@ class LoanBook
 
     public function create()
     {
-        $query = "INSERT INTO {$this->tableName} (emprestimo_fk, livro_fk, estado_levantou_fk) 
+        $query = "INSERT INTO {$this->tableName} (emprestimo_fk, livro_localizacao_fk, estado_levantou_fk) 
                   VALUES (:loanFk, :bookFk, :statePickUp)";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':loanFk', $this->loanFk, PDO::PARAM_INT);

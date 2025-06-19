@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         document.getElementById("bookSelectDiv").classList.remove("d-none")
         document.getElementById("stateReturnDiv").classList.remove("d-none");
         document.getElementById("loanStatusDiv").classList.remove("d-none");
+        document.getElementById("returnDate").classList.remove("d-none");
+        document.getElementById("returnDate").disable = false;
         await showLoanForm();
         return;
     }
@@ -52,6 +54,7 @@ async function showReservationForm() {
         if (reservation.status === 200) {
 
             const loanValue = reservation.data;
+            document.getElementById("pageToRedirect").href = "?page=book-reservations";
             document.getElementById("icon").classList.add("mdi-book-open-page-variant");
             document.getElementById("bookToLoan").textContent = `Reserva de ${loanValue.nome_completo} - "${loanValue.titulo}"`;
             document.getElementById("reservationId").value = loanValue.id;
@@ -81,11 +84,14 @@ async function showLoanForm() {
         if (loan.status === 200) {
 
             const loanValue = loan.data;
-            console.log(loanValue);
 
+            document.getElementById("pageToRedirect").href = "?page=loans"
             document.getElementById("icon").classList.add("mdi-book-open-page-variant");
             document.getElementById("bookToLoan").textContent = `Empréstimo de ${loanValue.utilizador} - "${loanValue.titulo}"`;
             document.getElementById("loanId").value = loanValue.id;
+            const dueDate = document.getElementById("dueDate");
+            dueDate.value = loanValue.data_devolucao;
+            dueDate.disabled = true;
 
             await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user", loanValue.utilizador_fk, true);
             await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect", loanValue.livro_fk, true);
