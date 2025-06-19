@@ -60,7 +60,6 @@ class Utils
                 'status' => 200,
                 'message' => 'Email enviado com sucesso para ' . $email,
             ]);
-
         } catch (Exception $e) {
             return json_encode([
                 'status' => 500,
@@ -81,7 +80,7 @@ class Utils
             $phpmailer->Username = 'cd897272b85f0b';
             $phpmailer->Password = '8e715910c11cab';
 
-            $phpmailer->setFrom('biblioteca@example.com', 'Biblioteca Municipal');
+            $phpmailer->setFrom('biblioteca@example.com', $libraryName);
             $phpmailer->addAddress($email, $firstName);
 
             $phpmailer->CharSet = 'UTF-8';
