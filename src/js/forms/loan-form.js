@@ -1,11 +1,11 @@
 import * as utils from '../utils/utils.js';
 
 const API_ENDPOINTS = {
+    BOOK_LOCATION: '../php/api/book-location-api.php',
     LOAN: '../php/api/loan-api.php',
     RESERVATION: '../php/api/book-reservation-api.php',
     STATE: './state/code.php',
     USER: './users/code.php',
-    BOOK: './book/code.php',
 };
 
 let urlParams = new URLSearchParams(window.location.search);
@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     const isEditMode = id || reservationId !== null;
     if (!isEditMode) {
         const allBooksData = await fetchAllBooksData();
-        console.log(allBooksData);
         createBooksCheckboxes(allBooksData, []); // Array vazio para livros associados
     }
 
@@ -72,7 +71,6 @@ async function showReservationForm() {
 async function showLoanForm() {
     try {
         const loanResponse = await fetch(`${API_ENDPOINTS.LOAN}?id=${id}`);
-        console.log(loanResponse);
     } catch (error) {
         toastr.error(error, "Erro!");
     }
@@ -115,15 +113,8 @@ function createBooksCheckboxes(allBooks, associatedBooks) {
     booksCheckboxesDiv.appendChild(searchGroup);
 
     const divider = document.createElement("hr");
-    divider.className = "my-2"; // Bootstrap: margem vertical
+    divider.className = "my-2";
     booksCheckboxesDiv.appendChild(divider);
-
-
-    const getFullName = (author) => {
-        const firstName = author?.primeiro_nome || '';
-        const lastName = author?.ultimo_nome || '';
-        return `${firstName.trim()} ${lastName.trim()}`.trim();
-    };
 
     const sortedBooks = [...allBooks].sort((a, b) => {
         const nameA = a.titulo.toLowerCase();
@@ -141,14 +132,15 @@ function createBooksCheckboxes(allBooks, associatedBooks) {
     }
 
     const associatedBookIds = new Set(
-        associatedBooks.map(book => book?.livro_fk).filter(Boolean)
+        associatedBooks.map(book => book?.livro_localizacao_fk).filter(Boolean)
     );
 
     sortedBooks.forEach(book => {
         if (!book?.id) return;
 
-        const checkboxId = `book_${book.id}`;
-        const isChecked = associatedBookIds.has(book.id);
+        const checkboxId = `book_${book.livro_localizacao_fk}`;
+        console.log(checkboxId);
+        const isChecked = associatedBookIds.has(book.livro_localizacao_fk);
         const bookName = book.titulo || 'Livro sem nome';
 
         const wrapper = document.createElement("div");
@@ -159,7 +151,7 @@ function createBooksCheckboxes(allBooks, associatedBooks) {
         checkbox.classList.add("form-check-input");
         checkbox.id = checkboxId;
         checkbox.name = "books[]";
-        checkbox.value = book.id;
+        checkbox.value = book.livro_localizacao_fk;
         checkbox.checked = isChecked;
         checkbox.addEventListener('change', updateBooksDropdownText);
 
@@ -207,8 +199,7 @@ function updateBooksDropdownText() {
 }
 
 async function fetchAllBooksData() {
-    const response = await fetch(API_ENDPOINTS.BOOK);
-
+    const response = await fetch(API_ENDPOINTS.BOOK_LOCATION);
     if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Erro na API: ${response.status} - ${errorText}`);

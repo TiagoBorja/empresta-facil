@@ -14,7 +14,6 @@ class BookLocation
     {
         $connection = new Connection();
         $this->pdo = $connection->getConnection();
-
     }
 
     public function getId()
@@ -38,11 +37,12 @@ class BookLocation
     public function getAll()
     {
 
-        $query = "SELECT l.*, e.editora, c.categoria, s.subcategoria
-                  FROM " . $this->tableName . " l
-                  INNER JOIN editora e ON l.editora_fk = e.id
-                  INNER JOIN categoria c ON l.categoria_fk = c.id
-                  INNER JOIN subcategoria s ON l.subcategoria_fk = s.id";
+        $query = "SELECT l.*, ll.id as livro_localizacao_fk, loc.cod_local, ll.quantidade
+                  FROM {$this->tableName} b
+                  INNER JOIN localizacao loc ON loc.biblioteca_fk = b.id
+                  INNER JOIN livro_localizacao ll ON ll.localizacao_fk = loc.id
+                  INNER JOIN livro l ON ll.livro_fk = l.id
+                  WHERE ll.quantidade > 0";
         $query_run = $this->pdo->prepare($query);
 
         try {
@@ -81,5 +81,4 @@ class BookLocation
             ]);
         }
     }
-
 }

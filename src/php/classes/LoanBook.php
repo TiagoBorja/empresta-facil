@@ -5,7 +5,7 @@ include_once 'Connection.php';
 class LoanBook
 {
     private $pdo;
-    private $tableName = 'emprestimo';
+    private $tableName = 'emprestimo_livro';
 
     private $loanFk;
     private $bookFk;
@@ -74,7 +74,7 @@ class LoanBook
 
     public function create()
     {
-        $query = "INSERT INTO {$this->tableName} (emprestimo_fk, livro_fk, estado_levantou_fk, estado_devolucao_fk, estado_emprestimo_fk) 
+        $query = "INSERT INTO {$this->tableName} (emprestimo_fk, livro_fk, estado_levantou_fk) 
                   VALUES (:loanFk, :bookFk, :statePickUp)";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':loanFk', $this->loanFk, PDO::PARAM_INT);
