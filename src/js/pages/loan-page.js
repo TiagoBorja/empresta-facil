@@ -49,7 +49,7 @@ async function getAll() {
         console.log(loan);
         showLoan(loan);
 
-        utils.initializeRowSelection(API_ENDPOINTS.LOAN, '?page=loan-form', 'reservationId');
+        utils.initializeRowSelection(API_ENDPOINTS.LOAN, '?page=loan-form');
     } catch (error) {
         console.error("Erro ao obter bibliotecas:", error);
         toastr.warning("Não foi possível carregar as bibliotecas. Tenta novamente mais tarde.", "Atenção!");
@@ -116,7 +116,7 @@ function create() {
 
 function update() {
 
-    const form = document.querySelector("#employeeForm");
+    const form = document.querySelector("#loanForm");
     if (!form) return;
 
     form.addEventListener("submit", async function (e) {
@@ -125,6 +125,6 @@ function update() {
         const formData = new FormData(this);
         formData.append("saveData", true);
         formData.append("id", id);
-        bdUtils.updateData(API_ENDPOINTS.EMPLOYEE, formData, form, '?page=employees');
+        bdUtils.updateData(API_ENDPOINTS.LOAN, formData, form, '?page=loans');
     });
 }

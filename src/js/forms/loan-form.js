@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     if (id) {
-        //showLoanForm();
+        showLoanForm();
         return;
     }
 
@@ -62,4 +62,12 @@ async function showReservationForm() {
     }
 }
 
+async function showLoanForm() {
+    try {
+        const loanResponse = await fetch(`${API_ENDPOINTS.LOAN}?id=${id}`);
+        console.log(loanResponse);
+    } catch (error) {
+        toastr.error(error, "Erro!");
+    }
+}
 

@@ -100,7 +100,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                             <img src="<?= $imgPath ?> " alt="user" class="rounded-circle" width="31" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="javascript:void(0)"><i
+                            <a class="dropdown-item" href="?page=profile"><i
                                     class="mdi mdi-account me-1 ms-1 text-info"></i>
                                 Meu Perfil</a>
                             <div class="dropdown-divider"></div>
@@ -114,7 +114,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                     <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições
                                     </a>'
                                 : ''
-                                ?>
+                            ?>
 
                             <div class="dropdown-divider"></div>
 
@@ -127,7 +127,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                         <i class="mdi mdi-login text-info me-1 ms-1"></i>
                                         Entrar
                                     </a>'
-                                ?>
+                            ?>
                         </ul>
                     </li>
                 </ul>
@@ -165,9 +165,8 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                 $page_file = "../public/administrative/index.php";
                 break;
 
-
-            case 3:
-                $page_file = "../public/config/user-type/user-type.php";
+            case 'profile':
+                $page_file = "../public/pages/profile.php";
                 break;
 
             default:

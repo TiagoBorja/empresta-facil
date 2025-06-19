@@ -5,7 +5,7 @@
 <div class="card mt-2">
     <div class="card-header">
         <h4 class="card-title mb-0">
-            <i id="icon" class="mdi mdi-map-marker"></i>
+            <i id="icon" class="mdi mdi-book-open-page-variant"></i>
             <span id="bookToLoan" class="hide-menu">Empréstimo</span>
         </h4>
     </div>
