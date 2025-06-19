@@ -89,7 +89,7 @@ function showLoan(loans) {
                 <td class="text-truncate">${loan.titulo}</td>
                 <td class="text-truncate">${utils.formatDate(loan.data_emprestimo)}</td>
                 <td class="text-truncate">${utils.formatDate(loan.data_devolucao)}</td>
-                <td class="text-truncate">${utils.formatDate(loan.data_devolucao)}</td>
+                <td class="text-truncate">${utils.formatDate(loan.data_devolvido)}</td>
                 <td class="text-truncate text-center">${state}</td>
             </tr>`
         );

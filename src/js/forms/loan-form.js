@@ -9,26 +9,28 @@ const API_ENDPOINTS = {
 };
 
 let urlParams = new URLSearchParams(window.location.search);
-let id = urlParams.get("id");
+let loanId = urlParams.get("id");
 let reservationId = urlParams.get("reservationId");
 
 document.addEventListener('DOMContentLoaded', async function () {
 
-    const isEditMode = id || reservationId !== null;
+    const isEditMode = loanId !== null;
     if (!isEditMode) {
         const allBooksData = await fetchAllBooksData();
-        createBooksCheckboxes(allBooksData, []); // Array vazio para livros associados
+        createBooksCheckboxes(allBooksData, []);
+        document.getElementById("bookDropdownDiv").classList.remove("d-none")
     }
 
     if (reservationId) {
-        document.getElementById("stateReturnDiv").classList.add("d-none");
-        document.getElementById("loanStatusDiv").classList.add("d-none");
         showReservationForm();
         return;
     }
 
-    if (id) {
-        showLoanForm();
+    if (loanId) {
+        document.getElementById("bookSelectDiv").classList.remove("d-none")
+        document.getElementById("stateReturnDiv").classList.remove("d-none");
+        document.getElementById("loanStatusDiv").classList.remove("d-none");
+        await showLoanForm();
         return;
     }
 
@@ -46,22 +48,18 @@ async function showReservationForm() {
         }
 
         const reservation = await reservationResponse.json();
-        const loan = await loanResponse.json();
-
 
         if (reservation.status === 200) {
 
-            const reservationValue = reservation.data;
-
-            document.getElementById("icon").classList.remove("mdi-map-marker");
+            const loanValue = reservation.data;
             document.getElementById("icon").classList.add("mdi-book-open-page-variant");
-            document.getElementById("bookToLoan").textContent = `Reserva de ${reservationValue.nome_completo} - "${reservationValue.titulo}"`;
-            document.getElementById("reservationId").value = reservationValue.id;
+            document.getElementById("bookToLoan").textContent = `Reserva de ${loanValue.nome_completo} - "${loanValue.titulo}"`;
+            document.getElementById("reservationId").value = loanValue.id;
 
-            await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user", reservationValue.utilizador_fk, true);
-            await utils.fetchSelect(API_ENDPOINTS.BOOK, "titulo", "book", reservationValue.livro_fk, true);
+            await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user", loanValue.utilizador_fk, true);
+            await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect", loanValue.livro_fk, true);
 
-            await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "state_pickup");
+            await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "state_pickup", loanValue.estado_levantou);
         }
     } catch (error) {
         toastr.error(error, "Erro!");
@@ -70,7 +68,31 @@ async function showReservationForm() {
 
 async function showLoanForm() {
     try {
-        const loanResponse = await fetch(`${API_ENDPOINTS.LOAN}?id=${id}`);
+        const [loanResponse] = await Promise.all([
+            fetch(`${API_ENDPOINTS.LOAN}?id=${loanId}`),
+        ]);
+
+        if (!loanResponse.ok) {
+            throw new Error("Erro na requisição");
+        }
+
+        const loan = await loanResponse.json();
+
+        if (loan.status === 200) {
+
+            const loanValue = loan.data;
+            console.log(loanValue);
+
+            document.getElementById("icon").classList.add("mdi-book-open-page-variant");
+            document.getElementById("bookToLoan").textContent = `Empréstimo de ${loanValue.utilizador} - "${loanValue.titulo}"`;
+            document.getElementById("loanId").value = loanValue.id;
+
+            await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user", loanValue.utilizador_fk, true);
+            await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect", loanValue.livro_fk, true);
+
+
+            await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "state_pickup", loanValue.estado_levantou_fk, true);
+        }
     } catch (error) {
         toastr.error(error, "Erro!");
     }
@@ -139,7 +161,6 @@ function createBooksCheckboxes(allBooks, associatedBooks) {
         if (!book?.id) return;
 
         const checkboxId = `book_${book.livro_localizacao_fk}`;
-        console.log(checkboxId);
         const isChecked = associatedBookIds.has(book.livro_localizacao_fk);
         const bookName = book.titulo || 'Livro sem nome';
 
@@ -153,7 +174,14 @@ function createBooksCheckboxes(allBooks, associatedBooks) {
         checkbox.name = "books[]";
         checkbox.value = book.livro_localizacao_fk;
         checkbox.checked = isChecked;
-        checkbox.addEventListener('change', updateBooksDropdownText);
+        checkbox.addEventListener('change', function () {
+            const checkedBoxes = booksCheckboxesDiv.querySelectorAll('input[type="checkbox"]:checked');
+            if (checkedBoxes.length > 5) {
+                this.checked = false;
+                toastr.warning('Você só pode selecionar até 5 livros.', 'Limite atingido!');
+            }
+            updateBooksDropdownText();
+        });
 
         const label = document.createElement("label");
         label.classList.add("form-check-label", "w-100");

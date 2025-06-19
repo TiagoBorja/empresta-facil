@@ -1,4 +1,4 @@
-<a class="text-info" href="?page=book-reservations">
+<a id="pageToUndo" class="text-info" href="?page=book-reservations">
     <i class="mdi mdi-undo"></i>
     Voltar
 </a>
@@ -6,7 +6,7 @@
     <div class="card-header">
         <h4 class="card-title mb-0">
             <i id="icon" class="mdi mdi-book-open-page-variant"></i>
-            <span id="bookToLoan" class="hide-menu">Empréstimo</span>
+            <span id="bookToLoan" class="hide-menu"></span>
         </h4>
     </div>
     <div class="card-body">
@@ -24,19 +24,32 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="form-floating">
-                        <button class="form-select text-start ps-3 pe-5 position-relative" type="button"
-                            id="booksDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span id="selectedBooksText" class="text-truncate">Selecionar livros</span>
-                        </button>
+                <div id="bookDropdownDiv" class="d-none">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <button class="form-select text-start ps-3 pe-5 position-relative" type="button"
+                                id="booksDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span id="selectedBooksText" class="text-truncate">Selecionar livros</span>
+                            </button>
 
-                        <div id="booksCheckboxes" class="dropdown-menu p-3 w-100"
-                            aria-labelledby="booksDropdown">
-                            <input type="text" name="searchInput" id="searchInput" placeholder="Nome">
+                            <div id="booksCheckboxes" class="dropdown-menu p-3 w-100"
+                                aria-labelledby="booksDropdown">
+                                <input type="text" name="searchInput" id="searchInput" placeholder="Nome">
+                            </div>
+
+                            <label for="booksDropdown" class="form-label">Livro(s)</label>
                         </div>
+                    </div>
+                </div>
+            </div>
 
-                        <label for="booksDropdown" class="form-label">Livro(s)</label>
+            <div id="bookSelectDiv" class="d-none">
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <select name="bookSelect" id="bookSelect" class="form-select" required>
+                            <option selected disabled>Selecione</option>
+                        </select>
+                        <label for="bookSelect">Escolha o Livro</label>
                     </div>
                 </div>
             </div>
@@ -52,7 +65,7 @@
                     </div>
                 </div>
 
-                <div id="stateReturnDiv" class="col-md-4">
+                <div id="stateReturnDiv" class="col-md-4 d-none">
                     <div class="form-floating mb-3">
                         <select name="state_return" id="state_return" class="form-select" required>
                             <option selected disabled>Selecione</option>
@@ -61,7 +74,7 @@
                     </div>
                 </div>
 
-                <div id="loanStatusDiv" class="col-md-4">
+                <div id="loanStatusDiv" class="col-md-4 d-none">
                     <div class="form-floating mb-3">
                         <select name="loan_status" id="loan_status" class="form-select" required>
                             <option selected disabled>Selecione</option>

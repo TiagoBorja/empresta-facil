@@ -52,7 +52,6 @@ export async function fetchSelect(API_URL, labelValue, elementId, selectedValue 
         }
 
         const result = await response.json();
-
         if ('data' in result) {
             fillSelect(result.data, labelValue, elementId, selectedValue, blockSelect);
             return;
@@ -65,30 +64,34 @@ export async function fetchSelect(API_URL, labelValue, elementId, selectedValue 
 }
 
 function fillSelect(items, labelValue, elementId, selectedValue = null, blockSelect = false) {
-    let option = "";
+    try {
+        let option = "";
 
-    const separator = labelValue.includes(' - ') ? ' - ' : ' ';
-    const fields = labelValue.split(separator).map(f => f.trim());
+        const separator = labelValue.includes(' - ') ? ' - ' : ' ';
+        const fields = labelValue.split(separator).map(f => f.trim());
 
-    items.forEach((item) => {
-        const label = fields.map(f => item[f] || '').join(separator);
+        items.forEach((item) => {
+            const label = fields.map(f => item[f] || '').join(separator);
 
-        const isSelected = selectedValue !== null && item.id == selectedValue ? ' selected' : '';
-        option += `<option value="${item.id}"${isSelected}>${label}</option>`;
-    });
-
-    const select = document.getElementById(elementId);
-    select.innerHTML = option;
-
-    if (blockSelect) {
+            const isSelected = selectedValue !== null && item.id == selectedValue ? ' selected' : '';
+            option += `<option value="${item.id}"${isSelected}>${label}</option>`;
+        });
 
         const select = document.getElementById(elementId);
-        select.addEventListener('mousedown', function (e) {
-            e.preventDefault();
-        });
-        select.style.pointerEvents = 'none';
-        select.style.backgroundColor = '#eee';
+        select.innerHTML = option;
 
+        if (blockSelect) {
+
+            const select = document.getElementById(elementId);
+            select.addEventListener('mousedown', function (e) {
+                e.preventDefault();
+            });
+            select.style.pointerEvents = 'none';
+            select.style.backgroundColor = '#eee';
+
+        }
+    } catch (error) {
+        console.error('Erro ao fazer requisição:', error);
     }
 }
 export async function fillAuthorCheckboxes(authors, labelFields, containerId, selectedValues = []) {
@@ -135,6 +138,11 @@ export function showLoadingHideContent(loadingId, contentIds = []) {
 }
 
 export function formatDate(dateString) {
+
+    if (dateString === null) {
+        return '';
+    }
+
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0'); // mm (0-indexed)

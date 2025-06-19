@@ -57,12 +57,13 @@ class BookLocation
     public function getById($id)
     {
         $this->id = $id;
-        $query = "SELECT ll.id, b.nome, b.morada, loc.cod_local, ll.quantidade
-              FROM " . $this->tableName . " b
-              INNER JOIN localizacao loc ON loc.biblioteca_fk = b.id
-              INNER JOIN livro_localizacao ll ON ll.localizacao_fk = loc.id
-              INNER JOIN livro l ON ll.livro_fk = l.id
-              WHERE ll.livro_fk = :id";
+        $query = "SELECT l.*, ll.id as livro_localizacao_fk, loc.cod_local, ll.quantidade
+                  FROM {$this->tableName} b
+                  INNER JOIN localizacao loc ON loc.biblioteca_fk = b.id
+                  INNER JOIN livro_localizacao ll ON ll.localizacao_fk = loc.id
+                  INNER JOIN livro l ON ll.livro_fk = l.id 
+                  WHERE ll.id = :id
+                  AND ll.quantidade > 0";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
 
