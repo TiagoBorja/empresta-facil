@@ -4,8 +4,9 @@ import * as utils from '../utils/utils.js';
 const API_ENDPOINTS = {
     LOAN: '../php/api/loan-api.php',
     RESERVATION: '../php/api/book-reservation-api.php',
-    LIBRARY: './library/code.php',
+    STATE: './state/code.php',
     USER: './users/code.php',
+    BOOK: './book/code.php',
 };
 
 let urlParams;
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user");
+    await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "state_pickup");
 
     create();
     return;
@@ -46,13 +48,12 @@ async function getAll() {
         }
 
         const loan = await loanResponse.json();
-        console.log(loan);
         showLoan(loan);
 
         utils.initializeRowSelection(API_ENDPOINTS.LOAN, '?page=loan-form');
     } catch (error) {
-        console.error("Erro ao obter bibliotecas:", error);
-        toastr.warning("Não foi possível carregar as bibliotecas. Tenta novamente mais tarde.", "Atenção!");
+        console.error("Erro ao obter empréstimos:", error);
+        toastr.warning("Não foi possível carregar os empréstimos. Tenta novamente mais tarde.", "Atenção!");
     }
 }
 function showLoan(loans) {

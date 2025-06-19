@@ -8,6 +8,12 @@
                     <i class="mdi mdi-book-open-page-variant"></i>
                     <span class="hide-menu">Empréstimos</span>
                 </h4>
+
+                <a class="float-end badge rounded-pill bg-success d-inline-flex align-items-center"
+                    href="?page=loan-form">
+                    <i class="mdi mdi-plus d-flex align-items-center"></i>
+                    <span class="ms-1">Adicionar</span>
+                </a>
             </div>
 
             <div class="card-body">

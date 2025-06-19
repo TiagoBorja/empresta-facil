@@ -14,6 +14,13 @@ let reservationId = urlParams.get("reservationId");
 
 document.addEventListener('DOMContentLoaded', async function () {
 
+    const isEditMode = id || reservationId !== null;
+    if (!isEditMode) {
+        const allBooksData = await fetchAllBooksData();
+        console.log(allBooksData);
+        createBooksCheckboxes(allBooksData, []); // Array vazio para livros associados
+    }
+
     if (reservationId) {
         document.getElementById("stateReturnDiv").classList.add("d-none");
         document.getElementById("loanStatusDiv").classList.add("d-none");
@@ -71,3 +78,157 @@ async function showLoanForm() {
     }
 }
 
+
+function createBooksCheckboxes(allBooks, associatedBooks) {
+    const booksCheckboxesDiv = document.getElementById("booksCheckboxes");
+    booksCheckboxesDiv.innerHTML = "";
+
+    if (!Array.isArray(allBooks)) {
+        booksCheckboxesDiv.innerHTML = `
+            <div class="alert alert-danger">
+                Dados de livros inválidos
+            </div>
+        `;
+        return;
+    }
+
+    const searchGroup = document.createElement('div');
+    searchGroup.className = 'input-group mb-3';
+
+    const searchIcon = document.createElement('span');
+    searchIcon.className = 'input-group-text';
+    searchIcon.innerHTML = `
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+    `;
+
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.id = 'bookSearch';
+    searchInput.className = 'form-control';
+    searchInput.placeholder = 'Buscar livros...';
+
+    searchGroup.appendChild(searchIcon);
+    searchGroup.appendChild(searchInput);
+
+    booksCheckboxesDiv.appendChild(searchGroup);
+
+    const divider = document.createElement("hr");
+    divider.className = "my-2"; // Bootstrap: margem vertical
+    booksCheckboxesDiv.appendChild(divider);
+
+
+    const getFullName = (author) => {
+        const firstName = author?.primeiro_nome || '';
+        const lastName = author?.ultimo_nome || '';
+        return `${firstName.trim()} ${lastName.trim()}`.trim();
+    };
+
+    const sortedBooks = [...allBooks].sort((a, b) => {
+        const nameA = a.titulo.toLowerCase();
+        const nameB = b.titulo.toLowerCase();
+        return nameA.localeCompare(nameB);
+    });
+
+    if (sortedBooks.length === 0) {
+        booksCheckboxesDiv.innerHTML += `
+            <div class="alert alert-info">
+                Nenhum livro disponível
+            </div>
+        `;
+        return;
+    }
+
+    const associatedBookIds = new Set(
+        associatedBooks.map(book => book?.livro_fk).filter(Boolean)
+    );
+
+    sortedBooks.forEach(book => {
+        if (!book?.id) return;
+
+        const checkboxId = `book_${book.id}`;
+        const isChecked = associatedBookIds.has(book.id);
+        const bookName = book.titulo || 'Livro sem nome';
+
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("form-check", "mb-2", "px-3");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.classList.add("form-check-input");
+        checkbox.id = checkboxId;
+        checkbox.name = "books[]";
+        checkbox.value = book.id;
+        checkbox.checked = isChecked;
+        checkbox.addEventListener('change', updateBooksDropdownText);
+
+        const label = document.createElement("label");
+        label.classList.add("form-check-label", "w-100");
+        label.htmlFor = checkboxId;
+        label.textContent = bookName;
+
+        wrapper.appendChild(checkbox);
+        wrapper.appendChild(label);
+        booksCheckboxesDiv.appendChild(wrapper);
+    });
+
+    searchInput.addEventListener('input', function () {
+        const searchTerm = this.value.toLowerCase();
+        const checkboxes = booksCheckboxesDiv.querySelectorAll('.form-check');
+
+        checkboxes.forEach(wrapper => {
+            if (wrapper.classList.contains('input-group')) return;
+
+            const label = wrapper.querySelector('.form-check-label');
+            if (label) {
+                const text = label.textContent.toLowerCase();
+                wrapper.style.display = text.includes(searchTerm) ? 'block' : 'none';
+            }
+        });
+    });
+
+    updateBooksDropdownText();
+}
+
+
+function updateBooksDropdownText() {
+    const booksDropdownBtn = document.getElementById('booksDropdown');
+    const checkedBoxes = document.querySelectorAll('#booksCheckboxes input[type="checkbox"]:checked');
+
+    if (checkedBoxes.length === 0) {
+        booksDropdownBtn.textContent = 'Selecionar livros';
+    } else if (checkedBoxes.length === 1) {
+        const label = document.querySelector(`label[for="${checkedBoxes[0].id}"]`);
+        booksDropdownBtn.textContent = label ? label.textContent.trim() : '1 livro selecionado';
+    } else {
+        booksDropdownBtn.textContent = `${checkedBoxes.length} livros selecionados`;
+    }
+}
+
+async function fetchAllBooksData() {
+    const response = await fetch(API_ENDPOINTS.BOOK);
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Erro na API: ${response.status} - ${errorText}`);
+    }
+
+    const result = await response.json();
+
+    if (!result || typeof result !== 'object') {
+        throw new Error("Resposta da API inválida");
+    }
+
+    if (result.status && result.status !== 200) {
+        throw new Error(result.message || "Livros não encontrados");
+    }
+
+    const booksData = result.data || result;
+
+    if (!Array.isArray(booksData)) {
+        throw new Error("Formato de dados de livros inválido");
+    }
+
+    return booksData;
+}

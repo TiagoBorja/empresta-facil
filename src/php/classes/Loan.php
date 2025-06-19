@@ -1,12 +1,14 @@
 <?php
 
 include_once 'Connection.php';
+include_once 'LoanBook.php';
 
 class Loan
 {
     private $pdo;
     private $tableName = 'emprestimo';
 
+    private $loanBook;
     private $id;
     private $reservationFk;
     private $userFk;
@@ -18,6 +20,7 @@ class Loan
     {
         $connection = new Connection();
         $this->pdo = $connection->getConnection();
+        $this->loanBook = new LoanBook();
     }
 
     // ----------- GETTERS -----------
@@ -167,20 +170,36 @@ class Loan
         }
     }
 
-    public function create()
+    public function create($books = [])
     {
         $query = "INSERT INTO {$this->tableName} (reserva_fk, utilizador_fk, funcionario_fk, data_devolucao) 
-                  VALUES (:reserva_fk, :utilizador_fk, :funcionario_fk, :data_devolucao)";
+                  VALUES (:reservationFk, :userFk, :employeeFk, :returnDate)";
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':reserva_fk', $this->reservationFk, PDO::PARAM_INT);
-        $stmt->bindParam(':utilizador_fk', $this->userFk, PDO::PARAM_INT);
-        $stmt->bindParam(':funcionario_fk', $this->employeeFk, PDO::PARAM_INT);
-        $stmt->bindParam(':data_devolucao', $this->returnDate, PDO::PARAM_STR);
+        $stmt->bindParam(':reservationFk', $this->reservationFk, PDO::PARAM_INT);
+        $stmt->bindParam(':userFk', $this->userFk, PDO::PARAM_INT);
+        $stmt->bindParam(':employeeFk', $this->employeeFk, PDO::PARAM_INT);
+        $stmt->bindParam(':returnDate', $this->returnDate, PDO::PARAM_STR);
 
         try {
             $stmt->execute();
 
+            $loanId = $this->pdo->lastInsertId();
 
+            if (!empty($books) && is_array($books)) {
+                foreach ($books as $bookId) {
+                    if (!empty($bookId)) {
+                        $this->loanBook->setLoanFk($loanId);
+                        $this->loanBook->setBookFk($bookId);
+                        $this->loanBook->setStatePickUp(1);
+                        $loanResult = $this->loanBook->create();
+
+                        $loanResponse = json_decode($loanResult, true);
+                        if ($loanResponse['status'] != 200) {
+                            return $loanResult;
+                        }
+                    }
+                }
+            }
             return json_encode([
                 'status' => 200,
                 'message' => "Empréstimo criado com sucesso."
