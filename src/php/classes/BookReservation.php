@@ -167,7 +167,7 @@ class BookReservation
         }
 
         $this->reservationDate = date('Y-m-d H:i:s');
-        $this->expirationDate = date('Y-m-d H:i:s', strtotime($this->pickUpDate . ' +7 days'));
+        $this->expirationDate = date('Y-m-d H:i:s', strtotime($this->pickUpDate . ' +3 days'));
 
         $query = "INSERT INTO {$this->tableName} 
             (livro_localizacao_fk, utilizador_fk, data_reserva, data_levantamento, data_expiracao)

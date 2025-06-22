@@ -105,7 +105,7 @@ class Utils
         </head>
         <body>
             <div class="header">
-                <h2 style="color: #4a6fa5; margin: 0;">Biblioteca Municipal</h2>
+                <h2 style="color: #4a6fa5; margin: 0;"> ' . htmlspecialchars($libraryName) . '</h2>
                 <p style="margin: 5px 0 0;">Sua reserva foi confirmada</p>
             </div>
             
@@ -132,7 +132,7 @@ class Utils
             </div>
             
             <div class="footer">
-                <p>© ' . date('Y') . ' Biblioteca Municipal. Todos os direitos reservados.</p>
+                <p>© ' . date('Y') . ' ' . htmlspecialchars($libraryName) . ' Todos os direitos reservados.</p>
                 <p>Este é um e-mail automático, por favor não responda.</p>
             </div>
         </body>
@@ -145,7 +145,8 @@ class Utils
                 "Validade da reserva: $expirationDate\n\n" .
                 "Você tem até a data de levantamento para retirar o livro.\n\n" .
                 "Atenciosamente,\n" .
-                "Biblioteca Municipal";
+                htmlspecialchars($libraryName);
+
 
             return $phpmailer->send();
         } catch (Exception $e) {
