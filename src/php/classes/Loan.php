@@ -16,6 +16,8 @@ class Loan
     private $loanDate;
     private $dueDate;
     private $returnDate;
+    private $stateReturn;
+
 
     public function __construct()
     {
@@ -59,6 +61,11 @@ class Loan
         return $this->returnDate;
     }
 
+    public function getStateReturn()
+    {
+        return $this->stateReturn;
+    }
+
     public function setId($id)
     {
         $this->id = $id;
@@ -91,6 +98,11 @@ class Loan
     public function setReturnDate($returnDate)
     {
         $this->returnDate = $returnDate;
+    }
+
+    public function setStateReturn($stateReturn)
+    {
+        $this->stateReturn = $stateReturn;
     }
 
     public function getAll()
@@ -245,6 +257,31 @@ class Loan
             return json_encode([
                 'status' => 500,
                 'message' => 'Erro ao criar empréstimo: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function update($id)
+    {
+        $this->id = $id;
+
+        $query = "UPDATE emprestimo e
+                  SET e.data_devolvido = :returnDate
+                  WHERE e.id = :id";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(':returnDate', $this->returnDate, PDO::PARAM_STR);
+
+        try {
+            $stmt->execute();
+
+            // Aqui passas o ID do empréstimo e o estado da devolução
+            return $this->loanBook->update($this->id, $this->stateReturn);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao atualizar: " . $e->getMessage()
             ]);
         }
     }

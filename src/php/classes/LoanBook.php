@@ -95,4 +95,29 @@ class LoanBook
             ]);
         }
     }
+
+    public function update($loanFk, $stateReturn)
+    {
+        $query = "UPDATE emprestimo_livro el
+                  SET el.estado_devolucao_fk = :stateReturn
+                  WHERE el.emprestimo_fk = :loanFk";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':loanFk', $loanFk, PDO::PARAM_INT);
+        $stmt->bindParam(':stateReturn', $stateReturn, PDO::PARAM_INT);
+
+        try {
+            $stmt->execute();
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Estado do empréstimo atualizado com sucesso."
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao atualizar: " . $e->getMessage()
+            ]);
+        }
+    }
 }

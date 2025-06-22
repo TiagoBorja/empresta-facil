@@ -125,7 +125,6 @@ function update() {
 
         const formData = new FormData(this);
         formData.append("saveData", true);
-        formData.append("id", id);
         bdUtils.updateData(API_ENDPOINTS.LOAN, formData, form, '?page=loans');
     });
 }

@@ -82,7 +82,6 @@ async function showSelectedReservation() {
             await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect", loanValue.livro_fk, true);
 
             await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "state_pickup", loanValue.estado_levantou);
-            await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "state_return");
         }
     } catch (error) {
         toastr.error(error, "Erro!");
@@ -116,9 +115,13 @@ async function showSelectedLoan() {
 
             await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user", loanValue.utilizador_fk, true);
             await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect", loanValue.livro_fk, true);
+            const stateReturn = document.getElementById("state_return");
 
+            stateReturn.value = loanValue.estado_levantou_fk ?? null;
 
             await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "state_pickup", loanValue.estado_levantou_fk, true);
+            await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "stateReturn", stateReturn.value, stateReturn.value ? true : false);
+
         }
     } catch (error) {
         toastr.error(error, "Erro!");

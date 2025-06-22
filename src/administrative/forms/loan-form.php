@@ -63,10 +63,10 @@
 
                 <div id="stateReturnDiv" class="col-md-4 d-none">
                     <div class="form-floating mb-3">
-                        <select name="state_return" id="state_return" class="form-select" required>
+                        <select name="stateReturn" id="stateReturn" class="form-select" required>
                             <option selected disabled>Selecione</option>
                         </select>
-                        <label for="state_return">Estado ao Devolver</label>
+                        <label for="stateReturn">Estado ao Devolver</label>
                     </div>
                 </div>
 
