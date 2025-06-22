@@ -88,9 +88,9 @@
                         <label for="dueDate">Data de Devolução</label>
                     </div>
                 </div>
-                <div class="col-md-4 d-none">
+                <div id="returnDateDiv" class="col-md-4 d-none">
                     <div class="form-floating mb-3">
-                        <input type="date" name="returnDate" id="returnDate" class="form-control" disabled>
+                        <input type="date" name="returnDate" id="returnDate" class="form-control">
                         <label for="returnDate">Data de Devolvido</label>
                     </div>
                 </div>

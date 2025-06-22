@@ -25,6 +25,7 @@ if (isset($_POST['usernameOrEmail']) && isset($_POST['password'])) {
                         CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS nome_completo
                     FROM funcionario f
                     JOIN utilizador u ON f.utilizador_fk = u.id
+                    LEFT JOIN biblioteca b ON f.biblioteca_fk = b.id
                     WHERE f.utilizador_fk = :utilizadorFk";
     $stmtEmployee = $pdo->prepare($queryEmployee);
     $stmtEmployee->bindParam(':utilizadorFk', $userRow['id']);

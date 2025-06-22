@@ -1,6 +1,6 @@
 import * as bdUtils from '../utils/bd-utils.js';
 import * as utils from '../utils/utils.js';
-const API_URL = '../administrative/state/code.php';
+const API_URL = './state/code.php';
 let urlParams;
 let id;
 
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     urlParams = new URLSearchParams(window.location.search);
     id = urlParams.get("id");
-    
+
     if (id) {
         console.log(id);
         updateState();
@@ -23,19 +23,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 async function getStates() {
-
     try {
         const response = await fetch(API_URL);
         if (!response.ok) throw new Error("Resposta inválida do servidor");
 
         const result = await response.json();
-        showStates(result)
+        showStates(result.data)
 
         utils.initializeRowSelection(API_URL, '?page=state-form');
-    } catch {
-        toastr.warning(result.message, "Atenção!");
+    } catch (error) {
+        toastr.warning(error.message || "Erro desconhecido", "Atenção!");
     }
 }
+
 
 function showStates(states) {
     let table = "";

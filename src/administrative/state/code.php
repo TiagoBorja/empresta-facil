@@ -6,9 +6,11 @@ include_once '../../php/classes/State.php';
 $stateClass = new State();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
-    echo $stateClass->getStates($_GET['type'] ?? null);
+    $stateType = isset($_GET['type']) ? $_GET['type'] : null;
+    echo $stateClass->getStates($stateType);
     exit;
 }
+
 
 if (isset($_GET['id'])) {
     $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);

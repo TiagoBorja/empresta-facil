@@ -48,28 +48,34 @@ class State
     public function getStates($stateType)
     {
         $query = "SELECT * FROM estado";
-
-        if ($stateType) {
-            $query .= " WHERE observacoes = :observation";
-        }
-
-        $query_run = $this->pdo->prepare($query);
-        $query_run->bindParam(':observation', $stateType, PDO::PARAM_STR);
+        $query_run = null;
 
         try {
+            if ($stateType !== null) {
+                $query .= " WHERE observacoes = :observation";
+                $query_run = $this->pdo->prepare($query);
+                $query_run->bindParam(':observation', $stateType, PDO::PARAM_STR);
+            } else {
+                $query_run = $this->pdo->prepare($query);
+            }
 
             $query_run->execute();
             $result = $query_run->fetchAll(PDO::FETCH_ASSOC);
 
             return json_encode([
                 'status' => 200,
-                'message' => "Reserva encontrada.",
+                'message' => "Estados encontrados.",
                 'data' => $result
             ]);
         } catch (PDOException $e) {
-            echo "<tr><td colspan='3'>Sem resultados</td></tr>";
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao obter estados.",
+                'data' => $e->errorInfo // ou $e->getMessage() para mensagem simples
+            ]);
         }
     }
+
 
     public function getStateById($id)
     {

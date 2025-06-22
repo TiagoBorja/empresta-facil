@@ -74,7 +74,6 @@ function fillSelect(items, labelValue, elementId, selectedValue = null, blockSel
             const label = fields.map(f => item[f] || '').join(separator);
 
             const value = item[specificId] ?? item.id;
-            console.log(value);
 
             const isSelected = selectedValue !== null && value == selectedValue ? ' selected' : '';
             option += `<option value="${value}"${isSelected}>${label}</option>`;

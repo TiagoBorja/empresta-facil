@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     if (reservationId) {
-        showReservationForm();
+        showSelectedReservation();
         return;
     }
 
@@ -30,15 +30,34 @@ document.addEventListener('DOMContentLoaded', async function () {
         document.getElementById("bookSelectDiv").classList.remove("d-none")
         document.getElementById("stateReturnDiv").classList.remove("d-none");
         document.getElementById("loanStatusDiv").classList.remove("d-none");
-        document.getElementById("returnDate").classList.remove("d-none");
-        document.getElementById("returnDate").disable = false;
-        await showLoanForm();
+        document.getElementById("returnDateDiv").classList.remove("d-none");
+
+        await showSelectedLoan();
         return;
     }
 
+    showNewLoan();
 });
 
-async function showReservationForm() {
+async function showNewLoan() {
+    try {
+
+
+        document.getElementById("pageToRedirect").href = "?page=book-reservations";
+        document.getElementById("icon").classList.add("mdi-book-open-page-variant");
+        document.getElementById("bookToLoan").textContent = "Empréstimo";
+
+        await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user");
+        await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect");
+
+        await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "state_pickup");
+
+    } catch (error) {
+        toastr.error(error, "Erro!");
+    }
+}
+
+async function showSelectedReservation() {
     try {
         const [reservationResponse, loanResponse] = await Promise.all([
             fetch(`${API_ENDPOINTS.RESERVATION}?id=${reservationId}`),
@@ -63,13 +82,14 @@ async function showReservationForm() {
             await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect", loanValue.livro_fk, true);
 
             await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "state_pickup", loanValue.estado_levantou);
+            await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "state_return");
         }
     } catch (error) {
         toastr.error(error, "Erro!");
     }
 }
 
-async function showLoanForm() {
+async function showSelectedLoan() {
     try {
         const [loanResponse] = await Promise.all([
             fetch(`${API_ENDPOINTS.LOAN}?id=${loanId}`),
@@ -88,6 +108,7 @@ async function showLoanForm() {
             document.getElementById("pageToRedirect").href = "?page=loans"
             document.getElementById("icon").classList.add("mdi-book-open-page-variant");
             document.getElementById("bookToLoan").textContent = `Empréstimo de ${loanValue.utilizador} - "${loanValue.titulo}"`;
+
             document.getElementById("loanId").value = loanValue.id;
             const dueDate = document.getElementById("dueDate");
             dueDate.value = loanValue.data_devolucao;
@@ -103,7 +124,6 @@ async function showLoanForm() {
         toastr.error(error, "Erro!");
     }
 }
-
 
 function createBooksCheckboxes(allBooks, associatedBooks) {
     const booksCheckboxesDiv = document.getElementById("booksCheckboxes");
