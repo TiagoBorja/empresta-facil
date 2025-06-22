@@ -182,45 +182,49 @@ INSERT INTO `editora` (`id`, `editora`, `ativo`, `criado_em`, `atualizado_em`) V
 DROP TABLE IF EXISTS `emprestimo`;
 CREATE TABLE IF NOT EXISTS `emprestimo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `reserva_fk` int(11) DEFAULT NULL,
   `utilizador_fk` int(11) NOT NULL,
   `funcionario_fk` int(11) DEFAULT NULL,
-  `data_emprestimo_fk` date NOT NULL DEFAULT current_timestamp(),
-  `data_devolucao_fk` date DEFAULT NULL,
+  `data_emprestimo` date NOT NULL DEFAULT current_timestamp(),
+  `data_devolucao` date DEFAULT NULL,
+  `data_devolvido` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `utilizador_fk` (`utilizador_fk`),
   KEY `funcionario_fk` (`funcionario_fk`),
+  KEY `reserva_fk` (`reserva_fk`),
+  CONSTRAINT `FK_emprestimo_reserva` FOREIGN KEY (`reserva_fk`) REFERENCES `reserva` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `emprestimo_ibfk_2` FOREIGN KEY (`utilizador_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `emprestimo_ibfk_3` FOREIGN KEY (`funcionario_fk`) REFERENCES `funcionario` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- A despejar dados para tabela empresta_facil.emprestimo: ~1 rows (aproximadamente)
 DELETE FROM `emprestimo`;
-INSERT INTO `emprestimo` (`id`, `utilizador_fk`, `funcionario_fk`, `data_emprestimo_fk`, `data_devolucao_fk`) VALUES
-	(1, 12, 13, '2025-06-17', NULL);
+INSERT INTO `emprestimo` (`id`, `reserva_fk`, `utilizador_fk`, `funcionario_fk`, `data_emprestimo`, `data_devolucao`, `data_devolvido`) VALUES
+	(1, NULL, 12, 13, '2025-06-17', NULL, NULL);
 
--- A despejar estrutura para tabela empresta_facil.emprestimo_recurso
-DROP TABLE IF EXISTS `emprestimo_recurso`;
-CREATE TABLE IF NOT EXISTS `emprestimo_recurso` (
+-- A despejar estrutura para tabela empresta_facil.emprestimo_livro
+DROP TABLE IF EXISTS `emprestimo_livro`;
+CREATE TABLE IF NOT EXISTS `emprestimo_livro` (
   `emprestimo_fk` int(11) NOT NULL,
-  `livro_fk` int(11) NOT NULL,
+  `livro_localizacao_fk` int(11) NOT NULL,
   `estado_levantou_fk` int(11) NOT NULL,
   `estado_devolucao_fk` int(11) DEFAULT NULL,
-  `estado_emprestimo` int(11) NOT NULL DEFAULT 2,
-  UNIQUE KEY `emprestimo_recurso_index_2` (`emprestimo_fk`,`livro_fk`) USING BTREE,
+  `estado_emprestimo_fk` int(11) NOT NULL DEFAULT 2,
+  UNIQUE KEY `emprestimo_livro_index_2` (`emprestimo_fk`,`livro_localizacao_fk`) USING BTREE,
   KEY `estado_levantou_fk` (`estado_levantou_fk`),
   KEY `estado_devolucao_fk` (`estado_devolucao_fk`),
-  KEY `recurso_fk` (`livro_fk`) USING BTREE,
-  KEY `estado_emprestimo` (`estado_emprestimo`),
   KEY `emprestimo_fk` (`emprestimo_fk`),
-  CONSTRAINT `FK_emprestimo_recurso_estado` FOREIGN KEY (`estado_emprestimo`) REFERENCES `estado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_emprestimo_recurso_livro_localizacao` FOREIGN KEY (`livro_fk`) REFERENCES `livro_localizacao` (`id`),
-  CONSTRAINT `emprestimo_recurso_ibfk_1` FOREIGN KEY (`emprestimo_fk`) REFERENCES `emprestimo` (`id`),
-  CONSTRAINT `emprestimo_recurso_ibfk_3` FOREIGN KEY (`estado_levantou_fk`) REFERENCES `estado` (`id`),
-  CONSTRAINT `emprestimo_recurso_ibfk_4` FOREIGN KEY (`estado_devolucao_fk`) REFERENCES `estado` (`id`)
+  KEY `recurso_fk` (`livro_localizacao_fk`) USING BTREE,
+  KEY `estado_emprestimo` (`estado_emprestimo_fk`) USING BTREE,
+  CONSTRAINT `FK_emprestimo_livro_emprestimo` FOREIGN KEY (`emprestimo_fk`) REFERENCES `emprestimo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_emprestimo_livro_estado` FOREIGN KEY (`estado_levantou_fk`) REFERENCES `estado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_emprestimo_livro_estado_2` FOREIGN KEY (`estado_devolucao_fk`) REFERENCES `estado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_emprestimo_livro_estado_3` FOREIGN KEY (`estado_emprestimo_fk`) REFERENCES `estado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_emprestimo_livro_livro_localizacao` FOREIGN KEY (`livro_localizacao_fk`) REFERENCES `livro_localizacao` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.emprestimo_recurso: ~0 rows (aproximadamente)
-DELETE FROM `emprestimo_recurso`;
+-- A despejar dados para tabela empresta_facil.emprestimo_livro: ~0 rows (aproximadamente)
+DELETE FROM `emprestimo_livro`;
 
 -- A despejar estrutura para tabela empresta_facil.estado
 DROP TABLE IF EXISTS `estado`;
@@ -231,14 +235,27 @@ CREATE TABLE IF NOT EXISTS `estado` (
   `criado_em` timestamp NULL DEFAULT current_timestamp(),
   `atualizado_em` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- A despejar dados para tabela empresta_facil.estado: ~3 rows (aproximadamente)
 DELETE FROM `estado`;
 INSERT INTO `estado` (`id`, `estado`, `observacoes`, `criado_em`, `atualizado_em`) VALUES
 	(1, 'Pendente', ':observation 22', '2025-04-27 17:54:51', NULL),
 	(2, 'Em andamento', 'aaaa', '2025-04-27 17:58:50', NULL),
-	(3, 'sssssss sds', 'aaaa', '2025-05-04 21:37:19', NULL);
+	(3, 'sssssss sds', 'aaaa', '2025-05-04 21:37:19', NULL),
+	(4, 'DISPONÍVEL', 'LIVRO', '2025-06-22 13:47:45', NULL),
+	(5, 'EMPRESTADO', 'LIVRO', '2025-06-22 13:47:45', NULL),
+	(6, 'RESERVADO', 'LIVRO', '2025-06-22 13:47:45', NULL),
+	(7, 'PERDIDO', 'LIVRO', '2025-06-22 13:47:45', NULL),
+	(8, 'DANIFICADO', 'LIVRO', '2025-06-22 13:47:45', NULL),
+	(9, 'ATIVO', 'EMPRÉSTIMO', '2025-06-22 13:47:45', NULL),
+	(10, 'CONCLUÍDO', 'EMPRÉSTIMO', '2025-06-22 13:47:45', NULL),
+	(11, 'ATRASADO', 'EMPRÉSTIMO', '2025-06-22 13:47:45', NULL),
+	(12, 'CANCELADO', 'EMPRÉSTIMO', '2025-06-22 13:47:45', NULL),
+	(13, 'PENDENTE', 'RESERVA', '2025-06-22 13:47:45', NULL),
+	(14, 'ATENDIDA', 'RESERVA', '2025-06-22 13:47:45', NULL),
+	(15, 'EXPIRADA', 'RESERVA', '2025-06-22 13:47:45', NULL),
+	(16, 'CANCELADA', 'RESERVA', '2025-06-22 13:47:45', NULL);
 
 -- A despejar estrutura para tabela empresta_facil.foto_recurso
 DROP TABLE IF EXISTS `foto_recurso`;
@@ -452,7 +469,7 @@ CREATE TABLE IF NOT EXISTS `subcategoria` (
   CONSTRAINT `subcategoria_ibfk_1` FOREIGN KEY (`categoria_fk`) REFERENCES `categoria` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.subcategoria: ~1 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.subcategoria: ~2 rows (aproximadamente)
 DELETE FROM `subcategoria`;
 INSERT INTO `subcategoria` (`id`, `categoria_fk`, `subcategoria`, `descricao`, `criado_em`, `atualizado_em`, `ativo`) VALUES
 	(1, 1, 'Suspense', 'Sou gay', '2025-05-19 15:26:35', NULL, 'Y'),
@@ -470,7 +487,7 @@ CREATE TABLE IF NOT EXISTS `tipo_utilizador` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.tipo_utilizador: ~3 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.tipo_utilizador: ~5 rows (aproximadamente)
 DELETE FROM `tipo_utilizador`;
 INSERT INTO `tipo_utilizador` (`id`, `tipo`, `descricao`, `criado_em`, `atualizado_em`, `ativo`) VALUES
 	(4, 'Administrador', 'Com descrição ds ds', '2025-05-14 20:27:55', NULL, 'Y'),
@@ -504,7 +521,7 @@ CREATE TABLE IF NOT EXISTS `utilizador` (
   CONSTRAINT `utilizador_ibfk_1` FOREIGN KEY (`tipo_utilizador_fk`) REFERENCES `tipo_utilizador` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.utilizador: ~8 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.utilizador: ~12 rows (aproximadamente)
 DELETE FROM `utilizador`;
 INSERT INTO `utilizador` (`id`, `primeiro_nome`, `ultimo_nome`, `data_nascimento`, `nif`, `cc`, `genero`, `morada`, `telemovel`, `nome_utilizador`, `senha`, `email`, `img_url`, `tipo_utilizador_fk`, `criado_em`, `atualizado_em`, `ativo`) VALUES
 	(4, 'Tiago', 'Borja', '2005-12-02', '311566260', '123456789123', 'F', NULL, '962193439', 'tiagomatx', '', 'tiagomatx@gmail.com', 'upload/681d24de30d1b_escola_secundaria_antonio_sergio_2.jpg', 4, '2025-04-21 23:08:17', NULL, 'Y'),
