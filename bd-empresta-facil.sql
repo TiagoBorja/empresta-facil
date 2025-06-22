@@ -193,14 +193,16 @@ CREATE TABLE IF NOT EXISTS `emprestimo` (
   KEY `funcionario_fk` (`funcionario_fk`),
   KEY `reserva_fk` (`reserva_fk`),
   CONSTRAINT `FK_emprestimo_reserva` FOREIGN KEY (`reserva_fk`) REFERENCES `reserva` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `emprestimo_ibfk_2` FOREIGN KEY (`utilizador_fk`) REFERENCES `utilizador` (`id`),
+  CONSTRAINT `FK_emprestimo_utilizador` FOREIGN KEY (`utilizador_fk`) REFERENCES `utilizador` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `emprestimo_ibfk_3` FOREIGN KEY (`funcionario_fk`) REFERENCES `funcionario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.emprestimo: ~1 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.emprestimo: ~2 rows (aproximadamente)
 DELETE FROM `emprestimo`;
 INSERT INTO `emprestimo` (`id`, `reserva_fk`, `utilizador_fk`, `funcionario_fk`, `data_emprestimo`, `data_devolucao`, `data_devolvido`) VALUES
-	(1, NULL, 12, 13, '2025-06-17', NULL, NULL);
+	(5, NULL, 18, NULL, '2025-06-22', '2025-06-27', NULL),
+	(6, NULL, 4, 15, '2025-06-22', NULL, NULL),
+	(7, NULL, 4, 16, '2025-06-22', '2025-06-24', NULL);
 
 -- A despejar estrutura para tabela empresta_facil.emprestimo_livro
 DROP TABLE IF EXISTS `emprestimo_livro`;
@@ -209,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `emprestimo_livro` (
   `livro_localizacao_fk` int(11) NOT NULL,
   `estado_levantou_fk` int(11) NOT NULL,
   `estado_devolucao_fk` int(11) DEFAULT NULL,
-  `estado_emprestimo_fk` int(11) NOT NULL DEFAULT 2,
+  `estado_emprestimo_fk` int(11) NOT NULL DEFAULT 9,
   UNIQUE KEY `emprestimo_livro_index_2` (`emprestimo_fk`,`livro_localizacao_fk`) USING BTREE,
   KEY `estado_levantou_fk` (`estado_levantou_fk`),
   KEY `estado_devolucao_fk` (`estado_devolucao_fk`),
@@ -223,8 +225,13 @@ CREATE TABLE IF NOT EXISTS `emprestimo_livro` (
   CONSTRAINT `FK_emprestimo_livro_livro_localizacao` FOREIGN KEY (`livro_localizacao_fk`) REFERENCES `livro_localizacao` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.emprestimo_livro: ~0 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.emprestimo_livro: ~4 rows (aproximadamente)
 DELETE FROM `emprestimo_livro`;
+INSERT INTO `emprestimo_livro` (`emprestimo_fk`, `livro_localizacao_fk`, `estado_levantou_fk`, `estado_devolucao_fk`, `estado_emprestimo_fk`) VALUES
+	(5, 6, 7, NULL, 9),
+	(7, 2, 7, NULL, 9),
+	(7, 6, 7, NULL, 9),
+	(7, 16, 7, NULL, 9);
 
 -- A despejar estrutura para tabela empresta_facil.estado
 DROP TABLE IF EXISTS `estado`;
@@ -237,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `estado` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.estado: ~3 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.estado: ~16 rows (aproximadamente)
 DELETE FROM `estado`;
 INSERT INTO `estado` (`id`, `estado`, `observacoes`, `criado_em`, `atualizado_em`) VALUES
 	(1, 'Pendente', ':observation 22', '2025-04-27 17:54:51', NULL),
@@ -288,14 +295,15 @@ CREATE TABLE IF NOT EXISTS `funcionario` (
   KEY `biblioteca_fk` (`biblioteca_fk`),
   CONSTRAINT `FK_funcionario_utilizador` FOREIGN KEY (`utilizador_fk`) REFERENCES `utilizador` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `funcionario_ibfk_2` FOREIGN KEY (`biblioteca_fk`) REFERENCES `biblioteca` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.funcionario: ~3 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.funcionario: ~4 rows (aproximadamente)
 DELETE FROM `funcionario`;
 INSERT INTO `funcionario` (`id`, `utilizador_fk`, `biblioteca_fk`, `criado_em`, `atualizado_em`, `ativo`) VALUES
 	(12, 12, NULL, '2025-06-16 22:56:49', NULL, 'Y'),
 	(13, 19, NULL, '2025-06-16 22:57:11', NULL, 'Y'),
-	(15, 9, 5, '2025-06-16 23:31:32', NULL, 'Y');
+	(15, 9, 5, '2025-06-16 23:31:32', NULL, 'Y'),
+	(16, 10, NULL, '2025-06-22 15:20:11', NULL, 'Y');
 
 -- A despejar estrutura para tabela empresta_facil.livro
 DROP TABLE IF EXISTS `livro`;
@@ -412,8 +420,8 @@ INSERT INTO `localizacao` (`id`, `cod_local`, `biblioteca_fk`, `criado_em`, `atu
 DROP TABLE IF EXISTS `reserva`;
 CREATE TABLE IF NOT EXISTS `reserva` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `utilizador_fk` int(11) NOT NULL,
   `livro_localizacao_fk` int(11) NOT NULL,
+  `utilizador_fk` int(11) NOT NULL,
   `data_reserva` date NOT NULL DEFAULT current_timestamp(),
   `data_levantamento` date NOT NULL,
   `data_expiracao` date NOT NULL,
@@ -425,12 +433,15 @@ CREATE TABLE IF NOT EXISTS `reserva` (
   CONSTRAINT `FK_reserva_estado` FOREIGN KEY (`estado_fk`) REFERENCES `estado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_reserva_livro_localizacao` FOREIGN KEY (`livro_localizacao_fk`) REFERENCES `livro_localizacao` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_reserva_utilizador` FOREIGN KEY (`utilizador_fk`) REFERENCES `utilizador` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.reserva: ~1 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.reserva: ~4 rows (aproximadamente)
 DELETE FROM `reserva`;
-INSERT INTO `reserva` (`id`, `utilizador_fk`, `livro_localizacao_fk`, `data_reserva`, `data_levantamento`, `data_expiracao`, `estado_fk`) VALUES
-	(75, 9, 10, '2025-06-17', '2025-06-20', '2025-06-27', 1);
+INSERT INTO `reserva` (`id`, `livro_localizacao_fk`, `utilizador_fk`, `data_reserva`, `data_levantamento`, `data_expiracao`, `estado_fk`) VALUES
+	(75, 10, 9, '2025-06-17', '2025-06-20', '2025-06-27', 13),
+	(81, 1, 10, '2025-06-22', '2025-06-18', '2025-06-25', 13),
+	(82, 2, 10, '2025-06-22', '2025-06-23', '2025-06-26', 13),
+	(83, 4, 10, '2025-06-22', '2025-06-30', '2025-07-03', 1);
 
 -- A despejar estrutura para tabela empresta_facil.reserva_recurso
 DROP TABLE IF EXISTS `reserva_recurso`;
