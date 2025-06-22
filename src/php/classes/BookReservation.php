@@ -170,8 +170,8 @@ class BookReservation
         $this->expirationDate = date('Y-m-d H:i:s', strtotime($this->pickUpDate . ' +7 days'));
 
         $query = "INSERT INTO {$this->tableName} 
-        (livro_localizacao_fk, utilizador_fk, data_reserva, data_levantamento, data_expiracao)
-        VALUES (:locationId, :userId, :reservationDate, :pickUpDate, :expirationDate)";
+            (livro_localizacao_fk, utilizador_fk, data_reserva, data_levantamento, data_expiracao)
+            VALUES (:locationId, :userId, :reservationDate, :pickUpDate, :expirationDate)";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':locationId', $this->locationId);

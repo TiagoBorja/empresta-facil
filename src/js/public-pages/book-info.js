@@ -35,7 +35,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         modalHeader.textContent = `Reservar - ${bookValue.titulo}`;
         modalInputId.value = bookValue.id;
-        fetchSelect(`${API_ENDPOINTS.LOCATION}?id=${id}`, 'nome', "librarySelect")
+        fetchSelect(`${API_ENDPOINTS.LOCATION}?id=${id}`, 'nome', "librarySelect", null, false, 'livro_localizacao_fk');
+
 
         const form = document.querySelector("#reservationForm");
         if (!form) return;
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             const formData = new FormData(this);
             formData.append("reservationSubmit", true);
             formData.append("bookId", bookValue.id);
-
+            console.log([...formData]);
             newData(API_ENDPOINTS.RESERVATION, formData, form, `?page=book-info&id=${bookValue.id}`);
         });
     });

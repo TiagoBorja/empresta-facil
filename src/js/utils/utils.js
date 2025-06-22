@@ -43,7 +43,7 @@ export async function handleFormResponse(result, form) {
     }
 }
 
-export async function fetchSelect(API_URL, labelValue, elementId, selectedValue = null, blockSelect = false) {
+export async function fetchSelect(API_URL, labelValue, elementId, selectedValue = null, blockSelect = false, specificId) {
     try {
         const response = await fetch(API_URL);
 
@@ -53,17 +53,17 @@ export async function fetchSelect(API_URL, labelValue, elementId, selectedValue 
 
         const result = await response.json();
         if ('data' in result) {
-            fillSelect(result.data, labelValue, elementId, selectedValue, blockSelect);
+            fillSelect(result.data, labelValue, elementId, selectedValue, blockSelect, specificId);
             return;
         }
 
-        fillSelect(result, labelValue, elementId, selectedValue, blockSelect);
+        fillSelect(result, labelValue, elementId, selectedValue, blockSelect, specificId);
     } catch (error) {
         console.error('Erro ao fazer requisição:', error);
     }
 }
 
-function fillSelect(items, labelValue, elementId, selectedValue = null, blockSelect = false) {
+function fillSelect(items, labelValue, elementId, selectedValue = null, blockSelect = false, specificId) {
     try {
         let option = "";
 
@@ -73,27 +73,28 @@ function fillSelect(items, labelValue, elementId, selectedValue = null, blockSel
         items.forEach((item) => {
             const label = fields.map(f => item[f] || '').join(separator);
 
-            const isSelected = selectedValue !== null && item.id == selectedValue ? ' selected' : '';
-            option += `<option value="${item.id}"${isSelected}>${label}</option>`;
+            const value = item[specificId] ?? item.id;
+            console.log(value);
+
+            const isSelected = selectedValue !== null && value == selectedValue ? ' selected' : '';
+            option += `<option value="${value}"${isSelected}>${label}</option>`;
         });
 
         const select = document.getElementById(elementId);
         select.innerHTML = option;
 
         if (blockSelect) {
-
-            const select = document.getElementById(elementId);
             select.addEventListener('mousedown', function (e) {
                 e.preventDefault();
             });
             select.style.pointerEvents = 'none';
             select.style.backgroundColor = '#eee';
-
         }
     } catch (error) {
         console.error('Erro ao fazer requisição:', error);
     }
 }
+
 export async function fillAuthorCheckboxes(authors, labelFields, containerId, selectedValues = []) {
     const container = document.getElementById(containerId);
     container.innerHTML = ''; // limpa antes de adicionar
