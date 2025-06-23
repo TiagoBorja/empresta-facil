@@ -18,6 +18,7 @@ class Loan
     private $dueDate;
     private $returnDate;
     private $stateReturn;
+    private $statePickUp;
 
 
     public function __construct()
@@ -70,6 +71,10 @@ class Loan
     {
         return $this->stateReturn;
     }
+    public function getStatePickUp()
+    {
+        return $this->statePickUp;
+    }
 
     public function setId($id)
     {
@@ -108,6 +113,11 @@ class Loan
     public function setStateReturn($stateReturn)
     {
         $this->stateReturn = $stateReturn;
+    }
+
+    public function setStatePickUp($statePickUp)
+    {
+        $this->statePickUp = $statePickUp;
     }
 
     public function setBookFk($bookFk)
@@ -249,7 +259,7 @@ class Loan
                     if (!empty($bookId)) {
                         $this->loanBook->setLoanFk($loanId);
                         $this->loanBook->setBookFk($bookId);
-                        $this->loanBook->setStatePickUp(1);
+                        $this->loanBook->setStatePickUp($this->statePickUp);
                         $loanResult = $this->loanBook->create();
 
                         $loanResponse = json_decode($loanResult, true);

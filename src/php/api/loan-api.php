@@ -51,11 +51,11 @@ if (isset($_POST['saveData'])) {
     $loan->setEmployeeFk($employeeFk);
     $loan->setDueDate($dueDate);
     $loan->setReturnDate($returnDate);
+    $loan->setStatePickUp($statePickUp);
     $loan->setStateReturn($stateReturn);
 
     if ($loanId) {
         $loan->setId($loanId);
-        $loanBook->setStatePickUp($statePickUp);
         echo $loan->update($loanId, $bookFk);
         exit;
     }
