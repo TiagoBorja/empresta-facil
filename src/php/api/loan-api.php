@@ -5,6 +5,7 @@ include_once '../classes/Loan.php';
 include_once '../classes/BookReservation.php';
 
 $loan = new Loan();
+$loanBook = new LoanBook();
 $reservation = new BookReservation();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
@@ -32,10 +33,12 @@ if (isset($_POST['saveData'])) {
     $reservationId = filter_input(INPUT_POST, 'reservationId', FILTER_SANITIZE_NUMBER_INT);
     $reservationId = !empty($reservationId) ? $reservationId : null;
     $userId = filter_input(INPUT_POST, 'user', filter: FILTER_SANITIZE_NUMBER_INT);
+    $bookFk = filter_input(INPUT_POST, 'bookSelect', filter: FILTER_SANITIZE_NUMBER_INT);
     $employeeFk = $_SESSION['employee']['id'];
     $loanDate = filter_input(INPUT_POST, 'loanDate', filter: FILTER_SANITIZE_SPECIAL_CHARS);
     $dueDate = filter_input(INPUT_POST, 'dueDate', filter: FILTER_SANITIZE_SPECIAL_CHARS);
     $returnDate = filter_input(INPUT_POST, 'returnDate', filter: FILTER_SANITIZE_SPECIAL_CHARS);
+    $statePickUp = filter_input(INPUT_POST, 'statePickUp', filter: FILTER_SANITIZE_SPECIAL_CHARS);
     $stateReturn = filter_input(INPUT_POST, 'stateReturn', filter: FILTER_SANITIZE_SPECIAL_CHARS);
 
     $books = $_POST['books'] ?? [];
@@ -48,11 +51,12 @@ if (isset($_POST['saveData'])) {
     $loan->setEmployeeFk($employeeFk);
     $loan->setDueDate($dueDate);
     $loan->setReturnDate($returnDate);
-    $loan->setReturnDate($returnDate);
     $loan->setStateReturn($stateReturn);
+
     if ($loanId) {
         $loan->setId($loanId);
-        echo $loan->update($loanId);
+        $loanBook->setStatePickUp($statePickUp);
+        echo $loan->update($loanId, $bookFk);
         exit;
     }
 

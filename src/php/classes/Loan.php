@@ -13,6 +13,7 @@ class Loan
     private $reservationFk;
     private $userFk;
     private $employeeFk;
+    private $bookFk;
     private $loanDate;
     private $dueDate;
     private $returnDate;
@@ -41,6 +42,10 @@ class Loan
     public function getUserFk()
     {
         return $this->userFk;
+    }
+    public function getBookFk()
+    {
+        return $this->bookFk;
     }
 
     public function getEmployeeFk()
@@ -103,6 +108,11 @@ class Loan
     public function setStateReturn($stateReturn)
     {
         $this->stateReturn = $stateReturn;
+    }
+
+    public function setBookFk($bookFk)
+    {
+        $this->bookFk = $bookFk;
     }
 
     public function getAll()
@@ -261,7 +271,7 @@ class Loan
         }
     }
 
-    public function update($id)
+    public function update($id, $bookFk)
     {
         $this->id = $id;
 
@@ -272,12 +282,10 @@ class Loan
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
         $stmt->bindParam(':returnDate', $this->returnDate, PDO::PARAM_STR);
-
         try {
             $stmt->execute();
 
-            // Aqui passas o ID do empréstimo e o estado da devolução
-            return $this->loanBook->update($this->id, $this->stateReturn);
+            return $this->loanBook->update($this->id, $bookFk, $this->stateReturn);
         } catch (PDOException $e) {
             return json_encode([
                 'status' => 500,

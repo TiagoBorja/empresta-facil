@@ -195,14 +195,13 @@ CREATE TABLE IF NOT EXISTS `emprestimo` (
   CONSTRAINT `FK_emprestimo_reserva` FOREIGN KEY (`reserva_fk`) REFERENCES `reserva` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_emprestimo_utilizador` FOREIGN KEY (`utilizador_fk`) REFERENCES `utilizador` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `emprestimo_ibfk_3` FOREIGN KEY (`funcionario_fk`) REFERENCES `funcionario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.emprestimo: ~2 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.emprestimo: ~3 rows (aproximadamente)
 DELETE FROM `emprestimo`;
 INSERT INTO `emprestimo` (`id`, `reserva_fk`, `utilizador_fk`, `funcionario_fk`, `data_emprestimo`, `data_devolucao`, `data_devolvido`) VALUES
-	(5, NULL, 18, NULL, '2025-06-22', '2025-06-27', NULL),
-	(6, NULL, 4, 15, '2025-06-22', NULL, NULL),
-	(7, NULL, 4, 16, '2025-06-22', '2025-06-24', NULL);
+	(13, NULL, 20, 16, '2025-06-22', '2025-06-25', '2025-06-30'),
+	(14, NULL, 4, 16, '2025-06-23', '2025-06-30', '2025-07-01');
 
 -- A despejar estrutura para tabela empresta_facil.emprestimo_livro
 DROP TABLE IF EXISTS `emprestimo_livro`;
@@ -225,13 +224,11 @@ CREATE TABLE IF NOT EXISTS `emprestimo_livro` (
   CONSTRAINT `FK_emprestimo_livro_livro_localizacao` FOREIGN KEY (`livro_localizacao_fk`) REFERENCES `livro_localizacao` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.emprestimo_livro: ~4 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.emprestimo_livro: ~2 rows (aproximadamente)
 DELETE FROM `emprestimo_livro`;
 INSERT INTO `emprestimo_livro` (`emprestimo_fk`, `livro_localizacao_fk`, `estado_levantou_fk`, `estado_devolucao_fk`, `estado_emprestimo_fk`) VALUES
-	(5, 6, 7, NULL, 9),
-	(7, 2, 7, NULL, 9),
-	(7, 6, 7, NULL, 9),
-	(7, 16, 7, NULL, 9);
+	(13, 11, 4, 8, 10),
+	(14, 8, 1, 8, 11);
 
 -- A despejar estrutura para tabela empresta_facil.estado
 DROP TABLE IF EXISTS `estado`;
@@ -255,8 +252,8 @@ INSERT INTO `estado` (`id`, `estado`, `observacoes`, `criado_em`, `atualizado_em
 	(6, 'RESERVADO', 'LIVRO', '2025-06-22 13:47:45', NULL),
 	(7, 'PERDIDO', 'LIVRO', '2025-06-22 13:47:45', NULL),
 	(8, 'DANIFICADO', 'LIVRO', '2025-06-22 13:47:45', NULL),
-	(9, 'ATIVO', 'EMPRÉSTIMO', '2025-06-22 13:47:45', NULL),
-	(10, 'CONCLUÍDO', 'EMPRÉSTIMO', '2025-06-22 13:47:45', NULL),
+	(9, 'EM ANDAMENTO', 'EMPRÉSTIMO', '2025-06-22 13:47:45', NULL),
+	(10, 'CONCLUIDO', 'EMPRÉSTIMO', '2025-06-22 13:47:45', NULL),
 	(11, 'ATRASADO', 'EMPRÉSTIMO', '2025-06-22 13:47:45', NULL),
 	(12, 'CANCELADO', 'EMPRÉSTIMO', '2025-06-22 13:47:45', NULL),
 	(13, 'PENDENTE', 'RESERVA', '2025-06-22 13:47:45', NULL),
@@ -297,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `funcionario` (
   CONSTRAINT `funcionario_ibfk_2` FOREIGN KEY (`biblioteca_fk`) REFERENCES `biblioteca` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.funcionario: ~4 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.funcionario: ~3 rows (aproximadamente)
 DELETE FROM `funcionario`;
 INSERT INTO `funcionario` (`id`, `utilizador_fk`, `biblioteca_fk`, `criado_em`, `atualizado_em`, `ativo`) VALUES
 	(12, 12, NULL, '2025-06-16 22:56:49', NULL, 'Y'),
@@ -560,6 +557,86 @@ BEGIN
     IF NEW.tipo_utilizador_fk IS NULL OR NEW.tipo_utilizador_fk = '' THEN
         -- Se estiver vazio, atribua o ID do "Utilizador Comum"
         SET NEW.tipo_utilizador_fk = (SELECT id FROM tipo_utilizador WHERE tipo = 'Utilizador Comum' LIMIT 1);
+    END IF;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- A despejar estrutura para disparador empresta_facil.trg_set_estado_emprestimo_livro
+DROP TRIGGER IF EXISTS `trg_set_estado_emprestimo_livro`;
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_set_estado_emprestimo_livro
+BEFORE UPDATE ON emprestimo_livro
+FOR EACH ROW
+BEGIN
+    DECLARE v_data_devolucao DATE;
+    DECLARE v_data_devolvido DATE;
+
+    -- Buscar datas do empréstimo
+    SELECT data_devolucao, data_devolvido
+    INTO v_data_devolucao, v_data_devolvido
+    FROM emprestimo
+    WHERE id = NEW.emprestimo_fk;
+
+    -- ATRASADO
+    IF v_data_devolvido IS NOT NULL AND v_data_devolucao IS NOT NULL AND v_data_devolvido > v_data_devolucao THEN
+        SET NEW.estado_emprestimo_fk = (
+            SELECT id FROM estado WHERE estado = 'ATRASADO' AND observacoes = 'EMPRESTIMO' LIMIT 1
+        );
+
+    -- CONCLUIDO
+    ELSEIF NEW.estado_devolucao_fk IS NOT NULL THEN
+        SET NEW.estado_emprestimo_fk = (
+            SELECT id FROM estado WHERE estado = 'CONCLUIDO' AND observacoes = 'EMPRESTIMO' LIMIT 1
+        );
+
+    -- EM ANDAMENTO
+    ELSEIF v_data_devolucao IS NOT NULL THEN
+        SET NEW.estado_emprestimo_fk = (
+            SELECT id FROM estado WHERE estado = 'EM ANDAMENTO' AND observacoes = 'EMPRESTIMO' LIMIT 1
+        );
+    END IF;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- A despejar estrutura para disparador empresta_facil.trg_update_estado_emprestimo_after_emprestimo
+DROP TRIGGER IF EXISTS `trg_update_estado_emprestimo_after_emprestimo`;
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_update_estado_emprestimo_after_emprestimo
+AFTER UPDATE ON emprestimo
+FOR EACH ROW
+BEGIN
+    DECLARE v_estado_id INT;
+
+    -- ATRASADO
+    IF NEW.data_devolvido IS NOT NULL AND NEW.data_devolucao IS NOT NULL AND NEW.data_devolvido > NEW.data_devolucao THEN
+        SELECT id INTO v_estado_id FROM estado WHERE estado = 'ATRASADO' AND observacoes = 'EMPRESTIMO' LIMIT 1;
+        
+        UPDATE emprestimo_livro
+        SET estado_emprestimo_fk = v_estado_id
+        WHERE emprestimo_fk = NEW.id;
+
+    -- CONCLUIDO
+    ELSEIF EXISTS (
+        SELECT 1 FROM emprestimo_livro
+        WHERE emprestimo_fk = NEW.id AND estado_devolucao_fk IS NOT NULL
+    ) THEN
+        SELECT id INTO v_estado_id FROM estado WHERE estado = 'CONCLUIDO' AND observacoes = 'EMPRESTIMO' LIMIT 1;
+        
+        UPDATE emprestimo_livro
+        SET estado_emprestimo_fk = v_estado_id
+        WHERE emprestimo_fk = NEW.id;
+
+    -- EM ANDAMENTO
+    ELSEIF NEW.data_devolucao IS NOT NULL THEN
+        SELECT id INTO v_estado_id FROM estado WHERE estado = 'EM ANDAMENTO' AND observacoes = 'EMPRESTIMO' LIMIT 1;
+        
+        UPDATE emprestimo_livro
+        SET estado_emprestimo_fk = v_estado_id
+        WHERE emprestimo_fk = NEW.id;
     END IF;
 END//
 DELIMITER ;

@@ -63,3 +63,16 @@
     </div>
 </div>
 <script type="module" src="../js/pages/loan-page.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const toastMessage = sessionStorage.getItem('toastMessage');
+
+        if (toastMessage === 'success') {
+            toastr.success("Operação realizada com sucesso!", "Sucesso!");
+        } else if (toastMessage === 'error') {
+            toastr.error("Ocorreu um erro ao processar a solicitação.", "Erro!");
+        }
+        sessionStorage.removeItem('toastMessage');
+
+    });
+</script>

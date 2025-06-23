@@ -7,6 +7,8 @@
         <h4 class="card-title mb-0">
             <i id="icon" class="mdi mdi-book-open-page-variant"></i>
             <span id="bookToLoan" class="hide-menu"></span>
+
+            <span id="loanStatus"></span>
         </h4>
     </div>
     <div class="card-body">
@@ -54,10 +56,10 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-floating mb-3">
-                        <select name="state_pickup" id="state_pickup" class="form-select" required>
+                        <select name="statePickUp" id="statePickUp" class="form-select" required>
                             <option selected disabled>Selecione</option>
                         </select>
-                        <label for="state_pickup">Estado ao Levantar</label>
+                        <label for="statePickUp">Estado ao Levantar</label>
                     </div>
                 </div>
 
@@ -70,14 +72,6 @@
                     </div>
                 </div>
 
-                <div id="loanStatusDiv" class="col-md-4 d-none">
-                    <div class="form-floating mb-3">
-                        <select name="loan_status" id="loan_status" class="form-select" required>
-                            <option selected disabled>Selecione</option>
-                        </select>
-                        <label for="loan_status">Estado do Empréstimo</label>
-                    </div>
-                </div>
             </div>
 
             <h5 class="mt-4 mb-3">Datas</h5>

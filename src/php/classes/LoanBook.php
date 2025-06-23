@@ -79,7 +79,8 @@ class LoanBook
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':loanFk', $this->loanFk, PDO::PARAM_INT);
         $stmt->bindParam(':bookFk', $this->bookFk, PDO::PARAM_INT);
-        $stmt->bindParam(':statePickUp', $this->statePickUp, PDO::PARAM_INT);
+        $statePickUp = $this->getStatePickUp();
+        $stmt->bindParam(':statePickUp', $statePickUp, PDO::PARAM_INT);
 
         try {
             $stmt->execute();
@@ -96,14 +97,16 @@ class LoanBook
         }
     }
 
-    public function update($loanFk, $stateReturn)
+    public function update($loanFk, $bookFk, $stateReturn)
     {
         $query = "UPDATE emprestimo_livro el
                   SET el.estado_devolucao_fk = :stateReturn
-                  WHERE el.emprestimo_fk = :loanFk";
+                  WHERE el.emprestimo_fk = :loanFk
+                  AND el.livro_localizacao_fk = :bookFk";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':loanFk', $loanFk, PDO::PARAM_INT);
+        $stmt->bindParam(':bookFk', $bookFk, PDO::PARAM_INT);
         $stmt->bindParam(':stateReturn', $stateReturn, PDO::PARAM_INT);
 
         try {
