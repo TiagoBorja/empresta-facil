@@ -97,7 +97,7 @@ class LoanBook
         }
     }
 
-    public function update($loanFk, $bookFk, $stateReturn)
+    public function update($loanFk, $stateReturn, $bookFk)
     {
         $query = "UPDATE emprestimo_livro el
                   SET el.estado_devolucao_fk = :stateReturn

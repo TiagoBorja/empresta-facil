@@ -137,7 +137,8 @@ async function showSelectedLoan() {
                 "titulo",
                 "bookSelect",
                 loanValue.livro_fk,
-                true
+                true,
+                'livro_localizacao_fk'
             );
 
             //Estado levantou

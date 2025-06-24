@@ -48,9 +48,16 @@ async function getAll() {
         }
 
         const loan = await loanResponse.json();
+        console.log(loan.livro_localizacao_fk);
+
         showLoan(loan);
 
-        utils.initializeRowSelection(API_ENDPOINTS.LOAN, '?page=loan-form');
+        utils.initializeRowSelection(
+            API_ENDPOINTS.LOAN,
+            '?page=loan-form',
+            null,
+            `bookId=${loan.livro_localizacao_fk}`
+        );
     } catch (error) {
         console.error("Erro ao obter empréstimos:", error);
         toastr.warning("Não foi possível carregar os empréstimos. Tenta novamente mais tarde.", "Atenção!");
@@ -84,15 +91,16 @@ function showLoan(loans) {
                 break;
         }
         tableBody.append(`
-            <tr id="id-${loan.id}" class="selectable-row">
+            <tr id="id-${loan.id}" class="selectable-row" data-bookid="${loan.livro_localizacao_fk}">
                 <td class="text-truncate">${loan.utilizador}</td>
                 <td class="text-truncate">${loan.titulo}</td>
                 <td class="text-truncate">${utils.formatDate(loan.data_emprestimo)}</td>
                 <td class="text-truncate">${utils.formatDate(loan.data_devolucao)}</td>
                 <td class="text-truncate">${utils.formatDate(loan.data_devolvido)}</td>
                 <td class="text-truncate text-center">${state}</td>
-            </tr>`
-        );
+            </tr>
+        `);
+
     });
 
     $('#zero_config').DataTable({

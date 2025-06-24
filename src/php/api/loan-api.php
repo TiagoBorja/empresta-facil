@@ -13,10 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
     exit;
 }
 
-if (isset($_GET['id'])) {
+if (isset($_GET['id']) && isset($_GET['bookId'])) {
     $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+    $bookId = filter_input(INPUT_GET, 'bookId', FILTER_SANITIZE_NUMBER_INT);
     $loan->setId($id);
-    echo $loan->getById($id);
+    $loan->setBookFk($id);
+
+    echo json_encode($bookId, true);
+    //echo $loan->getById($id, $bookId);
     exit;
 }
 
@@ -38,8 +42,8 @@ if (isset($_POST['saveData'])) {
     $loanDate = filter_input(INPUT_POST, 'loanDate', filter: FILTER_SANITIZE_SPECIAL_CHARS);
     $dueDate = filter_input(INPUT_POST, 'dueDate', filter: FILTER_SANITIZE_SPECIAL_CHARS);
     $returnDate = filter_input(INPUT_POST, 'returnDate', filter: FILTER_SANITIZE_SPECIAL_CHARS);
-    $statePickUp = filter_input(INPUT_POST, 'statePickUp', filter: FILTER_SANITIZE_SPECIAL_CHARS);
-    $stateReturn = filter_input(INPUT_POST, 'stateReturn', filter: FILTER_SANITIZE_SPECIAL_CHARS);
+    $statePickUp = filter_input(INPUT_POST, 'statePickUp', filter: FILTER_SANITIZE_NUMBER_INT);
+    $stateReturn = filter_input(INPUT_POST, 'stateReturn', filter: FILTER_SANITIZE_NUMBER_INT);
 
     $books = $_POST['books'] ?? [];
     $books = array_filter(array_map(function ($bookId) {
@@ -56,7 +60,10 @@ if (isset($_POST['saveData'])) {
 
     if ($loanId) {
         $loan->setId($loanId);
-        echo $loan->update($loanId, $bookFk);
+        $loanBook->setBookFk($bookFk);
+        $loanBook->setStateReturn($stateReturn);
+
+        echo $loanBook->update($loan->getId(), $loanBook->getStateReturn(), $loanBook->getBookFk());
         exit;
     }
 

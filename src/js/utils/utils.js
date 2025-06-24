@@ -11,14 +11,23 @@ export function initializeRowSelection(API_URL, formRedirect, specificRedirect) 
     const selectedRows = document.querySelectorAll("[id*=id-]");
 
     selectedRows.forEach(row => {
-        row.addEventListener("click", () => fetchData(API_URL, row.id, formRedirect, specificRedirect));
+        row.addEventListener("click", () => {
+            const rowId = row.id;
+            const bookId = row.dataset.bookid;  // lê o valor do data-bookid
+
+            const extraParam = bookId ? `bookId=${bookId}` : null;
+
+            fetchData(API_URL, rowId, formRedirect, specificRedirect, extraParam);
+        });
+
     });
 }
 
-export async function fetchData(API_URL, rowId, formRedirect, specificRedirect) {
+export async function fetchData(API_URL, rowId, formRedirect, specificRedirect, extraParam) {
     try {
         const id = rowId.replace("id-", "");
-        const response = await fetch(`${API_URL}?id=${id}`);
+        const extraParamPart = extraParam ? `&${extraParam}` : '';
+        const response = await fetch(`${API_URL}?id=${id}${extraParamPart}`);
 
         if (!response.ok) throw new Error("Erro na requisição");
 

@@ -137,7 +137,7 @@ class Loan
                     el.livro_localizacao_fk,
                     e.data_emprestimo,
                     e.data_devolucao,
-                    e.data_devolvido,
+                    el.data_devolvido,
                     es_emprestimo.estado AS estado_emprestimo,
                     es_levantou.estado AS estado_levantou,
                     es_devolucao.estado AS estado_devolucao
@@ -151,6 +151,7 @@ class Loan
                 JOIN estado es_emprestimo ON el.estado_emprestimo_fk = es_emprestimo.id
                 JOIN estado es_levantou ON el.estado_levantou_fk = es_levantou.id
                 LEFT JOIN estado es_devolucao ON el.estado_devolucao_fk = es_devolucao.id
+                WHERE u.id = 10
                 ORDER BY e.data_emprestimo DESC";
 
         $stmt = $this->pdo->prepare($query);
@@ -165,17 +166,19 @@ class Loan
 
     // ----------- MÉTODO: getById() -----------
 
-    public function getById($id)
+    public function getById($id, $bookId)
     {
         $query = "SELECT 
-                    e.id, CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS utilizador, CONCAT(u_func.primeiro_nome, ' ', u_func.ultimo_nome) AS funcionario,
+                    e.id, 
+                    CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS utilizador, 
+                    CONCAT(u_func.primeiro_nome, ' ', u_func.ultimo_nome) AS funcionario,
                     u.id AS utilizador_fk,
                     ll.livro_fk,
                     l.titulo,
                     el.livro_localizacao_fk,
                     e.data_emprestimo,
                     e.data_devolucao,
-                    e.data_devolvido,
+                    el.data_devolvido,
                     es_emprestimo.id AS estado_emprestimo_fk,
                     es_levantou.id AS estado_levantou_fk,
                     es_devolucao.id AS estado_devolucao_fk,
@@ -193,9 +196,11 @@ class Loan
                 JOIN estado es_levantou ON el.estado_levantou_fk = es_levantou.id
                 LEFT JOIN estado es_devolucao ON el.estado_devolucao_fk = es_devolucao.id
                 WHERE e.id = :id
+                AND el.livro_localizacao_fk = :bookId
                 ORDER BY e.data_emprestimo DESC";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':bookId', $bookId, PDO::PARAM_INT);
 
         try {
             $stmt->execute();
@@ -281,7 +286,8 @@ class Loan
         }
     }
 
-    public function update($id, $bookFk)
+    // @Deprected
+    public function update($id)
     {
         $this->id = $id;
 
@@ -292,10 +298,13 @@ class Loan
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
         $stmt->bindParam(':returnDate', $this->returnDate, PDO::PARAM_STR);
+
         try {
             $stmt->execute();
+            $this->loanBook->setBookFk($this->bookFk);
+            $this->loanBook->setStateReturn($this->stateReturn);
 
-            return $this->loanBook->update($this->id, $bookFk, $this->stateReturn);
+            return $this->loanBook->update($this->id, $this->stateReturn, $this->bookFk);
         } catch (PDOException $e) {
             return json_encode([
                 'status' => 500,
