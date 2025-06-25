@@ -4,12 +4,8 @@ session_start();
 header('Content-Type: application/json');
 
 include_once '../classes/BookLocation.php';
-include_once '../classes/Location.php';
-include_once '../classes/Book.php';
 
-$location = new Location();
-$book = new Book();
-$bookLocation = new BookLocation($book, $location);
+$bookLocation = new BookLocation();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
     echo $bookLocation->getAll($_SESSION['employee']['biblioteca_fk']);
@@ -30,11 +26,15 @@ if (isset($_POST['saveData'])) {
     $locationFk = filter_input(INPUT_POST, 'locations', FILTER_SANITIZE_NUMBER_INT);
     $quantity = filter_input(INPUT_POST, 'quantity', FILTER_SANITIZE_NUMBER_INT);
 
-    $book = new Book();
-    $book->setId($bookFk);
     $bookLocation->setBookFk($bookFk);
     $bookLocation->setLocationFk($locationFk);
     $bookLocation->setQuantity($quantity);
+
+    if ($id) {
+        $bookLocation->setId($id);
+        echo $bookLocation->update();
+        exit;
+    }
     echo $bookLocation->create();
 
     exit;

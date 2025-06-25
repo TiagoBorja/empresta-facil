@@ -163,4 +163,37 @@ class BookLocation
             ]);
         }
     }
+
+    public function update()
+    {
+        $query = "UPDATE livro_localizacao
+              SET livro_fk = :bookFk,
+                  localizacao_fk = :locationFk,
+                  quantidade = :quantity
+              WHERE id = :id";
+
+        $bookFk = $this->getBookFk();
+        $locationFk = $this->getLocationFk();
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':bookFk', $bookFk);
+        $stmt->bindParam(':locationFk', $locationFk);
+        $stmt->bindParam(':quantity', $this->quantity);
+        $stmt->bindParam(':id', $this->id);
+
+        try {
+            $stmt->execute();
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Livro Localização atualizado com sucesso!",
+            ]);
+
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao atualizar: " . $e->getMessage()
+            ]);
+        }
+    }
+
 }

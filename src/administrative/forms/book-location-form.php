@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="number" name="quantity" id="quantity" class="form-select">
+                        <input type="number" name="quantity" id="quantity" class="form-select" value="1" max="50" min="1">
                         <label for="quantity">Escolha a Quantidade</label>
                     </div>
                 </div>

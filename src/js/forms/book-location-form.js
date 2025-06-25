@@ -3,9 +3,7 @@ import * as utils from '../utils/utils.js';
 const API_ENDPOINTS = {
     BOOK: './book/code.php',
     BOOK_LOCATION: '../php/api/book-location-api.php',
-    LIBRARY: './library/code.php',
     LOCATION: './location/code.php',
-    USER: './users/code.php',
 };
 
 let urlParams = new URLSearchParams(window.location.search);
@@ -29,11 +27,10 @@ document.addEventListener('DOMContentLoaded', async function () {
                 bookLocationTitle.textContent = `${codLocal} - ${titulo}`;
             }
             document.getElementById("id").value = result.data.livro_localizacao_fk;
+            document.getElementById("quantity").value = result.data.quantidade;
 
             await utils.fetchSelect(API_ENDPOINTS.LOCATION, "cod_local - nome", "locations", result.data.loc_fk);
             await utils.fetchSelect(API_ENDPOINTS.BOOK, "titulo", "book", result.data.id);
-
-            const userLibrary = result.data.biblioteca_utilizador_fk;
         }
     } catch (error) {
         toastr.error(error, "Erro!");
