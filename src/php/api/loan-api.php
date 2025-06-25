@@ -8,7 +8,7 @@ $loan = new Loan();
 $loanBook = new LoanBook();
 $reservation = new BookReservation();
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id']) && !isset($_GET['getLoanCount'])) {
     echo $loan->getAll();
     exit;
 }
@@ -20,6 +20,12 @@ if (isset($_GET['id'])) {
     $loan->setBookFk($bookId);
 
     echo $loan->getById($id, $bookId);
+    exit;
+}
+
+if (isset($_GET['getLoanCount'])) {
+    $stateType = filter_input(INPUT_GET, 'stateType', FILTER_SANITIZE_STRING);
+    echo $loan->getLoanCount($stateType);
     exit;
 }
 
@@ -68,7 +74,7 @@ if (isset($_POST['saveData'])) {
             $loan->getReturnDate(),
             $loanBook->getBookFk(),
         );
-        
+
         exit;
     }
 

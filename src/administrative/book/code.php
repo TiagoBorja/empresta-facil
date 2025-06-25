@@ -6,16 +6,24 @@ include_once '../../php/classes/AuthorBook.php';
 
 $book = new Book();
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
-    echo $book->getAll();
-    exit;
-}
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
-if (isset($_GET['id'])) {
-    $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-    $book->setId($id);
-    echo $book->getById($id);
-    exit;
+    if (isset($_GET['getBookCount'])) {
+        $book->getBookCount();
+        exit;
+    }
+
+    if (!isset($_GET['id'])) {
+        echo $book->getAll();
+        exit;
+    }
+
+    if (isset($_GET['id'])) {
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        $book->setId($id);
+        echo $book->getById($id);
+        exit;
+    }
 }
 
 

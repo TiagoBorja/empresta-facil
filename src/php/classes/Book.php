@@ -391,4 +391,30 @@ class Book
             ]);
         }
     }
+
+    public function getBookCount()
+    {
+        try {
+            // Supondo que tens uma propriedade $this->pdo com a conexão PDO
+            $sql = "SELECT COUNT(*) AS total FROM livro";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute();
+
+            $count = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Retorna JSON
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status' => 200,
+                'data' => $count['total']
+            ]);
+        } catch (PDOException $e) {
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status' => 500,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
 }

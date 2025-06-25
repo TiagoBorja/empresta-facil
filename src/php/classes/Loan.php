@@ -293,31 +293,37 @@ class Loan
         }
     }
 
-    // @Deprected
-    /*public function update($id)
+    public function getLoanCount($stateType = null)
     {
-        $this->id = $id;
-
-        $query = "UPDATE emprestimo e
-                  SET e.data_devolvido = :returnDate
-                  WHERE e.id = :id";
-
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(':returnDate', $this->returnDate, PDO::PARAM_STR);
-
         try {
-            $stmt->execute();
-            $this->loanBook->setBookFk($this->bookFk);
-            $this->loanBook->setStateReturn($this->stateReturn);
+            if ($stateType) {
+                $sql = "SELECT COUNT(*) AS total
+                    FROM emprestimo_livro el
+                    JOIN estado e ON el.estado_emprestimo_fk = e.id
+                    WHERE e.observacoes = 'EMPRESTIMO'
+                    AND e.estado = :stateType";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->bindValue(':stateType', $stateType, PDO::PARAM_STR);
+                $stmt->execute();
+            } else {
+                $sql = "SELECT COUNT(*) AS total FROM emprestimo_livro";
+                $stmt = $this->pdo->query($sql);
+            }
 
-            return $this->loanBook->update($this->id, $this->stateReturn, $this->bookFk);
+            $count = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status' => 200,
+                'data' => $count['total']
+            ]);
         } catch (PDOException $e) {
-            return json_encode([
+            header('Content-Type: application/json');
+            echo json_encode([
                 'status' => 500,
-                'message' => "Erro ao atualizar: " . $e->getMessage()
+                'error' => $e->getMessage()
             ]);
         }
     }
-        */
+
 }

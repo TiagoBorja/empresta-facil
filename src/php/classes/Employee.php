@@ -88,9 +88,11 @@ class Employee
             CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS nome_completo,
             f.utilizador_fk,
             f.biblioteca_fk,
+            b.nome as biblioteca_nome,
             f.ativo
             FROM {$this->tableName} f
             JOIN utilizador u ON f.utilizador_fk = u.id
+            JOIN biblioteca b ON f.biblioteca_fk = b.id
             WHERE f.id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);

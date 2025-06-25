@@ -1,6 +1,8 @@
 <div class="row justify-content-center">
-
-    <h3 class="text-center mt-5 mb-4">Estatísticas</h3>
+    <h2 id="userName" class="text-center"></h2>
+    <h4 id="userLibrary" class="text-center"></h4>
+    <input id="employeeId" type="hidden" value="<?php echo $_SESSION['employee']['id'] ?>">
+    <h3 class="text-center mt-4 mb-4">Estatísticas</h3>
     <div class="row">
         <!-- Total de Livros -->
         <div class="col-md-6 col-lg-3">
@@ -8,8 +10,8 @@
                 <div class="card card-hover">
                     <div class="box bg-info text-center">
                         <i class="mdi mdi-book-multiple display-4 text-white"></i>
-                        <h6 class="text-white mt-2">Total de Recursos</h6>
-                        <h4 class="text-white">150</h4>
+                        <h6 class="text-white mt-2">Total de Livros</h6>
+                        <h4 id="bookCount" class="text-white"></h4>
                     </div>
                 </div>
             </a>
@@ -21,7 +23,7 @@
                     <div class="box bg-success text-center">
                         <i class="mdi mdi-swap-horizontal display-4 text-white"></i>
                         <h6 class="text-white mt-2">Empréstimos Ativos</h6>
-                        <h4 class="text-white">32</h4>
+                        <h4 id="activeLoansCount" class="text-white"></h4>
                     </div>
                 </div>
             </a>
@@ -138,3 +140,5 @@
         </div>
     </div>
 </div>
+
+<script type="module" src="../js/pages/dashboard.js"></script>
