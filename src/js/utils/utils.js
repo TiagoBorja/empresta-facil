@@ -7,16 +7,13 @@ export function clearInputs(inputs) {
     });
 }
 
-export function initializeRowSelection(API_URL, formRedirect, specificRedirect) {
+export function initializeRowSelection(API_URL, formRedirect, specificRedirect, bookId) {
     const selectedRows = document.querySelectorAll("[id*=id-]");
+
 
     selectedRows.forEach(row => {
         row.addEventListener("click", () => {
-            // Mantém a chamada original para compatibilidade
             fetchData(API_URL, row.id, formRedirect, specificRedirect);
-
-            // Ou, se quiser ser explícito:
-            // fetchData(API_URL, row.id, formRedirect, specificRedirect, { useBookId: true });
         });
     });
 }
@@ -159,7 +156,7 @@ export function showLoadingHideContent(loadingId, contentIds = []) {
 export function formatDate(dateString) {
 
     if (dateString === null) {
-        return '';
+        return ' - ';
     }
 
     const date = new Date(dateString);
@@ -168,3 +165,29 @@ export function formatDate(dateString) {
     const year = date.getFullYear();                          // yyyy
     return `${day}-${month}-${year}`;
 }
+
+export function onSelectLoan(API_URL, formRedirect) {
+    // Remove todos os listeners existentes primeiro
+    const rows = document.querySelectorAll("[id*=id-]");
+    rows.forEach(row => {
+        const newRow = row.cloneNode(true);
+        row.parentNode.replaceChild(newRow, row);
+    });
+
+    document.querySelectorAll("[id*=id-]").forEach(row => {
+        row.addEventListener("click", function () {
+            const id = this.id.replace("id-", "");
+            const bookId = this.getAttribute('data-bookid');
+
+            console.log(`Redirecionando com ID: ${id}, BookID: ${bookId}`);
+
+            if (bookId) {
+                window.location.href = `${formRedirect}&id=${id}&bookId=${bookId}`;
+                return;
+            }
+            window.location.href = `${formRedirect}&id=${id}`;
+
+        });
+    });
+}
+

@@ -116,7 +116,7 @@ async function showSelectedLoan() {
 
         // Preenche selects relacionados
         await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user", loanValue.utilizador_fk, true);
-        await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect", loanValue.livro_fk, true, 'livro_localizacao_fk');
+        await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect", bookId, true, 'livro_localizacao_fk');
         await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "statePickUp", loanValue.estado_levantou_fk, true);
         await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "stateReturn", loanValue.estado_devolucao_fk, loanValue.estado_devolucao_fk !== null);
 

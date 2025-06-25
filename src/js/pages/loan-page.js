@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function getAll() {
-
     try {
         const [loanResponse] = await Promise.all([
             fetch(API_ENDPOINTS.LOAN),
@@ -47,30 +46,39 @@ async function getAll() {
             throw new Error("Erro na requisição");
         }
 
-        const loan = await loanResponse.json();
-        console.log(loan.livro_localizacao_fk);
+        const loans = await loanResponse.json(); // Renomeie para 'loans' (plural)
 
-        showLoan(loan);
+        // Debug: verifique todos os bookIds
+        console.log("Todos os bookIds:", loans.map(loan => loan.livro_localizacao_fk));
 
-        utils.initializeRowSelection(
-            API_ENDPOINTS.LOAN,
-            '?page=loan-form'
-        );
+        showLoan(loans);
+
+        // Adicione um pequeno delay para garantir que a tabela foi renderizada
+        setTimeout(() => {
+            utils.onSelectLoan(
+                API_ENDPOINTS.LOAN,
+                '?page=loan-form'
+            );
+        }, 100);
     } catch (error) {
         console.error("Erro ao obter empréstimos:", error);
-        toastr.warning("Não foi possível carregar os empréstimos. Tenta novamente mais tarde.", "Atenção!");
+        toastr.warning("Não foi possível carregar os empréstimos. Tente novamente mais tarde.", "Atenção!");
     }
 }
 function showLoan(loans) {
 
-    if ($.fn.DataTable.isDataTable('#zero_config')) {
-        $('#zero_config').DataTable().destroy();
+    // Destrua a tabela existente de forma mais segura
+    const table = $('#zero_config').DataTable();
+    if (table) {
+        table.destroy();
     }
 
     const tableBody = $('#zero_config tbody');
     tableBody.empty();
 
     loans.forEach((loan) => {
+        // Debug para cada linha
+        console.log(`ID: ${loan.id}, BookID: ${loan.livro_localizacao_fk}`);
 
         let state = '';
 
@@ -89,7 +97,7 @@ function showLoan(loans) {
                 break;
         }
         console.log(loan.livro_localizacao_fk);
-        
+
         tableBody.append(`
             <tr id="id-${loan.id}" class="selectable-row" data-bookid="${loan.livro_localizacao_fk}">
                 <td class="text-truncate">${loan.utilizador}</td>
@@ -106,6 +114,10 @@ function showLoan(loans) {
     $('#zero_config').DataTable({
         language: {
             url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese.json'
+        },
+        destroy: true, // Garante que a tabela é destruída antes de recriar
+        initComplete: function () {
+            console.log("Tabela inicializada completamente");
         }
     });
 }
