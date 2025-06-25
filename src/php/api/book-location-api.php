@@ -2,11 +2,11 @@
 
 header('Content-Type: application/json');
 include_once '../classes/BookLocation.php';
-
+session_start();
 $bookLocation = new BookLocation();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
-    echo $bookLocation->getAll();
+    echo $bookLocation->getAll($_SESSION['employee']['biblioteca_fk']);
     exit;
 }
 

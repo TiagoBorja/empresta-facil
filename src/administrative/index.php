@@ -214,6 +214,11 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                     </a>
                                 </li>
                                 <li class="sidebar-item">
+                                    <a class="sidebar-link" href="?page=book-locations">
+                                        <i class="mdi mdi-map-marker"></i><span class="hide-menu">Localizações dos Livros</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
                                     <a class="sidebar-link" href="?page=editoras">
                                         <i class="mdi mdi-library-shelves"></i><span class="hide-menu">Editoras</span>
                                     </a>
@@ -320,6 +325,14 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
 
                     case 'book-reservations':
                         $page_file = "./pages/book-reservation-page.php";
+                        break;
+
+                    case 'book-location-form':
+                        $page_file = "./forms/book-location-form.php";
+                        break;
+
+                    case 'book-locations':
+                        $page_file = "./pages/book-location-page.php";
                         break;
 
                     case 'categories':

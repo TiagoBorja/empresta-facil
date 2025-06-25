@@ -7,7 +7,7 @@ export function clearInputs(inputs) {
     });
 }
 
-export function initializeRowSelection(API_URL, formRedirect, specificRedirect, bookId) {
+export function initializeRowSelection(API_URL, formRedirect, specificRedirect) {
     const selectedRows = document.querySelectorAll("[id*=id-]");
 
 
