@@ -151,7 +151,6 @@ class Loan
                 JOIN estado es_emprestimo ON el.estado_emprestimo_fk = es_emprestimo.id
                 JOIN estado es_levantou ON el.estado_levantou_fk = es_levantou.id
                 LEFT JOIN estado es_devolucao ON el.estado_devolucao_fk = es_devolucao.id
-                WHERE u.id = 10
                 ORDER BY e.data_emprestimo DESC";
 
         $stmt = $this->pdo->prepare($query);
@@ -204,8 +203,15 @@ class Loan
 
         try {
             $stmt->execute();
-
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($result === false) {
+                return json_encode([
+                    'status' => 404,
+                    'message' => "Empréstimo não encontrado para os IDs fornecidos.",
+                    'data' => null
+                ]);
+            }
 
             return json_encode([
                 'status' => 200,
@@ -213,10 +219,11 @@ class Loan
                 'data' => $result
             ]);
         } catch (PDOException $e) {
-            return [
+            return json_encode([  // Adicionado json_encode também para erros
                 'status' => 500,
-                'message' => 'Erro ao buscar empréstimo: ' . $e->getMessage()
-            ];
+                'message' => 'Erro ao buscar empréstimo: ' . $e->getMessage(),
+                'data' => null
+            ]);
         }
     }
 

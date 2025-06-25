@@ -10,6 +10,7 @@ const API_ENDPOINTS = {
 
 let urlParams = new URLSearchParams(window.location.search);
 let loanId = urlParams.get("id");
+let bookId = urlParams.get("bookId");
 let reservationId = urlParams.get("reservationId");
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -89,81 +90,42 @@ async function showSelectedReservation() {
 
 async function showSelectedLoan() {
     try {
-        const [loanResponse] = await Promise.all([
-            fetch(`${API_ENDPOINTS.LOAN}?id=${loanId}`),
-        ]);
+        const loanResponse = await fetch(`${API_ENDPOINTS.LOAN}?id=${loanId}&bookId=${bookId}`);
+        if (!loanResponse.ok) throw new Error("Erro ao buscar empréstimo com bookId");
 
-        if (!loanResponse.ok) {
-            throw new Error("Erro na requisição");
-        }
+        const loanData = await loanResponse.json();
+        if (loanData.status !== 200) throw new Error("Erro nos dados do empréstimo completo");
 
-        const loan = await loanResponse.json();
+        const loanValue = loanData.data;
 
-        if (loan.status === 200) {
+        // Atualiza a interface com os dados do empréstimo
+        document.getElementById("pageToRedirect").href = "?page=loans";
+        document.getElementById("icon").classList.add("mdi-book-open-page-variant");
+        document.getElementById("bookToLoan").textContent = `Empréstimo de ${loanValue.utilizador} - "${loanValue.titulo}"`;
+        document.getElementById("loanId").value = loanValue.id;
 
-            const loanValue = loan.data;
-            console.log(loanValue);
+        document.getElementById("loanStatus").innerHTML = getStatusBadge(loanValue);
 
-            document.getElementById("pageToRedirect").href = "?page=loans"
-            document.getElementById("icon").classList.add("mdi-book-open-page-variant");
-            document.getElementById("bookToLoan").textContent = `Empréstimo de ${loanValue.utilizador} - "${loanValue.titulo}"`;
+        const dueDate = document.getElementById("dueDate");
+        dueDate.value = loanValue.data_devolucao;
+        dueDate.disabled = true;
 
-            document.getElementById("loanId").value = loanValue.id;
-            const loanStatus = document.getElementById("loanStatus");
-            loanStatus.innerHTML = getStatusBadge(loanValue);
+        const returnDate = document.getElementById("returnDate");
+        returnDate.value = loanValue.data_devolvido;
+        returnDate.disabled = loanValue.data_devolvido !== null;
 
+        // Preenche selects relacionados
+        await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user", loanValue.utilizador_fk, true);
+        await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect", loanValue.livro_fk, true, 'livro_localizacao_fk');
+        await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "statePickUp", loanValue.estado_levantou_fk, true);
+        await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "stateReturn", loanValue.estado_devolucao_fk, loanValue.estado_devolucao_fk !== null);
 
-            //Data para devolução
-            const dueDate = document.getElementById("dueDate");
-            dueDate.value = loanValue.data_devolucao;
-            dueDate.disabled = true;
-
-            //Data que o livro foi devolvido
-            const returnDate = document.getElementById("returnDate");
-            returnDate.value = loanValue.data_devolvido;
-            returnDate.disabled = loanValue.data_devolvido !== null ? true : false;
-
-
-            await utils.fetchSelect(
-                API_ENDPOINTS.USER,
-                "primeiro_nome ultimo_nome",
-                "user",
-                loanValue.utilizador_fk,
-                true
-            );
-
-            await utils.fetchSelect(
-                API_ENDPOINTS.BOOK_LOCATION,
-                "titulo",
-                "bookSelect",
-                loanValue.livro_fk,
-                true,
-                'livro_localizacao_fk'
-            );
-
-            //Estado levantou
-            await utils.fetchSelect(
-                `${API_ENDPOINTS.STATE}?type=LIVRO`,
-                "estado",
-                "statePickUp",
-                loanValue.estado_levantou_fk,
-                true
-            );
-
-            //Estado devolveu
-            await utils.fetchSelect(
-                `${API_ENDPOINTS.STATE}?type=LIVRO`,
-                "estado",
-                "stateReturn",
-                loanValue.estado_devolucao_fk,
-                loanValue.estado_devolucao_fk !== null ? true : false
-            );
-
-        }
     } catch (error) {
         toastr.error(error, "Erro!");
     }
 }
+
+
 
 function createBooksCheckboxes(allBooks, associatedBooks) {
     const booksCheckboxesDiv = document.getElementById("booksCheckboxes");

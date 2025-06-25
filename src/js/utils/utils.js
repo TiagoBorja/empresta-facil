@@ -12,22 +12,26 @@ export function initializeRowSelection(API_URL, formRedirect, specificRedirect) 
 
     selectedRows.forEach(row => {
         row.addEventListener("click", () => {
-            const rowId = row.id;
-            const bookId = row.dataset.bookid;  // lê o valor do data-bookid
+            // Mantém a chamada original para compatibilidade
+            fetchData(API_URL, row.id, formRedirect, specificRedirect);
 
-            const extraParam = bookId ? `bookId=${bookId}` : null;
-
-            fetchData(API_URL, rowId, formRedirect, specificRedirect, extraParam);
+            // Ou, se quiser ser explícito:
+            // fetchData(API_URL, row.id, formRedirect, specificRedirect, { useBookId: true });
         });
-
     });
 }
 
-export async function fetchData(API_URL, rowId, formRedirect, specificRedirect, extraParam) {
+export async function fetchData(API_URL, rowId, formRedirect, specificRedirect, options = {}) {
     try {
         const id = rowId.replace("id-", "");
-        const extraParamPart = extraParam ? `&${extraParam}` : '';
-        const response = await fetch(`${API_URL}?id=${id}${extraParamPart}`);
+        const rowElement = document.getElementById(rowId);
+
+        // Verifica se há um bookId no data-attribute (nova funcionalidade)
+        const bookId = rowElement ? rowElement.getAttribute('data-bookid') : null;
+
+        // Faz a requisição (mantém compatibilidade)
+        const url = bookId ? `${API_URL}?id=${id}&bookId=${bookId}` : `${API_URL}?id=${id}`;
+        const response = await fetch(url);
 
         if (!response.ok) throw new Error("Erro na requisição");
 
@@ -35,10 +39,16 @@ export async function fetchData(API_URL, rowId, formRedirect, specificRedirect, 
 
         if (data.status === 200) {
             const paramKey = specificRedirect ? specificRedirect : "id";
-            window.location.href = `${formRedirect}&${paramKey}=${id}`;
+            // Se tiver bookId, inclui na URL (nova funcionalidade)
+            const redirectUrl = bookId
+                ? `${formRedirect}&${paramKey}=${id}&bookId=${bookId}`
+                : `${formRedirect}&${paramKey}=${id}`;
+
+            window.location.href = redirectUrl;
         }
     } catch (error) {
         console.error("Erro ao obter os dados:", error);
+        toastr.error("Erro ao processar a seleção", "Erro!");
     }
 }
 

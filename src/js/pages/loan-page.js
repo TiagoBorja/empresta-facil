@@ -54,9 +54,7 @@ async function getAll() {
 
         utils.initializeRowSelection(
             API_ENDPOINTS.LOAN,
-            '?page=loan-form',
-            null,
-            `bookId=${loan.livro_localizacao_fk}`
+            '?page=loan-form'
         );
     } catch (error) {
         console.error("Erro ao obter empréstimos:", error);
@@ -90,6 +88,8 @@ function showLoan(loans) {
                 state = '<span class="badge rounded-pill bg-danger">Atrasado</span>';
                 break;
         }
+        console.log(loan.livro_localizacao_fk);
+        
         tableBody.append(`
             <tr id="id-${loan.id}" class="selectable-row" data-bookid="${loan.livro_localizacao_fk}">
                 <td class="text-truncate">${loan.utilizador}</td>

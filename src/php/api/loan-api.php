@@ -13,14 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
     exit;
 }
 
-if (isset($_GET['id']) && isset($_GET['bookId'])) {
+if (isset($_GET['id'])) {
     $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
     $bookId = filter_input(INPUT_GET, 'bookId', FILTER_SANITIZE_NUMBER_INT);
     $loan->setId($id);
-    $loan->setBookFk($id);
+    $loan->setBookFk($bookId);
 
-    echo json_encode($bookId, true);
-    //echo $loan->getById($id, $bookId);
+    echo $loan->getById($id, $bookId);
     exit;
 }
 
