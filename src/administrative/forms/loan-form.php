@@ -15,6 +15,7 @@
         <form id="loanForm">
             <input type="hidden" name="reservationId" id="reservationId">
             <input type="hidden" name="loanId" id="loanId">
+            <input type="hidden" name="bookFk" id="bookFk">
             <h5 class="mb-3">Informações da Reserva</h5>
             <div class="row">
                 <div class="col-md-6">

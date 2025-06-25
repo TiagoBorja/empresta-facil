@@ -33,10 +33,10 @@ if (isset($_GET['reservationId'])) {
 
 if (isset($_POST['saveData'])) {
     $loanId = filter_input(INPUT_POST, 'loanId', FILTER_SANITIZE_NUMBER_INT);
+    $bookFk = filter_input(INPUT_POST, 'bookFk', filter: FILTER_SANITIZE_NUMBER_INT);
     $reservationId = filter_input(INPUT_POST, 'reservationId', FILTER_SANITIZE_NUMBER_INT);
     $reservationId = !empty($reservationId) ? $reservationId : null;
     $userId = filter_input(INPUT_POST, 'user', filter: FILTER_SANITIZE_NUMBER_INT);
-    $bookFk = filter_input(INPUT_POST, 'bookSelect', filter: FILTER_SANITIZE_NUMBER_INT);
     $employeeFk = $_SESSION['employee']['id'];
     $loanDate = filter_input(INPUT_POST, 'loanDate', filter: FILTER_SANITIZE_SPECIAL_CHARS);
     $dueDate = filter_input(INPUT_POST, 'dueDate', filter: FILTER_SANITIZE_SPECIAL_CHARS);
@@ -57,12 +57,18 @@ if (isset($_POST['saveData'])) {
     $loan->setStatePickUp($statePickUp);
     $loan->setStateReturn($stateReturn);
 
-    if ($loanId) {
+    if ($loanId && $bookFk) {
         $loan->setId($loanId);
         $loanBook->setBookFk($bookFk);
         $loanBook->setStateReturn($stateReturn);
 
-        echo $loanBook->update($loan->getId(), $loanBook->getStateReturn(), $loanBook->getBookFk());
+        echo $loanBook->update(
+            $loan->getId(),
+            $loanBook->getStateReturn(),
+            $loan->getReturnDate(),
+            $loanBook->getBookFk(),
+        );
+        
         exit;
     }
 

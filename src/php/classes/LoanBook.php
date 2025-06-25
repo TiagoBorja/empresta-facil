@@ -97,10 +97,11 @@ class LoanBook
         }
     }
 
-    public function update($loanFk, $stateReturn, $bookFk)
+    public function update($loanFk, $stateReturn, $returnDate, $bookFk)
     {
         $query = "UPDATE emprestimo_livro el
-                  SET el.estado_devolucao_fk = :stateReturn
+                  SET el.estado_devolucao_fk = :stateReturn,
+                  el.data_devolvido = :returnDate
                   WHERE el.emprestimo_fk = :loanFk
                   AND el.livro_localizacao_fk = :bookFk";
 
@@ -108,6 +109,7 @@ class LoanBook
         $stmt->bindParam(':loanFk', $loanFk, PDO::PARAM_INT);
         $stmt->bindParam(':bookFk', $bookFk, PDO::PARAM_INT);
         $stmt->bindParam(':stateReturn', $stateReturn, PDO::PARAM_INT);
+        $stmt->bindParam(':returnDate', $returnDate);
 
         try {
             $stmt->execute();

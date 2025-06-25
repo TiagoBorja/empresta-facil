@@ -58,9 +58,9 @@ class Loan
     {
         return $this->loanDate;
     }
-    public function getDueDate($dueDate)
+    public function getDueDate()
     {
-        $this->dueDate = $dueDate;
+        return $this->dueDate;
     }
     public function getReturnDate()
     {
@@ -294,7 +294,7 @@ class Loan
     }
 
     // @Deprected
-    public function update($id)
+    /*public function update($id)
     {
         $this->id = $id;
 
@@ -319,4 +319,5 @@ class Loan
             ]);
         }
     }
+        */
 }

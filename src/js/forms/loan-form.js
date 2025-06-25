@@ -103,6 +103,7 @@ async function showSelectedLoan() {
         document.getElementById("icon").classList.add("mdi-book-open-page-variant");
         document.getElementById("bookToLoan").textContent = `Empréstimo de ${loanValue.utilizador} - "${loanValue.titulo}"`;
         document.getElementById("loanId").value = loanValue.id;
+        document.getElementById("bookFk").value = bookId;
 
         document.getElementById("loanStatus").innerHTML = getStatusBadge(loanValue);
 
