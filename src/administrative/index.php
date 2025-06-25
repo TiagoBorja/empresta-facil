@@ -146,12 +146,12 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                         <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições
                                         </a>'
                                         : ''
-                                    ?>
+                                        ?>
 
                                     <div class="dropdown-divider"></div>
 
                                     <?= isset(($_SESSION['user']))
-                                        ? '<a id="logout" class="dropdown-item" href="./config/auth/logout.php">
+                                        ? '<a id="logout" class="dropdown-item" href="../php/config/auth/logout.php">
                                         <i class="fa fa-power-off text-danger me-1 ms-1"></i>
                                         Sair
                                     </a>'
@@ -159,7 +159,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                         <i class="mdi mdi-login text-info me-1 ms-1"></i>
                                         Entrar
                                     </a>'
-                                    ?>
+                                        ?>
                                 </ul>
                             </li>
                         </ul>
@@ -188,12 +188,12 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         <!-- Gestão de Recursos -->
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)">
-                                <i class="mdi mdi-book"></i><span class="hide-menu">Gestão de Recursos</span>
+                                <i class="mdi mdi-book"></i><span class="hide-menu">Gestão de Livros</span>
                             </a>
                             <ul aria-expanded="false" class="collapse ms-2">
                                 <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=recursos">
-                                        <i class="mdi mdi-library-books"></i><span class="hide-menu">Recursos</span>
+                                    <a class="sidebar-link" href="?page=books">
+                                        <i class="mdi mdi-library-books"></i><span class="hide-menu">Livros</span>
                                     </a>
                                 </li>
                                 <li class="sidebar-item">
@@ -203,7 +203,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                     </a>
                                 </li>
                                 <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=subcategorias">
+                                    <a class="sidebar-link" href="?page=subcategories">
                                         <i class="mdi mdi-bookmark-outline"></i><span
                                             class="hide-menu">Subcategorias</span>
                                     </a>
@@ -215,24 +215,18 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                 </li>
                                 <li class="sidebar-item">
                                     <a class="sidebar-link" href="?page=book-locations">
-                                        <i class="mdi mdi-map-marker"></i><span class="hide-menu">Localizações dos Livros</span>
+                                        <i class="mdi mdi-map-marker"></i><span class="hide-menu">Localizações dos
+                                            Livros</span>
                                     </a>
                                 </li>
                                 <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=editoras">
+                                    <a class="sidebar-link" href="?page=publishers">
                                         <i class="mdi mdi-library-shelves"></i><span class="hide-menu">Editoras</span>
                                     </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=tipos-recurso">
-                                        <i class="mdi mdi-tag-multiple"></i><span class="hide-menu">Tipos de
-                                            Recursos</span>
-                                    </a>
-                                </li>
+                                </li>>
                             </ul>
                         </li>
 
-                        <!-- Gestão de Utilizadores -->
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)">
                                 <i class="mdi mdi-account-multiple"></i><span class="hide-menu">Gestão de
@@ -240,17 +234,17 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                             </a>
                             <ul aria-expanded="false" class="collapse ms-2">
                                 <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=utilizadores">
+                                    <a class="sidebar-link" href="?page=users">
                                         <i class="mdi mdi-account"></i><span class="hide-menu">Utilizadores</span>
                                     </a>
                                 </li>
                                 <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=funcionarios">
+                                    <a class="sidebar-link" href="?page=employees">
                                         <i class="mdi mdi-account-tie"></i><span class="hide-menu">Funcionários</span>
                                     </a>
                                 </li>
                                 <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=tipos-utilizador">
+                                    <a class="sidebar-link" href="?page=user-roles">
                                         <i class="mdi mdi-account-group"></i><span class="hide-menu">Tipos de
                                             Utilizador</span>
                                     </a>
@@ -265,13 +259,13 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                             </a>
                             <ul aria-expanded="false" class="collapse ms-2">
                                 <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=emprestimos">
+                                    <a class="sidebar-link" href="?page=loans">
                                         <i class="mdi mdi-bookmark-multiple"></i><span class="hide-menu">Empréstimos em
                                             Processo</span>
                                     </a>
                                 </li>
                                 <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=reservas">
+                                    <a class="sidebar-link" href="?page=book-reservations">
                                         <i class="mdi mdi-bookmark-multiple"></i><span class="hide-menu">Reservas</span>
                                     </a>
                                 </li>
@@ -307,6 +301,35 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                 <?php
                 switch ($page) {
 
+                    /* Public Pages */
+                    case 'home':
+                        $page_file = "../public/pages/home.php";
+                        break;
+
+                    case 'catalog':
+                        $page_file = "../public/pages/catalog.php";
+                        break;
+                    case 'book-info':
+                        $page_file = "../public/pages/book-info.php";
+                        break;
+                    case 'auth':
+                        $page_file = "../public/pages/login-form.php";
+                        break;
+                    case 'register':
+                        $page_file = "../public/pages/register-form.php";
+                        break;
+                    case 'logout':
+                        $page_file = "../public/config/auth/logout.php";
+                        break;
+                    case 'administrative':
+                        $page_file = "../public/administrative/index.php";
+                        break;
+
+                    case 'profile':
+                        $page_file = "../public/pages/profile.php";
+                        break;
+
+                    /* Administrative Pages*/
                     case 'authors':
                         $page_file = "./author/author-page.php";
                         break;
