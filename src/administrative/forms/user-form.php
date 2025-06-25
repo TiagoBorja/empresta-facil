@@ -102,7 +102,9 @@
                             <legend class="fs-5 fw-bold text-primary border-bottom pb-2 text-center">
                                 <i class="mdi mdi-login me-2"></i>Informações de Acesso
                             </legend>
+
                             <div class="row g-3">
+
                                 <div class="col-md-12">
                                     <div class="form-floating">
                                         <input type="text" id="username" name="username" class="form-control"
@@ -110,13 +112,15 @@
                                         <label for="username">Nome de Utilizador</label>
                                     </div>
                                 </div>
+
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="text" id="password" name="password" class="form-control"
+                                        <input type="text" id="password" name="password" class="form-control d-none"
                                             placeholder="Exemplo: joao.silva" required>
                                         <label for="password">Senha</label>
                                     </div>
                                 </div>
+
                                 <div class="col-md-12">
                                     <div class="form-floating">
                                         <select class="form-select" id="roleSelect" name="role">
@@ -126,9 +130,24 @@
                                     </div>
                                 </div>
 
+                                <div id="libraryDropdownDiv" class="col-md-12">
+                                    <div class="form-floating">
+                                        <button class="form-select text-start ps-3 pe-5 position-relative" type="button"
+                                            id="librariesDropDown" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span id="selectedLibrariesText" class="text-truncate">Selecionar
+                                                Biblioteca</span>
+                                        </button>
 
+                                        <div id="librariesCheckboxes" class="dropdown-menu p-3 w-100"
+                                            aria-labelledby="librariesDropDown">
+                                            <input type="text" name="searchInput" id="searchInput" placeholder="Nome">
+                                        </div>
 
-                                <div class="col-md-12">
+                                        <label for="librariesDropDown" class="form-label">Biblioteca(s)</label>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 col-md-12">
                                     <div class="col-md-8">
                                         <div class="form-floating">
                                             <!-- Upload de nova imagem -->
@@ -137,38 +156,30 @@
                                             <label for="imgProfile">Foto de Perfil</label>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-floating mb-2">
-                                            <img id="profilePreview" src="" alt="Foto de Perfil Atual"
-                                                class="img-fluid rounded" style="max-height: 150px;">
-                                        </div>
+                                    <div class="col-md-4 d-flex align-items-center">
+                                        <img id="profilePreview" src="" alt="Foto de Perfil Atual"
+                                            class="img-fluid rounded" style="max-height: 150px;">
                                     </div>
-
                                 </div>
                             </div>
                         </fieldset>
+
                     </div>
                 </div>
+
+                <div class="card-footer">
+                    <div class="text-center">
+                        <button name="saveData" type="submit" class="btn btn-success text-white rounded-0">
+                            <i class="mdi mdi-content-save"></i>
+                            <span class="ms-1">Guardar</span>
+                        </button>
+                        <button id="clear" type="button" class="btn btn-primary text-white rounded-0">
+                            <i class="mdi mdi-refresh"></i>
+                            <span class="ms-1">Limpar</span>
+                        </button>
+                    </div>
+            </form>
         </div>
-
-        <!-- Tipo de Utilizador -->
-        <!-- <div class="row">
-
-                    </div> -->
-        <div class="card-footer">
-            <div class="text-center">
-                <button name="saveData" type="submit" class="btn btn-success text-white rounded-0">
-                    <i class="mdi mdi-content-save"></i>
-                    <span class="ms-1">Guardar</span>
-                </button>
-                <button id="clear" type="button" class="btn btn-primary text-white rounded-0">
-                    <i class="mdi mdi-refresh"></i>
-                    <span class="ms-1">Limpar</span>
-                </button>
-            </div>
-        </div>
-        </form>
-
     </div>
 </div>
 <script type="module" src="../js/pages/users-page.js"></script>

@@ -43,7 +43,7 @@ async function getUsers() {
         if (!response.ok) throw new Error("Resposta inválida do servidor");
 
         const result = await response.json();
-        showUsers(result)
+        showUsers(result.data)
 
         utils.initializeRowSelection(API_URL, '?page=user-form');
     } catch (error) {
