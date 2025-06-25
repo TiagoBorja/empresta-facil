@@ -209,7 +209,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                     </a>
                                 </li>
                                 <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=localizacoes">
+                                    <a class="sidebar-link" href="?page=locations">
                                         <i class="mdi mdi-map-marker"></i><span class="hide-menu">Localizações</span>
                                     </a>
                                 </li>

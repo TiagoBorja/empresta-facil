@@ -2,12 +2,12 @@
 
 header('Content-Type: application/json');
 include_once '../../php/classes/Location.php';
-
+session_start();
 $location = new Location();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
     $onlyActive = isset($_GET['activeOnly']) && $_GET['activeOnly'] === 'true';
-    echo $location->getAll($onlyActive);
+    echo $location->getAll($onlyActive, $_SESSION['employee']['biblioteca_fk']);
     exit;
 }
 

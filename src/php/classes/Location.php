@@ -1,15 +1,11 @@
 <?php
-
 include_once 'Connection.php';
-
 class Location
 {
-
     private $id;
     private $locationCode;
     private $library;
     private $active;
-
     private $pdo;
     private $tableName = 'localizacao';
     public function __construct()
@@ -57,19 +53,34 @@ class Location
     {
         $this->active = $active;
     }
-
-    public function getAll($onlyActive = false)
+    public function getAll($onlyActive = false, $libraryFk = null)
     {
         $query = "SELECT l.*, b.nome
               FROM " . $this->tableName . " l 
               INNER JOIN biblioteca b ON l.biblioteca_fk = b.id";
 
-        if ($onlyActive) {
-            $query .= " WHERE l.ativo = 'Y' ";
+        // Só adiciona WHERE se libraryFk for diferente de null ou se onlyActive for true
+        $conditions = [];
+
+        if ($libraryFk !== null) {
+            $conditions[] = "l.biblioteca_fk = :libraryFk";
         }
 
-        $query .= " ORDER BY b.nome, l.cod_local asc";
+        if ($onlyActive) {
+            $conditions[] = "l.ativo = 'Y'";
+        }
+
+        if (count($conditions) > 0) {
+            $query .= " WHERE " . implode(" AND ", $conditions);
+        }
+
+        $query .= " ORDER BY b.nome, l.cod_local ASC";
+
         $query_run = $this->pdo->prepare($query);
+
+        if ($libraryFk !== null) {
+            $query_run->bindParam(':libraryFk', $libraryFk);
+        }
 
         try {
             $query_run->execute();
