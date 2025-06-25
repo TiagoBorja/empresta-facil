@@ -16,7 +16,7 @@
                     </h4>
                 </form>
             </div>
-            <form id="libraryForm">
+            <form id="bookLocationForm">
                 <div class="card-body">
                     <div class="mb-3">
                         <input type="hidden" id="id" name="id" class="form-control" readonly>
@@ -35,12 +35,9 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select name="library" id="library" class="form-select">
-                        </select>
-                        <label for="library">Escolha a Biblioteca</label>
+                        <input type="number" name="quantity" id="quantity" class="form-select">
+                        <label for="quantity">Escolha a Quantidade</label>
                     </div>
-
-
                 </div>
                 <div class="card-footer">
                     <div class="text-center">

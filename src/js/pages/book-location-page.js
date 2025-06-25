@@ -1,6 +1,12 @@
 import * as bdUtils from '../utils/bd-utils.js';
 import * as utils from '../utils/utils.js';
-const API_URL = '../php/api/book-location-api.php';
+const API_ENDPOINTS = {
+    BOOK: './book/code.php',
+    BOOK_LOCATION: '../php/api/book-location-api.php',
+    LIBRARY: './library/code.php',
+    LOCATION: './location/code.php',
+    USER: './users/code.php',
+};
 let urlParams;
 let id;
 
@@ -15,10 +21,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    if (id) {
+    if (id !== null) {
         update();
         return;
     }
+    await utils.fetchSelect(API_ENDPOINTS.LOCATION, "cod_local", "locations");
+    await utils.fetchSelect(API_ENDPOINTS.BOOK, "titulo", "book");
 
     create();
     return;
@@ -28,14 +36,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function getAll() {
 
     try {
-        const response = await fetch(API_URL);
+        const response = await fetch(API_ENDPOINTS.BOOK_LOCATION);
         if (!response.ok) throw new Error("Resposta inválida do servidor");
 
         const result = await response.json();
 
         showBooks(result);
 
-        utils.initializeRowSelection(API_URL, '?page=book-location-form');
+
+        utils.initializeRowSelection(API_ENDPOINTS.BOOK_LOCATION, '?page=book-location-form');
     } catch (error) {
         console.error("Erro ao obter bibliotecas:", error);
         toastr.warning("Não foi possível carregar as bibliotecas. Tenta novamente mais tarde.", "Atenção!");
@@ -57,6 +66,7 @@ function showBooks(books) {
                 <td>${book.biblioteca}</td>
                 <td>${book.titulo}</td>
                 <td>${book.cod_local}</td>
+                <td>${book.quantidade}</td>
             </tr>`
         );
     });
@@ -70,7 +80,9 @@ function showBooks(books) {
 
 
 function create() {
-    const form = document.querySelector("#authorForm");
+    console.log("Modo criação ativado. ID:", id);
+
+    const form = document.querySelector("#bookLocationForm");
     if (!form) return;
 
     form.addEventListener("submit", async function (e) {
@@ -78,13 +90,13 @@ function create() {
 
         const formData = new FormData(this);
         formData.append("saveData", true);
-        bdUtils.newData(API_URL, formData, form, '?page=authors');
+        bdUtils.newData(API_ENDPOINTS.BOOK_LOCATION, formData, form, '?page=book-locations');
     });
 }
 
 function update() {
 
-    const form = document.querySelector("#authorForm");
+    const form = document.querySelector("#bookLocationForm");
     if (!form) return;
 
     form.addEventListener("submit", async function (e) {
@@ -93,25 +105,6 @@ function update() {
         const formData = new FormData(this);
         formData.append("saveData", true);
         formData.append("id", id);
-        bdUtils.updateData(API_URL, formData, form, '?page=authors');
-    });
-}
-
-function changeActiveStatus() {
-    const form = document.querySelector("#changeStatus");
-    if (!form) return;
-
-    form.addEventListener("submit", async function (e) {
-        e.preventDefault();
-
-        const activeBadge = document.getElementById("active");
-        const currentStatus = activeBadge.textContent === "Ativo" ? "Y" : "N";
-
-        const formData = new FormData(this);
-        formData.append("changeStatus", true);
-        formData.append("id", id);
-        formData.append("active", currentStatus);
-
-        bdUtils.changeActiveStatus(API_URL, formData, activeBadge, currentStatus)
+        bdUtils.updateData(API_ENDPOINTS.BOOK_LOCATION, formData, form, '?page=book-locations');
     });
 }

@@ -1,16 +1,19 @@
 <?php
 
 include_once 'Connection.php';
-
+include_once 'Location.php';
+include_once 'Book.php';
 class BookLocation
 {
     private $id;
+    private $bookFk;
+    private $locationFk;
     private $quantity;
 
     private $pdo;
     private $tableName = 'biblioteca';
 
-    public function __construct()
+    public function __construct(Book $book = null, Location $location = null)
     {
         $connection = new Connection();
         $this->pdo = $connection->getConnection();
@@ -24,14 +27,34 @@ class BookLocation
     {
         $this->id = $id;
     }
-
-    public function getQuantity()
+    public function getBookFk()
     {
-        return $this->quantity;
+        return $this->bookFk;
     }
+
+    public function setBookFk($bookFk)
+    {
+        $this->bookFk = $bookFk;
+    }
+
+    public function getLocationFk()
+    {
+        return $this->locationFk;
+    }
+
+    public function setLocationFk($locationFk)
+    {
+        $this->locationFk = $locationFk;
+    }
+
+
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
+    }
+    public function getQuantity()
+    {
+        return $this->quantity;
     }
 
     public function getAll($libraryFk = null)
@@ -108,6 +131,35 @@ class BookLocation
             return json_encode([
                 'status' => 500,
                 'message' => "Erro ao encontrar: " . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function create()
+    {
+        $query = "INSERT INTO livro_localizacao
+                (livro_fk, localizacao_fk, quantidade)
+                VALUES (:bookFk, :locationFk, :quantity)";
+
+        $bookFk = $this->getBookFk();
+        $locationFk = $this->getLocationFk();
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':bookFk', $bookFk);
+        $stmt->bindParam(':locationFk', $locationFk);
+        $stmt->bindParam(':quantity', $this->quantity);
+
+        try {
+            $stmt->execute();
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Livro Localização criado com sucesso!",
+            ]);
+
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao inserir: " . $e->getMessage()
             ]);
         }
     }

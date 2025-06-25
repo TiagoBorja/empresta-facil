@@ -8,6 +8,12 @@
                     <i class="mdi mdi-bookmark-plus-outline"></i>
                     <span class="hide-menu">Localizações dos Livros</span>
                 </h4>
+
+                <a class="float-end badge rounded-pill bg-success d-inline-flex align-items-center"
+                    href="?page=book-location-form">
+                    <i class="mdi mdi-plus d-flex align-items-center"></i>
+                    <span class="ms-1">Adicionar</span>
+                </a>
             </div>
 
             <div class="card-body">
@@ -30,6 +36,11 @@
                                     aria-sort="ascending" aria-label="Name: activate to sort column descending"
                                     style="width: 120px;">
                                     Estante
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 120px;">
+                                    Quantidade
                                 </th>
                             </tr>
                         </thead>
