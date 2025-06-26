@@ -69,10 +69,14 @@ class Library
         $this->active = $active;
     }
 
-    public function getAll()
+    public function getAll($onlyActive = false)
     {
         $query = "SELECT *
                   FROM " . $this->tableName;
+
+        if ($onlyActive) {
+            $query .= " WHERE ativo = 'Y'";
+        }
         $query_run = $this->pdo->prepare($query);
 
         try {

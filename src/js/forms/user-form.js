@@ -189,7 +189,7 @@ function updateLibrariesDropdownText() {
 }
 
 async function fetchAllLibrariesData() {
-    const response = await fetch(LIBRARY_API_URL);
+    const response = await fetch(`${LIBRARY_API_URL}?activeOnly=true`);
     if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Erro na API: ${response.status} - ${errorText}`);

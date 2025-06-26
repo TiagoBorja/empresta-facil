@@ -6,7 +6,8 @@ include_once '../../php/classes/Library.php';
 $library = new Library();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
-    echo $library->getAll();
+    $onlyActive = isset($_GET['activeOnly']) && $_GET['activeOnly'] === 'true';
+    echo $library->getAll($onlyActive);
     exit;
 }
 
