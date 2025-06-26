@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (!isEditMode) {
             const allLibrariesData = await fetchAllLibrariesData();
             createLibrariesCheckboxes(allLibrariesData, []);
-            document.getElementById("libraryDropdownDiv").classList.remove("d-none");
+            document.getElementById("password").classList.remove("d-none");
         } else {
             const response = await fetch(`../administrative/users/code.php?id=${id}`);
             if (!response.ok) throw new Error("Erro na requisição");

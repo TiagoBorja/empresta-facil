@@ -53,12 +53,18 @@ if (isset($_POST['saveData'])) {
 
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $user->setEmail($email);
-    
+
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
     $user->setPassword($password);
 
     $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_SPECIAL_CHARS);
     $user->setRole($role);
+
+    $libraries = $_POST['libraries'] ?? [];
+    $libraries = array_filter(array_map(function ($libraryId) {
+        return filter_var($libraryId, FILTER_SANITIZE_NUMBER_INT);
+    }, $libraries));
+
 
     if (isset($_FILES["imgProfile"]) && $_FILES["imgProfile"]["tmp_name"] != "") {
         $imgPath = $utils::uploadImage('./upload', 'imgProfile');
@@ -71,8 +77,8 @@ if (isset($_POST['saveData'])) {
         exit;
     }
 
-    echo $user->newUser();
-
+    echo $user->newUser($libraries);
+    // echo json_encode($libraries, true);
     exit;
 }
 
