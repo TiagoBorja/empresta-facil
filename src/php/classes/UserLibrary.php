@@ -94,7 +94,33 @@ class UserLibrary
         $this->pdo = $connection->getConnection();
     }
 
+    public function getLibrariesByUserId($userId)
+    {
+        $query = "SELECT b.nome, ub.biblioteca_fk 
+                    FROM utilizador_biblioteca ub
+                    JOIN utilizador u ON ub.utilizador_fk = u.id
+                    JOIN biblioteca b ON ub.biblioteca_Fk = b.id
+                    WHERE u.id = :userId";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':userId', $userId);
 
+        try {
+            $stmt->execute();
+
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Bibliotecas encontradas.",
+                'data' => $result
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => 'Erro ao obter a reserva: ' . $e->getMessage()
+            ]);
+        }
+    }
     public function create()
     {
         $query = "INSERT INTO {$this->tableName} (utilizador_fk, biblioteca_fk, codigo_validacao, data_expirado) 

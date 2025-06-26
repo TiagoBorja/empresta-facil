@@ -1,8 +1,10 @@
 import * as utils from '../utils/utils.js';
 
 const ROLE_API_URL = '../administrative/user-roles/code.php';
-
 const LIBRARY_API_URL = '../administrative/library/code.php';
+const USER_LIBRARY_API_URL = '../php/api/user-library-api.php';
+
+
 
 document.addEventListener('DOMContentLoaded', async function () {
     const urlParams = new URLSearchParams(window.location.search);
@@ -47,7 +49,10 @@ document.addEventListener('DOMContentLoaded', async function () {
                 await utils.fetchSelect(ROLE_API_URL, 'tipo', "roleSelect", data.tipo_utilizador_fk);
 
                 const allLibrariesData = await fetchAllLibrariesData();
-                createLibrariesCheckboxes(allLibrariesData, data.libraries || []);
+                const userLibraries = await fetchAllUserLibrariesData(data.id);
+                console.log(userLibraries);
+                
+                createLibrariesCheckboxes(allLibrariesData, userLibraries || []);
                 document.getElementById("libraryDropdownDiv").classList.remove("d-none");
             }
         }
@@ -119,7 +124,7 @@ function createLibrariesCheckboxes(allLibraries, associatedLibraries) {
     }
 
     const associatedLibrariesIds = new Set(
-        associatedLibraries.map(lib => lib?.id).filter(Boolean)
+        associatedLibraries.map(lib => lib?.id || lib?.biblioteca_fk).filter(Boolean)
     );
 
     sortedLibraries.forEach(library => {
@@ -185,6 +190,32 @@ function updateLibrariesDropdownText() {
 
 async function fetchAllLibrariesData() {
     const response = await fetch(LIBRARY_API_URL);
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Erro na API: ${response.status} - ${errorText}`);
+    }
+
+    const result = await response.json();
+
+    if (!result || typeof result !== 'object') {
+        throw new Error("Resposta da API inválida");
+    }
+
+    if (result.status && result.status !== 200) {
+        throw new Error(result.message || "Bibliotecas não encontradas");
+    }
+
+    const librariesData = result.data || result;
+
+    if (!Array.isArray(librariesData)) {
+        throw new Error("Formato de dados de bibliotecas inválido");
+    }
+
+    return librariesData;
+}
+
+async function fetchAllUserLibrariesData(userId) {
+    const response = await fetch(`${USER_LIBRARY_API_URL}?&id=${userId}`);
     if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Erro na API: ${response.status} - ${errorText}`);
