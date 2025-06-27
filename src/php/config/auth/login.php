@@ -10,9 +10,11 @@ if (isset($_POST['usernameOrEmail']) && isset($_POST['password'])) {
     $connection = new Connection();
     $pdo = $connection->getConnection();
 
-    $queryUser = 'SELECT u.*, t.tipo AS tipo FROM utilizador u
+    $queryUser = "SELECT u.*, t.tipo AS tipo FROM utilizador u
               JOIN tipo_utilizador t ON u.tipo_utilizador_fk = t.id 
-              WHERE email = :usernameOrEmail OR nome_utilizador = :usernameOrEmail';
+              WHERE (email = :usernameOrEmail OR nome_utilizador = :usernameOrEmail)
+              AND u.ativo = 'Y'";
+
     $stmtUser = $pdo->prepare($queryUser);
     $stmtUser->bindParam(':usernameOrEmail', $usernameOrEmail, PDO::PARAM_STR);
     $stmtUser->execute();
@@ -33,7 +35,7 @@ if (isset($_POST['usernameOrEmail']) && isset($_POST['password'])) {
 
     $employeeRow = $stmtEmployee->fetch(PDO::FETCH_ASSOC);
 
-    if (!$userRow) {
+    if (!$userRow || $userRow['ativo'] !== 'Y') {
         $_SESSION['login-error'] = "Utilizador não encontrado!";
         header('Location: ../../index.php?page=auth');
         exit();
