@@ -1,5 +1,5 @@
 <footer class="footer text-center">
-    <p>© 2025 EmprestaFacil. Todos os direitos reservados.</p>
+    <p>© 2025 EmprestaFácil. Todos os direitos reservados.</p>
     <span>Desenvolvido por <a href="https://www.linkedin.com/in/tiagoborja/" target="_blank">Tiago Borja</a></span>
 </footer>
 

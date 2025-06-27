@@ -181,3 +181,126 @@ export function onSelectLoan(API_URL, formRedirect) {
     });
 }
 
+export function createGenericCheckboxes(allItems, associatedItems, config) {
+    const {
+        containerId,
+        nameField = 'nome',
+        idField = 'id',
+        valueField = 'id',
+        checkboxName = 'items[]',
+        dropdownButtonId = null,
+        singularLabel = 'item',
+        pluralLabel = 'itens',
+        emptyMessage = 'Nenhum item disponível',
+        errorMessage = 'Dados inválidos',
+        associationField = null // ← Novo campo para identificar qual campo usar de associatedItems
+    } = config;
+
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+
+    if (!Array.isArray(allItems)) {
+        container.innerHTML = `<div class="alert alert-danger">${errorMessage}</div>`;
+        return;
+    }
+
+    // Campo de busca
+    const searchGroup = document.createElement('div');
+    searchGroup.className = 'input-group mb-3';
+    searchGroup.innerHTML = `
+        <span class="input-group-text">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+        </span>
+        <input type="text" id="searchInput" class="form-control" placeholder="Buscar...">
+    `;
+    container.appendChild(searchGroup);
+
+    const divider = document.createElement('hr');
+    divider.className = 'my-2';
+    container.appendChild(divider);
+
+    const sortedItems = [...allItems].sort((a, b) => {
+        const nameA = (a[nameField] || '').toLowerCase();
+        const nameB = (b[nameField] || '').toLowerCase();
+        return nameA.localeCompare(nameB);
+    });
+
+    if (sortedItems.length === 0) {
+        container.innerHTML += `<div class="alert alert-info">${emptyMessage}</div>`;
+        return;
+    }
+
+    // Identifica os IDs dos itens associados, usando o campo apropriado
+    const associatedIds = new Set(
+        associatedItems.map(item =>
+            item?.[associationField ?? idField]
+        ).filter(Boolean)
+    );
+
+    // Cria os checkboxes
+    sortedItems.forEach(item => {
+        const id = item?.[idField];
+        const labelName = item?.[nameField] || `${singularLabel} sem nome`;
+        const value = item?.[valueField];
+
+        if (!id) return;
+
+        const checkboxId = `${containerId}_${id}`;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'form-check mb-2 px-3';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'form-check-input';
+        checkbox.id = checkboxId;
+        checkbox.name = checkboxName;
+        checkbox.value = value;
+        checkbox.checked = associatedIds.has(id);
+        checkbox.addEventListener('change', () => updateDropdownText(dropdownButtonId, containerId, singularLabel, pluralLabel));
+
+        const label = document.createElement('label');
+        label.className = 'form-check-label w-100';
+        label.htmlFor = checkboxId;
+        label.textContent = labelName;
+
+        wrapper.appendChild(checkbox);
+        wrapper.appendChild(label);
+        container.appendChild(wrapper);
+    });
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function () {
+        const searchTerm = this.value.toLowerCase();
+        const checkboxes = container.querySelectorAll('.form-check');
+
+        checkboxes.forEach(wrapper => {
+            const label = wrapper.querySelector('label');
+            if (label) {
+                wrapper.style.display = label.textContent.toLowerCase().includes(searchTerm) ? 'block' : 'none';
+            }
+        });
+    });
+
+    updateDropdownText(dropdownButtonId, containerId, singularLabel, pluralLabel);
+}
+
+
+function updateDropdownText(dropdownId, containerId, singularLabel, pluralLabel) {
+    if (!dropdownId) return;
+
+    const dropdown = document.getElementById(dropdownId);
+    const checked = document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`);
+
+    if (checked.length === 0) {
+        dropdown.textContent = `Selecionar ${pluralLabel}`;
+    } else if (checked.length === 1) {
+        const label = document.querySelector(`label[for="${checked[0].id}"]`);
+        dropdown.textContent = label ? label.textContent.trim() : `1 ${singularLabel} selecionado`;
+    } else {
+        dropdown.textContent = `${checked.length} ${pluralLabel} selecionados`;
+    }
+}
+
+

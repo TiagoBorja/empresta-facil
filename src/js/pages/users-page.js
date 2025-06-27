@@ -2,6 +2,7 @@ import * as bdUtils from '../utils/bd-utils.js';
 import * as utils from '../utils/utils.js';
 const API_URL = '../administrative/users/code.php';
 const ROLE_API_URL = '../administrative/user-roles/code.php';
+const LIBRARY_API_URL = '../administrative/library/code.php';
 let urlParams;
 let id;
 
@@ -71,7 +72,7 @@ function showUsers(users) {
     }
 
     const tableBody = $('#zero_config tbody');
-    tableBody.empty(); 
+    tableBody.empty();
 
     users.forEach((user) => {
         const active = user.ativo === 'Y'
@@ -99,7 +100,21 @@ function showUsers(users) {
     });
 }
 
-function registerUser() {
+async function registerUser() {
+    const allLibrariesData = await fetchAllLibrariesData();
+
+    utils.createGenericCheckboxes(allLibrariesData, [], {
+        containerId: 'librariesCheckboxes',
+        nameField: 'nome',
+        idField: 'id',
+        valueField: 'id',
+        checkboxName: 'libraries[]',
+        dropdownButtonId: 'librariesDropdown',
+        singularLabel: 'biblioteca',
+        pluralLabel: 'bibliotecas',
+        associationField: 'biblioteca_fk'
+    });
+
     const form = document.querySelector("#registerForm");
     if (!form) return;
 
@@ -145,4 +160,30 @@ function changeActiveStatus() {
 
         bdUtils.changeActiveStatus(API_URL, formData, activeBadge, currentStatus)
     });
+}
+
+async function fetchAllLibrariesData() {
+    const response = await fetch(`${LIBRARY_API_URL}?activeOnly=true`);
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Erro na API: ${response.status} - ${errorText}`);
+    }
+
+    const result = await response.json();
+
+    if (!result || typeof result !== 'object') {
+        throw new Error("Resposta da API inválida");
+    }
+
+    if (result.status && result.status !== 200) {
+        throw new Error(result.message || "Bibliotecas não encontradas");
+    }
+
+    const librariesData = result.data || result;
+
+    if (!Array.isArray(librariesData)) {
+        throw new Error("Formato de dados de bibliotecas inválido");
+    }
+
+    return librariesData;
 }

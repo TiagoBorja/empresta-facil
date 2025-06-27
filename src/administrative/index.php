@@ -60,7 +60,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                     width="26">
                             </b>
                             <span class="logo-text ms-2">
-                                <span class="text-danger">EmprestaFacil</span>
+                                <span class="text-danger">EmprestaFácil</span>
                             </span>
                         </a>
 
