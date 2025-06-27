@@ -87,7 +87,7 @@ function showLoan(loans) {
             <tr id="id-${loan.id}" class="selectable-row" data-bookid="${loan.livro_localizacao_fk}">
                 <td class="text-truncate">${loan.utilizador}</td>
                 <td class="text-truncate">${loan.titulo}</td>
-                <td class="text-truncate">${utils.formatDate(loan.data_emprestimo)}</td>
+                <td class="text-truncate">${utils.formatDate(loan.criado_em)}</td>
                 <td class="text-truncate">${utils.formatDate(loan.data_devolucao)}</td>
                 <td class="text-truncate">${utils.formatDate(loan.data_devolvido)}</td>
                 <td class="text-truncate text-center">${state}</td>

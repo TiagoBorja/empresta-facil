@@ -135,7 +135,7 @@ class Loan
                     ll.livro_fk,
                     l.titulo,
                     el.livro_localizacao_fk,
-                    e.data_emprestimo,
+                    e.criado_em,
                     e.data_devolucao,
                     el.data_devolvido,
                     es_emprestimo.estado AS estado_emprestimo,
@@ -151,7 +151,7 @@ class Loan
                 JOIN estado es_emprestimo ON el.estado_emprestimo_fk = es_emprestimo.id
                 JOIN estado es_levantou ON el.estado_levantou_fk = es_levantou.id
                 LEFT JOIN estado es_devolucao ON el.estado_devolucao_fk = es_devolucao.id
-                ORDER BY e.data_emprestimo DESC";
+                ORDER BY e.criado_em DESC";
 
         $stmt = $this->pdo->prepare($query);
 
@@ -175,7 +175,7 @@ class Loan
                     ll.livro_fk,
                     l.titulo,
                     el.livro_localizacao_fk,
-                    e.data_emprestimo,
+                    e.criado_em,
                     e.data_devolucao,
                     el.data_devolvido,
                     es_emprestimo.id AS estado_emprestimo_fk,
@@ -196,7 +196,7 @@ class Loan
                 LEFT JOIN estado es_devolucao ON el.estado_devolucao_fk = es_devolucao.id
                 WHERE e.id = :id
                 AND el.livro_localizacao_fk = :bookId
-                ORDER BY e.data_emprestimo DESC";
+                ORDER BY e.criado_em DESC";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->bindParam(':bookId', $bookId, PDO::PARAM_INT);
