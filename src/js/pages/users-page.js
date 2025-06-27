@@ -75,11 +75,22 @@ function showUsers(users) {
     tableBody.empty();
 
     users.forEach((user) => {
-        const active = user.ativo === 'Y'
-            ? '<span class="badge rounded-pill bg-success">Ativo</span>'
-            : (user.ativo === 'N'
-                ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
-                : '');
+        let active = '';
+
+        switch (user.ativo) {
+            case 'P':
+                active = '<span class="badge rounded-pill bg-warning">Pendente</span>';
+                break;
+            case 'Y':
+                active = '<span class="badge rounded-pill bg-success">Ativo</span>';
+                break;
+            case 'N':
+                active = '<span class="badge rounded-pill bg-danger">Inativo</span>';
+                break;
+            default:
+                active = '';
+        }
+
 
         tableBody.append(`
             <tr id="id-${user.id}" class="selectable-row">
@@ -94,6 +105,7 @@ function showUsers(users) {
     });
 
     $('#zero_config').DataTable({
+        ordering: false,
         language: {
             url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese.json'
         }

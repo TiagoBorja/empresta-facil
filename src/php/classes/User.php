@@ -188,15 +188,24 @@ class User
     public function getUsers()
     {
         $query = "SELECT 
-                    u.id, 
-                    u.primeiro_nome, 
-                    u.ultimo_nome, 
-                    u.nome_utilizador, 
-                    u.email,
-                    tu.tipo,
-                    u.ativo
-                  FROM utilizador u
-                  INNER JOIN tipo_utilizador tu ON u.tipo_utilizador_fk = tu.id";
+            u.id, 
+            u.primeiro_nome, 
+            u.ultimo_nome, 
+            u.nome_utilizador, 
+            u.email,
+            tu.tipo,
+            u.ativo
+        FROM utilizador u
+        INNER JOIN tipo_utilizador tu ON u.tipo_utilizador_fk = tu.id
+        ORDER BY 
+            CASE u.ativo
+                WHEN 'P' THEN 1
+                WHEN 'Y' THEN 2
+                WHEN 'N' THEN 3
+                ELSE 4
+            END,
+            u.primeiro_nome ASC";
+
         $query_run = $this->pdo->prepare($query);
 
         try {
