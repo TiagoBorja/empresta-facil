@@ -25,10 +25,9 @@ class Utils
         return null;
     }
 
-    public static function sendConfirmationEmail($email, $firstName)
+    public static function sendConfirmationEmail($email, $firstName, $code, $libraryData = [])
     {
         try {
-
             $phpmailer = new PHPMailer();
             $phpmailer->isSMTP();
             $phpmailer->Host = 'sandbox.smtp.mailtrap.io';
@@ -38,35 +37,72 @@ class Utils
             $phpmailer->Username = 'cd897272b85f0b';
             $phpmailer->Password = '8e715910c11cab';
 
-            $phpmailer->setFrom('from@example.com', 'From Name');
-            $phpmailer->addAddress('recipient@example.com', 'Recipient Name');
+            $phpmailer->setFrom('from@example.com', 'Portal da Biblioteca');
+            $phpmailer->addAddress($email, $firstName);
 
-            // Conteúdo do e-mail
             $phpmailer->CharSet = 'UTF-8';
             $phpmailer->isHTML(true);
-            $phpmailer->Subject = 'Código de Validação';
+            $phpmailer->Subject = '📌 Código de Validação da Submissão';
 
-            $phpmailer->Body = '<h1>Olá ' . $firstName . ',</h1>';
-            $phpmailer->Body .= '<p>A sua submissão foi recebida com sucesso!</p>';
-
-            if (!$phpmailer->send()) {
-                return json_encode([
-                    'status' => 500,
-                    'message' => 'Erro ao enviar email: ' . $phpmailer->ErrorInfo
-                ]);
+            $librariesHtml = '';
+            if (!empty($libraryData)) {
+                $librariesHtml .= '<div class="highlight">';
+                $librariesHtml .= '<h4>Apresente o código numa das bibliotecas abaixo:</h4><div class="details">';
+                foreach ($libraryData as $library) {
+                    $name = $library['nome'] ?? 'Sem nome';
+                    $address = $library['morada'] ?? 'Sem morada';
+                    $librariesHtml .= "<div><strong>🏢 Biblioteca:</strong> " . htmlspecialchars($name) . "</div>";
+                    $librariesHtml .= "<div><strong>📍 Morada:</strong> " . htmlspecialchars($address) . "</div><br>";
+                }
+                $librariesHtml .= '</div></div>';
             }
 
-            return json_encode([
-                'status' => 200,
-                'message' => 'Email enviado com sucesso para ' . $email,
-            ]);
+            $phpmailer->Body = '
+        <!DOCTYPE html>
+        <html lang="pt">
+        <head>
+            <meta charset="UTF-8">
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+                .header { background-color: #f0f4f8; padding: 20px; text-align: center; border-radius: 5px 5px 0 0; }
+                .content { padding: 20px; background-color: #fff; border-left: 1px solid #eee; border-right: 1px solid #eee; }
+                .footer { padding: 20px; text-align: center; font-size: 12px; color: #777; background-color: #f0f4f8; border-radius: 0 0 5px 5px; }
+                .highlight { background-color: #fff8e1; padding: 15px; border-left: 4px solid #ffc107; margin: 15px 0; }
+                .details div { margin-bottom: 8px; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h2 style="color: #4a6fa5; margin: 0;">Portal da Biblioteca</h2>
+                <p style="margin: 5px 0 0;">Submissão Recebida</p>
+            </div>
+
+            <div class="content">
+                <h3 style="color: #4a6fa5;">Olá, ' . htmlspecialchars($firstName) . '!</h3>
+                <p>A sua submissão foi recebida com sucesso.</p>
+                <p><strong>O seu código de validação é:</strong> <code>' . htmlspecialchars($code) . '</code></p>
+
+                ' . $librariesHtml . '
+            </div>
+
+            <div class="footer">
+                <p>© ' . date('Y') . ' Portal da Biblioteca. Todos os direitos reservados.</p>
+                <p>Este é um e-mail automático. Não responda a esta mensagem.</p>
+            </div>
+        </body>
+        </html>';
+
+            return $phpmailer->send()
+                ? json_encode(['status' => 200, 'message' => 'Email enviado com sucesso para ' . $email])
+                : json_encode(['status' => 500, 'message' => 'Erro ao enviar email: ' . $phpmailer->ErrorInfo]);
         } catch (Exception $e) {
             return json_encode([
                 'status' => 500,
-                'message' => "Erro ao realizar o envio do email!" . $e->getMessage(),
+                'message' => "Erro ao realizar o envio do email! " . $e->getMessage(),
             ]);
         }
     }
+
 
     public static function sendReservationEmail($email, $firstName, $bookTitle, $pickUpDate, $expirationDate, $libraryName, $libraryAddress)
     {
@@ -153,5 +189,18 @@ class Utils
             error_log("Erro ao enviar e-mail: " . $e->getMessage());
             return false;
         }
+    }
+
+    public static function generateRandomCode($size = 12)
+    {
+        $char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $code = '';
+
+        for ($i = 0; $i < $size; $i++) {
+            $index = rand(0, strlen($char) - 1);
+            $code .= $char[$index];
+        }
+
+        return $code;
     }
 }

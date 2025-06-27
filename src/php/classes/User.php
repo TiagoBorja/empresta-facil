@@ -1,6 +1,7 @@
 <?php
 
 include_once 'Connection.php';
+include_once 'Library.php';
 include_once 'UserLibrary.php';
 
 class User
@@ -23,6 +24,7 @@ class User
     private $active;
 
     private $pdo;
+    private $library;
     private $userLibrary;
     // Getters and Setters
     public function getId()
@@ -179,6 +181,7 @@ class User
         $connection = new Connection();
         $this->pdo = $connection->getConnection();
 
+        $this->library = new Library();
         $this->userLibrary = new UserLibrary();
     }
 
@@ -334,7 +337,7 @@ class User
         }
     }
 
-    public function registerUser()
+    public function registerUser($libraries = [])
     {
         if (empty($this->firstName) || empty($this->lastName) || empty($this->birthDay) || empty($this->phoneNumber) || empty($this->username) || empty($this->password) || empty($this->email)) {
             return json_encode([
@@ -354,7 +357,8 @@ class User
                     telemovel, 
                     nome_utilizador, 
                     senha, 
-                    email
+                    email,
+                    ativo
                   ) VALUES (
                     :firstName, 
                     :lastName, 
@@ -366,7 +370,8 @@ class User
                     :phoneNumber, 
                     :username, 
                     :password, 
-                    :email
+                    :email,
+                    :active
                   )";
 
         $stmt = $this->pdo->prepare($query);
@@ -382,11 +387,41 @@ class User
         $stmt->bindParam(':username', $this->username);
         $stmt->bindParam(':password', $this->password);
         $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':active', $this->active);
 
         try {
             $stmt->execute();
+            $userFk = $this->pdo->lastInsertId();
 
-            if (!Utils::sendConfirmationEmail('recipient@example.com', $this->getFirstName())) {
+            $code = Utils::generateRandomCode(12);
+            $libraryIdsValid = [];
+
+            if (!empty($libraries) && is_array($libraries)) {
+                foreach ($libraries as $libraryId) {
+                    if (!empty($libraryId)) {
+                        $this->userLibrary->setUserFk($userFk);
+                        $this->userLibrary->setLibraryFk($libraryId);
+                        $this->userLibrary->setValidationCode($code);
+                        $this->userLibrary->setExpirationDate(
+                            date(
+                                'Y-m-d H:i:s',
+                                strtotime('+14 days')
+                            )
+                        );
+
+                        $libraryResult = $this->userLibrary->create();
+                        $libraryResponse = json_decode($libraryResult, true);
+                        if ($libraryResponse['status'] != 200) {
+                            return $libraryResult;
+                        }
+                        $libraryIdsValid[] = $libraryId;
+                    }
+                }
+            }
+
+            $libraryData = $this->library->getLibraryDataByIds($libraryIdsValid);
+
+            if (!Utils::sendConfirmationEmail($this->email, $this->getFirstName(), $code, $libraryData)) {
                 exit;
             }
 

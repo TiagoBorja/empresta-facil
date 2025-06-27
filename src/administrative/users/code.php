@@ -117,7 +117,13 @@ if (isset($_POST['registerUser'])) {
     $password = password_hash(filter_input(INPUT_POST, 'password'), PASSWORD_DEFAULT);
     $user->setPassword($password);
 
-    echo $user->registerUser();
+    $user->setActive('P');
+    $libraries = $_POST['libraries'] ?? [];
+    $libraries = array_filter(array_map(function ($libraryId) {
+        return filter_var($libraryId, FILTER_SANITIZE_NUMBER_INT);
+    }, $libraries));
+
+    echo $user->registerUser($libraries);
     exit;
 }
 

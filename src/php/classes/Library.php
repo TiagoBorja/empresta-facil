@@ -121,6 +121,18 @@ class Library
             ]);
         }
     }
+
+    public function getLibraryDataByIds(array $libraryIds): array
+    {
+        if (empty($libraryIds)) {
+            return [];
+        }
+        $placeholders = implode(',', array_fill(0, count($libraryIds), '?'));
+        $query = "SELECT nome, morada FROM {$this->tableName} WHERE id IN ($placeholders)";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute($libraryIds);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function create()
     {
         if (empty($this->name && $this->address && $this->postalCode)) {
