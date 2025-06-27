@@ -94,7 +94,6 @@ function populateBookForm(bookData) {
     document.getElementById("isbn").value = bookData.isbn;
     document.getElementById("releaseYear").value = bookData.ano_lancamento;
     document.getElementById("language").value = bookData.idioma;
-    document.getElementById("quantity").value = bookData.quantidade;
     document.getElementById("publisher").value = bookData.editora_fk;
     document.getElementById("category").value = bookData.categoria_fk;
     document.getElementById("subcategory").value = bookData.subcategoria_fk;

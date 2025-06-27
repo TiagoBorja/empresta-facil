@@ -67,15 +67,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
-                            <div class="form-floating">
-                                <input type="number" id="quantity" name="quantity" class="form-control"
-                                    placeholder="Quantidade" min="1">
-                                <label for="quantity">Quantidade</label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-5">
+                        <div class="col-md-8">
                             <div class="form-floating">
                                 <select class="form-select" id="publisher" name="publisher">
                                     <option value="">Selecionar</option>

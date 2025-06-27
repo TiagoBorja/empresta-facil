@@ -82,7 +82,7 @@ function showReservation(reservations) {
             <tr id="id-${reservation.id}" class="selectable-row">
                 <td class="text-truncate">${reservation.nome_completo}</td>
                 <td class="text-truncate">${reservation.titulo}</td>
-                <td class="text-truncate">${utils.formatDate(reservation.data_reserva)}</td>
+                <td class="text-truncate">${utils.formatDate(reservation.criado_em)}</td>
                 <td class="text-truncate">${utils.formatDate(reservation.data_levantamento)}</td>
                 <td class="text-truncate">${utils.formatDate(reservation.data_expiracao)}</td>
                 <td class="text-truncate text-center">${state}</td>

@@ -216,10 +216,10 @@ class Book
         }
 
         $query = "INSERT INTO " . $this->tableName . " (
-                titulo, isbn, ano_lancamento, sinopse, idioma, quantidade, 
+                titulo, isbn, ano_lancamento, sinopse, idioma, 
                 editora_fk, categoria_fk, subcategoria_fk
                 ) VALUES (
-                    :title, :isbn, :releaseYear, :synopsis, :language, :quantity, 
+                    :title, :isbn, :releaseYear, :synopsis, :language, 
                     :publisherFk, :categoryFk, :subcategoryFk
                 )";
 
@@ -230,7 +230,6 @@ class Book
         $stmt->bindParam(':releaseYear', $this->releaseYear);
         $stmt->bindParam(':synopsis', $this->synopsis);
         $stmt->bindParam(':language', $this->language);
-        $stmt->bindParam(':quantity', $this->quantity);
         $stmt->bindParam(':publisherFk', $this->publisherFk);
         $stmt->bindParam(':categoryFk', $this->categoryFk);
         $stmt->bindParam(':subcategoryFk', $this->subcategoryFk);
@@ -304,7 +303,6 @@ class Book
                 ano_lancamento = :releaseYear,
                 sinopse = :synopsis,
                 idioma = :language,
-                quantidade = :quantity,
                 editora_fk = :publisherFk,
                 categoria_fk = :categoryFk,
                 subcategoria_fk = :subcategoryFk
@@ -317,7 +315,6 @@ class Book
         $stmt->bindParam(':releaseYear', $this->releaseYear);
         $stmt->bindParam(':synopsis', $this->synopsis);
         $stmt->bindParam(':language', $this->language);
-        $stmt->bindParam(':quantity', $this->quantity);
         $stmt->bindParam(':publisherFk', $this->publisherFk);
         $stmt->bindParam(':categoryFk', $this->categoryFk);
         $stmt->bindParam(':subcategoryFk', $this->subcategoryFk);

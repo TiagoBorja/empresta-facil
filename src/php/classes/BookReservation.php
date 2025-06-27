@@ -96,7 +96,7 @@ class BookReservation
                     r.utilizador_fk,
                     CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS nome_completo,
                     l.titulo,
-                    r.data_reserva,
+                    r.criado_em,
                     r.data_levantamento,
                     r.data_expiracao,
                     e.estado AS estado_reserva
@@ -105,7 +105,7 @@ class BookReservation
                 JOIN estado e ON r.estado_fk = e.id
                 JOIN livro_localizacao ll ON r.livro_localizacao_fk = ll.id
                 JOIN livro l ON ll.livro_fk = l.id
-                ORDER BY r.data_reserva DESC";
+                ORDER BY r.criado_em DESC";
         $query_run = $this->pdo->prepare($query);
 
         try {
@@ -125,7 +125,7 @@ class BookReservation
                 CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS nome_completo,
                 ll.livro_fk,
                 l.titulo,
-                r.data_reserva,
+                r.criado_em,
                 r.data_levantamento,
                 r.data_expiracao,
                 e.estado AS estado_reserva
@@ -135,7 +135,7 @@ class BookReservation
             JOIN livro_localizacao ll ON r.livro_localizacao_fk = ll.id
             JOIN livro l ON ll.livro_fk = l.id
             WHERE r.id = :id
-            ORDER BY r.data_reserva DESC";
+            ORDER BY r.criado_em DESC";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $id);
 
@@ -170,7 +170,7 @@ class BookReservation
         $this->expirationDate = date('Y-m-d H:i:s', strtotime($this->pickUpDate . ' +3 days'));
 
         $query = "INSERT INTO {$this->tableName} 
-            (livro_localizacao_fk, utilizador_fk, data_reserva, data_levantamento, data_expiracao)
+            (livro_localizacao_fk, utilizador_fk, criado_em, data_levantamento, data_expiracao)
             VALUES (:locationId, :userId, :reservationDate, :pickUpDate, :expirationDate)";
 
         $stmt = $this->pdo->prepare($query);

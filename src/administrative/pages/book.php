@@ -13,7 +13,6 @@
                             <th scope="col">Autor</th>
                             <th scope="col">Ano de Publicação</th>
                             <th scope="col">Editora</th>
-                            <th scope="col">Quantidade</th>
                             <th scope="col">Estado</th>
                             <th scope="col">Status</th>
                             <th scope="col">Ativo/Desabilitado</th>

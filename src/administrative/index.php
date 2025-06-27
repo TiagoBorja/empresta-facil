@@ -78,7 +78,6 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent"
                         style="background-color: #343A40 !important;">
-                        <!-- Links de Navegação - Centralizados e Alinhados Verticalmente -->
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center">
                             <li class="nav-item d-none d-lg-block">
                                 <a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)"
@@ -86,37 +85,48 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                     <i class="mdi mdi-menu font-24"></i>
                                 </a>
                             </li>
+
+                            <!-- Dashboard -->
                             <li class="nav-item">
-                                <a class="nav-link <?= $page == 'home' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
-                                    href="?page=home">
-                                    <i class="mdi mdi-home me-2"></i> Página Inicial
+                                <a class="nav-link <?= $page == 'dashboard' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                    href="?page=dashboard">
+                                    <i class="mdi mdi-home-analytics me-2"></i> Dashboard
                                 </a>
                             </li>
+
+                            <!-- Gestão de Livros -->
                             <li class="nav-item">
-                                <a class="nav-link <?= $page == 'catalog' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
-                                    aria-current="page" href="?page=catalog">
-                                    <i class="mdi mdi-library me-2"></i> Catálogo
+                                <a class="nav-link <?= $page == 'books' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                    href="?page=books">
+                                    <i class="mdi mdi-library-shelves me-2"></i> Gestão de Livros
                                 </a>
                             </li>
+
+                            <!-- Gestão de Utilizadores -->
                             <li class="nav-item">
-                                <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
-                                    aria-current="page" href="#">
-                                    <i class="mdi mdi-trophy-award me-2"></i> Mais Requisitados
+                                <a class="nav-link <?= $page == 'users' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                    href="?page=users">
+                                    <i class="mdi mdi-account-group-outline me-2"></i> Gestão de Utilizadores
                                 </a>
                             </li>
+
+                            <!-- Empréstimos -->
                             <li class="nav-item">
-                                <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
-                                    aria-current="page" href="#">
-                                    <i class="mdi mdi-newspaper me-2"></i> Novidades
+                                <a class="nav-link <?= $page == 'loans' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                    href="?page=loans">
+                                    <i class="mdi mdi-book-clock-outline me-2"></i> Empréstimos
                                 </a>
                             </li>
+
+                            <!-- Relatórios -->
                             <li class="nav-item">
-                                <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
-                                    aria-current="page" href="#">
-                                    <i class="mdi mdi-book-open-page-variant me-2"></i> Recomendações
+                                <a class="nav-link <?= $page == 'book-reservations' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                    href="?page=book-reservations">
+                                    <i class="mdi mdi-chart-box-outline me-2"></i> Reservas
                                 </a>
                             </li>
                         </ul>
+
                         <ul class="navbar-nav float-end mb-2 mb-lg-0 d-flex align-items-center">
 
                             <li class="nav-item dropdown">
@@ -181,7 +191,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         <!-- Dashboard -->
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="?page=dashboard">
-                                <i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span>
+                                <i class="mdi mdi-home-analytics"></i><span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
 
