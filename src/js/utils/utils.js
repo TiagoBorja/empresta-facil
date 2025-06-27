@@ -10,7 +10,6 @@ export function clearInputs(inputs) {
 export function initializeRowSelection(API_URL, formRedirect, specificRedirect) {
     const selectedRows = document.querySelectorAll("[id*=id-]");
 
-
     selectedRows.forEach(row => {
         row.addEventListener("click", () => {
             fetchData(API_URL, row.id, formRedirect, specificRedirect);
@@ -18,29 +17,20 @@ export function initializeRowSelection(API_URL, formRedirect, specificRedirect) 
     });
 }
 
-export async function fetchData(API_URL, rowId, formRedirect, specificRedirect, options = {}) {
+export async function fetchData(API_URL, rowId, formRedirect, specificRedirect) {
     try {
         const id = rowId.replace("id-", "");
-        const rowElement = document.getElementById(rowId);
+        const paramKey = specificRedirect || "id";
+        const url = `${API_URL}?${paramKey}=${id}`;
 
-        // Verifica se há um bookId no data-attribute (nova funcionalidade)
-        const bookId = rowElement ? rowElement.getAttribute('data-bookid') : null;
-
-        // Faz a requisição (mantém compatibilidade)
-        const url = bookId ? `${API_URL}?id=${id}&bookId=${bookId}` : `${API_URL}?id=${id}`;
         const response = await fetch(url);
-
         if (!response.ok) throw new Error("Erro na requisição");
 
         const data = await response.json();
 
         if (data.status === 200) {
-            const paramKey = specificRedirect ? specificRedirect : "id";
-            // Se tiver bookId, inclui na URL (nova funcionalidade)
-            const redirectUrl = bookId
-                ? `${formRedirect}&${paramKey}=${id}&bookId=${bookId}`
-                : `${formRedirect}&${paramKey}=${id}`;
-
+            const separator = formRedirect.includes('?') ? '&' : '?';
+            const redirectUrl = `${formRedirect}${separator}${paramKey}=${id}`;
             window.location.href = redirectUrl;
         }
     } catch (error) {

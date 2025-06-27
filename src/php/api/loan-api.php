@@ -8,32 +8,32 @@ $loan = new Loan();
 $loanBook = new LoanBook();
 $reservation = new BookReservation();
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id']) && !isset($_GET['getLoanCount'])) {
-    echo $loan->getAll();
-    exit;
-}
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    switch (true) {
+        case isset($_GET['id']):
+            $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+            $bookId = filter_input(INPUT_GET, 'bookId', FILTER_SANITIZE_NUMBER_INT);
+            $loan->setId($id);
+            $loan->setBookFk($bookId);
+            echo $loan->getById($id, $bookId);
+            break;
 
-if (isset($_GET['id'])) {
-    $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-    $bookId = filter_input(INPUT_GET, 'bookId', FILTER_SANITIZE_NUMBER_INT);
-    $loan->setId($id);
-    $loan->setBookFk($bookId);
+        case isset($_GET['getLoanCount']):
+            $stateType = filter_input(INPUT_GET, 'stateType', FILTER_SANITIZE_STRING);
+            echo $loan->getLoanCount($stateType);
+            break;
 
-    echo $loan->getById($id, $bookId);
-    exit;
-}
+        case isset($_GET['reservationId']):
+            $reservationId = filter_input(INPUT_GET, 'reservationId', FILTER_SANITIZE_NUMBER_INT);
+            $reservation->setId($reservationId);
+            echo $reservation->getById($reservationId);
+            break;
 
-if (isset($_GET['getLoanCount'])) {
-    $stateType = filter_input(INPUT_GET, 'stateType', FILTER_SANITIZE_STRING);
-    echo $loan->getLoanCount($stateType);
-    exit;
-}
+        default:
+            echo $loan->getAll();
+            break;
+    }
 
-if (isset($_GET['reservationId'])) {
-    $reservationId = filter_input(INPUT_GET, 'reservationId', FILTER_SANITIZE_NUMBER_INT);
-    $reservation->setId($reservationId);
-    echo $reservation->getById($reservationId);
-    echo $loan->getByReservationId($reservationId);
     exit;
 }
 
