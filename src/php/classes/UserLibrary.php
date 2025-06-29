@@ -151,10 +151,10 @@ class UserLibrary
     {
         // Selecionar o código válido e não expirado
         $querySelect = "SELECT codigo_validacao 
-                    FROM utilizador_biblioteca 
-                    WHERE utilizador_fk = :userId 
-                      AND validado = 0 
-                      AND data_expirado >= CURRENT_DATE";
+                FROM utilizador_biblioteca 
+                WHERE utilizador_fk = :userId 
+                  AND validado = 0 
+                  AND data_expirado >= CURRENT_DATE";
 
         $stmtSelect = $this->pdo->prepare($querySelect);
         $stmtSelect->bindParam(':userId', $userId, PDO::PARAM_INT);
@@ -176,7 +176,12 @@ class UserLibrary
             ]);
         }
 
-        $queryUpdate = "UPDATE utilizador_biblioteca 
+        // Iniciar transação para garantir que ambas as atualizações sejam bem sucedidas
+        $this->pdo->beginTransaction();
+
+        try {
+            // 1. Atualizar a tabela utilizador_biblioteca
+            $queryUpdate = "UPDATE utilizador_biblioteca 
                     SET validado = 1, 
                         data_validacao = CURRENT_DATE 
                     WHERE utilizador_fk = :userId 
@@ -184,24 +189,35 @@ class UserLibrary
                       AND data_expirado >= CURRENT_DATE
                       AND codigo_validacao = :code";
 
-        $stmtUpdate = $this->pdo->prepare($queryUpdate);
-        $stmtUpdate->bindParam(':userId', $userId, PDO::PARAM_INT);
-        $stmtUpdate->bindParam(':code', $this->validationCode, PDO::PARAM_STR);
-
-        try {
+            $stmtUpdate = $this->pdo->prepare($queryUpdate);
+            $stmtUpdate->bindParam(':userId', $userId, PDO::PARAM_INT);
+            $stmtUpdate->bindParam(':code', $this->validationCode, PDO::PARAM_STR);
             $stmtUpdate->execute();
+
+            // 2. Atualizar a tabela utilizador para ativo = 'Y'
+            $queryUpdateUser = "UPDATE utilizador 
+                       SET ativo = 'Y' 
+                       WHERE id = :userId";
+
+            $stmtUpdateUser = $this->pdo->prepare($queryUpdateUser);
+            $stmtUpdateUser->bindParam(':userId', $userId, PDO::PARAM_INT);
+            $stmtUpdateUser->execute();
+
+            // Confirmar ambas as atualizações
+            $this->pdo->commit();
 
             return json_encode([
                 'status' => 200,
                 'message' => 'Código validado com sucesso. Conta ativada.'
             ]);
         } catch (PDOException $e) {
+            // Em caso de erro, desfazer quaisquer alterações
+            $this->pdo->rollBack();
             error_log("Erro ao validar: " . $e->getMessage());
             return json_encode([
                 'status' => 500,
                 'message' => 'Erro ao validar: ' . $e->getMessage()
             ]);
         }
-
     }
 }
