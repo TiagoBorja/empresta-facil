@@ -131,25 +131,7 @@
                                     </div>
                                 </div>
 
-                                <div id="libraryDropdownDiv" class="col-md-6 d-none">
-                                    <div class="form-floating">
-                                        <button class="form-select text-start ps-3 pe-5 position-relative" type="button"
-                                            id="librariesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <span id="selectedLibrariesText" class="text-truncate">Selecionar
-                                                Biblioteca</span>
-                                        </button>
-
-                                        <div id="librariesCheckboxes" class="dropdown-menu p-3 w-100"
-                                            aria-labelledby="librariesDropdown">
-                                            <input type="text" name="searchInput" id="searchInput" placeholder="Nome">
-                                        </div>
-
-                                        <label for="librariesDropdown" class="form-label">Biblioteca(s)</label>
-                                    </div>
-                                </div>
-
-
-                                <div id="librarySelectDiv" class="col-md-6 d-none">
+                                <div id="librarySelectDiv" class="col-md-6">
                                     <div class="form-floating mb-3">
                                         <select name="librarySelect" id="librarySelect" class="form-select" required>
                                             <option selected disabled>Selecione</option>
