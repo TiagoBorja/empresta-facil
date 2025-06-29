@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             const allLibrariesData = await fetchAllLibrariesData();
             utils.createGenericCheckboxes(allLibrariesData, [], checkBoxConfig);
             document.getElementById("password").classList.remove("d-none");
+            document.getElementById("libraryDropdownDiv").classList.remove("d-none");
         } else {
             const response = await fetch(`../administrative/users/code.php?id=${id}`);
             if (!response.ok) throw new Error("Erro na requisição");
@@ -62,9 +63,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                 const userLibraries = await fetchAllUserLibrariesData(data.id);
 
                 utils.createGenericCheckboxes(allLibrariesData, userLibraries, checkBoxConfig);
-
-
-                document.getElementById("libraryDropdownDiv").classList.remove("d-none");
             }
         }
 

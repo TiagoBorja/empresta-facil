@@ -130,7 +130,7 @@
                                     </div>
                                 </div>
 
-                                <div id="libraryDropdownDiv" class="col-md-12">
+                                <div id="libraryDropdownDiv" class="col-md-12 d-none">
                                     <div class="form-floating">
                                         <button class="form-select text-start ps-3 pe-5 position-relative" type="button"
                                             id="librariesDropdown" data-bs-toggle="dropdown" aria-expanded="false">

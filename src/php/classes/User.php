@@ -317,7 +317,8 @@ class User
                     senha, 
                     email,
                     img_url, 
-                    tipo_utilizador_fk
+                    tipo_utilizador_fk,
+                    ativo
                   ) VALUES (
                     :firstName, 
                     :lastName, 
@@ -331,7 +332,8 @@ class User
                     :password, 
                     :email,
                     :imgUrl, 
-                    :role
+                    :role,
+                    :active
                   )";
 
         $stmt = $this->pdo->prepare($query);
@@ -349,28 +351,44 @@ class User
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':imgUrl', $this->imgUrl);
         $stmt->bindParam(':role', $this->role);
+        $stmt->bindParam(':active', $this->active);
 
         try {
             $stmt->execute();
             $userFk = $this->pdo->lastInsertId();
+
+            $code = Utils::generateRandomCode(12);
+            $libraryIdsValid = [];
 
             if (!empty($libraries) && is_array($libraries)) {
                 foreach ($libraries as $libraryId) {
                     if (!empty($libraryId)) {
                         $this->userLibrary->setUserFk($userFk);
                         $this->userLibrary->setLibraryFk($libraryId);
-                        $this->userLibrary->setValidationCode('1234HFG');
-                        $this->userLibrary->setExpirationDate(date('Y-m-d H:i:s', strtotime('+14 days')));
+                        $this->userLibrary->setValidationCode($code);
+                        $this->userLibrary->setExpirationDate(
+                            date(
+                                'Y-m-d H:i:s',
+                                strtotime('+14 days')
+                            )
+                        );
 
                         $libraryResult = $this->userLibrary->create();
-
                         $libraryResponse = json_decode($libraryResult, true);
                         if ($libraryResponse['status'] != 200) {
                             return $libraryResult;
                         }
+                        $libraryIdsValid[] = $libraryId;
                     }
                 }
             }
+
+            $libraryData = $this->library->getLibraryDataByIds($libraryIdsValid);
+
+            if (!Utils::sendConfirmationEmail($this->email, $this->getFirstName(), $code, $libraryData)) {
+                exit;
+            }
+
             return json_encode([
                 'status' => 200,
                 'message' => "Utilizador criado com sucesso!"
@@ -378,7 +396,7 @@ class User
         } catch (PDOException $e) {
             return json_encode([
                 'status' => 500,
-                'message' => "Erro ao realizar a inserção!",
+                'message' => "Erro ao realizar a inserção!" . $e->getMessage(),
             ]);
         }
     }

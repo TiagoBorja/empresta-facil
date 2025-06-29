@@ -76,9 +76,9 @@ if (isset($_POST['saveData'])) {
         echo $user->updateUser($id);
         exit;
     }
-
+    
+    $user->setActive('P');
     echo $user->newUser($libraries);
-    // echo json_encode($libraries, true);
     exit;
 }
 
