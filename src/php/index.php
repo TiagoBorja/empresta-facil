@@ -1,10 +1,19 @@
 <?php
 session_start();
+require_once __DIR__ . '/classes/Utils.php';
 
+$imgFilename = $_SESSION['user']['img_url'] ?? '';
 
-$imgPath = isset($_SESSION['user']['img_url']) && $_SESSION['user']['img_url']
-    ? '../administrative/users/' . $_SESSION['user']['img_url']
-    : '../administrative/users/upload/default-icon.jpg';
+$serverPath = __DIR__ . '/../administrative/users/upload/' . $imgFilename;
+
+$urlPath = $imgFilename
+    ? '../administrative/users/upload/' . $imgFilename
+    : '../public/assets/images/users/male-icon.jpg';
+
+if (!file_exists($serverPath)) {
+    $urlPath = '../public/assets/images/users/male-icon.jpg';
+}
+
 
 $page = 'home';
 if (isset($_GET["page"]))
@@ -97,7 +106,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         waves-effect waves-dark
                         pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <img src="<?= $imgPath ?> " alt="user" class="rounded-circle" width="31" />
+                            <img src="<?= $urlPath ?>" alt="user" class="rounded-circle" width="31" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="?page=profile"><i
@@ -108,13 +117,13 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                     class="fas fa-heart me-1 ms-1 text-danger"></i>
                                 Favoritos</a>
 
-                            <?= (isset($_SESSION['user']['tipo']) && $_SESSION['user']['tipo'] === 'Administrador')
+                            <?= (Utils::hasAdministrativeAccess($_SESSION['user'] ?? []))
                                 ? '<div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="../administrative/index.php">
                                     <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições
                                     </a>'
                                 : ''
-                            ?>
+                                ?>
 
                             <div class="dropdown-divider"></div>
 
@@ -127,7 +136,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                         <i class="mdi mdi-login text-info me-1 ms-1"></i>
                                         Entrar
                                     </a>'
-                            ?>
+                                ?>
                         </ul>
                     </li>
                 </ul>

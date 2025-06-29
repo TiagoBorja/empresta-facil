@@ -3,7 +3,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../../../vendor/autoload.php';
+require __DIR__ . '/../../../vendor/autoload.php';
 
 class Utils
 {
@@ -18,8 +18,7 @@ class Utils
         }
 
         if (move_uploaded_file($_FILES[$fileInputName]["tmp_name"], $targetFile)) {
-            // Caminho relativo para uso no HTML
-            return basename($dir) . "/" . $uniqueName;
+            return $uniqueName;
         }
 
         return null;
@@ -202,5 +201,13 @@ class Utils
         }
 
         return $code;
+    }
+
+
+    public static function hasAdministrativeAccess(array $user): bool
+    {
+        $administrativeRoles = ['Administrador', 'Gestor', 'Funcionário'];
+
+        return isset($user['tipo']) && in_array($user['tipo'], $administrativeRoles);
     }
 }

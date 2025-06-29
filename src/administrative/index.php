@@ -5,6 +5,22 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['tipo'] !== 'Administrador') 
     header("Location: ../php/index.php?page=home");
     exit;
 }
+
+require_once __DIR__ . '/../php/classes/Utils.php';
+
+$imgFilename = $_SESSION['user']['img_url'] ?? '';
+
+$serverPath = __DIR__ . '/users/upload/' . $imgFilename;
+
+$urlPath = $imgFilename
+    ? 'users/upload/' . $imgFilename
+    : 'src/public/assets/images/users/male-icon.jpg';
+
+if (!file_exists($serverPath)) {
+    $urlPath = 'src/public/assets/images/users/male-icon.jpg';
+}
+
+
 $page = 'dashboard';
 if (isset($_GET["page"]))
     $page = $_GET["page"];
@@ -137,8 +153,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         waves-effect waves-dark
                         pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
-                                    <img src="./users/<?= $_SESSION['user']['img_url'] ?>" alt="user"
-                                        class="rounded-circle" width="31" />
+                                    <img src="<?= $urlPath ?>" alt="user" class="rounded-circle" width="31" />
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end user-dd animated"
                                     aria-labelledby="navbarDropdown">
@@ -150,7 +165,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                             class="fas fa-heart me-1 ms-1 text-danger"></i>
                                         Favoritos</a>
 
-                                    <?= (isset($_SESSION['user']['tipo']) && $_SESSION['user']['tipo'] === 'Administrador')
+                                    <?= Utils::hasAdministrativeAccess($_SESSION['user'] ?? [])
                                         ? '<div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="../administrative/index.php">
                                         <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições
