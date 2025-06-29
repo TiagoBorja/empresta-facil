@@ -23,6 +23,7 @@ if (isset($_POST['usernameOrEmail']) && isset($_POST['password'])) {
 
     $queryEmployee = "SELECT
                         f.id,
+                        f.utilizador_fk,
                         f.biblioteca_fk,
                         CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS nome_completo
                     FROM funcionario f

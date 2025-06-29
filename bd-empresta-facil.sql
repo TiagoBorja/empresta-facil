@@ -69,23 +69,24 @@ CREATE TABLE IF NOT EXISTS `autor_livro` (
   CONSTRAINT `autor_livro_ibfk_2` FOREIGN KEY (`livro_fk`) REFERENCES `livro` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.autor_livro: ~17 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.autor_livro: ~18 rows (aproximadamente)
 DELETE FROM `autor_livro`;
 INSERT INTO `autor_livro` (`autor_fk`, `livro_fk`, `criado_em`, `atualizado_em`, `criado_fk`, `atualizado_fk`) VALUES
 	(1, 30, '2025-06-12 23:09:29', NULL, NULL, NULL),
 	(1, 32, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(1, 33, '2025-06-15 13:01:46', NULL, NULL, NULL),
+	(1, 34, '2025-06-27 09:21:35', NULL, NULL, NULL),
 	(1, 35, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(1, 36, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(1, 39, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(2, 30, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(2, 31, '2025-06-15 13:01:46', NULL, NULL, NULL),
-	(2, 34, '2025-06-15 13:01:46', NULL, NULL, NULL),
+	(2, 34, '2025-06-27 09:21:35', NULL, NULL, NULL),
 	(2, 37, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(2, 40, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(3, 30, '2025-06-12 23:09:29', NULL, NULL, NULL),
 	(3, 32, '2025-06-15 13:01:46', NULL, NULL, NULL),
-	(3, 34, '2025-06-15 13:01:46', NULL, NULL, NULL),
+	(3, 34, '2025-06-27 09:21:35', NULL, NULL, NULL),
 	(3, 35, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(3, 38, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(3, 41, '2025-06-15 13:01:46', NULL, NULL, NULL);
@@ -409,7 +410,7 @@ INSERT INTO `livro` (`id`, `titulo`, `isbn`, `ano_lancamento`, `sinopse`, `idiom
 	(31, 'O Pequeno Príncipe', '9788520933107', '1943', 'Uma história filosófica sobre a vida e o amor.', 'Português', 1, 1, 1, NULL, NULL, '2025-06-15 12:57:42', NULL, NULL, 'Y'),
 	(32, 'Dom Casmurro', '9788578882954', '0000', 'Obra clássica de Machado de Assis sobre ciúme e dúvida.', 'Português', 2, 1, 1, NULL, NULL, '2025-06-15 12:57:42', NULL, NULL, 'Y'),
 	(33, 'A Revolução dos Bichos', '9788535909556', '1945', 'Uma sátira política de George Orwell.', 'Português', 1, 3, 8, NULL, NULL, '2025-06-15 12:57:42', NULL, NULL, 'Y'),
-	(34, '1984', '9788535914840', '1949', 'Uma distopia sobre vigilância e totalitarismo.', 'Português', 2, 3, 8, NULL, NULL, '2025-06-15 12:57:42', NULL, '2025-06-25 14:27:45', 'Y'),
+	(34, '1984', '9788535914840', '1949', 'Uma distopia sobre vigilância e totalitarismo.', 'Português', 2, 3, 8, NULL, NULL, '2025-06-15 12:57:42', NULL, '2025-06-27 09:22:03', 'Y'),
 	(35, 'Capitães da Areia', '9788520932711', '1937', 'A juventude marginalizada de Salvador.', 'Português', 1, 1, 1, NULL, NULL, '2025-06-15 12:57:42', NULL, NULL, 'Y'),
 	(36, 'O Alquimista', '9788575421133', '1988', 'Uma fábula sobre seguir seus sonhos.', 'Português', 2, 3, 8, NULL, NULL, '2025-06-15 12:57:42', NULL, NULL, 'Y'),
 	(37, 'Ensaio Sobre a Cegueira', '9788535914841', '1995', 'Uma epidemia de cegueira branca assola uma cidade.', 'Português', 1, 3, 8, NULL, NULL, '2025-06-15 12:57:42', NULL, NULL, 'Y'),
@@ -641,9 +642,9 @@ CREATE TABLE IF NOT EXISTS `utilizador` (
   CONSTRAINT `fk_utilizador_atualizado_fk` FOREIGN KEY (`atualizado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `fk_utilizador_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `utilizador_ibfk_1` FOREIGN KEY (`tipo_utilizador_fk`) REFERENCES `tipo_utilizador` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.utilizador: ~15 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.utilizador: ~17 rows (aproximadamente)
 DELETE FROM `utilizador`;
 INSERT INTO `utilizador` (`id`, `primeiro_nome`, `ultimo_nome`, `data_nascimento`, `nif`, `cc`, `genero`, `morada`, `telemovel`, `nome_utilizador`, `senha`, `email`, `img_url`, `tipo_utilizador_fk`, `criado_em`, `atualizado_em`, `ativo`, `criado_fk`, `atualizado_fk`) VALUES
 	(4, 'Tiago', 'Borja', '2005-12-02', '311566260', '123456789123', 'F', NULL, '962193439', 'tiagomatx', '', 'tiagomatx@gmail.com', 'upload/681d24de30d1b_escola_secundaria_antonio_sergio_2.jpg', 4, '2025-04-21 23:08:17', NULL, 'Y', NULL, NULL),
@@ -661,7 +662,9 @@ INSERT INTO `utilizador` (`id`, `primeiro_nome`, `ultimo_nome`, `data_nascimento
 	(21, 'Tiago', 'Borja', '2005-12-02', '123456783', '12345674324', 'M', NULL, '962193439', 'tteste', '123456', 'exemplo-teste@gmail.com', NULL, 42, '2025-06-26 13:37:52', NULL, 'Y', NULL, NULL),
 	(22, 'ZEDAMANGA', 'DAMANGA', '2002-12-02', '1235', '1478529654', 'M', NULL, '962193439', 'DASMANGAS', 'DASMANGAS', 'tiagomatx@gmail.com', NULL, 42, '2025-06-26 13:42:32', NULL, 'Y', NULL, NULL),
 	(23, 'dsad', 'sdsda', '2002-12-02', '', '', 'M', NULL, '789456123', 'aaaa', 'sdsdsadas', 'sdadssa@gmail.com', NULL, 4, '2025-06-26 13:46:59', NULL, 'Y', NULL, NULL),
-	(24, 'dsad', 'sdsda', '2002-12-02', '', '', 'M', NULL, '789456123', 'aaaa', 'sdsdsadas', 'sdadssa@gmail.com', NULL, 4, '2025-06-26 13:47:28', NULL, 'Y', NULL, NULL);
+	(24, 'dsad', 'sdsda', '2002-12-02', '', '', 'M', NULL, '789456123', 'aaaa', 'sdsdsadas', 'sdadssa@gmail.com', NULL, 4, '2025-06-26 13:47:28', NULL, 'Y', NULL, NULL),
+	(31, 'Tiago', 'Borja', '2004-05-12', '1234321', '123456789124', 'O', '136 Rua de Valverde', '962193439', 'tbrja', '$2y$10$ckDMX1MSljqvJKSxq7n/EuMXTpu6nLg3Gmm0Lj1Vc2rF2aw1TGg5u', 'tiagomatx@gmail.com', NULL, 42, '2025-06-27 11:20:46', NULL, 'P', NULL, NULL),
+	(32, 'Tiago', 'Borja', '2004-05-12', '1234321', '123456789124', 'O', '136 Rua de Valverde', '962193439', 'tbrja', '$2y$10$rferiu3JnktJHA2aUpfVreCEEoyU3OsAvD4zXzH9pm2zGYVAnnGJy', 'tiagomatx@gmail.com', NULL, 42, '2025-06-27 11:22:28', NULL, 'P', NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.utilizador_biblioteca
 DROP TABLE IF EXISTS `utilizador_biblioteca`;
@@ -679,12 +682,20 @@ CREATE TABLE IF NOT EXISTS `utilizador_biblioteca` (
   CONSTRAINT `FK_utilizador_biblioteca_utilizador` FOREIGN KEY (`utilizador_fk`) REFERENCES `utilizador` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.utilizador_biblioteca: ~2 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.utilizador_biblioteca: ~9 rows (aproximadamente)
 DELETE FROM `utilizador_biblioteca`;
 INSERT INTO `utilizador_biblioteca` (`utilizador_fk`, `biblioteca_fk`, `codigo_validacao`, `validado`, `data_pedido`, `data_expirado`, `data_validacao`) VALUES
 	(24, 3, '1234HFG', 0, '2025-06-26', '2025-07-10', NULL),
 	(24, 8, '1234HFG', 0, '2025-06-26', '2025-07-10', NULL),
-	(24, 9, '1234HFG', 0, '2025-06-26', '2025-07-10', NULL);
+	(24, 9, '1234HFG', 0, '2025-06-26', '2025-07-10', NULL),
+	(31, 4, '9CALN7C3RISF', 0, '2025-06-27', '2025-07-11', NULL),
+	(31, 7, '9CALN7C3RISF', 0, '2025-06-27', '2025-07-11', NULL),
+	(31, 5, '9CALN7C3RISF', 0, '2025-06-27', '2025-07-11', NULL),
+	(31, 6, '9CALN7C3RISF', 0, '2025-06-27', '2025-07-11', NULL),
+	(32, 4, 'JF2RVSDFXH9I', 0, '2025-06-27', '2025-07-11', NULL),
+	(32, 7, 'JF2RVSDFXH9I', 0, '2025-06-27', '2025-07-11', NULL),
+	(32, 5, 'JF2RVSDFXH9I', 0, '2025-06-27', '2025-07-11', NULL),
+	(32, 6, 'JF2RVSDFXH9I', 0, '2025-06-27', '2025-07-11', NULL);
 
 -- A despejar estrutura para disparador empresta_facil.before_insert_utilizador
 DROP TRIGGER IF EXISTS `before_insert_utilizador`;

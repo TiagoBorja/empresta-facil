@@ -185,43 +185,80 @@ class User
         $this->userLibrary = new UserLibrary();
     }
 
-    public function getUsers()
+    public function getUsers($employeeId)
     {
-        $query = "SELECT 
-            u.id, 
-            u.primeiro_nome, 
-            u.ultimo_nome, 
-            u.nome_utilizador, 
-            u.email,
-            tu.tipo,
-            u.ativo
-        FROM utilizador u
-        INNER JOIN tipo_utilizador tu ON u.tipo_utilizador_fk = tu.id
-        ORDER BY 
-            CASE u.ativo
-                WHEN 'P' THEN 1
-                WHEN 'Y' THEN 2
-                WHEN 'N' THEN 3
-                ELSE 4
-            END,
-            u.primeiro_nome ASC";
+        // Buscar a biblioteca_fk do funcionário
+        $libraryQuery = "SELECT biblioteca_fk FROM funcionario WHERE utilizador_fk = :employeeId LIMIT 1";
+        $stmt = $this->pdo->prepare($libraryQuery);
+        $stmt->bindParam(':employeeId', $employeeId, PDO::PARAM_INT);
+        $stmt->execute();
+        $library = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $query_run = $this->pdo->prepare($query);
+        // Caso não tenha library atribuída, retorna todos os utilizadores
+        if (!$library || $library['biblioteca_fk'] === null) {
+            $query = "SELECT 
+                    u.id, 
+                    u.primeiro_nome, 
+                    u.ultimo_nome, 
+                    u.nome_utilizador, 
+                    u.email,
+                    tu.tipo,
+                    u.ativo
+                FROM utilizador u
+                INNER JOIN tipo_utilizador tu ON u.tipo_utilizador_fk = tu.id
+                ORDER BY 
+                    CASE u.ativo 
+                        WHEN 'P' THEN 1 
+                        WHEN 'Y' THEN 2 
+                        WHEN 'N' THEN 3 
+                        ELSE 4 
+                    END,
+                    u.primeiro_nome ASC";
 
-        try {
-
+            $query_run = $this->pdo->prepare($query);
             $query_run->execute();
             $result = $query_run->fetchAll(PDO::FETCH_ASSOC);
 
             return json_encode([
                 'status' => 200,
-                'message' => "Utilizadores encontrados.",
+                'message' => "Utilizadores encontrados (sem filtro de biblioteca).",
                 'data' => $result
             ]);
-        } catch (PDOException $e) {
-            echo "<tr><td colspan='3'>Sem resultados</td></tr>";
         }
+
+        $query = "SELECT 
+                u.id, 
+                u.primeiro_nome, 
+                u.ultimo_nome, 
+                u.nome_utilizador, 
+                u.email,
+                tu.tipo,
+                u.ativo
+            FROM utilizador u
+            INNER JOIN tipo_utilizador tu ON u.tipo_utilizador_fk = tu.id
+            INNER JOIN utilizador_biblioteca ub ON u.id = ub.utilizador_fk
+            WHERE ub.biblioteca_fk = :bibliotecaFk
+            ORDER BY 
+                CASE u.ativo 
+                    WHEN 'P' THEN 1 
+                    WHEN 'Y' THEN 2 
+                    WHEN 'N' THEN 3 
+                    ELSE 4 
+                END,
+                u.primeiro_nome ASC";
+
+        $query_run = $this->pdo->prepare($query);
+        $query_run->bindParam(':bibliotecaFk', $library['biblioteca_fk'], PDO::PARAM_INT);
+        $query_run->execute();
+        $result = $query_run->fetchAll(PDO::FETCH_ASSOC);
+
+        return json_encode([
+            'status' => 200,
+            'message' => "Utilizadores encontrados (filtrados por biblioteca).",
+            'data' => $result
+        ]);
     }
+
 
     public function getUserById($id)
     {

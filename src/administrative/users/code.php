@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 header('Content-Type: application/json');
 include_once '../../php/classes/User.php';
 include_once '../../php/classes/Utils.php';
@@ -8,7 +8,7 @@ $user = new User();
 $utils = new Utils();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
-    echo $user->getUsers();
+    echo $user->getUsers($_SESSION['employee']['utilizador_fk']);
     exit;
 }
 
