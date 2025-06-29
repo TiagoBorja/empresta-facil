@@ -135,12 +135,14 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                 </a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link <?= $page == 'books' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
-                                    href="?page=books">
-                                    <i class="mdi mdi-library-shelves me-2"></i> Gestão de Livros
-                                </a>
-                            </li>
+                            <?php if (Utils::isManagerOrHigher($_SESSION['user'] ?? [])): ?>
+                                <li class="nav-item">
+                                    <a class="nav-link <?= $page == 'books' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                        href="?page=books">
+                                        <i class="mdi mdi-library-shelves me-2"></i> Gestão de Livros
+                                    </a>
+                                </li>
+                            <?php endif; ?>
 
                             <!-- Gestão de Utilizadores -->
                             <li class="nav-item">
