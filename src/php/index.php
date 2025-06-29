@@ -112,12 +112,8 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                             <a class="dropdown-item" href="?page=profile"><i
                                     class="mdi mdi-account me-1 ms-1 text-info"></i>
                                 Meu Perfil</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="javascript:void(0)"><i
-                                    class="fas fa-heart me-1 ms-1 text-danger"></i>
-                                Favoritos</a>
 
-                            <?= (Utils::hasAdministrativeAccess($_SESSION['user'] ?? []))
+                            <?= (Utils::isEmployeeOrHigher($_SESSION['user'] ?? []))
                                 ? '<div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="../administrative/index.php">
                                     <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições

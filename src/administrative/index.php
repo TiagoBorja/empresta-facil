@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user']) || $_SESSION['user']['tipo'] !== 'Administrador') {
+require_once __DIR__ . '/../php/classes/Utils.php';
+if (!Utils::isEmployeeOrHigher($_SESSION['user'] ?? [])) {
     header("Location: ../php/index.php?page=home");
     exit;
 }
 
-require_once __DIR__ . '/../php/classes/Utils.php';
 
 $imgFilename = $_SESSION['user']['img_url'] ?? '';
 
@@ -110,7 +110,6 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                 </a>
                             </li>
 
-                            <!-- Gestão de Livros -->
                             <li class="nav-item">
                                 <a class="nav-link <?= $page == 'books' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
                                     href="?page=books">
@@ -160,18 +159,15 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                     <a class="dropdown-item" href="javascript:void(0)"><i
                                             class="mdi mdi-account me-1 ms-1 text-info"></i>
                                         Meu Perfil</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="javascript:void(0)"><i
-                                            class="fas fa-heart me-1 ms-1 text-danger"></i>
-                                        Favoritos</a>
 
-                                    <?= Utils::hasAdministrativeAccess($_SESSION['user'] ?? [])
-                                        ? '<div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="../administrative/index.php">
-                                        <i class="mdi mdi-settings me-1 ms-1 text-secondary"></i> Definições
-                                        </a>'
-                                        : ''
-                                        ?>
+                                    <div class="dropdown-divider"></div>
+
+                                    <?php if (Utils::isEmployeeOrHigher($_SESSION['user'] ?? [])): ?>
+                                        <a class="dropdown-item" href="../php/index.php">
+                                            <i class="mdi mdi-home-outline me-1 ms-1 text-secondary"></i> Página Inicial
+                                        </a>
+                                    <?php endif; ?>
+
 
                                     <div class="dropdown-divider"></div>
 
@@ -196,12 +192,6 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav" class="">
-                        <!-- Catálogo -->
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="?page=1">
-                                <i class="mdi mdi-library"></i><span class="hide-menu">Catálogo</span>
-                            </a>
-                        </li>
 
                         <!-- Dashboard -->
                         <li class="sidebar-item">
@@ -216,39 +206,58 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                 <i class="mdi mdi-book"></i><span class="hide-menu">Gestão de Livros</span>
                             </a>
                             <ul aria-expanded="false" class="collapse ms-2">
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=books">
-                                        <i class="mdi mdi-library-books"></i><span class="hide-menu">Livros</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=categories">
-                                        <i class="mdi mdi-bookmark-multiple"></i><span
-                                            class="hide-menu">Categorias</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=subcategories">
-                                        <i class="mdi mdi-bookmark-outline"></i><span
-                                            class="hide-menu">Subcategorias</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=locations">
-                                        <i class="mdi mdi-map-marker"></i><span class="hide-menu">Localizações</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=book-locations">
-                                        <i class="mdi mdi-map-marker"></i><span class="hide-menu">Localizações dos
-                                            Livros</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=publishers">
-                                        <i class="mdi mdi-library-shelves"></i><span class="hide-menu">Editoras</span>
-                                    </a>
-                                </li>>
+                                <?php if (Utils::isManagerOrHigher($_SESSION['user'] ?? [])): ?>
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="?page=books">
+                                            <i class="mdi mdi-library-books"></i><span class="hide-menu">Livros</span>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+
+                                <?php if (Utils::isManagerOrHigher($_SESSION['user'] ?? [])): ?>
+
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="?page=categories">
+                                            <i class="mdi mdi-bookmark-multiple"></i><span
+                                                class="hide-menu">Categorias</span>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+
+                                <?php if (Utils::isManagerOrHigher($_SESSION['user'] ?? [])): ?>
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="?page=subcategories">
+                                            <i class="mdi mdi-bookmark-outline"></i><span
+                                                class="hide-menu">Subcategorias</span>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+
+                                <?php if (Utils::isManagerOrHigher($_SESSION['user'] ?? [])): ?>
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="?page=locations">
+                                            <i class="mdi mdi-map-marker"></i><span class="hide-menu">Localizações</span>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+
+                                <?php if (Utils::isEmployeeOrHigher($_SESSION['user'] ?? [])): ?>
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="?page=book-locations">
+                                            <i class="mdi mdi-map-marker"></i><span class="hide-menu">Localizações dos
+                                                Livros</span>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+
+
+                                <?php if (Utils::isAdmin($_SESSION['user'] ?? [])): ?>
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="?page=publishers">
+                                            <i class="mdi mdi-library-shelves"></i><span class="hide-menu">Editoras</span>
+                                        </a>
+                                    </li>>
+                                <?php endif; ?>
                             </ul>
                         </li>
 
@@ -258,22 +267,31 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                     Utilizadores</span>
                             </a>
                             <ul aria-expanded="false" class="collapse ms-2">
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=users">
-                                        <i class="mdi mdi-account"></i><span class="hide-menu">Utilizadores</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=employees">
-                                        <i class="mdi mdi-account-tie"></i><span class="hide-menu">Funcionários</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=user-roles">
-                                        <i class="mdi mdi-account-group"></i><span class="hide-menu">Tipos de
-                                            Utilizador</span>
-                                    </a>
-                                </li>
+                                <?php if (Utils::isEmployeeOrHigher($_SESSION['user'] ?? [])): ?>
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="?page=users">
+                                            <i class="mdi mdi-account"></i><span class="hide-menu">Utilizadores</span>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+
+                                <?php if (Utils::isManagerOrHigher($_SESSION['user'] ?? [])): ?>
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="?page=employees">
+                                            <i class="mdi mdi-account-tie"></i><span class="hide-menu">Funcionários</span>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+
+                                <?php if (Utils::isAdmin($_SESSION['user'] ?? [])): ?>
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="?page=user-roles">
+                                            <i class="mdi mdi-account-group"></i><span class="hide-menu">Tipos de
+                                                Utilizador</span>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+
                             </ul>
                         </li>
 
@@ -297,20 +315,35 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                             </ul>
                         </li>
 
-                        <!-- Configurações -->
-                        <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)">
-                                <i class="mdi mdi-settings"></i><span class="hide-menu">Configurações</span>
-                            </a>
-                            <ul aria-expanded="false" class="collapse ms-2">
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link" href="?page=state">
-                                        <i class="mdi mdi-tune"></i><span class="hide-menu">Gestão de Estados</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        <!-- Gestão Avançada -->
+                        <?php if (Utils::isAdmin($_SESSION['user'] ?? [])): ?>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)">
+                                    <i class="mdi mdi-tools"></i><span class="hide-menu">Gestão Avançada</span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse ms-2">
 
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="?page=state">
+                                            <i class="mdi mdi-tune"></i><span class="hide-menu">Gestão de Estados</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="?page=authors">
+                                            <i class="mdi mdi-account-edit"></i><span class="hide-menu">Autores</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="?page=libraries">
+                                            <i class="mdi mdi-library"></i><span class="hide-menu">Bibliotecas</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
             </div>
@@ -325,34 +358,6 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
 
                 <?php
                 switch ($page) {
-
-                    /* Public Pages */
-                    case 'home':
-                        $page_file = "../public/pages/home.php";
-                        break;
-
-                    case 'catalog':
-                        $page_file = "../public/pages/catalog.php";
-                        break;
-                    case 'book-info':
-                        $page_file = "../public/pages/book-info.php";
-                        break;
-                    case 'auth':
-                        $page_file = "../public/pages/login-form.php";
-                        break;
-                    case 'register':
-                        $page_file = "../public/pages/register-form.php";
-                        break;
-                    case 'logout':
-                        $page_file = "../public/config/auth/logout.php";
-                        break;
-                    case 'administrative':
-                        $page_file = "../public/administrative/index.php";
-                        break;
-
-                    case 'profile':
-                        $page_file = "../public/pages/profile.php";
-                        break;
 
                     /* Administrative Pages*/
                     case 'authors':
@@ -449,14 +454,6 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
 
                     case 'subcategory-form':
                         $page_file = "./forms/subcategory-form.php";
-                        break;
-
-                    case 'type-resources':
-                        $page_file = "./type-resource/type-resource-page.php";
-                        break;
-
-                    case 'type-resource-form':
-                        $page_file = "./forms/type-resource-form.php";
                         break;
 
                     case 'user-roles':

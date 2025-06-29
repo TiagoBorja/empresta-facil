@@ -204,10 +204,41 @@ class Utils
     }
 
 
-    public static function hasAdministrativeAccess(array $user): bool
+    private static function getRoleLevel(string $role): int
     {
-        $administrativeRoles = ['Administrador', 'Gestor', 'Funcionário'];
+        $levels = [
+            'Administrador' => 3,
+            'Gestor' => 2,
+            'Funcionário' => 1,
+        ];
 
-        return isset($user['tipo']) && in_array($user['tipo'], $administrativeRoles);
+        return $levels[$role] ?? 0;
     }
+
+    public static function hasAccessLevel(array $user, string $requiredRole): bool
+    {
+        if (!isset($user['tipo'])) {
+            return false;
+        }
+
+        $userLevel = self::getRoleLevel($user['tipo']);
+        $requiredLevel = self::getRoleLevel($requiredRole);
+
+        return $userLevel >= $requiredLevel;
+    }
+    public static function isAdmin(array $user): bool
+    {
+        return ($user['tipo'] ?? '') === 'Administrador';
+    }
+
+    public static function isManagerOrHigher(array $user): bool
+    {
+        return self::hasAccessLevel($user, 'Gestor');
+    }
+
+    public static function isEmployeeOrHigher(array $user): bool
+    {
+        return self::hasAccessLevel($user, 'Funcionário');
+    }
+
 }
