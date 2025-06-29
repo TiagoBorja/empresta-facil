@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         if (employee.status === 200 && book.status === 200) {
             document.getElementById("userName").textContent = `Seja bem-vindo, ${employee.data.nome_completo}!`;
-            document.getElementById("userLibrary").textContent = `${employee.data.biblioteca_nome}`;
+            const libraryName = employee.data.biblioteca_nome;
+            document.getElementById("userLibrary").textContent = libraryName ? libraryName : 'Acesso a Todas Bibliotecas';
             document.getElementById("bookCount").textContent = `${book.data}`;
             document.getElementById("activeLoansCount").textContent = `${loan.data}`;
         } else {
