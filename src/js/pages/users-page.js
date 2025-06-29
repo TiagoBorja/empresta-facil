@@ -46,7 +46,12 @@ async function getUsers() {
         const result = await response.json();
         showUsers(result.data)
 
-        utils.initializeRowSelection(API_URL, '?page=user-form');
+        utils.initializeRowSelection(API_URL, '?page=user-form', null, {
+            onPendingClick: (row) => {
+                const userId = row.id.replace('id-', '');
+                openCodeValidationModal(userId);
+            },
+        });
     } catch (error) {
         console.warn(error)
     }
@@ -93,7 +98,7 @@ function showUsers(users) {
 
 
         tableBody.append(`
-            <tr id="id-${user.id}" class="selectable-row">
+            <tr id="id-${user.id}" class="selectable-row" data-active="${user.ativo}">
                 <td>${user.primeiro_nome}</td>
                 <td>${user.ultimo_nome}</td>
                 <td>${user.nome_utilizador}</td>
@@ -198,4 +203,17 @@ async function fetchAllLibrariesData() {
     }
 
     return librariesData;
+}
+
+function openCodeValidationModal(userId) {
+    const modalElement = document.getElementById("validationModal");
+    const validationModal = new bootstrap.Modal(modalElement);
+
+    // Atribui o userId no input hidden
+    const userIdInput = document.getElementById("userIdInput");
+    if (userIdInput && userId) {
+        userIdInput.value = userId;
+    }
+
+    validationModal.show();
 }

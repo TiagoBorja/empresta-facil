@@ -7,15 +7,29 @@ export function clearInputs(inputs) {
     });
 }
 
-export function initializeRowSelection(API_URL, formRedirect, specificRedirect) {
-    const selectedRows = document.querySelectorAll("[id*=id-]");
+export function initializeRowSelection(API_URL, formRedirect, specificRedirect, options = {}) {
+    const { onPendingClick, onOtherClick } = options;
 
-    selectedRows.forEach(row => {
-        row.addEventListener("click", () => {
-            fetchData(API_URL, row.id, formRedirect, specificRedirect);
-        });
+    const selectPendingUsers = document.querySelectorAll("tr[data-active='P']");
+    const otherRows = document.querySelectorAll("[id*=id-]:not([data-active='P'])");
+
+    selectPendingUsers.forEach(row => {
+        if (typeof onPendingClick === 'function') {
+            row.addEventListener("click", () => onPendingClick(row));
+            return;
+        }
+        row.addEventListener("click", () => alert('Linha P clicada'));
+    });
+
+    otherRows.forEach(row => {
+        if (typeof onOtherClick === 'function') {
+            row.addEventListener("click", () => onOtherClick(row));
+            return;
+        }
+        row.addEventListener("click", () => fetchData(API_URL, row.id, formRedirect, specificRedirect));
     });
 }
+
 
 export async function fetchData(API_URL, rowId, formRedirect, specificRedirect) {
     try {

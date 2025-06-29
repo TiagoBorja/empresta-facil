@@ -59,6 +59,7 @@
         </div>
     </div>
 </div>
+<?php include '../includes/modal/code-validation.php'; ?>
 <script type="module" src="../js/pages/users-page.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
