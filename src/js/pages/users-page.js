@@ -49,7 +49,8 @@ async function getUsers() {
         utils.initializeRowSelection(API_URL, '?page=user-form', null, {
             onPendingClick: (row) => {
                 const userId = row.id.replace('id-', '');
-                openCodeValidationModal(userId);
+                const userEmail = row.getAttribute('data-email') || 'Email não disponível';
+                openCodeValidationModal(userId, userEmail);
             },
         });
     } catch (error) {
@@ -98,7 +99,7 @@ function showUsers(users) {
 
 
         tableBody.append(`
-            <tr id="id-${user.id}" class="selectable-row" data-active="${user.ativo}">
+            <tr id="id-${user.id}" class="selectable-row" data-active="${user.ativo}" data-email="${user.email}">
                 <td>${user.primeiro_nome}</td>
                 <td>${user.ultimo_nome}</td>
                 <td>${user.nome_utilizador}</td>
@@ -205,15 +206,12 @@ async function fetchAllLibrariesData() {
     return librariesData;
 }
 
-function openCodeValidationModal(userId) {
+function openCodeValidationModal(userId, userEmail) {
     const modalElement = document.getElementById("validationModal");
     const validationModal = new bootstrap.Modal(modalElement);
 
-    // Atribui o userId no input hidden
-    const userIdInput = document.getElementById("userIdInput");
-    if (userIdInput && userId) {
-        userIdInput.value = userId;
-    }
+    document.getElementById("userIdInput").value = userId || '';
+    document.getElementById("userEmailDisplay").textContent = userEmail || 'Email não disponível';
 
     validationModal.show();
 }
