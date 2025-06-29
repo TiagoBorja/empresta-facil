@@ -110,8 +110,9 @@ if (isset($_POST['registerUser'])) {
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $user->setEmail($email);
 
-    $password = password_hash(filter_input(INPUT_POST, 'password'), PASSWORD_DEFAULT);
-    $user->setPassword($password);
+    $passwordRaw = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
+    $passwordHashed = password_hash($passwordRaw, PASSWORD_DEFAULT);
+    $user->setPassword($passwordHashed);
 
     $user->setActive('P');
     $libraries = $_POST['libraries'] ?? [];
