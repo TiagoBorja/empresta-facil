@@ -145,4 +145,63 @@ class UserLibrary
             ]);
         }
     }
+
+
+    public function confirmValidationCode($userId)
+    {
+        // Selecionar o código válido e não expirado
+        $querySelect = "SELECT codigo_validacao 
+                    FROM utilizador_biblioteca 
+                    WHERE utilizador_fk = :userId 
+                      AND validado = 0 
+                      AND data_expirado >= CURRENT_DATE";
+
+        $stmtSelect = $this->pdo->prepare($querySelect);
+        $stmtSelect->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmtSelect->execute();
+
+        $row = $stmtSelect->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            return json_encode([
+                'status' => 422,
+                'message' => 'Código de validação inexistente ou expirado.'
+            ]);
+        }
+
+        if ($row['codigo_validacao'] != $this->validationCode) {
+            return json_encode([
+                'status' => 422,
+                'message' => 'Código de validação incorreto.'
+            ]);
+        }
+
+        $queryUpdate = "UPDATE utilizador_biblioteca 
+                    SET validado = 1, 
+                        data_validacao = CURRENT_DATE 
+                    WHERE utilizador_fk = :userId 
+                      AND validado = 0 
+                      AND data_expirado >= CURRENT_DATE
+                      AND codigo_validacao = :code";
+
+        $stmtUpdate = $this->pdo->prepare($queryUpdate);
+        $stmtUpdate->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmtUpdate->bindParam(':code', $this->validationCode, PDO::PARAM_STR);
+
+        try {
+            $stmtUpdate->execute();
+
+            return json_encode([
+                'status' => 200,
+                'message' => 'Código validado com sucesso. Conta ativada.'
+            ]);
+        } catch (PDOException $e) {
+            error_log("Erro ao validar: " . $e->getMessage());
+            return json_encode([
+                'status' => 500,
+                'message' => 'Erro ao validar: ' . $e->getMessage()
+            ]);
+        }
+
+    }
 }

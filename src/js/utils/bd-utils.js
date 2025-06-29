@@ -44,7 +44,7 @@ export async function updateData(API_URL, formData, form, pageRedirect) {
         }
 
         const result = await response.json();
-
+        
         if (result.status === 422) {
             toastr.warning(result.message || "Preencha os campos antes de prosseguir!", "Atenção!");
             return;

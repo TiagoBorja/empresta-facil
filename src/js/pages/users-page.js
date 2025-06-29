@@ -3,6 +3,8 @@ import * as utils from '../utils/utils.js';
 const API_URL = '../administrative/users/code.php';
 const ROLE_API_URL = '../administrative/user-roles/code.php';
 const LIBRARY_API_URL = '../administrative/library/code.php';
+const USER_LIBRARY_API_URL = '../php/api/user-library-api.php';
+
 let urlParams;
 let id;
 
@@ -214,4 +216,18 @@ function openCodeValidationModal(userId, userEmail) {
     document.getElementById("userEmailDisplay").textContent = userEmail || 'Email não disponível';
 
     validationModal.show();
+
+
+    const form = document.querySelector("#validationForm");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        console.log("Formulário submetido, preventDefault aplicado");
+
+        const formData = new FormData(this);
+        formData.append("validationSubmit", "1");
+        formData.append("saveData", true);
+        bdUtils.updateData(USER_LIBRARY_API_URL, formData, form, '?page=users');
+    });
 }

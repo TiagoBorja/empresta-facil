@@ -35,7 +35,8 @@
                     <div id="validationMessage" class="alert alert-danger py-2 px-3 mt-3 d-none" role="alert"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success text-white">
+                    <button id="validationSubmit" name="validationSubmit" type="submit"
+                        class="btn btn-success text-white">
                         <i class="mdi mdi-check-bold me-1"></i> Validar
                     </button>
                 </div>
