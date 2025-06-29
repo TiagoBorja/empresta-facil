@@ -29,11 +29,6 @@ $page_file = "";
 
 
 $page_config = [
-    'home' => ['title' => 'Página Inicial', 'file' => './pages/home.php'],
-    'catalog' => ['title' => 'Catálogo', 'file' => './pages/catalog.php'],
-    'view-info' => ['title' => 'Informações', 'file' => './pages/view-info.php'],
-    'auth' => ['title' => 'Login', 'file' => './pages/login-form.php'],
-
     'dashboard' => ['title' => 'Painel Administrativo', 'file' => './pages/dashboard.php'],
     'users' => ['title' => 'Utilizadores', 'file' => './pages/users-page.php'],
     'user-roles' => ['title' => 'Tipos de Utilizadores', 'file' => './pages/user-roles-page.php'],
@@ -41,12 +36,42 @@ $page_config = [
     'state' => ['title' => 'Gestão de Estados', 'file' => './pages/state-page.php'],
     'state-form' => ['title' => 'Gestão de Estados', 'file' => './forms/state-form.php'],
 
-    'categories' => ['title' => 'Gestão de Categorias', 'file' => './pages/category.php'],
+    'categories' => ['title' => 'Gestão de Categorias', 'file' => './pages/category-page.php'],
     'category-form' => ['title' => 'Gestão de Categorias', 'file' => './forms/category-form.php'],
 
-    'user-form' => ['title' => 'Utilizadores', 'file' => './forms/user-form.php'],
-    'role-form' => ['title' => 'Tipos de Utilizadores', 'file' => './forms/role-form.php'],
+    'authors' => ['title' => 'Autores', 'file' => './author/author-page.php'],
+    'author-form' => ['title' => 'Formulário de Autor', 'file' => './forms/author-form.php'],
+
+    'books' => ['title' => 'Livros', 'file' => './book/book-page.php'],
+    'book-form' => ['title' => 'Formulário de Livro', 'file' => './forms/book-form.php'],
+
+    'book-reservations' => ['title' => 'Reservas de Livros', 'file' => './pages/book-reservation-page.php'],
+
+    'book-location-form' => ['title' => 'Formulário de Localização de Livro', 'file' => './forms/book-location-form.php'],
+    'book-locations' => ['title' => 'Localizações de Livros', 'file' => './pages/book-location-page.php'],
+
+    'employees' => ['title' => 'Funcionários', 'file' => './pages/employee-page.php'],
+    'employee-form' => ['title' => 'Formulário de Funcionário', 'file' => './forms/employee-form.php'],
+
+    'libraries' => ['title' => 'Bibliotecas', 'file' => './library/library-page.php'],
+    'library-form' => ['title' => 'Formulário de Biblioteca', 'file' => './forms/library-form.php'],
+
+    'loans' => ['title' => 'Empréstimos', 'file' => './pages/loan-page.php'],
+    'loan-form' => ['title' => 'Formulário de Empréstimo', 'file' => './forms/loan-form.php'],
+
+    'locations' => ['title' => 'Localizações', 'file' => './location/location-page.php'],
+    'location-form' => ['title' => 'Formulário de Localização', 'file' => './forms/location-form.php'],
+
+    'publishers' => ['title' => 'Editoras', 'file' => './publisher/publisher-page.php'],
+    'publisher-form' => ['title' => 'Formulário de Editora', 'file' => './forms/publisher-form.php'],
+
+    'subcategories' => ['title' => 'Subcategorias', 'file' => './subcategory/subcategory-page.php'],
+    'subcategory-form' => ['title' => 'Formulário de Subcategoria', 'file' => './forms/subcategory-form.php'],
+
+    'role-form' => ['title' => 'Formulário de Função', 'file' => './forms/role-form.php'],
+    'user-form' => ['title' => 'Formulário de Utilizador', 'file' => './forms/user-form.php'],
 ];
+
 
 $page_title = isset($page_config[$page]) ? $page_config[$page]['title'] : 'Not Found';
 $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages/not_found.php';
@@ -358,8 +383,6 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
 
                 <?php
                 switch ($page) {
-
-                    /* Administrative Pages*/
                     case 'authors':
                         $page_file = "./author/author-page.php";
                         break;
@@ -476,8 +499,6 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         $page_file = "../public/pages/not_found.php";
                         break;
                 }
-
-
                 if (!file_exists($page_file))
                     include("../public/html/error-404.html");
 
