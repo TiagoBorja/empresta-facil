@@ -60,11 +60,7 @@ if (isset($_POST['saveData'])) {
     $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_SPECIAL_CHARS);
     $user->setRole($role);
 
-    $libraries = $_POST['libraries'] ?? [];
-    $libraries = array_filter(array_map(function ($libraryId) {
-        return filter_var($libraryId, FILTER_SANITIZE_NUMBER_INT);
-    }, $libraries));
-
+    $libraries = filter_input(INPUT_POST, 'librarySelect', FILTER_SANITIZE_SPECIAL_CHARS);
 
     if (isset($_FILES["imgProfile"]) && $_FILES["imgProfile"]["tmp_name"] != "") {
         $imgPath = $utils::uploadImage('./upload', 'imgProfile');
@@ -76,7 +72,7 @@ if (isset($_POST['saveData'])) {
         echo $user->updateUser($id);
         exit;
     }
-    
+
     $user->setActive('P');
     echo $user->newUser($libraries);
     exit;

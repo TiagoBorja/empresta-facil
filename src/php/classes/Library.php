@@ -105,8 +105,8 @@ class Library
             if ($result) {
                 return json_encode([
                     'status' => 200,
-                    'message' => "Utilizador encontrado.",
-                    'data' => $result
+                    'message' => "Biblioteca encontrado.",
+                    'data' => [$result]
                 ]);
             } else {
                 return json_encode([

@@ -1,6 +1,7 @@
 import * as utils from '../utils/utils.js';
 
 const ROLE_API_URL = '../administrative/user-roles/code.php';
+const EMPLOYEE_API_URL = '../php/api/employee-api.php'
 const LIBRARY_API_URL = '../administrative/library/code.php';
 const USER_LIBRARY_API_URL = '../php/api/user-library-api.php';
 const checkBoxConfig = {
@@ -19,14 +20,20 @@ const checkBoxConfig = {
 document.addEventListener('DOMContentLoaded', async function () {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get("id");
+    const employeeLibraryId = document.getElementById("employeeLibraryId").value;
+
     const isEditMode = id !== null;
 
     try {
         if (!isEditMode) {
-            const allLibrariesData = await fetchAllLibrariesData();
-            utils.createGenericCheckboxes(allLibrariesData, [], checkBoxConfig);
             document.getElementById("password").classList.remove("d-none");
-            document.getElementById("libraryDropdownDiv").classList.remove("d-none");
+            document.getElementById("librarySelectDiv").classList.remove("d-none");
+            await utils.fetchSelect(
+                `${LIBRARY_API_URL}?id=${employeeLibraryId}`,
+                'nome',
+                "librarySelect",
+                null,
+                true);
         } else {
             const response = await fetch(`../administrative/users/code.php?id=${id}`);
             if (!response.ok) throw new Error("Erro na requisição");

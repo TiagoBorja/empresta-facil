@@ -295,7 +295,7 @@ class User
             ]);
         }
     }
-    public function newUser($libraries = [])
+    public function newUser($libraryId)
     {
         if (empty($this->firstName) || empty($this->lastName) || empty($this->birthDay) || empty($this->phoneNumber) || empty($this->username) || empty($this->password) || empty($this->email) || empty($this->role)) {
             return json_encode([
@@ -358,29 +358,24 @@ class User
             $userFk = $this->pdo->lastInsertId();
 
             $code = Utils::generateRandomCode(12);
-            $libraryIdsValid = [];
 
-            if (!empty($libraries) && is_array($libraries)) {
-                foreach ($libraries as $libraryId) {
-                    if (!empty($libraryId)) {
-                        $this->userLibrary->setUserFk($userFk);
-                        $this->userLibrary->setLibraryFk($libraryId);
-                        $this->userLibrary->setValidationCode($code);
-                        $this->userLibrary->setExpirationDate(
-                            date(
-                                'Y-m-d H:i:s',
-                                strtotime('+14 days')
-                            )
-                        );
+            if (!empty($libraryId)) {
+                $this->userLibrary->setUserFk($userFk);
+                $this->userLibrary->setLibraryFk($libraryId);
+                $this->userLibrary->setValidationCode($code);
+                $this->userLibrary->setExpirationDate(
+                    date(
+                        'Y-m-d H:i:s',
+                        strtotime('+14 days')
+                    )
+                );
 
-                        $libraryResult = $this->userLibrary->create();
-                        $libraryResponse = json_decode($libraryResult, true);
-                        if ($libraryResponse['status'] != 200) {
-                            return $libraryResult;
-                        }
-                        $libraryIdsValid[] = $libraryId;
-                    }
+                $libraryResult = $this->userLibrary->create();
+                $libraryResponse = json_decode($libraryResult, true);
+                if ($libraryResponse['status'] != 200) {
+                    return $libraryResult;
                 }
+                $libraryIdsValid[] = $libraryId;
             }
 
             $libraryData = $this->library->getLibraryDataByIds($libraryIdsValid);

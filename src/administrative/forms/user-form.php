@@ -1,3 +1,4 @@
+<input id="employeeLibraryId" type="hidden" value="<?= $_SESSION['employee']['biblioteca_fk'] ?>">
 <div class="row justify-content-center">
     <div class="col-md-12 me-3">
 
@@ -121,7 +122,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-floating">
                                         <select class="form-select" id="roleSelect" name="role">
                                             <option value="">Selecionar</option>
@@ -130,7 +131,7 @@
                                     </div>
                                 </div>
 
-                                <div id="libraryDropdownDiv" class="col-md-12 d-none">
+                                <div id="libraryDropdownDiv" class="col-md-6 d-none">
                                     <div class="form-floating">
                                         <button class="form-select text-start ps-3 pe-5 position-relative" type="button"
                                             id="librariesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -147,19 +148,27 @@
                                     </div>
                                 </div>
 
-                                <div class="row g-3 col-md-12">
-                                    <div class="col-md-8">
-                                        <div class="form-floating">
-                                            <!-- Upload de nova imagem -->
-                                            <input type="file" id="imgProfile" name="imgProfile"
-                                                accept="image/png, image/jpeg" class="form-control">
-                                            <label for="imgProfile">Foto de Perfil</label>
-                                        </div>
+
+                                <div id="librarySelectDiv" class="col-md-6 d-none">
+                                    <div class="form-floating mb-3">
+                                        <select name="librarySelect" id="librarySelect" class="form-select" required>
+                                            <option selected disabled>Selecione</option>
+                                        </select>
+                                        <label for="librarySelect">Biblioteca</label>
                                     </div>
-                                    <div class="col-md-4 d-flex align-items-center">
-                                        <img id="profilePreview" src="" alt="Foto de Perfil Atual"
-                                            class="img-fluid rounded" style="max-height: 150px;">
+                                </div>
+
+                                <div class="col-md-8">
+                                    <div class="form-floating">
+                                        <!-- Upload de nova imagem -->
+                                        <input type="file" id="imgProfile" name="imgProfile"
+                                            accept="image/png, image/jpeg" class="form-control">
+                                        <label for="imgProfile">Foto de Perfil</label>
                                     </div>
+                                </div>
+                                <div class="col-md-4 d-flex align-items-center">
+                                    <img id="profilePreview" src="" alt="Foto de Perfil Atual" class="img-fluid rounded"
+                                        style="max-height: 150px;">
                                 </div>
                             </div>
                         </fieldset>
