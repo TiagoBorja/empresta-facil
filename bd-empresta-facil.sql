@@ -69,25 +69,27 @@ CREATE TABLE IF NOT EXISTS `autor_livro` (
   CONSTRAINT `autor_livro_ibfk_2` FOREIGN KEY (`livro_fk`) REFERENCES `livro` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.autor_livro: ~18 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.autor_livro: ~20 rows (aproximadamente)
 DELETE FROM `autor_livro`;
 INSERT INTO `autor_livro` (`autor_fk`, `livro_fk`, `criado_em`, `atualizado_em`, `criado_fk`, `atualizado_fk`) VALUES
 	(1, 30, '2025-06-12 23:09:29', NULL, NULL, NULL),
 	(1, 32, '2025-06-15 13:01:46', NULL, NULL, NULL),
-	(1, 33, '2025-06-15 13:01:46', NULL, NULL, NULL),
+	(1, 33, '2025-06-29 13:35:38', NULL, NULL, NULL),
 	(1, 34, '2025-06-27 09:21:35', NULL, NULL, NULL),
 	(1, 35, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(1, 36, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(1, 39, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(2, 30, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(2, 31, '2025-06-15 13:01:46', NULL, NULL, NULL),
+	(2, 33, '2025-06-29 13:35:38', NULL, NULL, NULL),
 	(2, 34, '2025-06-27 09:21:35', NULL, NULL, NULL),
-	(2, 37, '2025-06-15 13:01:46', NULL, NULL, NULL),
+	(2, 37, '2025-06-29 13:35:56', NULL, NULL, NULL),
 	(2, 40, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(3, 30, '2025-06-12 23:09:29', NULL, NULL, NULL),
 	(3, 32, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(3, 34, '2025-06-27 09:21:35', NULL, NULL, NULL),
 	(3, 35, '2025-06-15 13:01:46', NULL, NULL, NULL),
+	(3, 37, '2025-06-29 13:35:56', NULL, NULL, NULL),
 	(3, 38, '2025-06-15 13:01:46', NULL, NULL, NULL),
 	(3, 41, '2025-06-15 13:01:46', NULL, NULL, NULL);
 
@@ -192,10 +194,12 @@ CREATE TABLE IF NOT EXISTS `comentarios` (
   CONSTRAINT `FK_comentarios_utilizador_2` FOREIGN KEY (`utilizador_fk`) REFERENCES `utilizador` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_comentarios_atualizado_fk` FOREIGN KEY (`atualizado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `fk_comentarios_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.comentarios: ~0 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.comentarios: ~1 rows (aproximadamente)
 DELETE FROM `comentarios`;
+INSERT INTO `comentarios` (`id`, `livro_fk`, `utilizador_fk`, `comentario`, `criado_em`, `atualizado_em`, `criado_fk`, `atualizado_fk`) VALUES
+	(1, 30, 10, 'aaaaaaaa', '2025-06-30 22:00:06', NULL, NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.editora
 DROP TABLE IF EXISTS `editora`;
@@ -217,8 +221,8 @@ CREATE TABLE IF NOT EXISTS `editora` (
 -- A despejar dados para tabela empresta_facil.editora: ~2 rows (aproximadamente)
 DELETE FROM `editora`;
 INSERT INTO `editora` (`id`, `editora`, `ativo`, `criado_em`, `atualizado_em`, `criado_fk`, `atualizado_fk`) VALUES
-	(1, 'Editora do Porto com pobressssssss', 'Y', '2025-05-26 14:33:58', NULL, NULL, NULL),
-	(2, 'Editoras dos Emanueis Gays', 'N', '2025-05-26 15:22:16', NULL, NULL, NULL);
+	(1, 'Editora do Porto', 'Y', '2025-05-26 14:33:58', NULL, NULL, NULL),
+	(2, 'Editora de Gaia', 'N', '2025-05-26 15:22:16', NULL, NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.emprestimo
 DROP TABLE IF EXISTS `emprestimo`;
@@ -243,13 +247,10 @@ CREATE TABLE IF NOT EXISTS `emprestimo` (
   CONSTRAINT `emprestimo_ibfk_3` FOREIGN KEY (`funcionario_fk`) REFERENCES `funcionario` (`id`),
   CONSTRAINT `fk_emprestimo_atualizado_fk` FOREIGN KEY (`atualizado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `fk_emprestimo_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.emprestimo: ~2 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.emprestimo: ~0 rows (aproximadamente)
 DELETE FROM `emprestimo`;
-INSERT INTO `emprestimo` (`id`, `reserva_fk`, `utilizador_fk`, `funcionario_fk`, `criado_em`, `atualizado_em`, `data_devolucao`, `criado_fk`, `atualizado_fk`) VALUES
-	(32, NULL, 13, 16, '2025-06-25', NULL, '2025-06-25', NULL, NULL),
-	(33, NULL, 18, 16, '2025-06-25', NULL, '2025-06-30', NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.emprestimo_livro
 DROP TABLE IF EXISTS `emprestimo_livro`;
@@ -279,13 +280,8 @@ CREATE TABLE IF NOT EXISTS `emprestimo_livro` (
   CONSTRAINT `fk_emprestimo_livro_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.emprestimo_livro: ~4 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.emprestimo_livro: ~0 rows (aproximadamente)
 DELETE FROM `emprestimo_livro`;
-INSERT INTO `emprestimo_livro` (`emprestimo_fk`, `livro_localizacao_fk`, `estado_levantou_fk`, `estado_devolucao_fk`, `estado_emprestimo_fk`, `data_devolvido`, `criado_fk`, `atualizado_fk`) VALUES
-	(32, 1, 8, 8, 11, '2025-06-26', NULL, NULL),
-	(32, 4, 8, 4, 10, '2025-06-25', NULL, NULL),
-	(32, 5, 8, 8, 10, '2025-06-24', NULL, NULL),
-	(33, 19, 8, 8, 11, '2025-07-01', NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.estado
 DROP TABLE IF EXISTS `estado`;
@@ -324,23 +320,6 @@ INSERT INTO `estado` (`id`, `estado`, `observacoes`, `criado_em`, `atualizado_em
 	(15, 'EXPIRADA', 'RESERVA', '2025-06-22 13:47:45', NULL, NULL, NULL),
 	(16, 'CANCELADA', 'RESERVA', '2025-06-22 13:47:45', NULL, NULL, NULL);
 
--- A despejar estrutura para tabela empresta_facil.foto_recurso
-DROP TABLE IF EXISTS `foto_recurso`;
-CREATE TABLE IF NOT EXISTS `foto_recurso` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_recurso` int(11) DEFAULT NULL,
-  `tipo_imagem` varchar(50) DEFAULT NULL,
-  `foto_url` varchar(500) DEFAULT NULL,
-  `criado_em` timestamp NULL DEFAULT NULL,
-  `atualizado_em` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_recurso` (`id_recurso`),
-  CONSTRAINT `foto_recurso_ibfk_1` FOREIGN KEY (`id_recurso`) REFERENCES `livro` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- A despejar dados para tabela empresta_facil.foto_recurso: ~0 rows (aproximadamente)
-DELETE FROM `foto_recurso`;
-
 -- A despejar estrutura para tabela empresta_facil.funcionario
 DROP TABLE IF EXISTS `funcionario`;
 CREATE TABLE IF NOT EXISTS `funcionario` (
@@ -361,15 +340,10 @@ CREATE TABLE IF NOT EXISTS `funcionario` (
   CONSTRAINT `fk_funcionario_atualizado_fk` FOREIGN KEY (`atualizado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `fk_funcionario_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `funcionario_ibfk_2` FOREIGN KEY (`biblioteca_fk`) REFERENCES `biblioteca` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.funcionario: ~4 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.funcionario: ~0 rows (aproximadamente)
 DELETE FROM `funcionario`;
-INSERT INTO `funcionario` (`id`, `utilizador_fk`, `biblioteca_fk`, `criado_em`, `atualizado_em`, `ativo`, `criado_fk`, `atualizado_fk`) VALUES
-	(12, 12, NULL, '2025-06-16 22:56:49', NULL, 'Y', NULL, NULL),
-	(13, 19, NULL, '2025-06-16 22:57:11', NULL, 'Y', NULL, NULL),
-	(15, 9, 5, '2025-06-16 23:31:32', NULL, 'Y', NULL, NULL),
-	(16, 10, 5, '2025-06-22 15:20:11', NULL, 'Y', NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.livro
 DROP TABLE IF EXISTS `livro`;
@@ -529,35 +503,8 @@ CREATE TABLE IF NOT EXISTS `reserva` (
   CONSTRAINT `fk_reserva_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.reserva: ~4 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.reserva: ~0 rows (aproximadamente)
 DELETE FROM `reserva`;
-INSERT INTO `reserva` (`id`, `livro_localizacao_fk`, `utilizador_fk`, `data_levantamento`, `data_expiracao`, `criado_em`, `atualiado_em`, `estado_fk`, `criado_fk`, `atualizado_fk`) VALUES
-	(75, 10, 9, '2025-06-20', '2025-06-27', '2025-06-17', NULL, 13, NULL, NULL),
-	(81, 1, 10, '2025-06-18', '2025-06-25', '2025-06-22', NULL, 13, NULL, NULL),
-	(82, 2, 10, '2025-06-23', '2025-06-26', '2025-06-22', NULL, 13, NULL, NULL),
-	(83, 4, 10, '2025-06-30', '2025-07-03', '2025-06-22', NULL, 1, NULL, NULL);
-
--- A despejar estrutura para tabela empresta_facil.reserva_recurso
-DROP TABLE IF EXISTS `reserva_recurso`;
-CREATE TABLE IF NOT EXISTS `reserva_recurso` (
-  `reserva_fk` int(11) DEFAULT NULL,
-  `recurso_fk` int(11) DEFAULT NULL,
-  `localizacao_fk` int(11) DEFAULT NULL,
-  `estado_reserva_fk` int(11) DEFAULT NULL,
-  `criado_em` timestamp NULL DEFAULT NULL,
-  `atualizado_em` timestamp NULL DEFAULT NULL,
-  UNIQUE KEY `reserva_recurso_index_1` (`reserva_fk`,`recurso_fk`),
-  KEY `recurso_fk` (`recurso_fk`),
-  KEY `localizacao_fk` (`localizacao_fk`),
-  KEY `estado_reserva_fk` (`estado_reserva_fk`),
-  CONSTRAINT `reserva_recurso_ibfk_1` FOREIGN KEY (`reserva_fk`) REFERENCES `reserva` (`id`),
-  CONSTRAINT `reserva_recurso_ibfk_2` FOREIGN KEY (`recurso_fk`) REFERENCES `livro` (`id`),
-  CONSTRAINT `reserva_recurso_ibfk_3` FOREIGN KEY (`localizacao_fk`) REFERENCES `localizacao` (`id`),
-  CONSTRAINT `reserva_recurso_ibfk_4` FOREIGN KEY (`estado_reserva_fk`) REFERENCES `estado` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- A despejar dados para tabela empresta_facil.reserva_recurso: ~0 rows (aproximadamente)
-DELETE FROM `reserva_recurso`;
 
 -- A despejar estrutura para tabela empresta_facil.subcategoria
 DROP TABLE IF EXISTS `subcategoria`;
@@ -602,7 +549,7 @@ CREATE TABLE IF NOT EXISTS `tipo_utilizador` (
   KEY `fk_tipo_utilizador_atualizado_fk` (`atualizado_fk`),
   CONSTRAINT `fk_tipo_utilizador_atualizado_fk` FOREIGN KEY (`atualizado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `fk_tipo_utilizador_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- A despejar dados para tabela empresta_facil.tipo_utilizador: ~5 rows (aproximadamente)
 DELETE FROM `tipo_utilizador`;
@@ -611,7 +558,7 @@ INSERT INTO `tipo_utilizador` (`id`, `tipo`, `descricao`, `criado_em`, `atualiza
 	(40, 'aaaa', 'a dsd', '2025-04-07 23:30:36', NULL, 'Y', NULL, NULL),
 	(41, 'Gestor', 'Com descrição', '2025-04-07 20:57:58', NULL, 'Y', NULL, NULL),
 	(42, 'Utilizador Comum', '', '2025-04-27 13:37:37', NULL, 'Y', NULL, NULL),
-	(43, 'Sou gay', 'Sou bem gay', '2025-05-13 14:47:38', NULL, 'Y', NULL, NULL);
+	(44, 'Funcionario', 'aa', '2025-06-29 23:10:50', NULL, 'Y', NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.utilizador
 DROP TABLE IF EXISTS `utilizador`;
@@ -642,29 +589,14 @@ CREATE TABLE IF NOT EXISTS `utilizador` (
   CONSTRAINT `fk_utilizador_atualizado_fk` FOREIGN KEY (`atualizado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `fk_utilizador_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `utilizador_ibfk_1` FOREIGN KEY (`tipo_utilizador_fk`) REFERENCES `tipo_utilizador` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.utilizador: ~17 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.utilizador: ~3 rows (aproximadamente)
 DELETE FROM `utilizador`;
 INSERT INTO `utilizador` (`id`, `primeiro_nome`, `ultimo_nome`, `data_nascimento`, `nif`, `cc`, `genero`, `morada`, `telemovel`, `nome_utilizador`, `senha`, `email`, `img_url`, `tipo_utilizador_fk`, `criado_em`, `atualizado_em`, `ativo`, `criado_fk`, `atualizado_fk`) VALUES
-	(4, 'Tiago', 'Borja', '2005-12-02', '311566260', '123456789123', 'F', NULL, '962193439', 'tiagomatx', '', 'tiagomatx@gmail.com', 'upload/681d24de30d1b_escola_secundaria_antonio_sergio_2.jpg', 4, '2025-04-21 23:08:17', NULL, 'Y', NULL, NULL),
-	(8, 'Natalia', 'Rodrigues', '1997-05-30', '311123456', '321654987', 'F', NULL, '351963446548', 'nati', '$2y$10$C.9g5op832wBeSHehgGs8OuOV1kyk0FXPwkqv1dBcQogFN0fWrHD.', 'natibreis@gmail.com', NULL, 42, '2025-04-27 13:33:42', NULL, 'N', NULL, NULL),
-	(9, 'Guilherme', 'Borja', '2025-04-11', '311566260', '321654987', 'M', NULL, '962193439', 'guigui123', '123456', 'guigui@gmail.com', NULL, 42, '2025-04-27 13:43:25', NULL, 'N', NULL, NULL),
-	(10, 'Maria', 'Zamberlan', '2004-12-17', '3115489', '321654789', 'F', NULL, '3519278145', 'mzamberlan', '$2y$10$0e52qpYjkdbjX/erql4.LefWHdbIQiaRfulKgWG9gk.jzhuf0I5MK', 'Maria.eduarda1712@gmail.com', 'upload/683dbe3b5d1ec_can-like.jpg', 4, '2025-04-27 13:59:42', NULL, 'Y', NULL, NULL),
-	(11, 'Julia', 'Correa', '2007-07-07', '12345678', '1111111111', 'F', NULL, '962193439', '3eddaa', '$2y$10$c5ixHn1u33RAfyYYqg6D5.EoMNhTFAvRgwownGVeSTwdbmbzMIdlm', 'aaaaaaa@gmail.com', NULL, 42, '2025-04-27 14:03:17', NULL, 'Y', NULL, NULL),
-	(12, 'Admin', 'Admin', '2005-12-02', '', '', '', NULL, '351962193439', 'admin', '$2y$10$C.9g5op832wBeSHehgGs8OuOV1kyk0FXPwkqv1dBcQogFN0fWrHD.', 'tiagomatx@gmail.com', 'upload/681d20ee589d1_escola_secundaria_antonio_sergio_2.jpg', 4, '2025-04-27 14:09:25', NULL, 'Y', NULL, NULL),
-	(13, 'Maria Eduarda', 'Zamberlan', '2004-12-17', '', '', 'F', NULL, '927252387', 'dudinhadocreu123', '$2y$10$KDraR.i4/nGi7QBR5AK0k.lSb9v5zbyO2wiV2TwHL.HByd3V84apm', 'mzamberlan8@gmail.com', NULL, 41, '2025-05-06 20:12:32', NULL, 'Y', NULL, NULL),
-	(15, 'Marcos', 'Santos', '2025-05-01', '', '', 'M', '136 Rua de Valverde', '962193439', 'flaviodino', '$2y$10$fPpHRjpugtWLu/fqNHrLzOva4jNwjI2v6KV23GsGyPd2HGTFunnNi', 'tiagomatx@gmail.com', NULL, 42, '2025-05-11 03:04:27', NULL, 'Y', NULL, NULL),
-	(17, 'Rafael ', 'Mota', '2006-06-11', '', '', 'M', '', '351123456789', 'rmota', '$2y$10$2TxQt10VhaiemnrABsdaV.EkaY6fY8mywispAw0EvdBxJ3qD3TBYi', 'rafaelfilipemota543@gmail.com', NULL, 42, '2025-05-12 15:27:20', NULL, 'Y', NULL, NULL),
-	(18, 'Rafael', 'Mota', '2006-06-11', '', '', 'M', '136 Rua de Valverde', '962193439', 'rmota', '$2y$10$O612JzLLCuhkqQh9KIR11eU1P/mGc9dCqAvcxHUonuFRkMKi3NaXW', 'rafaelfilipemota543@gmail.com', NULL, 42, '2025-05-12 15:35:26', NULL, 'Y', NULL, NULL),
-	(19, 'Emanuel', 'Oliveira', '2005-12-22', '12345678', '123456789123', 'M', NULL, '351910090617', 'fulaninho', '1414159', 'emanuelhenrique05@gmail.com', 'upload/6823555b10f9e_primeira-kill.png', 4, '2025-05-13 14:21:15', NULL, 'N', NULL, NULL),
-	(20, 'Marcos', 'Santos', '2025-06-03', '311444555', '123456789123', 'M', NULL, '962193439', 'msantos', '147258369', 'msantos@gmail.com', NULL, 4, '2025-06-03 15:27:35', NULL, 'Y', NULL, NULL),
-	(21, 'Tiago', 'Borja', '2005-12-02', '123456783', '12345674324', 'M', NULL, '962193439', 'tteste', '123456', 'exemplo-teste@gmail.com', NULL, 42, '2025-06-26 13:37:52', NULL, 'Y', NULL, NULL),
-	(22, 'ZEDAMANGA', 'DAMANGA', '2002-12-02', '1235', '1478529654', 'M', NULL, '962193439', 'DASMANGAS', 'DASMANGAS', 'tiagomatx@gmail.com', NULL, 42, '2025-06-26 13:42:32', NULL, 'Y', NULL, NULL),
-	(23, 'dsad', 'sdsda', '2002-12-02', '', '', 'M', NULL, '789456123', 'aaaa', 'sdsdsadas', 'sdadssa@gmail.com', NULL, 4, '2025-06-26 13:46:59', NULL, 'Y', NULL, NULL),
-	(24, 'dsad', 'sdsda', '2002-12-02', '', '', 'M', NULL, '789456123', 'aaaa', 'sdsdsadas', 'sdadssa@gmail.com', NULL, 4, '2025-06-26 13:47:28', NULL, 'Y', NULL, NULL),
-	(31, 'Tiago', 'Borja', '2004-05-12', '1234321', '123456789124', 'O', '136 Rua de Valverde', '962193439', 'tbrja', '$2y$10$ckDMX1MSljqvJKSxq7n/EuMXTpu6nLg3Gmm0Lj1Vc2rF2aw1TGg5u', 'tiagomatx@gmail.com', NULL, 42, '2025-06-27 11:20:46', NULL, 'P', NULL, NULL),
-	(32, 'Tiago', 'Borja', '2004-05-12', '1234321', '123456789124', 'O', '136 Rua de Valverde', '962193439', 'tbrja', '$2y$10$rferiu3JnktJHA2aUpfVreCEEoyU3OsAvD4zXzH9pm2zGYVAnnGJy', 'tiagomatx@gmail.com', NULL, 42, '2025-06-27 11:22:28', NULL, 'P', NULL, NULL);
+	(4, 'Tiago', 'Borja', '2005-12-02', '311566260', '123456789123', 'F', NULL, '962193439', 'tiagomatx', '', 'tiagomatx@gmail.com', '68628036f3915_efacil-logo.jpeg', 4, '2025-04-21 23:08:17', NULL, 'Y', NULL, NULL),
+	(10, 'Maria', 'Zamberlan', '2004-12-17', '3115489', '321654789', 'F', NULL, '3519278145', 'mzamberlan', '$2y$10$0e52qpYjkdbjX/erql4.LefWHdbIQiaRfulKgWG9gk.jzhuf0I5MK', 'Maria.eduarda1712@gmail.com', '6861b00e51e6a_Untitled.png', 4, '2025-04-27 13:59:42', NULL, 'Y', NULL, NULL),
+	(51, 'Gestor', 'Gestor', '2005-12-02', '12345678', '123456789124', 'O', NULL, '987456321', 'Gestor', '$2y$10$ZU/yg04Uoa8xn8dIvy6DkeHUSTSWxlljuLg4RqjGn69rAqlz9yy0u', 'exemplo-teste@gmail.com', '686288f8f1161_Untitled.png', 41, '2025-06-30 12:44:34', NULL, 'Y', NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.utilizador_biblioteca
 DROP TABLE IF EXISTS `utilizador_biblioteca`;
@@ -682,20 +614,10 @@ CREATE TABLE IF NOT EXISTS `utilizador_biblioteca` (
   CONSTRAINT `FK_utilizador_biblioteca_utilizador` FOREIGN KEY (`utilizador_fk`) REFERENCES `utilizador` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.utilizador_biblioteca: ~9 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.utilizador_biblioteca: ~0 rows (aproximadamente)
 DELETE FROM `utilizador_biblioteca`;
 INSERT INTO `utilizador_biblioteca` (`utilizador_fk`, `biblioteca_fk`, `codigo_validacao`, `validado`, `data_pedido`, `data_expirado`, `data_validacao`) VALUES
-	(24, 3, '1234HFG', 0, '2025-06-26', '2025-07-10', NULL),
-	(24, 8, '1234HFG', 0, '2025-06-26', '2025-07-10', NULL),
-	(24, 9, '1234HFG', 0, '2025-06-26', '2025-07-10', NULL),
-	(31, 4, '9CALN7C3RISF', 0, '2025-06-27', '2025-07-11', NULL),
-	(31, 7, '9CALN7C3RISF', 0, '2025-06-27', '2025-07-11', NULL),
-	(31, 5, '9CALN7C3RISF', 0, '2025-06-27', '2025-07-11', NULL),
-	(31, 6, '9CALN7C3RISF', 0, '2025-06-27', '2025-07-11', NULL),
-	(32, 4, 'JF2RVSDFXH9I', 0, '2025-06-27', '2025-07-11', NULL),
-	(32, 7, 'JF2RVSDFXH9I', 0, '2025-06-27', '2025-07-11', NULL),
-	(32, 5, 'JF2RVSDFXH9I', 0, '2025-06-27', '2025-07-11', NULL),
-	(32, 6, 'JF2RVSDFXH9I', 0, '2025-06-27', '2025-07-11', NULL);
+	(51, 5, 'XJF1X15362AG', 1, '2025-06-30', '2025-07-14', '2025-06-30');
 
 -- A despejar estrutura para disparador empresta_facil.before_insert_utilizador
 DROP TRIGGER IF EXISTS `before_insert_utilizador`;
@@ -709,6 +631,25 @@ BEGIN
     IF NEW.tipo_utilizador_fk IS NULL OR NEW.tipo_utilizador_fk = '' THEN
         -- Se estiver vazio, atribua o ID do "Utilizador Comum"
         SET NEW.tipo_utilizador_fk = (SELECT id FROM tipo_utilizador WHERE tipo = 'Utilizador Comum' LIMIT 1);
+    END IF;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- A despejar estrutura para disparador empresta_facil.trg_before_insert_user_imgurl
+DROP TRIGGER IF EXISTS `trg_before_insert_user_imgurl`;
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER trg_before_insert_user_imgurl
+BEFORE INSERT ON utilizador
+FOR EACH ROW
+BEGIN
+    IF NEW.img_url IS NULL THEN
+        IF NEW.genero = 'M' THEN
+            SET NEW.img_url = 'male-icon.jpg';
+        ELSEIF NEW.genero = 'F' THEN
+            SET NEW.img_url = 'female-icon.jpg';
+        END IF;
     END IF;
 END//
 DELIMITER ;
