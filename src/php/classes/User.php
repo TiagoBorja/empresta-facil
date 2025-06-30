@@ -378,11 +378,11 @@ class User
                 $libraryIdsValid[] = $libraryId;
             }
 
-                // $libraryData = $this->library->getLibraryDataByIds($libraryIdsValid);
+                $libraryData = $this->library->getLibraryDataByIds($libraryIdsValid);
 
-                // if (!Utils::sendConfirmationEmail($this->email, $this->getFirstName(), $code, $libraryData)) {
-                //     exit;
-                // }
+                if (!Utils::sendConfirmationEmail($this->email, $this->getFirstName(), $code, $libraryData)) {
+                    exit;
+                }
 
             return json_encode([
                 'status' => 200,
@@ -478,11 +478,11 @@ class User
                 }
             }
 
-            // $libraryData = $this->library->getLibraryDataByIds($libraryIdsValid);
+            $libraryData = $this->library->getLibraryDataByIds($libraryIdsValid);
 
-            // if (!Utils::sendConfirmationEmail($this->email, $this->getFirstName(), $code, $libraryData)) {
-            //     exit;
-            // }
+            if (!Utils::sendConfirmationEmail($this->email, $this->getFirstName(), $code, $libraryData)) {
+                exit;
+            }
 
             return json_encode([
                 'status' => 200,

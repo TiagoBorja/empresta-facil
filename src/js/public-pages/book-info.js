@@ -47,7 +47,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             const formData = new FormData(this);
             formData.append("reservationSubmit", true);
             formData.append("bookId", bookValue.id);
-            console.log([...formData]);
             newData(API_ENDPOINTS.RESERVATION, formData, form, `?page=book-info&id=${bookValue.id}`);
         });
     });
@@ -57,7 +56,7 @@ async function fillFormData(bookId) {
     try {
         const [bookResponse, bookLocationsResponse, authorBookResponse] = await Promise.all([
             fetch(`${API_ENDPOINTS.BOOK}?id=${bookId}`),
-            fetch(`${API_ENDPOINTS.LOCATION}?id=${bookId}`),
+            fetch(`${API_ENDPOINTS.LOCATION}?bookId=${bookId}`),
             fetch(`${API_ENDPOINTS.AUTHOR_BOOK}?id=${bookId}`)
         ]);
 
@@ -114,23 +113,18 @@ function showLocations(locationsTableBody, bookLocations) {
 
         const tdLibrary = document.createElement("td");
         tdLibrary.classList.add("fw-normal", "text-dark");
-        tdLibrary.textContent = location.nome;
+        tdLibrary.textContent = location.biblioteca;
 
         const tdAddress = document.createElement("td");
         tdAddress.classList.add("fw-normal", "text-dark");
         tdAddress.textContent = location.morada;
 
-        const tdLocalCode = document.createElement("td");
-        tdLocalCode.classList.add("fw-normal", "text-dark");
-        tdLocalCode.textContent = location.cod_local;
-
         const tdQuantity = document.createElement("td");
         tdQuantity.classList.add("fw-normal", "text-dark");
-        tdQuantity.textContent = location.quantidade;
+        tdQuantity.textContent = location.total_exemplares;
 
         tr.appendChild(tdLibrary);
         tr.appendChild(tdAddress);
-        tr.appendChild(tdLocalCode);
         tr.appendChild(tdQuantity);
 
         locationsTableBody.appendChild(tr);

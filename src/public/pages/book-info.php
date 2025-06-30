@@ -123,7 +123,6 @@ $isGuest = !isset($_SESSION['user']);
                                 <tr>
                                     <th class="text-white">Biblioteca</th>
                                     <th class="text-white">Morada</th>
-                                    <th class="text-white">Estante</th>
                                     <th class="text-white">Quantidade Disponível</th>
                                 </tr>
                             </thead>

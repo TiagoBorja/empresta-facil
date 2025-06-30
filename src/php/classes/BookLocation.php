@@ -100,12 +100,12 @@ class BookLocation
     public function getById($id)
     {
         $this->id = $id;
-        $query = "SELECT 
-                    l.*, 
-                    b.id as biblioteca_fk,
-                    b.nome, 
-                    b.morada, 
-                    ll.id as livro_localizacao_fk, 
+        $query = "SELECT distinct
+                        l.*, 
+                        b.id as biblioteca_fk,
+                        b.nome, 
+                        b.morada, 
+                        ll.id as livro_localizacao_fk, 
                     loc.id as loc_fk,
                     loc.cod_local, ll.quantidade,
                     e.biblioteca_fk as biblioteca_utilizador_fk
@@ -114,14 +114,14 @@ class BookLocation
                   INNER JOIN livro_localizacao ll ON ll.localizacao_fk = loc.id
                   INNER JOIN livro l ON ll.livro_fk = l.id 
                   LEFT JOIN funcionario e ON e.biblioteca_fk = b.id
-                  WHERE ll.id = :id
+                  WHERE l.id = :id
                   AND ll.quantidade > 0";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
 
         try {
             $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             return json_encode([
                 'status' => 200,
@@ -135,6 +135,38 @@ class BookLocation
         }
     }
 
+
+    public function getBookStockById($bookId)
+    {
+
+        $query = "SELECT 
+                    b.id AS biblioteca_fk,
+                    b.morada,
+                    b.nome AS biblioteca,
+                    SUM(ll.quantidade) AS total_exemplares
+                FROM livro_localizacao ll
+                INNER JOIN localizacao loc ON ll.localizacao_fk = loc.id
+                INNER JOIN biblioteca b ON loc.biblioteca_fk = b.id
+                WHERE ll.livro_fk = :bookId
+                GROUP BY b.id, b.nome";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':bookId', $bookId);
+
+        try {
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return json_encode([
+                'status' => 200,
+                'data' => $result
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao encontrar: " . $e->getMessage()
+            ]);
+        }
+    }
     public function create()
     {
         $query = "INSERT INTO livro_localizacao
