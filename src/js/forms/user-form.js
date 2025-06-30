@@ -44,7 +44,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
                 // Desativar campo password e atualizar preview da imagem
                 passwordEl.disabled = true;
-                profilePreviewEl.src = `./users/${data.img_url}`;
+                profilePreviewEl.src = `./users/upload/${data.img_url}`;
+                console.log(data.img_url);
+                                
 
                 // Atualizar badge de ativo/inativo
                 const isActive = data.ativo === "Y";

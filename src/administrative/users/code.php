@@ -64,7 +64,7 @@ if (isset($_POST['saveData'])) {
     $libraries = filter_input(INPUT_POST, 'librarySelect', FILTER_SANITIZE_SPECIAL_CHARS);
 
     if (isset($_FILES["imgProfile"]) && $_FILES["imgProfile"]["tmp_name"] != "") {
-        $imgPath = $utils::uploadImage('./upload', 'imgProfile');
+        $imgPath = $utils::uploadImage('../../administrative/users/upload', 'imgProfile');
 
         $user->setImgUrl($imgPath);
     }

@@ -9,12 +9,12 @@ class Utils
 {
     public static function uploadImage(string $targetDir, string $fileInputName): ?string
     {
-        $dir = rtrim($targetDir, '/');
+        $dir = __DIR__ . '/' . trim($targetDir, '/'); // Caminho absoluto
         $uniqueName = uniqid() . "_" . basename($_FILES[$fileInputName]["name"]);
         $targetFile = $dir . "/" . $uniqueName;
 
         if (!file_exists($dir)) {
-            mkdir($dir, 0777, true); // Cria a pasta se não existir
+            mkdir($dir, 0777, true);
         }
 
         if (move_uploaded_file($_FILES[$fileInputName]["tmp_name"], $targetFile)) {
