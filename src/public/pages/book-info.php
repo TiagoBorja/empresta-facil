@@ -97,7 +97,6 @@ $isGuest = !isset($_SESSION['user']);
                         <div class="card-body">
                             <div class="comment-widgets scrollable ps-container bg-white"
                                 data-ps-id="1e4dd06c-c079-4682-737c-ce90567c7b40">
-                                <hr>
                                 <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
                                     <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
                                 </div>

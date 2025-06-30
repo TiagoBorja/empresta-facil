@@ -4,6 +4,7 @@ import { newData } from '../utils/bd-utils.js';
 const API_ENDPOINTS = {
     BOOK: '../administrative/book/code.php',
     LOCATION: './api/book-location-api.php',
+    COMMENTS: './api/comments-api.php',
     RESERVATION: './api/book-reservation-api.php',
     AUTHOR_BOOK: '../administrative/author-book/code.php'
 };
@@ -54,24 +55,37 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 async function fillFormData(bookId) {
     try {
-        const [bookResponse, bookLocationsResponse, authorBookResponse] = await Promise.all([
+        const [bookResponse, bookLocationsResponse, authorBookResponse, commentsResponse] = await Promise.all([
             fetch(`${API_ENDPOINTS.BOOK}?id=${bookId}`),
             fetch(`${API_ENDPOINTS.LOCATION}?bookId=${bookId}`),
-            fetch(`${API_ENDPOINTS.AUTHOR_BOOK}?id=${bookId}`)
+            fetch(`${API_ENDPOINTS.AUTHOR_BOOK}?id=${bookId}`),
+            fetch(`${API_ENDPOINTS.COMMENTS}?bookId=${bookId}`)
         ]);
 
-        if (!bookResponse.ok || !authorBookResponse.ok || !bookLocationsResponse.ok) {
+        if (!bookResponse.ok || !authorBookResponse.ok || !bookLocationsResponse.ok || !commentsResponse.ok) {
             throw new Error("Erro na requisição");
         }
 
         const book = await bookResponse.json();
         const authors = await authorBookResponse.json();
         const locations = await bookLocationsResponse.json();
+        const comments = await commentsResponse.json();
+        console.log(comments);
 
-        if (book.status === 200 && authors.status === 200 && locations.status === 200) {
+
+        if (book.status === 200 && authors.status === 200 && locations.status === 200 && comments.status === 200) {
             bookValue = book.data;
             const authorList = authors.data;
             bookLocations = locations.data;
+
+            if (comments.data.length > 0) {
+                const commentsContainer = document.querySelector(".comment-widgets");
+                showComments(commentsContainer, comments.data);
+            } else {
+                // Caso não haja comentários
+                const commentsContainer = document.querySelector(".comment-widgets");
+                commentsContainer.innerHTML = "<p class='text-muted'>Nenhum comentário encontrado.</p>";
+            }
 
             document.getElementById("bookTitle").textContent = bookValue.titulo;
             document.getElementById("bookYear").textContent = bookValue.ano_lancamento;
@@ -130,3 +144,65 @@ function showLocations(locationsTableBody, bookLocations) {
         locationsTableBody.appendChild(tr);
     });
 }
+
+function showComments(container, commentsData) {
+    container.innerHTML = ""; // Limpa comentários anteriores
+
+    commentsData.forEach(comment => {
+        // Formatar a data
+        const dateObj = new Date(comment.criado_em);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = dateObj.toLocaleDateString('pt-PT', options);
+
+        // Linha do comentário
+        const commentRow = document.createElement("div");
+        commentRow.classList.add("d-flex", "flex-row", "comment-row");
+
+        // Imagem do utilizador
+        const imgDiv = document.createElement("div");
+        imgDiv.classList.add("p-2");
+        const img = document.createElement("img");
+        img.src = `../administrative/users/upload/${comment.img_url || "default-user.png"}`;
+        img.alt = "user";
+        img.width = 50;
+        img.classList.add("rounded-circle");
+        imgDiv.appendChild(img);
+
+        // Div do texto do comentário
+        const textDiv = document.createElement("div");
+        textDiv.classList.add("comment-text", "w-100");
+
+        // Nome do utilizador - em cima do comentário
+        const userName = document.createElement("h6");
+        userName.classList.add("font-medium", "text-info", "mb-1");
+        userName.textContent = comment.utilizador;
+        textDiv.appendChild(userName);
+
+        // Texto do comentário
+        const commentSpan = document.createElement("span");
+        commentSpan.classList.add("mb-3", "d-block");
+        commentSpan.textContent = comment.comentario;
+        textDiv.appendChild(commentSpan);
+
+        // Rodapé com data
+        const footerDiv = document.createElement("div");
+        footerDiv.classList.add("comment-footer");
+        const dateSpan = document.createElement("span");
+        dateSpan.classList.add("text-muted", "float-start");
+        dateSpan.textContent = formattedDate;
+        footerDiv.appendChild(dateSpan);
+
+        textDiv.appendChild(footerDiv);
+
+        // Monta linha
+        commentRow.appendChild(imgDiv);
+        commentRow.appendChild(textDiv);
+
+        container.appendChild(commentRow);
+
+        // Linha separadora
+        const hr = document.createElement("hr");
+        container.appendChild(hr);
+    });
+}
+
