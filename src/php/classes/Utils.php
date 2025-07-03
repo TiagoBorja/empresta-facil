@@ -5,6 +5,9 @@ use PHPMailer\PHPMailer\Exception;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../');
+$dotenv->load();
+
 class Utils
 {
     public static function uploadImage(string $targetDir, string $fileInputName): ?string
@@ -106,16 +109,18 @@ class Utils
     public static function sendReservationEmail($email, $firstName, $bookTitle, $pickUpDate, $expirationDate, $libraryName, $libraryAddress)
     {
         try {
+            date_default_timezone_set('Europe/Lisbon');
+
             $phpmailer = new PHPMailer();
             $phpmailer->isSMTP();
-            $phpmailer->Host = 'sandbox.smtp.mailtrap.io';
-            $phpmailer->Port = 2525;
+            $phpmailer->Host = $_ENV['MAIL_HOST'];
+            $phpmailer->Port = $_ENV['MAIL_PORT'];
             $phpmailer->SMTPAuth = true;
-            $phpmailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $phpmailer->Username = 'cd897272b85f0b';
-            $phpmailer->Password = '8e715910c11cab';
+            $phpmailer->SMTPSecure = $_ENV['MAIL_ENCRYPTION'];
+            $phpmailer->Username = $_ENV['MAIL_USERNAME'];
+            $phpmailer->Password = $_ENV['MAIL_PASSWORD'];
 
-            $phpmailer->setFrom('biblioteca@example.com', $libraryName);
+            $phpmailer->setFrom($_ENV['MAIL_FROM_ADDRESS'], $libraryName);
             $phpmailer->addAddress($email, $firstName);
 
             $phpmailer->CharSet = 'UTF-8';
@@ -167,7 +172,8 @@ class Utils
             </div>
             
             <div class="footer">
-                <p>© ' . date('Y') . ' ' . htmlspecialchars($libraryName) . ' Todos os direitos reservados.</p>
+                <p>© ' . date_default_timezone_set('Europe/Lisbon');
+            date('d-m-Y') . ' ' . htmlspecialchars($libraryName) . ' Todos os direitos reservados.</p>
                 <p>Este é um e-mail automático, por favor não responda.</p>
             </div>
         </body>
@@ -183,7 +189,10 @@ class Utils
                 htmlspecialchars($libraryName);
 
 
-            return $phpmailer->send();
+            return json_encode([
+                'status' => $phpmailer->send() ? 200 : 500,
+                'message' => $phpmailer->ErrorInfo
+            ]);
         } catch (Exception $e) {
             error_log("Erro ao enviar e-mail: " . $e->getMessage());
             return false;
@@ -240,5 +249,4 @@ class Utils
     {
         return self::hasAccessLevel($user, 'Funcionário');
     }
-
 }

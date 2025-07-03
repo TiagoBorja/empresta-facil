@@ -100,7 +100,7 @@ class BookLocation
     public function getById($id)
     {
         $this->id = $id;
-        $query = "SELECT distinct
+        $query = "SELECT
                         l.*, 
                         b.id as biblioteca_fk,
                         b.nome, 
@@ -113,8 +113,8 @@ class BookLocation
                   INNER JOIN localizacao loc ON loc.biblioteca_fk = b.id
                   INNER JOIN livro_localizacao ll ON ll.localizacao_fk = loc.id
                   INNER JOIN livro l ON ll.livro_fk = l.id 
-                  LEFT JOIN funcionario e ON e.biblioteca_fk = b.id
-                  WHERE l.id = :id
+                  INNER JOIN funcionario e ON e.biblioteca_fk = b.id
+                  WHERE ll.livro_fk = :id
                   AND ll.quantidade > 0";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
@@ -141,6 +141,7 @@ class BookLocation
 
         $query = "SELECT 
                     b.id AS biblioteca_fk,
+                    ll.id AS livro_localizacao_fk,
                     b.morada,
                     b.nome AS biblioteca,
                     SUM(ll.quantidade) AS total_exemplares
@@ -187,7 +188,6 @@ class BookLocation
                 'status' => 200,
                 'message' => "Livro Localização criado com sucesso!",
             ]);
-
         } catch (PDOException $e) {
             return json_encode([
                 'status' => 500,
@@ -219,7 +219,6 @@ class BookLocation
                 'status' => 200,
                 'message' => "Livro Localização atualizado com sucesso!",
             ]);
-
         } catch (PDOException $e) {
             return json_encode([
                 'status' => 500,
@@ -227,5 +226,4 @@ class BookLocation
             ]);
         }
     }
-
 }

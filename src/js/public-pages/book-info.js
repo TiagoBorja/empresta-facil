@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         modalHeader.textContent = `Reservar - ${bookValue.titulo}`;
         modalInputId.value = bookValue.id;
-        fetchSelect(`${API_ENDPOINTS.LOCATION}?id=${id}`, 'nome', "librarySelect", null, false, 'livro_localizacao_fk');
+        fetchSelect(`${API_ENDPOINTS.LOCATION}?bookId=${bookValue.id}`, 'biblioteca', "librarySelect", null, false, 'livro_localizacao_fk');
 
 
         const form = document.querySelector("#reservationForm");
