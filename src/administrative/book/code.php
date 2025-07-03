@@ -12,7 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $book->getBookCount();
         exit;
     }
-
+    
+    if (isset($_GET['mostRequested'])) {
+        echo $book->getMostRequested();
+        exit;
+    }
+    
     if (!isset($_GET['id'])) {
         echo $book->getAll();
         exit;

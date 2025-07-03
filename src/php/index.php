@@ -79,7 +79,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
-                            aria-current="page" href="#">
+                            aria-current="page" href="?page=catalog&mostRequested=true">
                             <i class="mdi mdi-trophy-award me-2"></i> Mais Requisitados
                         </a>
                     </li>

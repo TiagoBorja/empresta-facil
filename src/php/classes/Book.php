@@ -184,12 +184,39 @@ class Book
             ]);
         }
     }
+    public function getMostRequested()
+    {
+        $query = "SELECT 
+                    l.*, e.editora, c.categoria, s.subcategoria,
+                    COUNT(el.emprestimo_fk) AS total_emprestimos
+                FROM 
+                    {$this->tableName} l
+                JOIN livro_localizacao ll ON l.id = ll.livro_fk
+                JOIN emprestimo_livro el ON ll.id = el.livro_localizacao_fk
+                JOIN editora e ON l.editora_fk = e.id
+                JOIN categoria c ON l.categoria_fk = c.id
+                JOIN subcategoria s ON l.subcategoria_fk = s.id
+                GROUP BY 
+                    l.id, l.titulo
+                ORDER BY 
+                    total_emprestimos DESC
+                LIMIT 10";
+
+        $stmt = $this->pdo->prepare($query);
+
+        try {
+            $stmt->execute();
+            return json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+        } catch (PDOException $e) {
+            return json_encode(['error' => $e->getMessage()]);
+        }
+    }
     public function create($authors = [])
     {
 
         if (
             empty($this->title) || empty($this->isbn) || empty($this->releaseYear) ||
-            empty($this->synopsis) || empty($this->language) || empty($this->quantity) ||
+            empty($this->synopsis) || empty($this->language) ||
             empty($this->publisherFk) || empty($this->categoryFk) || empty($this->subcategoryFk)
         ) {
             return json_encode([
