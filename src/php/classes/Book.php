@@ -157,7 +157,7 @@ class Book
         INNER JOIN categoria c ON l.categoria_fk = c.id
         INNER JOIN subcategoria s ON l.subcategoria_fk = s.id
         ORDER BY l.criado_em DESC
-        LIMIT 10";
+        LIMIT 12";
 
         $query_run = $this->pdo->prepare($query);
 

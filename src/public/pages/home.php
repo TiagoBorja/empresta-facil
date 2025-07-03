@@ -1,4 +1,5 @@
 <style>
+    /* Estilos gerais */
     .card {
         display: flex;
         flex-direction: column;
@@ -21,7 +22,8 @@
     .img-wrapper {
         position: relative;
         width: 100%;
-        height: 200px;
+        height: 250px;
+        /* Imagem maior */
         overflow: hidden;
         display: flex;
         justify-content: center;
@@ -34,45 +36,146 @@
         height: 100%;
     }
 
-    .carousel-inner {
-        padding: 1em;
-        display: flex;
-    }
-
-    .carousel-item {
-        flex: 0 0 33.333333%;
-        display: block;
-        margin-right: 0;
-    }
-
+    /* Controles do carrossel */
     .carousel-control-prev,
     .carousel-control-next {
-        background-color: #e1e1e1;
-        width: 6vh;
-        height: 6vh;
+        width: 30px;
+        height: 30px;
+        background-color: rgba(0, 0, 0, 0.2);
         border-radius: 50%;
         top: 50%;
         transform: translateY(-50%);
+        opacity: 0.8;
+        transition: opacity 0.15s ease;
     }
 
-    /* Responsividade */
-    @media (max-width: 768px) {
-        .img-wrapper {
-            height: 150px;
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+        opacity: 1;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        width: 15px;
+        height: 15px;
+    }
+
+    /* Carrossel com múltiplos itens */
+    .carousel-inner {
+        width: 100%;
+        overflow: hidden;
+        padding: 10px 0;
+    }
+
+    .carousel-item {
+        transition: transform 0.6s ease-in-out;
+    }
+
+    .carousel-item.active,
+    .carousel-item-next,
+    .carousel-item-prev {
+        display: flex;
+    }
+
+    .carousel-item-next:not(.carousel-item-start),
+    .active.carousel-item-end {
+        transform: translateX(33.33%);
+    }
+
+    .carousel-item-prev:not(.carousel-item-end),
+    .active.carousel-item-start {
+        transform: translateX(-33.33%);
+    }
+
+    /* Container para os cards */
+    .carousel-item-row {
+        display: flex;
+        flex-wrap: nowrap;
+        width: 100%;
+    }
+
+    /* Estilo para cada card no carrossel */
+    .carousel-item-col {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+
+    /* Indicadores do carrossel (opcional) */
+    .carousel-indicators {
+        bottom: -40px;
+    }
+
+    .carousel-indicators button {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin: 0 5px;
+        background-color: rgba(0, 0, 0, 0.2);
+        border: none;
+    }
+
+    .carousel-indicators button.active {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    /* Ajustes responsivos */
+    @media (max-width: 992px) {
+        .carousel-item-col {
+            flex: 0 0 50% !important;
+            max-width: 50% !important;
+        }
+
+        .carousel-item-next:not(.carousel-item-start),
+        .active.carousel-item-end {
+            transform: translateX(50%);
+        }
+
+        .carousel-item-prev:not(.carousel-item-end),
+        .active.carousel-item-start {
+            transform: translateX(-50%);
         }
     }
 
-    @media (max-width: 767px) {
+    @media (max-width: 768px) {
+        .img-wrapper {
+            height: 200px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .carousel-item-col {
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
+        }
+
+        .carousel-item-next:not(.carousel-item-start),
+        .active.carousel-item-end {
+            transform: translateX(100%);
+        }
+
+        .carousel-item-prev:not(.carousel-item-end),
+        .active.carousel-item-start {
+            transform: translateX(-100%);
+        }
+
         .card .img-wrapper {
             height: 17em;
         }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 25px;
+            height: 25px;
+        }
     }
 
-    /* Ajuste para telas maiores */
-    @media (min-width: 768px) {
-        .carousel-inner {
-            display: flex;
-        }
+    /* Efeito hover para os cards (opcional) */
+    .card:hover {
+        transform: translateY(-5px);
+        transition: transform 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     }
 </style>
 
@@ -137,40 +240,55 @@ $userName = isset($_SESSION['user']['primeiro_nome']) ?? '';
 </div>
 
 <h2 class="text-center p-3">Novidades</h2>
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+<div id="novidadesCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
     <div class="carousel-inner">
         <?php
         $books = $book->getNewBooks();
         if (!is_array($books)) {
             $books = [];
         }
+
+        // Dividir os livros em grupos de 3
+        $chunkedBooks = array_chunk($books, 3);
         ?>
-        <?php if (!empty($books)): ?>
-            <?php foreach ($books as $index => $book): ?>
+
+        <?php if (!empty($chunkedBooks)): ?>
+            <?php foreach ($chunkedBooks as $index => $bookGroup): ?>
                 <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                    <div class="card">
-                        <div class="img-wrapper">
-                            <img src="<?= htmlspecialchars('../public/assets/images/no-book-image.jpg') ?>" class="d-block w-100" alt="<?= htmlspecialchars($book['titulo']) ?>">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($book['titulo']) ?></h5>
-                            <p class="card-text"><?= htmlspecialchars($book['sinopse']) ?></p>
-                            <a href="?page=book-info&id=<?= $book['id'] ?>" class="btn btn-primary">Ver no Catálogo</a>
-                        </div>
+                    <div class="carousel-item-row">
+                        <?php foreach ($bookGroup as $book): ?>
+                            <div class="carousel-item-col">
+                                <div class="card h-100">
+                                    <div class="img-wrapper">
+                                        <img src="<?= htmlspecialchars('../public/assets/images/no-book-image.jpg') ?>" class="d-block w-100" alt="<?= htmlspecialchars($book['titulo']) ?>">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><?= htmlspecialchars($book['titulo']) ?></h5>
+                                        <p class="card-text" style="max-height: 80px; overflow: hidden; text-overflow: ellipsis;">
+                                            <?= htmlspecialchars($book['sinopse']) ?>
+                                        </p>
+                                        <a href="?page=book-info&id=<?= $book['id'] ?>" class="btn btn-primary">Ver no Catálogo</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             <?php endforeach; ?>
-
         <?php else: ?>
-            <div class="text-center">Nenhum livro disponível no momento.</div>
+            <div class="carousel-item active">
+                <div class="text-center w-100">Nenhum livro disponível no momento.</div>
+            </div>
         <?php endif; ?>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span>
-    </button>
+    <?php if (!empty($books) && count($books) > 1): ?>
+        <button class="carousel-control-prev" type="button" data-bs-target="#novidadesCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#novidadesCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Próximo</span>
+        </button>
+    <?php endif; ?>
 </div>
-
-<script src="../js/public-pages/carousel.js"></script>
