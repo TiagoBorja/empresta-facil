@@ -95,14 +95,15 @@ $isGuest = !isset($_SESSION['user']);
                 <div class="tab-pane fade show active" id="commentsList" role="tabpanel">
                     <div class="rounded-3">
                         <div class="card-body">
-                            <div class="comment-widgets scrollable ps-container bg-white"
-                                data-ps-id="1e4dd06c-c079-4682-737c-ce90567c7b40">
-                                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
-                                    <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                            <div class="comment-widgets scrollable bg-white" id="commentsContainer">
+                                <div class="no-comments-placeholder text-center p-5 d-none" id="noComments">
+                                    <div class="d-flex flex-column align-items-center justify-content-center py-5">
+                                        <i class="mdi mdi-comment-text-outline mdi-48px text-muted mb-3"></i>
+                                        <h5 class="text-muted fw-light">Nenhum comentário ainda</h5>
+                                        <p class="text-muted mb-0">Seja o primeiro a compartilhar sua opinião!</p>
+                                    </div>
                                 </div>
-                                <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
-                                    <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div>
-                                </div>
+                                <!-- Scrollbars -->
                                 <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
                                     <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
                                 </div>

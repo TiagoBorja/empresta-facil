@@ -70,21 +70,19 @@ async function fillFormData(bookId) {
         const authors = await authorBookResponse.json();
         const locations = await bookLocationsResponse.json();
         const comments = await commentsResponse.json();
-        console.log(comments);
 
 
-        if (book.status === 200 && authors.status === 200 && locations.status === 200 && comments.status === 200) {
+        if (book.status === 200 && authors.status === 200 && locations.status === 200) {
             bookValue = book.data;
             const authorList = authors.data;
             bookLocations = locations.data;
 
-            if (comments.data.length > 0) {
+            if (comments.data && comments.data.length > 0) {
                 const commentsContainer = document.querySelector(".comment-widgets");
                 showComments(commentsContainer, comments.data);
             } else {
-                // Caso não haja comentários
-                const commentsContainer = document.querySelector(".comment-widgets");
-                commentsContainer.innerHTML = "<p class='text-muted'>Nenhum comentário encontrado.</p>";
+                const noComments = document.getElementById("noComments");
+                noComments.classList.remove("d-none");
             }
 
             document.getElementById("bookTitle").textContent = bookValue.titulo;

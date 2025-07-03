@@ -60,7 +60,7 @@ class Comments
                     c.criado_em,
                     CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS utilizador,
                     u.img_url
-                FROM comentarios c
+                FROM {$this->tableName} c
                 JOIN utilizador u ON c.utilizador_fk = u.id
                 JOIN livro l ON c.livro_fk = l.id 
                 WHERE c.livro_fk = :bookFk
@@ -80,6 +80,12 @@ class Comments
                     'data' => $result
                 ]);
             }
+
+            return json_encode([
+                'status' => 404,
+                'message' => "Comentários não encontrados.",
+                'data' => []
+            ]);
         } catch (PDOException $e) {
             return json_encode([
                 'status' => 500,

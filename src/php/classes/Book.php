@@ -136,7 +136,8 @@ class Book
                   FROM " . $this->tableName . " l
                   INNER JOIN editora e ON l.editora_fk = e.id
                   INNER JOIN categoria c ON l.categoria_fk = c.id
-                  INNER JOIN subcategoria s ON l.subcategoria_fk = s.id";
+                  INNER JOIN subcategoria s ON l.subcategoria_fk = s.id
+                  ORDER BY l.criado_em DESC";
         $query_run = $this->pdo->prepare($query);
 
         try {
