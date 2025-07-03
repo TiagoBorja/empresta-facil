@@ -25,22 +25,6 @@
                     </div>
 
                     <input type="text" class="form-control" placeholder="Pesquisar por título, autor, assunto..." />
-
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="libraryDropdown"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Todas as Bibliotecas
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="libraryDropdown">
-                            <li><a class="dropdown-item" href="#">Biblioteca 1</a></li>
-                            <li><a class="dropdown-item" href="#">Biblioteca 2</a></li>
-                            <li><a class="dropdown-item" href="#">Biblioteca 3</a></li>
-                        </ul>
-                    </div>
-
-                    <button class="btn btn-primary">
-                        <i class="fas fa-search"></i> Pesquisar
-                    </button>
                 </div>
             </div>
         </div>

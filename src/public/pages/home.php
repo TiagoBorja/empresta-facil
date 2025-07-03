@@ -76,8 +76,22 @@
     }
 </style>
 
+<?php
+
+require './classes/Book.php';
+
+$book = new Book();
+$userName = isset($_SESSION['user']['primeiro_nome']) ?? '';
+
+
+
+?>
 <h1 class="p-3 text-center mt-3">
-    Seja bem-vindo<?= isset($_SESSION['user']['primeiro_nome']) ? ', ' . $_SESSION['user']['primeiro_nome'] : '!' ?>
+    <?php if (isset($_SESSION['user']['primeiro_nome'])): ?>
+        Seja bem-vindo, <?= "{$_SESSION['user']['primeiro_nome']}!" ?>
+    <?php else: ?>
+        Seja bem-vindo!
+    <?php endif; ?>
 </h1>
 
 <p class="text-center mb-4">Explore o catálogo de livros e aproveite as nossas recomendações personalizadas!</p>
@@ -123,67 +137,40 @@
 </div>
 
 <h2 class="text-center p-3">Novidades</h2>
-<div id="carouselExampleControls" class="carousel">
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
-        <div class="carousel-item active">
-            <div class="card">
-                <div class="img-wrapper"><img src="../public/assets/images/big/img1.jpg" class="d-block w-100" alt="..."></div>
-                <div class="card-body">
-                    <h5 class="card-title">Card title 1</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                        of the card's content.</p>
-                    <a href="?page=catalog" class="btn btn-primary">Ver no Catálogo</a>
+        <?php
+        $books = $book->getNewBooks();
+        if (!is_array($books)) {
+            $books = [];
+        }
+        ?>
+        <?php if (!empty($books)): ?>
+            <?php foreach ($books as $index => $book): ?>
+                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                    <div class="card">
+                        <div class="img-wrapper">
+                            <img src="<?= htmlspecialchars('../public/assets/images/no-book-image.jpg') ?>" class="d-block w-100" alt="<?= htmlspecialchars($book['titulo']) ?>">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($book['titulo']) ?></h5>
+                            <p class="card-text"><?= htmlspecialchars($book['sinopse']) ?></p>
+                            <a href="?page=book-info&id=<?= $book['id'] ?>" class="btn btn-primary">Ver no Catálogo</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <div class="card">
-                <div class="img-wrapper"><img src="../public/assets/images/big/img2.jpg" class="d-block w-100" alt="..."></div>
-                <div class="card-body">
-                    <h5 class="card-title">Card title 2</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                        of the card's content.</p>
-                    <a href="?page=catalog" class="btn btn-primary">Ver no Catálogo</a>
-                </div>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <div class="card">
-                <div class="img-wrapper"><img src="../public/assets/images/big/img3.jpg" class="d-block w-100" alt="..."></div>
-                <div class="card-body">
-                    <h5 class="card-title">Card title 3</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                        of the card's content.</p>
-                    <a href="?page=catalog" class="btn btn-primary">Ver no Catálogo</a>
-                </div>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <div class="card">
-                <div class="img-wrapper"><img src="../public/assets/images/big/img3.jpg" class="d-block w-100" alt="..."></div>
-                <div class="card-body">
-                    <h5 class="card-title">Card title 4</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                        of the card's content.</p>
-                    <a href="?page=catalog" class="btn btn-primary">Ver no Catálogo</a>
-                </div>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <div class="card">
-                <div class="img-wrapper"><img src="../public/assets/images/big/img3.jpg" class="d-block w-100" alt="..."></div>
-                <div class="card-body">
-                    <h5 class="card-title">Card title 5</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                        of the card's content.</p>
-                    <a href="?page=catalog" class="btn btn-primary">Ver no Catálogo</a>
-                </div>
-            </div>
-        </div>
-    </div><button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-        data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span
-            class="visually-hidden">Previous</span></button><button class="carousel-control-next" type="button"
-        data-bs-target="#carouselExampleControls" data-bs-slide="next"><span class="carousel-control-next-icon"
-            aria-hidden="true"></span><span class="visually-hidden">Next</span></button>
+            <?php endforeach; ?>
+
+        <?php else: ?>
+            <div class="text-center">Nenhum livro disponível no momento.</div>
+        <?php endif; ?>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span>
+    </button>
 </div>
-<script src="./js/carousel.js"></script>
+
+<script src="../js/public-pages/carousel.js"></script>

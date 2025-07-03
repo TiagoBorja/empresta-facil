@@ -148,6 +148,26 @@ class Book
             return json_encode($e->getMessage());
         }
     }
+
+    public function getNewBooks()
+    {
+        $query = "SELECT l.*, e.editora, c.categoria, s.subcategoria
+        FROM " . $this->tableName . " l
+        INNER JOIN editora e ON l.editora_fk = e.id
+        INNER JOIN categoria c ON l.categoria_fk = c.id
+        INNER JOIN subcategoria s ON l.subcategoria_fk = s.id
+        ORDER BY l.criado_em DESC
+        LIMIT 10";
+
+        $query_run = $this->pdo->prepare($query);
+
+        try {
+            $query_run->execute();
+            return $query_run->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
     public function getById($id)
     {
         $this->id = $id;
@@ -440,5 +460,4 @@ class Book
             ]);
         }
     }
-
 }

@@ -1,6 +1,6 @@
 const BOOK_API_URL = '../administrative/book/code.php';
 const AUTHOR_BOOK_API_URL = '../administrative/author-book/code.php';
-const DEFAULT_BOOK_IMAGE = '../public/assets/images/big/img1.jpg';
+const DEFAULT_BOOK_IMAGE = '../public/assets/images/no-book-image.jpg';
 let urlParams;
 let id;
 

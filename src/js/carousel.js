@@ -1,40 +1,75 @@
 document.addEventListener('DOMContentLoaded', function () {
-    let multipleCardCarousel = document.querySelector("#carouselExampleControls");
+    const multipleCardCarousel = document.querySelector("#carouselExampleControls");
+    const carouselInner = multipleCardCarousel.querySelector(".carousel-inner");
+    const nextBtn = multipleCardCarousel.querySelector(".carousel-control-next");
+    const prevBtn = multipleCardCarousel.querySelector(".carousel-control-prev");
+    let carousel, scrollPosition = 0;
+    let cardWidth, carouselWidth, maxScrollPosition;
+    let totalItems = multipleCardCarousel.querySelectorAll(".carousel-item").length;
+    const cardsVisible = 3; // quantos cards aparecem visíveis simultaneamente
 
-    if (window.matchMedia("(min-width: 768px)").matches) {
-        let carousel = new bootstrap.Carousel(multipleCardCarousel, {
-            interval: false, // Disable automatic sliding
-            wrap: true, // Permite que o carrossel "dê a volta" ao chegar ao fim
-        });
-
-        let carouselWidth = document.querySelector(".carousel-inner").scrollWidth;
-        let cardWidth = document.querySelector(".carousel-item").offsetWidth;
-        let scrollPosition = 0;
-
-        // Navegação para o próximo item
-        document.querySelector("#carouselExampleControls .carousel-control-next").addEventListener("click", function () {
-            if (scrollPosition < carouselWidth - cardWidth * 4) {
-                scrollPosition += cardWidth;
-                document.querySelector("#carouselExampleControls .carousel-inner").scroll({ left: scrollPosition, behavior: 'smooth' });
-            } else {
-                // Voltar ao início quando chegar no fim
-                scrollPosition = 0;
-                document.querySelector("#carouselExampleControls .carousel-inner").scroll({ left: scrollPosition, behavior: 'smooth' });
-            }
-        });
-
-        // Navegação para o item anterior
-        document.querySelector("#carouselExampleControls .carousel-control-prev").addEventListener("click", function () {
-            if (scrollPosition > 0) {
-                scrollPosition -= cardWidth;
-                document.querySelector("#carouselExampleControls .carousel-inner").scroll({ left: scrollPosition, behavior: 'smooth' });
-            } else {
-                // Voltar ao final quando estiver no início
-                scrollPosition = carouselWidth - cardWidth * 4;
-                document.querySelector("#carouselExampleControls .carousel-inner").scroll({ left: scrollPosition, behavior: 'smooth' });
-            }
-        });
-    } else {
-        multipleCardCarousel.classList.add("slide");
+    function updateSizes() {
+        cardWidth = multipleCardCarousel.querySelector(".carousel-item").offsetWidth;
+        carouselWidth = carouselInner.scrollWidth;
+        maxScrollPosition = cardWidth * (totalItems - cardsVisible);
     }
+
+    function initDesktopCarousel() {
+        scrollPosition = 0;
+        updateSizes();
+
+        // Inicializa o Bootstrap Carousel com interval 0 para parar automatico
+        carousel = new bootstrap.Carousel(multipleCardCarousel, {
+            interval: false,
+            wrap: true
+        });
+
+        nextBtn.addEventListener("click", onNextClick);
+        prevBtn.addEventListener("click", onPrevClick);
+    }
+
+    function onNextClick() {
+        if (scrollPosition < maxScrollPosition) {
+            scrollPosition += cardWidth;
+        } else {
+            scrollPosition = 0;
+        }
+        carouselInner.scroll({ left: scrollPosition, behavior: 'smooth' });
+    }
+
+    function onPrevClick() {
+        if (scrollPosition > 0) {
+            scrollPosition -= cardWidth;
+        } else {
+            scrollPosition = maxScrollPosition;
+        }
+        carouselInner.scroll({ left: scrollPosition, behavior: 'smooth' });
+    }
+
+    function initMobileCarousel() {
+        // Remove event listeners desktop para evitar duplicidade (opcional)
+        nextBtn.removeEventListener("click", onNextClick);
+        prevBtn.removeEventListener("click", onPrevClick);
+
+        // Ativa o slide padrão do Bootstrap com intervalo automático
+        carousel = new bootstrap.Carousel(multipleCardCarousel, {
+            interval: 3000,
+            wrap: true
+        });
+    }
+
+    function checkViewport() {
+        if (window.matchMedia("(min-width: 768px)").matches) {
+            initDesktopCarousel();
+        } else {
+            initMobileCarousel();
+        }
+    }
+
+    checkViewport();
+
+    window.addEventListener('resize', function () {
+        checkViewport();
+        updateSizes();
+    });
 });
