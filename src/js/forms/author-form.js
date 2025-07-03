@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             return showForm();
         }
 
-        imgPreview.src = `./author/${result.data.img_url}`;
+        imgPreview.src = `./author/upload/${result.data.img_url}`;
         imgPreview.onload = showForm;
         imgPreview.onerror = showForm;
 
