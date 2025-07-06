@@ -152,6 +152,7 @@ $isGuest = !isset($_SESSION['user']);
                                             <input type="radio" id="star1" name="rate" value="1" />
                                             <label for="star1" title="1 estrela">★</label>
                                         </div>
+                                        <input id="userId" type="hidden" value="<?php echo $_SESSION['user']['id']; ?>">
                                         <textarea placeholder="Ótimo livro! Divertido, e etc..."
                                             class="form-control text-dark border rounded-3 shadow-sm mt-3"
                                             id="commentText" name="commentText" rows="3"></textarea>

@@ -4,6 +4,7 @@ import { newData } from '../utils/bd-utils.js';
 const API_ENDPOINTS = {
     BOOK: '../administrative/book/code.php',
     LOCATION: './api/book-location-api.php',
+    EVALUATION: './api/evaluation-api.php',
     COMMENTS: './api/comments-api.php',
     RESERVATION: './api/book-reservation-api.php',
     AUTHOR_BOOK: '../administrative/author-book/code.php'
@@ -16,7 +17,8 @@ let bookValue = {};
 let bookLocations = {};
 
 document.addEventListener('DOMContentLoaded', async function () {
-    fillFormData(id);
+    const userId = document.getElementById("userId").value;
+    fillFormData(id, userId);
 
     const reservationBtn = document.getElementById("reservationBtn");
     const modalElement = document.getElementById("reservationModal");
@@ -47,18 +49,28 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
 
     createComment();
+    createEvaluation();
 });
 
-async function fillFormData(bookId) {
+async function fillFormData(bookId, userId) {
     try {
-        const [bookResponse, bookLocationsResponse, authorBookResponse, commentsResponse] = await Promise.all([
+        const [
+            bookResponse,
+            bookLocationsResponse,
+            authorBookResponse,
+            commentsResponse,
+            evaluationResponse,
+            userEvaluationResponses
+        ] = await Promise.all([
             fetch(`${API_ENDPOINTS.BOOK}?id=${bookId}`),
             fetch(`${API_ENDPOINTS.LOCATION}?bookId=${bookId}`),
             fetch(`${API_ENDPOINTS.AUTHOR_BOOK}?id=${bookId}`),
-            fetch(`${API_ENDPOINTS.COMMENTS}?bookId=${bookId}`)
+            fetch(`${API_ENDPOINTS.COMMENTS}?bookId=${bookId}`),
+            fetch(`${API_ENDPOINTS.EVALUATION}?bookId=${bookId}`),
+            fetch(`${API_ENDPOINTS.EVALUATION}?bookId=${bookId}&userId=${userId}`),
         ]);
 
-        if (!bookResponse.ok || !authorBookResponse.ok || !bookLocationsResponse.ok || !commentsResponse.ok) {
+        if (!bookResponse.ok || !authorBookResponse.ok || !bookLocationsResponse.ok || !commentsResponse.ok || !evaluationResponse.ok || !userEvaluationResponses.ok) {
             throw new Error("Erro na requisição");
         }
 
@@ -66,12 +78,15 @@ async function fillFormData(bookId) {
         const authors = await authorBookResponse.json();
         const locations = await bookLocationsResponse.json();
         const comments = await commentsResponse.json();
+        const evaluation = await evaluationResponse.json();
+        const userEvaluation = await userEvaluationResponses.json();
 
 
         if (book.status === 200 && authors.status === 200 && locations.status === 200) {
             bookValue = book.data;
             const authorList = authors.data;
             bookLocations = locations.data;
+            const userEvaluationData = userEvaluation.data;
 
             if (comments.data && comments.data.length > 0) {
                 const commentsContainer = document.querySelector(".comment-widgets");
@@ -89,6 +104,14 @@ async function fillFormData(bookId) {
             document.getElementById("bookSynopsis").textContent = bookValue.sinopse;
             document.getElementById("bookRating").textContent = bookValue.avaliacao;
             document.getElementById("bookCover").src = bookValue.imagem || "../public/assets/images/big/img1.jpg";
+            if (userEvaluationData && userEvaluationData.length > 0 && userEvaluationData[0].avaliacao) {
+                const avaliacao = userEvaluationData[0].avaliacao;
+                const radio = document.querySelector(`input[name="rate"][value="${avaliacao}"]`);
+                if (radio) {
+                    radio.checked = true;
+                }
+            }
+
 
             const authorContainer = document.getElementById("bookAuthor");
             showAuthors(authorContainer, authorList)
@@ -211,6 +234,19 @@ function createComment() {
         formData.append("saveData", true);
         formData.append("id", bookValue.id);
         newData(API_ENDPOINTS.COMMENTS, formData, form, `?page=book-info&id=${bookValue.id}`);
+    });
+}
+function createEvaluation() {
+    const form = document.querySelector("#commentFormId");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        formData.append("saveData", true);
+        formData.append("id", bookValue.id);
+        newData(API_ENDPOINTS.EVALUATION, formData, form, `?page=book-info&id=${bookValue.id}`);
     });
 }
 
