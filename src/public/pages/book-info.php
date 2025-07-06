@@ -154,9 +154,9 @@ $isGuest = !isset($_SESSION['user']);
                                         </div>
                                         <textarea placeholder="Ótimo livro! Divertido, e etc..."
                                             class="form-control text-dark border rounded-3 shadow-sm mt-3"
-                                            id="commentText" rows="3"></textarea>
+                                            id="commentText" name="commentText" rows="3"></textarea>
                                     </div>
-                                    <button type="submit"
+                                    <button type="submit" name="saveData"
                                         class="btn btn-outline-success d-flex align-items-center gap-2 float-end">
                                         <i class="mdi mdi-send"></i>
                                         <span>Enviar</span>
@@ -174,3 +174,19 @@ $isGuest = !isset($_SESSION['user']);
 <?php include '../includes/modal/book-reservation.php'; ?>
 <?php include '../includes/modal/login-required.php'; ?>
 <script type="module" src="../js/public-pages/book-info.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const toastMessage = sessionStorage.getItem('toastMessage');
+
+        if (toastMessage === 'success') {
+            toastr.success("Operação realizada com sucesso!", "Sucesso!");
+        } else if (toastMessage === 'inProcess') {
+            toastr.info("Reserva criada com sucesso! Um email de confirmação será enviado em breve.", "Sucesso!");
+        }
+        else if (toastMessage === 'error') {
+            toastr.error("Ocorreu um erro ao processar a solicitação.", "Erro!");
+        }
+        sessionStorage.removeItem('toastMessage');
+
+    });
+</script>

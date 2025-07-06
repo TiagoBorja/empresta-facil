@@ -25,6 +25,11 @@ export async function newData(API_URL, formData, form, pageRedirect) {
             sessionStorage.setItem('toastMessage', 'success');
             window.location.href = pageRedirect;
         }
+        
+        if (result.status === 202) {
+            sessionStorage.setItem('toastMessage', 'inProcess');
+            window.location.href = pageRedirect;
+        }
     } catch (error) {
         console.error("Erro ao processar a solicitação:", error);
         toastr.error("Ocorreu um erro ao processar a solicitação", "Erro!");

@@ -200,7 +200,7 @@ class BookReservation
             $libraryAddress = $book['morada'];
 
             echo json_encode([
-                'status' => 200,
+                'status' => 202,
                 'message' => "Reserva criada com sucesso! Um email será enviado em breve.",
             ]);
 

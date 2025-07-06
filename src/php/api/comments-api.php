@@ -11,3 +11,16 @@ if (isset($_GET['bookId'])) {
     echo $comments->getCommentsByBookId($comments->getBookFk());
     exit;
 }
+
+if (isset($_POST['saveData'])) {
+    $bookFk = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+    $userFk = $_SESSION['user']['id'];
+    $comment = filter_input(INPUT_POST, 'commentText', FILTER_SANITIZE_SPECIAL_CHARS);
+
+    $comments->setUserFk($userFk);
+    $comments->setBookFk($bookFk);
+    $comments->setComment($comment);
+
+    echo $comments->create();
+    exit;
+}

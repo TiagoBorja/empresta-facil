@@ -52,6 +52,40 @@ class Comments
         $this->pdo = $connection->getConnection();
     }
 
+    public function create()
+    {
+        if (empty($this->comment)) {
+            return json_encode([
+                'status' => 409,
+                'message' => 'Insira um texto válido'
+            ]);
+        }
+
+
+        $query = "INSERT INTO {$this->tableName} 
+                (livro_fk, utilizador_fk, comentario)
+                VALUES (:bookFk, :userFk, :comment)";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':bookFk', $this->bookFk);
+        $stmt->bindParam(':userFk', $this->userFk);
+        $stmt->bindParam(':comment', $this->comment);
+
+        try {
+            $stmt->execute();
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Comentário criado com sucesso!",
+            ]);
+
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao inserir: " . $e->getMessage()
+            ]);
+        }
+    }
     public function getCommentsByBookId($bookFk)
     {
         $query = "SELECT 

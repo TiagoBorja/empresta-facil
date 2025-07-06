@@ -16,12 +16,6 @@ let bookValue = {};
 let bookLocations = {};
 
 document.addEventListener('DOMContentLoaded', async function () {
-    const toastMessage = sessionStorage.getItem('toastMessage');
-    if (toastMessage === 'success') {
-        toastr.info("Reserva criada com sucesso! Um email de confirmação será enviado em breve.", "Sucesso!");
-        sessionStorage.removeItem('toastMessage');
-    }
-
     fillFormData(id);
 
     const reservationBtn = document.getElementById("reservationBtn");
@@ -51,6 +45,8 @@ document.addEventListener('DOMContentLoaded', async function () {
             newData(API_ENDPOINTS.RESERVATION, formData, form, `?page=book-info&id=${bookValue.id}`);
         });
     });
+
+    createComment();
 });
 
 async function fillFormData(bookId) {
@@ -201,6 +197,20 @@ function showComments(container, commentsData) {
         // Linha separadora
         const hr = document.createElement("hr");
         container.appendChild(hr);
+    });
+}
+
+function createComment() {
+    const form = document.querySelector("#commentFormId");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        formData.append("saveData", true);
+        formData.append("id", bookValue.id);
+        newData(API_ENDPOINTS.COMMENTS, formData, form, `?page=book-info&id=${bookValue.id}`);
     });
 }
 
