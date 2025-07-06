@@ -159,10 +159,31 @@ class BookReservation
 
     public function create()
     {
+
         if (empty($this->pickUpDate)) {
             return json_encode([
                 'status' => 409,
                 'message' => 'A data de levantamento é obrigatória.'
+            ]);
+        }
+
+        $today = new DateTime();
+        $today->setTime(0, 0);
+
+        $pickup = new DateTime($this->pickUpDate);
+        $pickup->setTime(0, 0);
+
+        if ($pickup->format('Y') !== $today->format('Y')) {
+            return json_encode([
+                'status' => 400,
+                'message' => 'Só é possível levantar livros no ano atual.'
+            ]);
+        }
+
+        if ($pickup < $today) {
+            return json_encode([
+                'status' => 400,
+                'message' => 'A data de levantamento não pode ser anterior à data de today.'
             ]);
         }
 

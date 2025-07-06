@@ -18,6 +18,11 @@ export async function newData(API_URL, formData, form, pageRedirect) {
             toastr.warning(result.message || "Preencha os campos antes de prosseguir!", "Atenção!");
             return;
         }
+        
+        if (result.status === 400) {
+            toastr.warning(result.message, "Atenção!");
+            return;
+        }
 
         utils.handleFormResponse(result, form);
 
@@ -25,7 +30,7 @@ export async function newData(API_URL, formData, form, pageRedirect) {
             sessionStorage.setItem('toastMessage', 'success');
             window.location.href = pageRedirect;
         }
-        
+
         if (result.status === 202) {
             sessionStorage.setItem('toastMessage', 'inProcess');
             window.location.href = pageRedirect;
@@ -49,7 +54,7 @@ export async function updateData(API_URL, formData, form, pageRedirect) {
         }
 
         const result = await response.json();
-        
+
         if (result.status === 422) {
             toastr.warning(result.message || "Preencha os campos antes de prosseguir!", "Atenção!");
             return;
