@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     const urlParams = new URLSearchParams(window.location.search);
     const bookId = urlParams.get("id");
     const isEditMode = bookId !== null; // Se tem ID, está editando
-
     try {
         if (!isEditMode) {
             const allAuthorsData = await fetchAllAuthorsData();
@@ -98,6 +97,9 @@ function populateBookForm(bookData) {
     document.getElementById("category").value = bookData.categoria_fk;
     document.getElementById("subcategory").value = bookData.subcategoria_fk;
     document.getElementById("synopsis").value = bookData.sinopse;
+    
+    const bookPreviewEl = document.getElementById("bookPreview");
+    bookPreviewEl.src = `./book/upload/${bookData.img_url}`;
 
     const activeBadge = document.getElementById("active");
     activeBadge.textContent = bookData.ativo === "Y" ? "Ativo" : "Inativo";

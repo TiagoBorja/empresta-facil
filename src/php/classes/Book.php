@@ -17,6 +17,7 @@ class Book
     private $categoryFk;
     private $authorFk;
     private $subcategoryFk;
+    private $imgUrl;
     private $active;
     public $authorBook;
 
@@ -120,6 +121,14 @@ class Book
         $this->subcategoryFk = $subcategoryFk;
     }
 
+    public function getImgUrl()
+    {
+        return $this->imgUrl;
+    }
+    public function setImgUrl($imgUrl)
+    {
+        $this->imgUrl = $imgUrl;
+    }
     public function getActive()
     {
         return $this->active;
@@ -290,10 +299,10 @@ class Book
 
         $query = "INSERT INTO " . $this->tableName . " (
                 titulo, isbn, ano_lancamento, sinopse, idioma, 
-                editora_fk, categoria_fk, subcategoria_fk
+                editora_fk, categoria_fk, subcategoria_fk, img_url
                 ) VALUES (
                     :title, :isbn, :releaseYear, :synopsis, :language, 
-                    :publisherFk, :categoryFk, :subcategoryFk
+                    :publisherFk, :categoryFk, :subcategoryFk, :imgUrl
                 )";
 
         $stmt = $this->pdo->prepare($query);
@@ -306,6 +315,7 @@ class Book
         $stmt->bindParam(':publisherFk', $this->publisherFk);
         $stmt->bindParam(':categoryFk', $this->categoryFk);
         $stmt->bindParam(':subcategoryFk', $this->subcategoryFk);
+        $stmt->bindParam(':imgUrl', $this->imgUrl);
 
         try {
             $stmt->execute();
@@ -378,7 +388,8 @@ class Book
                 idioma = :language,
                 editora_fk = :publisherFk,
                 categoria_fk = :categoryFk,
-                subcategoria_fk = :subcategoryFk
+                subcategoria_fk = :subcategoryFk,
+                img_url = :imgUrl
               WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
@@ -391,6 +402,7 @@ class Book
         $stmt->bindParam(':publisherFk', $this->publisherFk);
         $stmt->bindParam(':categoryFk', $this->categoryFk);
         $stmt->bindParam(':subcategoryFk', $this->subcategoryFk);
+        $stmt->bindParam(':imgUrl', $this->imgUrl);
         $stmt->bindParam(':id', $this->id);
 
         try {

@@ -52,7 +52,7 @@
                         <div class="col-md-3">
                             <div class="form-floating">
                                 <input type="number" id="releaseYear" name="releaseYear" class="form-control"
-                                    placeholder="Ano de Lançamento" min="0">
+                                    placeholder="Ano de Lançamento" min="1" readonly>
                                 <label for="releaseYear">Ano de Lançamento</label>
                             </div>
                         </div>
@@ -109,12 +109,23 @@
                                 <label for="authorsDropdown" class="form-label">Autor(es)</label>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-4">
                             <div class="form-floating">
                                 <textarea id="synopsis" name="synopsis" class="form-control" placeholder="Sinopse"
                                     style="height: 100px"></textarea>
                                 <label for="synopsis">Sinopse</label>
                             </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="file" id="bookImg" name="bookImg" accept="image/png, image/jpeg"
+                                    class="form-control" aria-label="Selecionar foto do autor">
+                                <label for="bookImg">Foto do Livro</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-center">
+                            <img id="bookPreview" src="" alt="Foto de Perfil Atual" class="img-fluid rounded"
+                                style="max-height: 150px;">
                         </div>
                     </section>
 

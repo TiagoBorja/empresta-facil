@@ -3,6 +3,7 @@
 header('Content-Type: application/json');
 include_once '../../php/classes/Book.php';
 include_once '../../php/classes/AuthorBook.php';
+include_once '../../php/classes/Utils.php';
 
 $book = new Book();
 
@@ -12,12 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $book->getBookCount();
         exit;
     }
-    
+
     if (isset($_GET['mostRequested'])) {
         echo $book->getMostRequested();
         exit;
     }
-    
+
     if (!isset($_GET['id'])) {
         echo $book->getAll();
         exit;
@@ -62,6 +63,11 @@ if (isset($_POST['saveData'])) {
     $book->setSubcategory($subcategoryFk);
     $book->setSynopsis($synopsis);
 
+    if (isset($_FILES["bookImg"]) && $_FILES["bookImg"]["tmp_name"] != "") {
+        $imgPath = Utils::uploadImage('../../administrative/book/upload', 'bookImg');
+
+        $book->setImgUrl($imgPath);
+    }
     if (!empty($id)) {
         $book->setId($id);
         echo $book->update($id, $authors);
