@@ -156,6 +156,41 @@ class BookReservation
             ]);
         }
     }
+    public function getReservationByUserId($userId)
+    {
+        $query = "SELECT 
+                    l.titulo,
+                    r.criado_em, 
+                    r.data_levantamento,
+                    e.estado
+                FROM reserva r                           
+                INNER JOIN livro_localizacao ll ON r.livro_localizacao_fk = ll.id
+                INNER JOIN livro l ON ll.livro_fk = l.id
+                INNER JOIN estado e ON r.estado_fk = e.id
+                INNER JOIN utilizador u ON r.utilizador_fk = u.id
+                WHERE r.utilizador_fk = :userId
+                ORDER BY r.criado_em DESC
+                LIMIT 5";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':userId', $userId);
+
+        try {
+            $stmt->execute();
+
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Reserva encontrada.",
+                'data' => $result
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => 'Erro ao obter a reserva: ' . $e->getMessage()
+            ]);
+        }
+    }
 
     public function create()
     {

@@ -4,6 +4,7 @@ import * as utils from '../utils/utils.js';
 const API_ENDPOINTS = {
     USER: '../administrative/users/code.php',
     COMMENTS: './api/comments-api.php',
+    RESERVATION: './api/book-reservation-api.php',
 };
 
 
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await getProfileTab(); // já carrega ao entrar na página
     document.getElementById("profile-tab").addEventListener("click", getProfileTab);
     document.getElementById("comments-tab").addEventListener("click", getCommentTab);
+    document.getElementById("reservations-tab").addEventListener("click", getReservationTab);
 });
 
 
@@ -63,6 +65,26 @@ async function getCommentTab() {
         toastr.warning("Não foi possível carregar as bibliotecas. Tenta novamente mais tarde.", "Atenção!");
     }
 }
+async function getReservationTab() {
+
+    try {
+        const [reservationResponse] = await Promise.all([
+            fetch(`${API_ENDPOINTS.RESERVATION}?userId=${id}`),
+        ]);
+
+        if (!reservationResponse.ok) {
+            throw new Error("Erro na requisição");
+        }
+
+        const reservation = await reservationResponse.json();
+
+        fillReservationTab(reservation.data);
+
+    } catch (error) {
+        console.error("Erro ao obter bibliotecas:", error);
+        toastr.warning("Não foi possível carregar as bibliotecas. Tenta novamente mais tarde.", "Atenção!");
+    }
+}
 
 function fillProfileTab(user) {
     document.getElementById("firstName").value = user.data.primeiro_nome || '';
@@ -92,8 +114,57 @@ function fillCommentTab(response) {
         item.innerHTML = `
             <strong>"${comment.comentario}"</strong> em 
             <em>${comment.titulo}</em> 
-            <span class="text-muted small">- ${utils.formatDate(comment.data)}</span>
+            <span class="text-muted small">- ${utils.formatDate(comment.criado_em)}</span>
         `;
         listContainer.appendChild(item);
     });
 }
+
+function fillReservationTab(reservations) {
+    console.log(reservations);
+
+    const tbody = document.querySelector("#reservations table tbody");
+    tbody.innerHTML = ""; // Limpar conteúdo anterior
+
+    if (reservations.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="3" class="text-center">Sem reservas disponíveis.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    reservations.forEach(reservation => {
+        let state = '';
+
+        switch ((reservation.estado || "").toUpperCase()) {
+            case 'PENDENTE':
+                state = '<span class="badge rounded-pill bg-warning">Pendente</span>';
+                break;
+            case 'ATENDIDA':
+                state = '<span class="badge rounded-pill bg-success">Atendida</span>';
+                break;
+            case 'EXPIRADA':
+                state = '<span class="badge rounded-pill bg-secondary">Expirada</span>';
+                break;
+            case 'CANCELADA':
+                state = '<span class="badge rounded-pill bg-danger">Cancelada</span>';
+                break;
+            default:
+                state = '<span class="badge rounded-pill bg-dark">Desconhecido</span>';
+        }
+
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${reservation.titulo}</td>
+            <td>${utils.formatDate(reservation.criado_em)}</td>
+            <td>${utils.formatDate(reservation.data_levantamento)}</td>
+            <td>${state}</td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+

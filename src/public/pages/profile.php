@@ -98,10 +98,6 @@
                                 <div class="tab-pane fade" id="comments" role="tabpanel">
                                     <h5 class="mb-3">Últimos Comentários</h5>
                                     <ul class="list-group mb-4">
-                                        <li class="list-group-item">
-                                            <strong>"Ótimo livro!"</strong> em <em>Dom Casmurro</em> <span
-                                                class="text-muted small">- 10/06/2024</span>
-                                        </li>
                                     </ul>
                                 </div>
                                 <div class="tab-pane fade" id="reservations" role="tabpanel">
@@ -111,25 +107,11 @@
                                             <tr>
                                                 <th>Livro</th>
                                                 <th>Data da Reserva</th>
+                                                <th>Data de Levantamento</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Dom Casmurro</td>
-                                                <td>08/06/2024</td>
-                                                <td><span class="badge bg-success">Ativa</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>O Pequeno Príncipe</td>
-                                                <td>02/06/2024</td>
-                                                <td><span class="badge bg-secondary">Expirada</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>1984</td>
-                                                <td>28/05/2024</td>
-                                                <td><span class="badge bg-danger">Cancelada</span></td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>

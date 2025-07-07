@@ -5,7 +5,7 @@ include_once '../classes/BookReservation.php';
 
 $bookReservation = new BookReservation();
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id']) && !isset($_GET['userId'])) {
     echo $bookReservation->getAll();
     exit;
 }
@@ -16,6 +16,13 @@ if (isset($_GET['id'])) {
     echo $bookReservation->getById($id);
     exit;
 }
+if (isset($_GET['userId'])) {
+    $userId = filter_input(INPUT_GET, 'userId', FILTER_SANITIZE_NUMBER_INT);
+    $bookReservation->setUserId($userId);
+    echo $bookReservation->getReservationByUserId($bookReservation->getUserId());
+    exit;
+}
+
 
 if (isset($_POST['reservationSubmit'])) {
 
