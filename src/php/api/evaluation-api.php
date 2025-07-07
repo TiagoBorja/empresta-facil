@@ -32,9 +32,8 @@ if (isset($_POST['saveData'])) {
 
     if ($evaluation->exists()) {
         echo $evaluation->update();
-    } else {
-        echo $evaluation->create();
+        exit;
     }
-
+    echo $evaluation->create();
     exit;
 }

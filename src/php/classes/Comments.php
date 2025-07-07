@@ -98,7 +98,7 @@ class Comments
                 JOIN utilizador u ON c.utilizador_fk = u.id
                 JOIN livro l ON c.livro_fk = l.id 
                 WHERE c.livro_fk = :bookFk
-                ORDER BY c.criado_em ASC";
+                ORDER BY c.criado_em DESC";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':bookFk', $bookFk);
 

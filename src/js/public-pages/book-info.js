@@ -95,14 +95,15 @@ async function fillFormData(bookId, userId) {
                 const noComments = document.getElementById("noComments");
                 noComments.classList.remove("d-none");
             }
-
+            console.log(bookValue);
+            
             document.getElementById("bookTitle").textContent = bookValue.titulo;
             document.getElementById("bookYear").textContent = bookValue.ano_lancamento;
             document.getElementById("bookLanguage").textContent = bookValue.idioma;
             document.getElementById("bookISBN").textContent = bookValue.isbn;
             document.getElementById("bookPublisher").textContent = bookValue.editora;
             document.getElementById("bookSynopsis").textContent = bookValue.sinopse;
-            document.getElementById("bookRating").textContent = bookValue.avaliacao;
+            document.getElementById("bookRating").textContent = bookValue.media_avaliacao;
             document.getElementById("bookCover").src = bookValue.imagem || "../public/assets/images/big/img1.jpg";
             if (userEvaluationData && userEvaluationData.length > 0 && userEvaluationData[0].avaliacao) {
                 const avaliacao = userEvaluationData[0].avaliacao;

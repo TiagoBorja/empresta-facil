@@ -50,6 +50,11 @@
                                 <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
                                     aria-sort="ascending" aria-label="Name: activate to sort column descending"
                                     style="width: 126.375px;">
+                                    Avaliação
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 126.375px;">
                                     Ativo
                                 </th>
                             </tr>

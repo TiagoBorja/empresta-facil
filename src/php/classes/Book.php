@@ -132,12 +132,20 @@ class Book
     public function getAll()
     {
 
-        $query = "SELECT l.*, e.editora, c.categoria, s.subcategoria
-                  FROM " . $this->tableName . " l
-                  INNER JOIN editora e ON l.editora_fk = e.id
-                  INNER JOIN categoria c ON l.categoria_fk = c.id
-                  INNER JOIN subcategoria s ON l.subcategoria_fk = s.id
-                  ORDER BY l.criado_em DESC";
+        $query = "SELECT 
+                    l.*, 
+                    e.editora, 
+                    c.categoria, 
+                    s.subcategoria, 
+                    ROUND(AVG(a.avaliacao), 1) AS media_avaliacao
+                FROM livro l
+                INNER JOIN editora e ON l.editora_fk = e.id
+                INNER JOIN categoria c ON l.categoria_fk = c.id
+                INNER JOIN subcategoria s ON l.subcategoria_fk = s.id
+                LEFT JOIN avaliacoes a ON a.livro_fk = l.id
+                GROUP BY 
+                    l.id
+                ORDER BY l.criado_em DESC";
         $query_run = $this->pdo->prepare($query);
 
         try {
@@ -152,13 +160,21 @@ class Book
 
     public function getNewBooks()
     {
-        $query = "SELECT l.*, e.editora, c.categoria, s.subcategoria
-        FROM " . $this->tableName . " l
-        INNER JOIN editora e ON l.editora_fk = e.id
-        INNER JOIN categoria c ON l.categoria_fk = c.id
-        INNER JOIN subcategoria s ON l.subcategoria_fk = s.id
-        ORDER BY l.criado_em DESC
-        LIMIT 12";
+        $query = "SELECT 
+                    l.*, 
+                    e.editora, 
+                    c.categoria, 
+                    s.subcategoria, 
+                    ROUND(AVG(a.avaliacao), 1) AS media_avaliacao
+                FROM livro l
+                INNER JOIN editora e ON l.editora_fk = e.id
+                INNER JOIN categoria c ON l.categoria_fk = c.id
+                INNER JOIN subcategoria s ON l.subcategoria_fk = s.id
+                LEFT JOIN avaliacoes a ON a.livro_fk = l.id
+                GROUP BY 
+                    l.id
+                ORDER BY l.criado_em DESC
+                LIMIT 12";
 
         $query_run = $this->pdo->prepare($query);
 
@@ -172,12 +188,21 @@ class Book
     public function getById($id)
     {
         $this->id = $id;
-        $query = "SELECT l.*, e.editora, c.categoria, s.subcategoria
-                  FROM " . $this->tableName . " l
-                  INNER JOIN editora e ON l.editora_fk = e.id
-                  INNER JOIN categoria c ON l.categoria_fk = c.id
-                  INNER JOIN subcategoria s ON l.subcategoria_fk = s.id
-                  WHERE l.id = :id";
+        $query = "SELECT 
+                    l.*, 
+                    e.editora, 
+                    c.categoria, 
+                    s.subcategoria, 
+                    ROUND(AVG(a.avaliacao), 1) AS media_avaliacao
+                FROM livro l
+                INNER JOIN editora e ON l.editora_fk = e.id
+                INNER JOIN categoria c ON l.categoria_fk = c.id
+                INNER JOIN subcategoria s ON l.subcategoria_fk = s.id
+                LEFT JOIN avaliacoes a ON a.livro_fk = l.id
+                WHERE l.id = :id
+                GROUP BY 
+                    l.id
+                ORDER BY l.criado_em DESC";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
 

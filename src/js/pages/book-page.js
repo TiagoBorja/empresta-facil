@@ -77,6 +77,7 @@ function showBooks(books) {
                 <td>${book.subcategoria}</td>
                 <td>${book.ano_lancamento}</td>
                 <td>${book.idioma}</td>
+                <td>${book.media_avaliacao ?? '-'}</td>
                 <td>${active}</td>
             </tr>`
         );
