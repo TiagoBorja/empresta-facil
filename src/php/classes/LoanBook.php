@@ -70,8 +70,20 @@ class LoanBook
     {
         $this->stateLoan = $stateLoan;
     }
+    public function getBookTitle($id)
+    {
+        $query = "SELECT titulo FROM livro WHERE id = :id LIMIT 1";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
-
+        try {
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ? $result['title'] : null;
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
     public function create()
     {
         $query = "INSERT INTO {$this->tableName} (emprestimo_fk, livro_localizacao_fk, estado_levantou_fk) 

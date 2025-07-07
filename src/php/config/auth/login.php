@@ -25,6 +25,8 @@ if (isset($_POST['usernameOrEmail']) && isset($_POST['password'])) {
                         f.id,
                         f.utilizador_fk,
                         f.biblioteca_fk,
+                        b.nome as biblioteca,
+                        b.morada,
                         CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS nome_completo
                     FROM funcionario f
                     JOIN utilizador u ON f.utilizador_fk = u.id

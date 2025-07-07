@@ -272,6 +272,7 @@ class Loan
                         $this->loanBook->setLoanFk($loanId);
                         $this->loanBook->setBookFk($bookId);
                         $this->loanBook->setStatePickUp($this->statePickUp);
+                        $bookTitles[] = $this->loanBook->getBookTitle($bookId);
                         $loanResult = $this->loanBook->create();
 
                         $loanResponse = json_decode($loanResult, true);
@@ -281,6 +282,25 @@ class Loan
                     }
                 }
             }
+            if (!empty($bookTitles)) {
+
+                $response = Utils::sendLoanEmail(
+                    $_SESSION['user']['email'],
+                    $_SESSION['user']['primeiro_nome'],
+                    implode(', ', $bookTitles),
+                    $this->dueDate,
+                    $_SESSION['employee']['biblioteca'],
+                    $_SESSION['employee']['morada']
+                );
+
+                $result = json_decode($response, true);
+
+                if ($result['status'] !== 200) {
+                    var_dump($result);
+                    exit;
+                }
+            }
+
             return json_encode([
                 'status' => 200,
                 'message' => "Empréstimo criado com sucesso."

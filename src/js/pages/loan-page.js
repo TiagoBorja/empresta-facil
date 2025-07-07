@@ -97,6 +97,7 @@ function showLoan(loans) {
     });
 
     $('#zero_config').DataTable({
+        ordering: false,
         language: {
             url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese.json'
         },
