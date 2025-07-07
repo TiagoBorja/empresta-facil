@@ -127,24 +127,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Dom Casmurro</td>
-                                                <td>01/06/2024</td>
-                                                <td>10/06/2024</td>
-                                                <td><span class="badge bg-success">Devolvido</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>O Pequeno Príncipe</td>
-                                                <td>20/05/2024</td>
-                                                <td>30/05/2024</td>
-                                                <td><span class="badge bg-danger">Atrasado</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>1984</td>
-                                                <td>10/05/2024</td>
-                                                <td>20/05/2024</td>
-                                                <td><span class="badge bg-success">Devolvido</span></td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>

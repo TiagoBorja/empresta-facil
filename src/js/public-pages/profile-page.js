@@ -70,7 +70,7 @@ async function getCommentTab() {
 async function getReservationTab() {
 
     try {
-        const [loanResponse] = await Promise.all([
+        const [reservationResponse] = await Promise.all([
             fetch(`${API_ENDPOINTS.RESERVATION}?userId=${id}`),
         ]);
 
@@ -163,19 +163,19 @@ function fillReservationTab(reservations) {
 
         switch ((reservation.estado || "").toUpperCase()) {
             case 'PENDENTE':
-                state = '<span class="badge rounded-pill bg-warning">Pendente</span>';
+                state = '<span class="badge bg-warning">Pendente</span>';
                 break;
             case 'ATENDIDA':
-                state = '<span class="badge rounded-pill bg-success">Atendida</span>';
+                state = '<span class="badge bg-success">Atendida</span>';
                 break;
             case 'EXPIRADA':
-                state = '<span class="badge rounded-pill bg-secondary">Expirada</span>';
+                state = '<span class="badge bg-secondary">Expirada</span>';
                 break;
             case 'CANCELADA':
-                state = '<span class="badge rounded-pill bg-danger">Cancelada</span>';
+                state = '<span class="badge bg-danger">Cancelada</span>';
                 break;
             default:
-                state = '<span class="badge rounded-pill bg-dark">Desconhecido</span>';
+                state = '<span class="badge bg-dark">Desconhecido</span>';
         }
 
 
