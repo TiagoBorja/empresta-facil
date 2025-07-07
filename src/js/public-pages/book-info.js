@@ -32,9 +32,14 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         modalHeader.textContent = `Reservar - ${bookValue.titulo}`;
         modalInputId.value = bookValue.id;
-        fetchSelect(`${API_ENDPOINTS.LOCATION}?bookId=${bookValue.id}`, 'biblioteca', "librarySelect", null, false, 'livro_localizacao_fk');
-
-
+        fetchSelect(
+            `${API_ENDPOINTS.LOCATION}?bookId=${bookValue.id}&userId=${userId}`,
+            'biblioteca',
+            "librarySelect",
+            null,
+            false,
+            'livro_localizacao_fk'
+        );
         const form = document.querySelector("#reservationForm");
         if (!form) return;
 
@@ -70,7 +75,7 @@ async function fillFormData(bookId, userId) {
             fetch(`${API_ENDPOINTS.EVALUATION}?bookId=${bookId}`),
         ]);
 
-        if (userId !== null && userId !== undefined ) {
+        if (userId !== null && userId !== undefined) {
             userEvaluationResponse = await fetch(`${API_ENDPOINTS.EVALUATION}?bookId=${bookId}&userId=${userId}`);
         }
 
@@ -238,7 +243,7 @@ function showComments(container, commentsData) {
 
 function createComment() {
     console.log(bookValue);
-    
+
     const form = document.querySelector("#commentFormId");
     if (!form) return;
 

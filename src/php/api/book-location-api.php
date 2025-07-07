@@ -18,6 +18,13 @@ if (isset($_GET['id'])) {
     echo $bookLocation->getById($id);
     exit;
 }
+
+if (isset($_GET['bookId']) && isset($_GET['userId'])) {
+    $bookId = filter_input(INPUT_GET, 'bookId', FILTER_SANITIZE_NUMBER_INT);
+    $userId = filter_input(INPUT_GET, 'userId', FILTER_SANITIZE_NUMBER_INT);
+    echo $bookLocation->getLibrariesByUserId($userId, $bookId);
+    exit;
+}
 if (isset($_GET['bookId'])) {
     $bookId = filter_input(INPUT_GET, 'bookId', FILTER_SANITIZE_NUMBER_INT);
     echo $bookLocation->getBookStockById($bookId);

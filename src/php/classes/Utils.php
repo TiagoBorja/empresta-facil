@@ -32,14 +32,14 @@ class Utils
         try {
             $phpmailer = new PHPMailer();
             $phpmailer->isSMTP();
-            $phpmailer->Host = 'sandbox.smtp.mailtrap.io';
-            $phpmailer->Port = 2525;
+            $phpmailer->Host = $_ENV['MAIL_HOST'];
+            $phpmailer->Port = $_ENV['MAIL_PORT'];
             $phpmailer->SMTPAuth = true;
-            $phpmailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $phpmailer->Username = 'cd897272b85f0b';
-            $phpmailer->Password = '8e715910c11cab';
+            $phpmailer->SMTPSecure = $_ENV['MAIL_ENCRYPTION'];
+            $phpmailer->Username = $_ENV['MAIL_USERNAME'];
+            $phpmailer->Password = $_ENV['MAIL_PASSWORD'];
 
-            $phpmailer->setFrom('from@example.com', 'Portal da Biblioteca');
+            $phpmailer->setFrom($_ENV['MAIL_FROM_ADDRESS'], 'EmprestaFacil');
             $phpmailer->addAddress($email, $firstName);
 
             $phpmailer->CharSet = 'UTF-8';

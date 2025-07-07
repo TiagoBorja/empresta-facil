@@ -168,6 +168,43 @@ class BookLocation
             ]);
         }
     }
+
+    public function getLibrariesByUserId($userId, $bookId)
+    {
+
+        $query = "SELECT 
+                    b.id AS biblioteca_fk,
+                    ll.id AS livro_localizacao_fk,
+                    b.nome AS biblioteca
+                FROM livro_localizacao ll
+                JOIN localizacao loc ON ll.localizacao_fk = loc.id
+                JOIN biblioteca b ON loc.biblioteca_fk = b.id
+                WHERE ll.livro_fk = :bookId
+                AND EXISTS (
+                    SELECT 1 FROM utilizador_biblioteca ub
+                    WHERE ub.biblioteca_fk = b.id
+                        AND ub.utilizador_fk = :userId
+                )
+                GROUP BY b.id, b.nome, ll.id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':bookId', $bookId);
+        $stmt->bindParam(':userId', $userId);
+
+        try {
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return json_encode([
+                'status' => 200,
+                'data' => $result
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao encontrar: " . $e->getMessage()
+            ]);
+        }
+    }
     public function create()
     {
         $query = "INSERT INTO livro_localizacao

@@ -72,17 +72,19 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= $page == 'catalog' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                        <a class="nav-link <?= $page == 'catalog' && empty($_GET['mostRequested']) ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
                             aria-current="page" href="?page=catalog">
                             <i class="mdi mdi-library me-2"></i> Catálogo
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= $page == 'catalog&mostRequested=true' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                        <a class="nav-link <?= $page == 'catalog' && isset($_GET['mostRequested']) && $_GET['mostRequested'] == 'true' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
                             aria-current="page" href="?page=catalog&mostRequested=true">
                             <i class="mdi mdi-trophy-award me-2"></i> Mais Requisitados
                         </a>
                     </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
                             aria-current="page" href="#">

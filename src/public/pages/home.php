@@ -218,9 +218,10 @@ $userName = isset($_SESSION['user']['primeiro_nome']) ?? '';
                     alt="Livros Mais Requisitados"></div>
             <div class="card-body">
                 <h5 class="card-title">Livros Mais Requisitados</h5>
-                <p class="card-text">Confira os livros mais populares entre os nossos usuários! Não perca a chance
-                    de ler os títulos que estão fazendo sucesso na biblioteca.</p><a href="?page=view-info"
-                    class="btn btn-outline-primary">Veja os mais requisitados</a>
+                <p class="card-text">Confira os livros mais populares entre os nossos utilizadores! Não perca a chance
+                    de ler os títulos que estão fazendo sucesso na biblioteca.</p><a
+                    href="?page=catalog&mostRequested=true" class="btn btn-outline-primary">Veja os mais
+                    requisitados</a>
             </div>
         </div>
     </div>
@@ -260,14 +261,19 @@ $userName = isset($_SESSION['user']['primeiro_nome']) ?? '';
                             <div class="carousel-item-col">
                                 <div class="card h-100">
                                     <div class="img-wrapper">
-                                        <img src="<?= htmlspecialchars('../public/assets/images/no-book-image.jpg') ?>" class="d-block w-100" alt="<?= htmlspecialchars($book['titulo']) ?>">
+                                        <img src="<?= isset($book['img_url']) && $book['img_url']
+                                            ? '../administrative/book/upload' . $book['img_url']
+                                            : htmlspecialchars('../public/assets/images/no-book-image.jpg')
+                                            ?>" class="d-block w-100" alt="<?= htmlspecialchars($book['titulo']) ?>">
+
                                     </div>
                                     <div class="card-body">
                                         <h5 class="card-title"><?= htmlspecialchars($book['titulo']) ?></h5>
                                         <p class="card-text" style="max-height: 80px; overflow: hidden; text-overflow: ellipsis;">
                                             <?= htmlspecialchars($book['sinopse']) ?>
                                         </p>
-                                        <a href="?page=book-info&id=<?= $book['id'] ?>" class="btn btn-primary">Ver no Catálogo</a>
+                                        <a href="?page=book-info&id=<?= $book['id'] ?>" class="btn btn-outline-primary">Ver no
+                                            Catálogo</a>
                                     </div>
                                 </div>
                             </div>
