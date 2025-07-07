@@ -29,6 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             echo $reservation->getById($reservationId);
             break;
 
+        case isset($_GET['userId']):
+            $userId = $_SESSION['user']['id'];
+            $loan->setUserFk($userId);
+            echo $loan->getLoansByUserId($loan->getUserFk());
+            break;
+
         default:
             echo $loan->getAll();
             break;

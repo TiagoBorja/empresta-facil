@@ -346,4 +346,36 @@ class Loan
         }
     }
 
+    public function getLoansByUserId($userId)
+    {
+        $query = "SELECT l.titulo, e.criado_em, e.data_devolucao, es.estado
+                  FROM emprestimo e
+                  INNER JOIN utilizador u ON e.utilizador_fk = u.id
+                  INNER JOIN emprestimo_livro el ON el.emprestimo_fk = e.id 
+                  INNER JOIN livro_localizacao ll ON el.livro_localizacao_fk = ll.id
+                  INNER JOIN livro l ON ll.livro_fk = l.id
+                  INNER JOIN estado es ON el.estado_emprestimo_fk = es.id
+                  WHERE e.utilizador_fk = :userId
+                  LIMIT 5";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':userId', $userId);
+
+        try {
+            $stmt->execute();
+
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Empréstimos encontrada.",
+                'data' => $result
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => 'Erro ao obter a reserva: ' . $e->getMessage()
+            ]);
+        }
+    }
+
 }

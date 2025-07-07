@@ -5,6 +5,7 @@ const API_ENDPOINTS = {
     USER: '../administrative/users/code.php',
     COMMENTS: './api/comments-api.php',
     RESERVATION: './api/book-reservation-api.php',
+    LOAN: './api/loan-api.php',
 };
 
 
@@ -20,6 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("profile-tab").addEventListener("click", getProfileTab);
     document.getElementById("comments-tab").addEventListener("click", getCommentTab);
     document.getElementById("reservations-tab").addEventListener("click", getReservationTab);
+    document.getElementById("loans-tab").addEventListener("click", getLoanTab);
 });
 
 
@@ -68,7 +70,7 @@ async function getCommentTab() {
 async function getReservationTab() {
 
     try {
-        const [reservationResponse] = await Promise.all([
+        const [loanResponse] = await Promise.all([
             fetch(`${API_ENDPOINTS.RESERVATION}?userId=${id}`),
         ]);
 
@@ -83,6 +85,27 @@ async function getReservationTab() {
     } catch (error) {
         console.error("Erro ao obter bibliotecas:", error);
         toastr.warning("Não foi possível carregar as bibliotecas. Tenta novamente mais tarde.", "Atenção!");
+    }
+}
+
+async function getLoanTab() {
+
+    try {
+        const [loanResponse] = await Promise.all([
+            fetch(`${API_ENDPOINTS.LOAN}?userId=${id}`),
+        ]);
+
+        if (!loanResponse.ok) {
+            throw new Error("Erro na requisição");
+        }
+
+        const loan = await loanResponse.json();
+
+        fillLoanTab(loan.data);
+
+    } catch (error) {
+        console.error("Erro ao obter empréstimos:", error);
+        toastr.warning("Não foi possível carregar os empréstimos. Tenta novamente mais tarde.", "Atenção!");
     }
 }
 
@@ -167,4 +190,47 @@ function fillReservationTab(reservations) {
         tbody.appendChild(tr);
     });
 }
+
+function fillLoanTab(loans) {
+    const tbody = document.querySelector("#loans table tbody");
+    tbody.innerHTML = "";
+
+    if (!loans || loans.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-center">Sem empréstimos disponíveis.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    loans.forEach(loan => {
+        let statusBadge = "";
+
+        switch (loan.estado) {
+            case 'DEVOLVIDO':
+                statusBadge = '<span class="badge bg-success">Devolvido</span>';
+                break;
+            case 'ATRASADO':
+                statusBadge = '<span class="badge bg-danger">Atrasado</span>';
+                break;
+            case 'EM ANDAMENTO':
+                statusBadge = '<span class="badge bg-warning">Em Andamento</span>';
+                break;
+            default:
+                statusBadge = '<span class="badge bg-secondary">Desconhecido</span>';
+        }
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${loan.titulo}</td>
+            <td>${utils.formatDate(loan.criado_em)}</td>
+            <td>${utils.formatDate(loan.data_devolucao)}</td>
+            <td>${statusBadge}</td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
 
