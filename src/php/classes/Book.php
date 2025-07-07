@@ -255,7 +255,7 @@ class Book
                     l.id, l.titulo
                 ORDER BY 
                     total_emprestimos DESC
-                LIMIT 10";
+                LIMIT 12";
 
         $stmt = $this->pdo->prepare($query);
 

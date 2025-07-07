@@ -113,11 +113,10 @@ function showBooks(books) {
             <div class="card shadow-lg">
                 <div class="el-card-item position-relative">
                     <div class="el-card-avatar el-overlay-1">
-                        <img src="${book.imagem || DEFAULT_BOOK_IMAGE}" 
+                        <img src="../administrative/book/upload/${book.img_url || DEFAULT_BOOK_IMAGE}" 
                              alt="Capa do livro" 
                              class="card-img-top" 
                              style="height: 200px; object-fit: cover;">
-                        <!-- Sem foguinho aqui -->
                     </div>
                     <div class="el-card-content p-3">
                         <a class="h5 d-block text-dark fw-semibold mb-1 text-decoration-none" href="?page=book-info&id=${book.id}">
@@ -158,7 +157,7 @@ function showMostRequested(books) {
             <div class="card shadow-lg">
                 <div class="el-card-item position-relative">
                     <div class="el-card-avatar el-overlay-1">
-                        <img src="${book.imagem || DEFAULT_BOOK_IMAGE}" 
+                        <img src="../administrative/book/upload/${book.img_url ?? DEFAULT_BOOK_IMAGE}" 
                              alt="Capa do livro" 
                              class="card-img-top" 
                              style="height: 200px; object-fit: cover;">
