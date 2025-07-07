@@ -133,51 +133,125 @@
                                 <div class="tab-pane fade" id="settings" role="tabpanel">
                                     <h5 class="mb-3">Configurações</h5>
                                     <form class="mb-3" id="settingsForm">
-                                        <div class="mb-2 position-relative">
-                                            <label class="form-label">Nome</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" value="João Silva"
-                                                    id="settingsName" name="settingsName" disabled>
-                                                <span class="input-group-text bg-white border-start-0"
-                                                    style="cursor:pointer;"
-                                                    onclick="toggleField('settingsName', this)"><i
-                                                        class="bi bi-pencil small text-muted"></i></span>
+                                        <input type="hidden" id="userId" value="<?php echo $_SESSION['user']['id']; ?>">
+
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Primeiro Nome</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="settingsFirstName"
+                                                        disabled>
+                                                    <span class="input-group-text bg-white border-start-0"
+                                                        style="cursor:pointer;"
+                                                        onclick="toggleField('settingsFirstName', this)">
+                                                        <i class="bi bi-pencil small text-muted"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label">Último Nome</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="settingsLastName"
+                                                        disabled>
+                                                    <span class="input-group-text bg-white border-start-0"
+                                                        style="cursor:pointer;"
+                                                        onclick="toggleField('settingsLastName', this)">
+                                                        <i class="bi bi-pencil small text-muted"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label">Telemóvel</label>
+                                                <div class="input-group">
+                                                    <input type="tel" class="form-control" id="settingsPhone" disabled>
+                                                    <span class="input-group-text bg-white border-start-0"
+                                                        style="cursor:pointer;"
+                                                        onclick="toggleField('settingsPhone', this)">
+                                                        <i class="bi bi-pencil small text-muted"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div id="libraryDropdownDiv" class="col-md-6">
+                                                <label for="librariesDropdown" class="form-label">Biblioteca(s)</label>
+                                                <div class="input-group">
+                                                    <button class="form-select text-start ps-3 pe-5 position-relative"
+                                                        type="button" id="librariesDropdown" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                        <span id="selectedLibrariesText"
+                                                            class="text-truncate">Selecionar Biblioteca</span>
+                                                    </button>
+
+                                                    <div id="librariesCheckboxes" class="dropdown-menu p-3 w-100"
+                                                        aria-labelledby="librariesDropdown">
+                                                        <input type="text" name="searchInput" id="searchInput"
+                                                            placeholder="Nome" disabled>
+                                                    </div>
+
+                                                    <span class="input-group-text bg-white border-start-0"
+                                                        style="cursor:pointer;"
+                                                        onclick="toggleField('libraryDropdownDiv', this)">
+                                                        <i class="bi bi-pencil small text-muted"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <label class="form-label">Morada</label>
+                                                <div class="input-group">
+                                                    <textarea class="form-control" id="settingsAddress" rows="2"
+                                                        disabled></textarea>
+                                                    <span
+                                                        class="input-group-text bg-white border-start-0 align-items-start"
+                                                        style="cursor:pointer;"
+                                                        onclick="toggleField('settingsAddress', this)">
+                                                        <i class="bi bi-pencil small text-muted"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label">Nome de Utilizador</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="settingsUsername"
+                                                        disabled>
+                                                    <span class="input-group-text bg-white border-start-0"
+                                                        style="cursor:pointer;"
+                                                        onclick="toggleField('settingsUsername', this)">
+                                                        <i class="bi bi-pencil small text-muted"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label">E-mail</label>
+                                                <div class="input-group">
+                                                    <input type="email" class="form-control" id="settingsEmail"
+                                                        disabled>
+                                                    <span class="input-group-text bg-white border-start-0"
+                                                        style="cursor:pointer;"
+                                                        onclick="toggleField('settingsEmail', this)">
+                                                        <i class="bi bi-pencil small text-muted"></i>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="mb-2 position-relative">
-                                            <label class="form-label">E-mail</label>
-                                            <div class="input-group">
-                                                <input type="email" class="form-control" value="joao@email.com"
-                                                    id="settingsEmail" name="settingsEmail" disabled>
-                                                <span class="input-group-text bg-white border-start-0"
-                                                    style="cursor:pointer;"
-                                                    onclick="toggleField('settingsEmail', this)"><i
-                                                        class="bi bi-pencil small text-muted"></i></span>
-                                            </div>
-                                        </div>
-                                        <div class="mb-2 position-relative">
-                                            <label class="form-label">Telefone</label>
-                                            <div class="input-group">
-                                                <input type="tel" class="form-control" value="(11) 91234-5678"
-                                                    id="settingsPhone" name="settingsPhone" disabled>
-                                                <span class="input-group-text bg-white border-start-0"
-                                                    style="cursor:pointer;"
-                                                    onclick="toggleField('settingsPhone', this)"><i
-                                                        class="bi bi-pencil small text-muted"></i></span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <button type="submit" class="btn btn-primary" disabled
-                                                id="settingsSave">Salvar Alterações</button>
-                                            <button type="button" class="btn btn-outline-secondary"
-                                                data-bs-toggle="modal" data-bs-target="#changePasswordModal">Alterar
-                                                Senha</button>
-                                        </div>
-                                    </form>
                                 </div>
                             </div>
+
+                            <div class="d-flex align-items-center gap-2 mt-4">
+                                <button type="submit" class="btn btn-primary" disabled id="settingsSave">Guardar
+                                    Alterações</button>
+                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#changePasswordModal">
+                                    Alterar Senha
+                                </button>
+                            </div>
+                            </form>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -236,24 +310,49 @@
 </div>
 
 <script>
+    let dropdownBlocked = true; // começa bloqueado
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const dropdownButton = document.getElementById('librariesDropdown');
+        const searchInput = document.getElementById('searchInput');
+
+        // Bloqueia o clique no dropdown se estiver bloqueado
+        dropdownButton.addEventListener('mousedown', function (e) {
+            if (dropdownBlocked) {
+                e.preventDefault();
+            }
+        });
+
+        // Define estado visual inicial
+        dropdownButton.style.pointerEvents = 'none';
+        dropdownButton.style.backgroundColor = '#eee';
+        searchInput.disabled = true;
+    });
+
     function toggleField(fieldId, iconElem) {
-        var input = document.getElementById(fieldId);
+        if (fieldId === 'libraryDropdownDiv') {
+            dropdownBlocked = !dropdownBlocked;
 
-        var isDisabled = input.disabled;
-        input.disabled = !isDisabled;
+            const dropdownButton = document.getElementById('librariesDropdown');
+            const searchInput = document.getElementById('searchInput');
 
-        // Ajusta o foco e aparência do ícone
-        if (!input.disabled) {
-            input.focus();
-            iconElem.style.opacity = 0.4;
-        } else {
-            iconElem.style.opacity = 1;
+            if (!dropdownBlocked) {
+                dropdownButton.style.pointerEvents = 'auto';
+                dropdownButton.style.backgroundColor = '';
+                searchInput.disabled = false;
+                iconElem.style.opacity = 0.4;
+                dropdownButton.focus();
+            } else {
+                dropdownButton.style.pointerEvents = 'none';
+                dropdownButton.style.backgroundColor = '#eee';
+                searchInput.disabled = true;
+                iconElem.style.opacity = 1;
+            }
+
+            const inputs = document.querySelectorAll('input');
+            const anyEnabled = Array.from(inputs).some(el => !el.disabled);
+            document.getElementById('settingsSave').disabled = !anyEnabled && dropdownBlocked;
         }
-
-        var inputs = document.querySelectorAll('input');
-        var anyEnabled = Array.from(inputs).some(el => !el.disabled);
-
-        document.getElementById('settingsSave').disabled = !anyEnabled;
     }
 </script>
 <script type="module" src="../js/public-pages/profile-page.js"></script>

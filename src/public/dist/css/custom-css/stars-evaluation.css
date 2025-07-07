@@ -18,12 +18,12 @@
 
 .rate label:hover,
 .rate label:hover~label {
-    -webkit-text-stroke: 0.3px black;
+    /* -webkit-text-stroke: 0.3px black; */
     color: #deb217;
 }
 
 .rate input:checked~label {
-    -webkit-text-stroke: 0.3px black;
+    /* -webkit-text-stroke: 0.3px black; */
     color: #ffc700;
 }
 
@@ -32,7 +32,7 @@
 .rate input:checked~label:hover,
 .rate input:checked~label:hover~label,
 .rate label:hover~input:checked~label {
-    -webkit-text-stroke: 0.3px black;
+    /* -webkit-text-stroke: 0.3px black; */
     color: #c59b08;
 }
 
@@ -41,12 +41,12 @@
     /* Cor das estrelas preenchidas */
     font-size: 22px;
     /* Ajuste conforme necessário */
-    -webkit-text-stroke: 0.3px black;
+    /* -webkit-text-stroke: 0.3px black; */
     /* Contorno preto apenas nas estrelas preenchidas */
 }
 
 .star-shadow .mdi-star-outline {
-    -webkit-text-stroke: 0px;
+    /* -webkit-text-stroke: 0px; */
     /* Remove contorno das estrelas vazias */
     color: black;
     /* Define um cinza para as estrelas vazias */

@@ -135,7 +135,7 @@ async function fillFormData(bookId, userId) {
             showLocations(locationsTableBody, bookLocations);
 
             createComment();
-            // createEvaluation();
+            createEvaluation();
         }
     } catch (error) {
         console.error("Erro:", error);

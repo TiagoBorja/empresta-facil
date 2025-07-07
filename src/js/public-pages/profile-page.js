@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("comments-tab").addEventListener("click", getCommentTab);
     document.getElementById("reservations-tab").addEventListener("click", getReservationTab);
     document.getElementById("loans-tab").addEventListener("click", getLoanTab);
+    document.getElementById("settings-tab").addEventListener("click", getSettingsTab);
 });
 
 
