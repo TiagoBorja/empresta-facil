@@ -33,6 +33,7 @@ $page_config = [
 $page_title = isset($page_config[$page]) ? $page_config[$page]['title'] : 'Not Found';
 $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages/not_found.php';
 
+$isGuest = !isset($_SESSION['user']);
 ?>
 
 <?= include '../includes/header.php'; ?>
@@ -104,9 +105,22 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                             <img src="<?= $urlPath ?>" alt="user" class="rounded-circle" width="31" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="?page=profile"><i
-                                    class="mdi mdi-account me-1 ms-1 text-info"></i>
-                                Meu Perfil</a>
+
+
+                            <?php if ($isGuest): ?>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#loginRequiredModal">
+                                    <i class="mdi mdi-account me-1 ms-1 text-info"></i>
+                                    Meu Perfil
+                                </a>
+                            <?php else: ?>
+                                <a class="dropdown-item" href="?page=profile&id=<?= $_SESSION['user']['id'] ?? null; ?>">
+                                    <i class="mdi mdi-account me-1 ms-1 text-info"></i>
+                                    Meu Perfil
+                                </a>
+                            <?php endif; ?>
+
+
 
                             <?= (Utils::isEmployeeOrHigher($_SESSION['user'] ?? []))
                                 ? '<div class="dropdown-divider"></div>
@@ -181,26 +195,8 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
         ?>
 
     </div>
-
+    <?php include '../includes/modal/login-required.php'; ?>
     <?= include '../includes/footer.php'; ?>
-
-
-
 </body>
-<!-- <script>
-
-    const heartIcon = document.querySelector('.fa-heart');
-
-    heartIcon.addEventListener('mouseover', () => {
-        heartIcon.classList.remove('far');
-        heartIcon.classList.add('fas');
-    });
-
-    heartIcon.addEventListener('mouseout', () => {
-        heartIcon.classList.remove('fas');
-        heartIcon.classList.add('far');
-    });
-
-</script> -->
 
 </html>

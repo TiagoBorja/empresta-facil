@@ -12,6 +12,13 @@ if (isset($_GET['bookId'])) {
     exit;
 }
 
+if (isset($_GET['userId'])) {
+    $userId = filter_input(INPUT_GET, 'userId', FILTER_SANITIZE_NUMBER_INT);
+    $comments->setUserFk($userId);
+    echo $comments->getLastCommentsByUserId($comments->getUserFk());
+    exit;
+}
+
 if (isset($_POST['saveData'])) {
     $bookFk = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
     $userFk = $_SESSION['user']['id'];

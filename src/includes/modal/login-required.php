@@ -11,7 +11,7 @@
 
             <div class="modal-body bg-light text-center py-4">
                 <p class="mb-0 fs-5">
-                    Para realizar uma reserva, por favor <strong>inicie sessão</strong> ou <strong>registe-se</strong>
+                    Para realizar esta ação, por favor <strong>inicie sessão</strong> ou <strong>registe-se</strong>
                     na plataforma.
                 </p>
             </div>

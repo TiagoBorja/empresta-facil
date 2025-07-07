@@ -127,4 +127,41 @@ class Comments
             ]);
         }
     }
+    public function getLastCommentsByUserId($userId)
+    {
+        $query = "SELECT c.comentario, l.titulo, c.criado_em
+                  FROM  {$this->tableName} c
+                  INNER JOIN utilizador u ON c.utilizador_fk = u.id
+                  INNER JOIN livro l ON c.livro_fk = l.id
+                  WHERE c.utilizador_fk = :userId
+                  ORDER BY c.criado_em DESC
+                  LIMIT 5";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':userId', $userId);
+
+        try {
+            $stmt->execute();
+
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($result) {
+                return json_encode([
+                    'status' => 200,
+                    'message' => "Comentários encontrada.",
+                    'data' => $result
+                ]);
+            }
+
+            return json_encode([
+                'status' => 404,
+                'message' => "Comentários não encontrados.",
+                'data' => []
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao encontrar: " . $e->getMessage()
+            ]);
+        }
+    }
 }
