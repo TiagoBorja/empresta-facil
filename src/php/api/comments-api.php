@@ -20,7 +20,7 @@ if (isset($_GET['userId'])) {
 }
 
 if (isset($_POST['saveData'])) {
-    $bookFk = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+    $bookFk = filter_input(INPUT_POST, 'bookId', FILTER_SANITIZE_NUMBER_INT);
     $userFk = $_SESSION['user']['id'];
     $comment = filter_input(INPUT_POST, 'commentText', FILTER_SANITIZE_SPECIAL_CHARS);
 

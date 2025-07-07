@@ -14,11 +14,10 @@ const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
 
 let bookValue = {};
-let bookLocations = {};
 
 document.addEventListener('DOMContentLoaded', async function () {
     const userId = document.getElementById("userId").value;
-    fillFormData(id, userId);
+    await fillFormData(id, userId);
 
     const reservationBtn = document.getElementById("reservationBtn");
     const modalElement = document.getElementById("reservationModal");
@@ -53,8 +52,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     });
 
-    createComment();
-    createEvaluation();
 });
 
 async function fillFormData(bookId, userId) {
@@ -99,6 +96,7 @@ async function fillFormData(bookId, userId) {
 
         if (book.status === 200 && authors.status === 200 && locations.status === 200) {
             bookValue = book.data;
+
             const authorList = authors.data;
             const bookLocations = locations.data;
             const userEvaluationData = userEvaluation?.data;
@@ -135,6 +133,9 @@ async function fillFormData(bookId, userId) {
 
             const locationsTableBody = document.getElementById("locationsTableBody");
             showLocations(locationsTableBody, bookLocations);
+
+            createComment();
+            // createEvaluation();
         }
     } catch (error) {
         console.error("Erro:", error);
@@ -242,7 +243,7 @@ function showComments(container, commentsData) {
 }
 
 function createComment() {
-    console.log(bookValue);
+    console.log(bookValue.id);
 
     const form = document.querySelector("#commentFormId");
     if (!form) return;
