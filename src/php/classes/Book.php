@@ -266,6 +266,60 @@ class Book
             return json_encode(['error' => $e->getMessage()]);
         }
     }
+
+    public function getRecommendedBooksByUser($userId)
+    {
+        $query = "SELECT DISTINCT l.*, c.categoria AS categoria, s.subcategoria AS subcategoria
+        FROM livro l
+        JOIN categoria c ON l.categoria_fk = c.id
+        JOIN subcategoria s ON l.subcategoria_fk = s.id
+        JOIN (
+            SELECT DISTINCT l.categoria_fk, l.subcategoria_fk
+            FROM livro l
+            WHERE l.id IN (
+                SELECT temp.livro_fk
+                FROM (
+                    SELECT ll.livro_fk
+                    FROM emprestimo_livro el
+                    JOIN livro_localizacao ll ON ll.id = el.livro_localizacao_fk
+                    JOIN emprestimo e ON el.emprestimo_fk = e.id
+                    WHERE e.utilizador_fk = :userId
+                    LIMIT 5
+                ) AS temp
+            )
+        ) AS recentes 
+        ON l.categoria_fk = recentes.categoria_fk 
+        AND l.subcategoria_fk = recentes.subcategoria_fk
+        ORDER BY RAND()
+        LIMIT 12";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+
+        try {
+            $stmt->execute();
+            $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (empty($books)) {
+                return json_encode([
+                    'status' => 204,
+                    'message' => "Ainda não temos recomendações para si. Reserve ou levante um livro para receber sugestões personalizadas!"
+                ]);
+            }
+
+            return json_encode([
+                'status' => 200,
+                'data' => $books
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao buscar livros recomendados: " . $e->getMessage()
+            ]);
+        }
+    }
+
+
     public function create($authors = [])
     {
 

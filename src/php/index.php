@@ -72,7 +72,7 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= $page == 'catalog' && empty($_GET['mostRequested']) ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                        <a class="nav-link <?= $page == 'catalog' && empty($_GET['mostRequested']) && empty($_GET['userRecommend']) ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
                             aria-current="page" href="?page=catalog">
                             <i class="mdi mdi-library me-2"></i> Catálogo
                         </a>
@@ -83,14 +83,13 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                             <i class="mdi mdi-trophy-award me-2"></i> Mais Requisitados
                         </a>
                     </li>
-
-
                     <li class="nav-item">
-                        <a class="nav-link <?= $page == 'waiting' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
-                            aria-current="page" href="#">
+                        <a class="nav-link <?= $page == 'catalog' && isset($_GET['userRecommend']) && $_GET['userRecommend'] == 'true' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                            aria-current="page" href="?page=catalog&userRecommend=true">
                             <i class="mdi mdi-book-open-page-variant me-2"></i> Recomendações
                         </a>
                     </li>
+
                 </ul>
                 <ul class="navbar-nav float-end mb-2 mb-lg-0 d-flex align-items-center">
 

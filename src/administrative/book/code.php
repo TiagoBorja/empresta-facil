@@ -1,6 +1,7 @@
 <?php
 
 header('Content-Type: application/json');
+session_start();
 include_once '../../php/classes/Book.php';
 include_once '../../php/classes/AuthorBook.php';
 include_once '../../php/classes/Utils.php';
@@ -16,6 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if (isset($_GET['mostRequested'])) {
         echo $book->getMostRequested();
+        exit;
+    }
+
+    if (isset($_GET['userRecommend'])) {
+        echo $book->getRecommendedBooksByUser($_SESSION['user']['id']);
         exit;
     }
 
