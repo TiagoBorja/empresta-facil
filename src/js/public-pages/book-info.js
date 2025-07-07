@@ -54,23 +54,34 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 async function fillFormData(bookId, userId) {
     try {
+        let userEvaluationResponse = null;
+
         const [
             bookResponse,
             bookLocationsResponse,
             authorBookResponse,
             commentsResponse,
             evaluationResponse,
-            userEvaluationResponses
         ] = await Promise.all([
             fetch(`${API_ENDPOINTS.BOOK}?id=${bookId}`),
             fetch(`${API_ENDPOINTS.LOCATION}?bookId=${bookId}`),
             fetch(`${API_ENDPOINTS.AUTHOR_BOOK}?id=${bookId}`),
             fetch(`${API_ENDPOINTS.COMMENTS}?bookId=${bookId}`),
             fetch(`${API_ENDPOINTS.EVALUATION}?bookId=${bookId}`),
-            fetch(`${API_ENDPOINTS.EVALUATION}?bookId=${bookId}&userId=${userId}`),
         ]);
 
-        if (!bookResponse.ok || !authorBookResponse.ok || !bookLocationsResponse.ok || !commentsResponse.ok || !evaluationResponse.ok || !userEvaluationResponses.ok) {
+        if (userId !== null && userId !== undefined ) {
+            userEvaluationResponse = await fetch(`${API_ENDPOINTS.EVALUATION}?bookId=${bookId}&userId=${userId}`);
+        }
+
+        if (
+            !bookResponse.ok ||
+            !authorBookResponse.ok ||
+            !bookLocationsResponse.ok ||
+            !commentsResponse.ok ||
+            !evaluationResponse.ok ||
+            (userEvaluationResponse && !userEvaluationResponse.ok)
+        ) {
             throw new Error("Erro na requisição");
         }
 
@@ -79,14 +90,13 @@ async function fillFormData(bookId, userId) {
         const locations = await bookLocationsResponse.json();
         const comments = await commentsResponse.json();
         const evaluation = await evaluationResponse.json();
-        const userEvaluation = await userEvaluationResponses.json();
-
+        const userEvaluation = userEvaluationResponse ? await userEvaluationResponse.json() : null;
 
         if (book.status === 200 && authors.status === 200 && locations.status === 200) {
             bookValue = book.data;
             const authorList = authors.data;
-            bookLocations = locations.data;
-            const userEvaluationData = userEvaluation.data;
+            const bookLocations = locations.data;
+            const userEvaluationData = userEvaluation?.data;
 
             if (comments.data && comments.data.length > 0) {
                 const commentsContainer = document.querySelector(".comment-widgets");
@@ -95,8 +105,7 @@ async function fillFormData(bookId, userId) {
                 const noComments = document.getElementById("noComments");
                 noComments.classList.remove("d-none");
             }
-            console.log(bookValue);
-            
+
             document.getElementById("bookTitle").textContent = bookValue.titulo;
             document.getElementById("bookYear").textContent = bookValue.ano_lancamento;
             document.getElementById("bookLanguage").textContent = bookValue.idioma;
@@ -104,7 +113,10 @@ async function fillFormData(bookId, userId) {
             document.getElementById("bookPublisher").textContent = bookValue.editora;
             document.getElementById("bookSynopsis").textContent = bookValue.sinopse;
             document.getElementById("bookRating").textContent = bookValue.media_avaliacao;
-            document.getElementById("bookCover").src = bookValue.imagem || "../public/assets/images/big/img1.jpg";
+
+            const imageUrl = bookValue.img_url ? `../administrative/book/upload/${bookValue.img_url}` : "../public/assets/images/big/img1.jpg";
+            document.getElementById("bookCover").src = imageUrl;
+
             if (userEvaluationData && userEvaluationData.length > 0 && userEvaluationData[0].avaliacao) {
                 const avaliacao = userEvaluationData[0].avaliacao;
                 const radio = document.querySelector(`input[name="rate"][value="${avaliacao}"]`);
@@ -113,9 +125,8 @@ async function fillFormData(bookId, userId) {
                 }
             }
 
-
             const authorContainer = document.getElementById("bookAuthor");
-            showAuthors(authorContainer, authorList)
+            showAuthors(authorContainer, authorList);
 
             const locationsTableBody = document.getElementById("locationsTableBody");
             showLocations(locationsTableBody, bookLocations);
@@ -125,6 +136,7 @@ async function fillFormData(bookId, userId) {
         toastr.error("Erro ao carregar o livro.");
     }
 }
+
 
 function showAuthors(authorContainer, authorList) {
     authorContainer.textContent = "";
@@ -225,6 +237,8 @@ function showComments(container, commentsData) {
 }
 
 function createComment() {
+    console.log(bookValue);
+    
     const form = document.querySelector("#commentFormId");
     if (!form) return;
 
@@ -233,7 +247,7 @@ function createComment() {
 
         const formData = new FormData(this);
         formData.append("saveData", true);
-        formData.append("id", bookValue.id);
+        formData.append("bookId", bookValue.id);
         newData(API_ENDPOINTS.COMMENTS, formData, form, `?page=book-info&id=${bookValue.id}`);
     });
 }

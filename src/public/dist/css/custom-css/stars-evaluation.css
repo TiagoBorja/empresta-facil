@@ -52,15 +52,3 @@
     /* Define um cinza para as estrelas vazias */
 }
 
-input:required+label::after {
-    content: '*';
-    color: #f44336;
-    margin-left: 0.25rem;
-}
-
-input:optional:not([type="radio"])+label::after {
-    content: '(opcional)';
-    color: #777;
-    margin-left: 0.25rem;
-}
-

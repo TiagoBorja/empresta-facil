@@ -152,16 +152,27 @@ $isGuest = !isset($_SESSION['user']);
                                             <input type="radio" id="star1" name="rate" value="1" />
                                             <label for="star1" title="1 estrela">★</label>
                                         </div>
-                                        <input id="userId" type="hidden" value="<?php echo $_SESSION['user']['id']; ?>">
+                                        <input id="userId" type="hidden"
+                                            value="<?php echo $_SESSION['user']['id'] ?? null; ?>">
                                         <textarea placeholder="Ótimo livro! Divertido, e etc..."
                                             class="form-control text-dark border rounded-3 shadow-sm mt-3"
                                             id="commentText" name="commentText" rows="3"></textarea>
                                     </div>
-                                    <button type="submit" name="saveData"
-                                        class="btn btn-outline-success d-flex align-items-center gap-2 float-end">
-                                        <i class="mdi mdi-send"></i>
-                                        <span>Enviar</span>
-                                    </button>
+                                    <?php if ($isGuest): ?>
+                                        <button type="button"
+                                            class="btn btn-outline-success d-flex align-items-center gap-2 float-end"
+                                            data-bs-toggle="modal" data-bs-target="#loginRequiredModal">
+                                            <i class="mdi mdi-send"></i>
+                                            <span>Enviar</span>
+                                        </button>
+                                    <?php else: ?>
+                                        <button type="submit" name="saveData"
+                                            class="btn btn-outline-success d-flex align-items-center gap-2 float-end">
+                                            <i class="mdi mdi-send"></i>
+                                            <span>Enviar</span>
+                                        </button>
+                                    <?php endif; ?>
+
                                 </form>
                             </div>
                         </div>
