@@ -133,7 +133,7 @@
                                 <div class="tab-pane fade" id="settings" role="tabpanel">
                                     <h5 class="mb-3">Configurações</h5>
                                     <form class="mb-3" id="settingsForm">
-                                        <input type="hidden" id="userId" value="<?php echo $_SESSION['user']['id']; ?>">
+                                        <input type="hidden" id="settingsUserId" value="<?php echo $_SESSION['user']['id']; ?>">
 
                                         <div class="row g-3">
                                             <div class="col-md-6">
@@ -308,51 +308,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    let dropdownBlocked = true; // começa bloqueado
-
-    window.addEventListener('DOMContentLoaded', () => {
-        const dropdownButton = document.getElementById('librariesDropdown');
-        const searchInput = document.getElementById('searchInput');
-
-        // Bloqueia o clique no dropdown se estiver bloqueado
-        dropdownButton.addEventListener('mousedown', function (e) {
-            if (dropdownBlocked) {
-                e.preventDefault();
-            }
-        });
-
-        // Define estado visual inicial
-        dropdownButton.style.pointerEvents = 'none';
-        dropdownButton.style.backgroundColor = '#eee';
-        searchInput.disabled = true;
-    });
-
-    function toggleField(fieldId, iconElem) {
-        if (fieldId === 'libraryDropdownDiv') {
-            dropdownBlocked = !dropdownBlocked;
-
-            const dropdownButton = document.getElementById('librariesDropdown');
-            const searchInput = document.getElementById('searchInput');
-
-            if (!dropdownBlocked) {
-                dropdownButton.style.pointerEvents = 'auto';
-                dropdownButton.style.backgroundColor = '';
-                searchInput.disabled = false;
-                iconElem.style.opacity = 0.4;
-                dropdownButton.focus();
-            } else {
-                dropdownButton.style.pointerEvents = 'none';
-                dropdownButton.style.backgroundColor = '#eee';
-                searchInput.disabled = true;
-                iconElem.style.opacity = 1;
-            }
-
-            const inputs = document.querySelectorAll('input');
-            const anyEnabled = Array.from(inputs).some(el => !el.disabled);
-            document.getElementById('settingsSave').disabled = !anyEnabled && dropdownBlocked;
-        }
-    }
-</script>
 <script type="module" src="../js/public-pages/profile-page.js"></script>

@@ -6,11 +6,26 @@ const API_ENDPOINTS = {
     COMMENTS: './api/comments-api.php',
     RESERVATION: './api/book-reservation-api.php',
     LOAN: './api/loan-api.php',
+    LIBRARY: '../administrative/library/code.php',
+    USER_LIBRARY: '../php/api/user-library-api.php',
 };
 
 
 let urlParams;
 let id;
+let dropdownBlocked = true;
+
+const checkBoxConfig = {
+    containerId: 'librariesCheckboxes',
+    nameField: 'nome',
+    idField: 'id',
+    valueField: 'id',
+    checkboxName: 'libraries[]',
+    dropdownButtonId: 'librariesDropdown',
+    singularLabel: 'biblioteca',
+    pluralLabel: 'bibliotecas',
+    associationField: 'biblioteca_fk'
+}
 
 document.addEventListener("DOMContentLoaded", async () => {
     const currentPath = window.location.search;
@@ -23,6 +38,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("reservations-tab").addEventListener("click", getReservationTab);
     document.getElementById("loans-tab").addEventListener("click", getLoanTab);
     document.getElementById("settings-tab").addEventListener("click", getSettingsTab);
+
+    const dropdownButton = document.getElementById('librariesDropdown');
+    const searchInput = document.getElementById('searchInput');
+
+    // Bloqueia o clique no dropdown se estiver bloqueado
+    dropdownButton.addEventListener('mousedown', function (e) {
+        if (dropdownBlocked) {
+            e.preventDefault();
+        }
+    });
+
+    // Define estado visual inicial
+    dropdownButton.style.pointerEvents = 'none';
+    dropdownButton.style.backgroundColor = '#eee';
+    searchInput.disabled = true;
+
+    window.toggleField = toggleField;
 });
 
 
@@ -110,6 +142,27 @@ async function getLoanTab() {
     }
 }
 
+async function getSettingsTab() {
+
+    try {
+        const [userReponse] = await Promise.all([
+            fetch(`${API_ENDPOINTS.USER}?id=${id}`),
+        ]);
+
+        if (!userReponse.ok) {
+            throw new Error("Erro na requisição");
+        }
+
+        const user = await userReponse.json();
+
+        fillSettingsTab(user);
+
+    } catch (error) {
+        console.error("Erro ao obter bibliotecas:", error);
+        toastr.warning("Não foi possível carregar as bibliotecas. Tenta novamente mais tarde.", "Atenção!");
+    }
+}
+
 function fillProfileTab(user) {
     document.getElementById("firstName").value = user.data.primeiro_nome || '';
     document.getElementById("lastName").value = user.data.ultimo_nome || '';
@@ -148,7 +201,7 @@ function fillReservationTab(reservations) {
     console.log(reservations);
 
     const tbody = document.querySelector("#reservations table tbody");
-    tbody.innerHTML = ""; // Limpar conteúdo anterior
+    tbody.innerHTML = "";
 
     if (reservations.length === 0) {
         tbody.innerHTML = `
@@ -234,4 +287,76 @@ function fillLoanTab(loans) {
     });
 }
 
+async function fillSettingsTab(user) {
+    document.getElementById("settingsFirstName").value = user.data.primeiro_nome || '';
+    document.getElementById("settingsLastName").value = user.data.ultimo_nome || '';
+    document.getElementById("settingsAddress").value = user.data.morada || '';
+    document.getElementById("settingsPhone").value = user.data.telemovel || '';
+    document.getElementById("settingsUsername").value = user.data.nome_utilizador || '';
+    document.getElementById("settingsEmail").value = user.data.email || '';
 
+    const allLibrariesData = await fetchAllLibrariesData();
+    const userLibraries = await fetchAllUserLibrariesData(user.data.id);
+    utils.createGenericCheckboxes(allLibrariesData, userLibraries, checkBoxConfig);
+}
+
+function toggleField(fieldId, iconElem) {
+    if (fieldId === 'libraryDropdownDiv') {
+        dropdownBlocked = !dropdownBlocked;
+
+        const dropdownButton = document.getElementById('librariesDropdown');
+        const searchInput = document.getElementById('searchInput');
+
+        if (!dropdownBlocked) {
+            dropdownButton.style.pointerEvents = 'auto';
+            dropdownButton.style.backgroundColor = '';
+            searchInput.disabled = false;
+            iconElem.style.opacity = 0.4;
+            dropdownButton.focus();
+        } else {
+            dropdownButton.style.pointerEvents = 'none';
+            dropdownButton.style.backgroundColor = '#eee';
+            searchInput.disabled = true;
+            iconElem.style.opacity = 1;
+        }
+
+        const inputs = document.querySelectorAll('input');
+        const anyEnabled = Array.from(inputs).some(el => !el.disabled);
+        document.getElementById('settingsSave').disabled = !anyEnabled && dropdownBlocked;
+    }
+}
+
+async function fetchAllLibrariesData() {
+    const response = await fetch(`${API_ENDPOINTS.LIBRARY}?activeOnly=true`);
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Erro na API: ${response.status} - ${errorText}`);
+    }
+
+    const result = await response.json();
+
+    if (!result || typeof result !== 'object') {
+        throw new Error("Resposta da API inválida");
+    }
+
+    if (result.status && result.status !== 200) {
+        throw new Error(result.message || "Bibliotecas não encontradas");
+    }
+    const librariesData = result.data || result;
+
+    if (!Array.isArray(librariesData)) {
+        throw new Error("Formato de dados de bibliotecas inválido");
+    }
+    return librariesData;
+}
+
+async function fetchAllUserLibrariesData(userId) {
+    const response = await fetch(`${API_ENDPOINTS.USER_LIBRARY}?&id=${userId}`);
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Erro na API: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    return data?.data || []; // ← ajusta conforme estrutura da resposta
+}
