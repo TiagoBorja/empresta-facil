@@ -121,6 +121,20 @@ class UserLibrary
             ]);
         }
     }
+
+    public function getLibraryIdsByUser($userFk)
+    {
+        $stmt = $this->pdo->prepare("SELECT biblioteca_fk FROM {$this->tableName} WHERE utilizador_fk = ?");
+        $stmt->execute([$userFk]);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public function deleteByUserAndLibrary($userFk, $libraryFk)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM {$this->tableName} WHERE utilizador_fk = ? AND biblioteca_fk = ?");
+        return $stmt->execute([$userFk, $libraryFk]);
+    }
+
     public function create()
     {
         $query = "INSERT INTO {$this->tableName} (utilizador_fk, biblioteca_fk, codigo_validacao, data_expirado) 

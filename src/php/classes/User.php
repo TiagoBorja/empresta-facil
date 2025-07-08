@@ -378,11 +378,11 @@ class User
                 $libraryIdsValid[] = $libraryId;
             }
 
-                $libraryData = $this->library->getLibraryDataByIds($libraryIdsValid);
+            $libraryData = $this->library->getLibraryDataByIds($libraryIdsValid);
 
-                if (!Utils::sendConfirmationEmail($this->email, $this->getFirstName(), $code, $libraryData)) {
-                    exit;
-                }
+            if (!Utils::sendConfirmationEmail($this->email, $this->getFirstName(), $code, $libraryData)) {
+                exit;
+            }
 
             return json_encode([
                 'status' => 200,
@@ -552,6 +552,90 @@ class User
                 'message' => "Erro ao atualizar o utilizador: " . $e->getMessage()
             ]);
         }
+    }
+    public function updateProfile($userId, $libraries)
+    {
+        if (empty($this->firstName) || empty($this->lastName) || empty($this->phoneNumber) || empty($this->username) || empty($this->email)) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Preencha todos os campos antes de prosseguir."
+            ]);
+        }
+
+        // 2. Atualizar dados do utilizador
+        $query = "UPDATE utilizador SET 
+                primeiro_nome = :firstName,
+                ultimo_nome = :lastName,
+                morada = :address,
+                telemovel = :phoneNumber,
+                nome_utilizador = :username,
+                email = :email
+              WHERE id = :userId";
+
+        $stmt = $this->pdo->prepare($query);
+
+        $stmt->bindParam(':firstName', $this->firstName);
+        $stmt->bindParam(':lastName', $this->lastName);
+        $stmt->bindParam(':address', $this->address);
+        $stmt->bindParam(':phoneNumber', $this->phoneNumber);
+        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':userId', $userId);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao atualizar o utilizador: " . $e->getMessage()
+            ]);
+        }
+
+        // 3. Sincronizar bibliotecas
+        $currentLibraryIds = $this->userLibrary->getLibraryIdsByUser($userId);
+        $newLibraryIds = is_array($libraries) ? array_filter($libraries) : [];
+
+        $toRemove = array_diff($currentLibraryIds, $newLibraryIds);
+        $toAdd = array_diff($newLibraryIds, $currentLibraryIds);
+        $libraryIdsValid = [];
+        $code = Utils::generateRandomCode(12);
+
+        // Remover bibliotecas desassociadas
+        foreach ($toRemove as $libraryId) {
+            $this->userLibrary->deleteByUserAndLibrary($userId, $libraryId);
+        }
+
+        // Adicionar novas bibliotecas
+        foreach ($toAdd as $libraryId) {
+            $this->userLibrary->setUserFk($userId);
+            $this->userLibrary->setLibraryFk($libraryId);
+            $this->userLibrary->setValidationCode($code);
+            $this->userLibrary->setExpirationDate(date('Y-m-d H:i:s', strtotime('+14 days')));
+
+            $libraryResult = $this->userLibrary->create();
+            $libraryResponse = json_decode($libraryResult, true);
+            if ($libraryResponse['status'] != 200) {
+                return $libraryResult;
+            }
+
+            $libraryIdsValid[] = $libraryId;
+        }
+
+        // Enviar email de confirmação apenas se adicionou novas bibliotecas
+        if (!empty($libraryIdsValid)) {
+            $libraryData = $this->library->getLibraryDataByIds($libraryIdsValid);
+            if (!Utils::sendConfirmationEmail($this->email, $this->getFirstName(), $code, $libraryData)) {
+                return json_encode([
+                    'status' => 500,
+                    'message' => "Erro ao enviar email de confirmação."
+                ]);
+            }
+        }
+
+        return json_encode([
+            'status' => 200,
+            'message' => "Perfil e bibliotecas atualizados com sucesso!"
+        ]);
     }
 
     public function changeActiveStatus($id, $status)

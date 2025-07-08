@@ -55,6 +55,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     searchInput.disabled = true;
 
     window.toggleField = toggleField;
+
+    update(id);
 });
 
 
@@ -375,4 +377,25 @@ async function fetchAllUserLibrariesData(userId) {
 
     const data = await response.json();
     return data?.data || []; // ← ajusta conforme estrutura da resposta
+}
+
+
+function update(userId) {
+    const form = document.querySelector("#settingsForm");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        formData.append("saveProfile", true);
+        formData.append("profileId", userId);
+        formData.append('firstName', document.querySelector('input[name="firstName"]').value);
+        formData.append('lastName', document.querySelector('input[name="lastName"]').value);
+        formData.append('email', document.querySelector('input[name="email"]').value);
+        formData.append('phone', document.querySelector('input[name="phone"]').value);
+        formData.append('username', document.querySelector('input[name="username"]').value);
+        
+        bdUtils.updateData(`${API_ENDPOINTS.USER}?profileId=${userId}`, formData, form, `?page=profile&id=${userId}`);
+    });
 }

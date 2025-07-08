@@ -133,14 +133,15 @@
                                 <div class="tab-pane fade" id="settings" role="tabpanel">
                                     <h5 class="mb-3">Configurações</h5>
                                     <form class="mb-3" id="settingsForm">
-                                        <input type="hidden" id="settingsUserId" value="<?php echo $_SESSION['user']['id']; ?>">
+                                        <input type="hidden" id="settingsUserId"
+                                            value="<?php echo $_SESSION['user']['id']; ?>">
 
                                         <div class="row g-3">
                                             <div class="col-md-6">
                                                 <label class="form-label">Primeiro Nome</label>
                                                 <div class="input-group">
                                                     <input type="text" class="form-control" id="settingsFirstName"
-                                                        disabled>
+                                                        name="firstName" disabled>
                                                     <span class="input-group-text bg-white border-start-0"
                                                         style="cursor:pointer;"
                                                         onclick="toggleField('settingsFirstName', this)">
@@ -153,7 +154,7 @@
                                                 <label class="form-label">Último Nome</label>
                                                 <div class="input-group">
                                                     <input type="text" class="form-control" id="settingsLastName"
-                                                        disabled>
+                                                        name="lastName" disabled>
                                                     <span class="input-group-text bg-white border-start-0"
                                                         style="cursor:pointer;"
                                                         onclick="toggleField('settingsLastName', this)">
@@ -165,7 +166,8 @@
                                             <div class="col-md-6">
                                                 <label class="form-label">Telemóvel</label>
                                                 <div class="input-group">
-                                                    <input type="tel" class="form-control" id="settingsPhone" disabled>
+                                                    <input type="tel" class="form-control" id="settingsPhone"
+                                                        name="phone" disabled>
                                                     <span class="input-group-text bg-white border-start-0"
                                                         style="cursor:pointer;"
                                                         onclick="toggleField('settingsPhone', this)">
@@ -200,8 +202,8 @@
                                             <div class="col-md-12">
                                                 <label class="form-label">Morada</label>
                                                 <div class="input-group">
-                                                    <textarea class="form-control" id="settingsAddress" rows="2"
-                                                        disabled></textarea>
+                                                    <textarea class="form-control" id="settingsAddress" name="address"
+                                                        rows="2" disabled></textarea>
                                                     <span
                                                         class="input-group-text bg-white border-start-0 align-items-start"
                                                         style="cursor:pointer;"
@@ -215,7 +217,7 @@
                                                 <label class="form-label">Nome de Utilizador</label>
                                                 <div class="input-group">
                                                     <input type="text" class="form-control" id="settingsUsername"
-                                                        disabled>
+                                                        name="username" disabled>
                                                     <span class="input-group-text bg-white border-start-0"
                                                         style="cursor:pointer;"
                                                         onclick="toggleField('settingsUsername', this)">
@@ -228,7 +230,7 @@
                                                 <label class="form-label">E-mail</label>
                                                 <div class="input-group">
                                                     <input type="email" class="form-control" id="settingsEmail"
-                                                        disabled>
+                                                        name="email" disabled>
                                                     <span class="input-group-text bg-white border-start-0"
                                                         style="cursor:pointer;"
                                                         onclick="toggleField('settingsEmail', this)">
@@ -237,73 +239,75 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="d-flex align-items-center gap-2 mt-4">
+                                            <button type="submit" name="saveProfile" class="btn btn-primary" disabled
+                                                id="settingsSave">Guardar
+                                                Alterações</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                                                Alterar Senha
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-
-                            <div class="d-flex align-items-center gap-2 mt-4">
-                                <button type="submit" class="btn btn-primary" disabled id="settingsSave">Guardar
-                                    Alterações</button>
-                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#changePasswordModal">
-                                    Alterar Senha
-                                </button>
-                            </div>
-                            </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Necessário para funcionamento das abas Bootstrap 5 e Bootstrap Icons -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-<script>
-    const triggerTabList = [].slice.call(document.querySelectorAll('[data-bs-toggle="pill"]'));
-    triggerTabList.forEach(function (triggerEl) {
-        triggerEl.addEventListener('click', function (event) {
-            event.preventDefault();
-            const tabTrigger = new bootstrap.Tab(triggerEl);
-            tabTrigger.show();
+    <!-- Necessário para funcionamento das abas Bootstrap 5 e Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script>
+        const triggerTabList = [].slice.call(document.querySelectorAll('[data-bs-toggle="pill"]'));
+        triggerTabList.forEach(function (triggerEl) {
+            triggerEl.addEventListener('click', function (event) {
+                event.preventDefault();
+                const tabTrigger = new bootstrap.Tab(triggerEl);
+                tabTrigger.show();
+            });
         });
-    });
-</script>
+    </script>
 
-<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold" id="changePasswordModalLabel">
-                    <i class="bi bi-shield-lock me-2 text-primary"></i>Alterar Senha
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-            </div>
-            <div class="modal-body pt-0">
-                <p class="text-muted mb-4">Por favor, preencha os campos abaixo para alterar sua senha com segurança.
-                </p>
-                <form>
-                    <div class="form-floating mb-3 position-relative">
-                        <input type="password" class="form-control ps-5" id="currentPassword" placeholder="Senha Atual"
-                            required>
-                        <label for="currentPassword">Senha Atual</label>
-                    </div>
-                    <div class="form-floating mb-3 position-relative">
-                        <input type="password" class="form-control ps-5" id="newPassword" placeholder="Nova Senha"
-                            required>
-                        <label for="newPassword">Nova Senha</label>
-                    </div>
-                    <div class="form-floating mb-3 position-relative">
-                        <input type="password" class="form-control ps-5" id="confirmPassword"
-                            placeholder="Confirmar Nova Senha" required>
-                        <label for="confirmPassword">Confirmar Nova Senha</label>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary"><i class="bi bi-save me-1"></i>Guardar alterações</button>
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="changePasswordModalLabel">
+                        <i class="bi bi-shield-lock me-2 text-primary"></i>Alterar Senha
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <p class="text-muted mb-4">Por favor, preencha os campos abaixo para alterar sua senha com
+                        segurança.
+                    </p>
+                    <form>
+                        <div class="form-floating mb-3 position-relative">
+                            <input type="password" class="form-control ps-5" id="currentPassword"
+                                placeholder="Senha Atual" required>
+                            <label for="currentPassword">Senha Atual</label>
+                        </div>
+                        <div class="form-floating mb-3 position-relative">
+                            <input type="password" class="form-control ps-5" id="newPassword" placeholder="Nova Senha"
+                                required>
+                            <label for="newPassword">Nova Senha</label>
+                        </div>
+                        <div class="form-floating mb-3 position-relative">
+                            <input type="password" class="form-control ps-5" id="confirmPassword"
+                                placeholder="Confirmar Nova Senha" required>
+                            <label for="confirmPassword">Confirmar Nova Senha</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary"><i class="bi bi-save me-1"></i>Guardar
+                        alterações</button>
+                </div>
             </div>
         </div>
     </div>
