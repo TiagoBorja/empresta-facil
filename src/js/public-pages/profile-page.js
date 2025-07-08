@@ -301,6 +301,7 @@ async function fillSettingsTab(user) {
 }
 
 function toggleField(fieldId, iconElem) {
+
     if (fieldId === 'libraryDropdownDiv') {
         dropdownBlocked = !dropdownBlocked;
 
@@ -311,20 +312,35 @@ function toggleField(fieldId, iconElem) {
             dropdownButton.style.pointerEvents = 'auto';
             dropdownButton.style.backgroundColor = '';
             searchInput.disabled = false;
-            iconElem.style.opacity = 0.4;
             dropdownButton.focus();
+            iconElem.style.opacity = 0.4;
         } else {
             dropdownButton.style.pointerEvents = 'none';
             dropdownButton.style.backgroundColor = '#eee';
             searchInput.disabled = true;
             iconElem.style.opacity = 1;
         }
+    } else {
+        const field = document.getElementById(fieldId);
+        if (!field) return;
 
-        const inputs = document.querySelectorAll('input');
-        const anyEnabled = Array.from(inputs).some(el => !el.disabled);
-        document.getElementById('settingsSave').disabled = !anyEnabled && dropdownBlocked;
+        const isDisabled = field.disabled;
+        field.disabled = !isDisabled;
+
+        if (!isDisabled) {
+            field.blur();
+        } else {
+            field.focus();
+        }
+
+        iconElem.style.opacity = isDisabled ? 0.4 : 1;
     }
+
+    const inputs = document.querySelectorAll('input, textarea');
+    const anyEnabled = Array.from(inputs).some(el => !el.disabled);
+    document.getElementById('settingsSave').disabled = !anyEnabled && dropdownBlocked;
 }
+
 
 async function fetchAllLibrariesData() {
     const response = await fetch(`${API_ENDPOINTS.LIBRARY}?activeOnly=true`);
