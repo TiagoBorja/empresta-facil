@@ -52,7 +52,7 @@ async function getAll() {
         });
 
         showBooks(enrichedBooks);
-        setupSearchFilter(); // Configura os listeners de pesquisa
+        setupSearchFilter();
 
     } catch (error) {
         console.error("Erro ao obter dados:", error);
@@ -94,7 +94,7 @@ async function getMostRequested() {
         });
 
         showMostRequested(enrichedBooks);
-
+        setupSearchFilter();
     } catch (error) {
         console.error("Erro ao obter dados:", error);
         toastr.warning("Não foi possível carregar os dados. Tenta novamente mais tarde.", "Atenção!");
@@ -139,6 +139,7 @@ async function getUserRecommends() {
         });
 
         showBooks(enrichedBooks);
+        setupSearchFilter();
 
     } catch (error) {
         console.error("Erro ao obter dados:", error);
@@ -310,34 +311,41 @@ function setupSearchFilter() {
     const dropdownItems = document.querySelectorAll('.dropdown-item[data-filter]');
     const searchInput = document.getElementById('searchInput');
 
-    let currentFilter = 'geral'; // Filtro padrão
+    let currentFilter = 'geral';
 
-    // Atualiza o dropdown quando um filtro é selecionado
     dropdownItems.forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
             currentFilter = item.getAttribute('data-filter');
             filterDropdown.textContent = item.textContent;
 
-            // Atualiza o placeholder com base no filtro selecionado
             const placeholderText = getPlaceholderText(currentFilter);
             searchInput.placeholder = placeholderText;
 
-            // Dispara a pesquisa se já houver texto no input
             if (searchInput.value.trim()) {
                 filterBooks(currentFilter, searchInput.value.trim());
             }
         });
     });
 
-    // Listener para o input de pesquisa
     searchInput.addEventListener('input', (e) => {
         const searchTerm = e.target.value.trim();
         filterBooks(currentFilter, searchTerm);
     });
 }
-// Função principal de filtragem
 function filterBooks(filterType, searchTerm) {
+
+    const mostRequested = urlParams.get("mostRequested");
+    if (!searchTerm && mostRequested !== null && mostRequested !== undefined) {
+        showMostRequested(enrichedBooks);
+        return;
+    }
+    const userRecommend = urlParams.get("userRecommend");
+    if (!searchTerm && userRecommend !== null && userRecommend !== undefined) {
+        showUserRecommends(enrichedBooks);
+        return;
+    }
+
     if (!searchTerm) {
         showBooks(enrichedBooks);
         return;
@@ -366,6 +374,15 @@ function filterBooks(filterType, searchTerm) {
                 );
         }
     });
+
+    if (mostRequested !== null && mostRequested !== undefined) {
+        showMostRequested(filteredBooks);
+        return;
+    }
+    if (userRecommend !== null && userRecommend !== undefined) {
+        showUserRecommends(filteredBooks);
+        return;
+    }
 
     showBooks(filteredBooks);
 }
