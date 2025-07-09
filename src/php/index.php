@@ -27,6 +27,7 @@ $page_config = [
     'catalog' => ['title' => 'Catálogo', 'file' => './pages/catalog.php'],
     'book-info' => ['title' => 'Informações', 'file' => './pages/book-info.php'],
     'auth' => ['title' => 'Login', 'file' => './pages/login-form.php'],
+    'profile' => ['title' => 'Perfil', 'file' => './pages/profile.php'],
     'administrative' => ['title' => 'Painel Administrativo', 'file' => './administrative/index.php'],
 ];
 
@@ -64,7 +65,6 @@ $isGuest = !isset($_SESSION['user']);
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent"
                 style="background-color: #343A40 !important;">
-                <!-- Links de Navegação - Centralizados e Alinhados Verticalmente -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center">
                     <li class="nav-item">
                         <a class="nav-link <?= $page == 'home' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
@@ -84,12 +84,22 @@ $isGuest = !isset($_SESSION['user']);
                             <i class="mdi mdi-trophy-award me-2"></i> Mais Requisitados
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?= $page == 'catalog' && isset($_GET['userRecommend']) && $_GET['userRecommend'] == 'true' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
-                            aria-current="page" href="?page=catalog&userRecommend=true">
-                            <i class="mdi mdi-book-open-page-variant me-2"></i> Recomendações
-                        </a>
-                    </li>
+                    <?php if ($isGuest): ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?= $page == 'catalog' && isset($_GET['userRecommend']) && $_GET['userRecommend'] == 'true' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                href="?page=catalog&userRecommend=true" data-bs-toggle="modal"
+                                data-bs-target="#loginRequiredModal" aria-current="page">
+                                <i class="mdi mdi-book-open-page-variant me-2"></i> Recomendações
+                            </a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?= $page == 'catalog' && isset($_GET['userRecommend']) && $_GET['userRecommend'] == 'true' ? 'active' : '' ?> h5 mb-0 d-flex align-items-center"
+                                href="?page=catalog&userRecommend=true" aria-current="page">
+                                <i class="mdi mdi-book-open-page-variant me-2"></i> Recomendações
+                            </a>
+                        </li>
+                    <?php endif; ?>
 
                 </ul>
                 <ul class="navbar-nav float-end mb-2 mb-lg-0 d-flex align-items-center">

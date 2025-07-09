@@ -313,3 +313,16 @@
     </div>
 </div>
 <script type="module" src="../js/public-pages/profile-page.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const toastMessage = sessionStorage.getItem('toastMessage');
+
+        if (toastMessage === 'success') {
+            toastr.success("Perfil atulizado com sucesso!", "Sucesso!");
+        } else if (toastMessage === 'error') {
+            toastr.error("Ocorreu um erro ao processar a solicitação.", "Erro!");
+        }
+        sessionStorage.removeItem('toastMessage');
+
+    });
+</script>

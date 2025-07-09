@@ -562,7 +562,6 @@ class User
             ]);
         }
 
-        // 2. Atualizar dados do utilizador
         $query = "UPDATE utilizador SET 
                 primeiro_nome = :firstName,
                 ultimo_nome = :lastName,
@@ -591,21 +590,17 @@ class User
             ]);
         }
 
-        // 3. Sincronizar bibliotecas
         $currentLibraryIds = $this->userLibrary->getLibraryIdsByUser($userId);
         $newLibraryIds = is_array($libraries) ? array_filter($libraries) : [];
 
         $toRemove = array_diff($currentLibraryIds, $newLibraryIds);
         $toAdd = array_diff($newLibraryIds, $currentLibraryIds);
-        $libraryIdsValid = [];
         $code = Utils::generateRandomCode(12);
 
-        // Remover bibliotecas desassociadas
         foreach ($toRemove as $libraryId) {
             $this->userLibrary->deleteByUserAndLibrary($userId, $libraryId);
         }
 
-        // Adicionar novas bibliotecas
         foreach ($toAdd as $libraryId) {
             $this->userLibrary->setUserFk($userId);
             $this->userLibrary->setLibraryFk($libraryId);
@@ -616,19 +611,6 @@ class User
             $libraryResponse = json_decode($libraryResult, true);
             if ($libraryResponse['status'] != 200) {
                 return $libraryResult;
-            }
-
-            $libraryIdsValid[] = $libraryId;
-        }
-
-        // Enviar email de confirmação apenas se adicionou novas bibliotecas
-        if (!empty($libraryIdsValid)) {
-            $libraryData = $this->library->getLibraryDataByIds($libraryIdsValid);
-            if (!Utils::sendConfirmationEmail($this->email, $this->getFirstName(), $code, $libraryData)) {
-                return json_encode([
-                    'status' => 500,
-                    'message' => "Erro ao enviar email de confirmação."
-                ]);
             }
         }
 
