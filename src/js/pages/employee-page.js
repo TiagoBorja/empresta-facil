@@ -27,9 +27,19 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "users");
-    await utils.fetchSelect(API_ENDPOINTS.LIBRARY, "nome", "library");
+    if (currentPath === '?page=employee-form' && !id) {
+        const employeeId = document.getElementById("employeeLibraryId").value;
+        console.log(employeeId);
 
+        await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "users");
+        await utils.fetchSelect(
+            `${API_ENDPOINTS.LIBRARY}?id=${employeeId}`,
+            "nome",
+            "library",
+            null,
+            true
+        );
+    }
     create();
     return;
 });

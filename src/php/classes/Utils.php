@@ -335,6 +335,6 @@ class Utils
 
     public static function isEmployeeOrHigher(array $user): bool
     {
-        return self::hasAccessLevel($user, 'Funcionário');
+        return self::hasAccessLevel($user, 'Funcionario');
     }
 }
