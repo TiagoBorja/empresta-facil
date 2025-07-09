@@ -18,13 +18,15 @@
                             Geral
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                            <li><a class="dropdown-item" href="#">Categoria</a></li>
-                            <li><a class="dropdown-item" href="#">Autor</a></li>
-                            <li><a class="dropdown-item" href="#">Assunto</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="geral">Geral</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="categoria">Categoria</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="autor">Autor</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="titulo">Título</a></li>
                         </ul>
                     </div>
 
-                    <input type="text" class="form-control" placeholder="Pesquisar por título, autor, assunto..." />
+                    <input type="text" id="searchInput" class="form-control"
+                        placeholder="Pesquisar por título, autor, assunto..." />
                 </div>
             </div>
         </div>

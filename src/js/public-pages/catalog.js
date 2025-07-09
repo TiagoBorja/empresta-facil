@@ -1,9 +1,10 @@
 const BOOK_API_URL = '../administrative/book/code.php';
 const AUTHOR_BOOK_API_URL = '../administrative/author-book/code.php';
 const DEFAULT_BOOK_IMAGE = '../public/assets/images/no-book-image.jpg';
+
 let urlParams;
 let id;
-
+let enrichedBooks = [];
 document.addEventListener("DOMContentLoaded", async () => {
     const currentPath = window.location.search;
     urlParams = new URLSearchParams(currentPath);
@@ -42,7 +43,7 @@ async function getAll() {
             authorsByBook[item.livro_fk].push(item.nome_completo);
         });
 
-        const enrichedBooks = books.map(book => {
+        enrichedBooks = books.map(book => {
             const autores = authorsByBook[book.id] || ['Autor desconhecido'];
             return {
                 ...book,
@@ -51,12 +52,14 @@ async function getAll() {
         });
 
         showBooks(enrichedBooks);
+        setupSearchFilter(); // Configura os listeners de pesquisa
 
     } catch (error) {
         console.error("Erro ao obter dados:", error);
         toastr.warning("Não foi possível carregar os dados. Tenta novamente mais tarde.", "Atenção!");
     }
 }
+
 
 async function getMostRequested() {
     try {
@@ -82,7 +85,7 @@ async function getMostRequested() {
             authorsByBook[item.livro_fk].push(item.nome_completo);
         });
 
-        const enrichedBooks = books.map(book => {
+        enrichedBooks = books.map(book => {
             const autores = authorsByBook[book.id] || ['Autor desconhecido'];
             return {
                 ...book,
@@ -127,7 +130,7 @@ async function getUserRecommends() {
             authorsByBook[item.livro_fk].push(item.nome_completo);
         });
 
-        const enrichedBooks = booksData.data.map(book => {
+        enrichedBooks = booksData.data.map(book => {
             const autores = authorsByBook[book.id] || ['Autor desconhecido'];
             return {
                 ...book,
@@ -290,3 +293,79 @@ function showEmptyRecommendationsMessage() {
     `;
 }
 
+function getPlaceholderText(filter) {
+    switch (filter) {
+        case 'categoria':
+            return 'Pesquisar por categoria...';
+        case 'autor':
+            return 'Pesquisar por autor...';
+        case 'título':
+            return 'Pesquisar por título...';
+        default:
+            return 'Pesquisar por título, autor, título...';
+    }
+}
+function setupSearchFilter() {
+    const filterDropdown = document.getElementById('filterDropdown');
+    const dropdownItems = document.querySelectorAll('.dropdown-item[data-filter]');
+    const searchInput = document.getElementById('searchInput');
+
+    let currentFilter = 'geral'; // Filtro padrão
+
+    // Atualiza o dropdown quando um filtro é selecionado
+    dropdownItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentFilter = item.getAttribute('data-filter');
+            filterDropdown.textContent = item.textContent;
+
+            // Atualiza o placeholder com base no filtro selecionado
+            const placeholderText = getPlaceholderText(currentFilter);
+            searchInput.placeholder = placeholderText;
+
+            // Dispara a pesquisa se já houver texto no input
+            if (searchInput.value.trim()) {
+                filterBooks(currentFilter, searchInput.value.trim());
+            }
+        });
+    });
+
+    // Listener para o input de pesquisa
+    searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.trim();
+        filterBooks(currentFilter, searchTerm);
+    });
+}
+// Função principal de filtragem
+function filterBooks(filterType, searchTerm) {
+    if (!searchTerm) {
+        showBooks(enrichedBooks);
+        return;
+    }
+
+    const filteredBooks = enrichedBooks.filter(book => {
+        const searchTermLower = searchTerm.toLowerCase();
+
+        switch (filterType) {
+            case 'categoria':
+                return (book.categoria && book.categoria.toLowerCase().includes(searchTermLower)) ||
+                    (book.subcategoria && book.subcategoria.toLowerCase().includes(searchTermLower));
+            case 'autor':
+                return book.autor.toLowerCase().includes(searchTermLower);
+            case 'titulo':
+                // Assumindo que 'titulo' pode ser buscado no título ou descrição
+                return book.titulo.toLowerCase().includes(searchTermLower) ||
+                    (book.descricao && book.descricao.toLowerCase().includes(searchTermLower));
+            default: // 'geral'
+                return (
+                    book.titulo.toLowerCase().includes(searchTermLower) ||
+                    book.autor.toLowerCase().includes(searchTermLower) ||
+                    (book.categoria && book.categoria.toLowerCase().includes(searchTermLower)) ||
+                    (book.subcategoria && book.subcategoria.toLowerCase().includes(searchTermLower)) ||
+                    (book.descricao && book.descricao.toLowerCase().includes(searchTermLower))
+                );
+        }
+    });
+
+    showBooks(filteredBooks);
+}
