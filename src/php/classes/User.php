@@ -314,6 +314,33 @@ class User
             ]);
         }
     }
+
+    public function getPendentUserCount($employeeLibrary)
+    {
+        try {
+            $sql = "SELECT COUNT(*) AS total
+                    FROM utilizador u
+                    INNER JOIN utilizador_biblioteca ub ON ub.utilizador_fk = u.id
+                    WHERE ub.biblioteca_fk = :employeeLibrary
+                    AND ativo = 'P'";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':employeeLibrary', $employeeLibrary);
+            $stmt->execute();
+
+            $count = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            echo json_encode([
+                'status' => 200,
+                'data' => $count['total']
+            ]);
+        } catch (PDOException $e) {
+            echo json_encode([
+                'status' => 500,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
     public function newUser($libraryId)
     {
         if (empty($this->firstName) || empty($this->lastName) || empty($this->birthDay) || empty($this->phoneNumber) || empty($this->username) || empty($this->password) || empty($this->email) || empty($this->role)) {

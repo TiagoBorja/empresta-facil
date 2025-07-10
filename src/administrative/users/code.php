@@ -7,16 +7,25 @@ include_once '../../php/classes/Utils.php';
 $user = new User();
 $utils = new Utils();
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
-    echo $user->getUsers($_SESSION['employee']['utilizador_fk']);
-    exit;
-}
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
-if (isset($_GET['id'])) {
-    $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-    $user->setId($id);
-    echo $user->getUserById($id);
-    exit;
+    if (isset($_GET['getPendentUserCount'])) {
+        echo $user->getPendentUserCount($_SESSION['employee']['biblioteca_fk']);
+        exit;
+    }
+
+    if (isset($_GET['id'])) {
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        $user->setId($id);
+        echo $user->getUserById($id);
+        exit;
+    }
+
+    // Caso default: retorna todos os utilizadores
+    if (!isset($_GET['id'])) {
+        echo $user->getUsers($_SESSION['employee']['utilizador_fk']);
+        exit;
+    }
 }
 
 if (isset($_GET['profileId']) && isset($_POST['saveProfile'])) {
