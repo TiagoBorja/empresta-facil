@@ -14,7 +14,8 @@ class Author
     private $nationality;
     private $imgUrl;
     private $active;
-
+    private $createdFk;
+    private $updatedFk;
     private $pdo;
     private $tableName = 'autor';
     public function __construct()
@@ -110,6 +111,23 @@ class Author
         $this->active = $active;
     }
 
+    public function getCreatedFk()
+    {
+        return $this->createdFk;
+    }
+
+    public function setCreatedFk($createdFk)
+    {
+        $this->createdFk = $createdFk;
+    }
+    public function getUpdatedFk()
+    {
+        return $this->updatedFk;
+    }
+    public function setUpdatedFk($updatedFk)
+    {
+        $this->updatedFk = $updatedFk;
+    }
     public function getAll()
     {
         $query = "SELECT * FROM " . $this->tableName;
@@ -127,9 +145,14 @@ class Author
     public function getById($id)
     {
         $this->id = $id;
-        $query = "SELECT *
-                  FROM " . $this->tableName . "
-                  WHERE id = :id";
+        $query = "SELECT 
+                    a.*,
+                    CONCAT(u1.primeiro_nome, ' ', u1.ultimo_nome) AS criado_por, 
+                    CONCAT(u2.primeiro_nome, ' ', u2.ultimo_nome) AS atualizado_por
+                FROM {$this->tableName} a
+                LEFT JOIN utilizador u1 ON a.criado_fk = u1.id
+                LEFT JOIN utilizador u2 ON a.atualizado_fk = u2.id
+                WHERE a.id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
 
@@ -167,8 +190,8 @@ class Author
         }
 
         $query = "INSERT INTO " . $this->tableName .
-            "(primeiro_nome, ultimo_nome, data_nascimento, genero, biografia, nacionalidade, img_url) 
-                  VALUES (:firstName, :lastName, :birthDay, :gender, :biography, :nationality, :imgUrl)";
+            "(primeiro_nome, ultimo_nome, data_nascimento, genero, biografia, nacionalidade, img_url, criado_fk) 
+                  VALUES (:firstName, :lastName, :birthDay, :gender, :biography, :nationality, :imgUrl, :createdFk)";
         $stmt = $this->pdo->prepare($query);
 
         $stmt->bindParam(':firstName', $this->firstName);
@@ -178,6 +201,7 @@ class Author
         $stmt->bindParam(':biography', $this->biography);
         $stmt->bindParam(':nationality', $this->nationality);
         $stmt->bindParam(':imgUrl', $this->imgUrl);
+        $stmt->bindParam(':createdFk', $this->createdFk);
 
         try {
             $stmt->execute();
@@ -229,7 +253,8 @@ class Author
                   genero = :gender,
                   biografia = :biography,
                   nacionalidade = :nationality,
-                  img_url = :imgUrl
+                  img_url = :imgUrl,
+                  atualizado_fk = :updatedFk
                   WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
@@ -241,6 +266,7 @@ class Author
         $stmt->bindParam(':biography', $this->biography);
         $stmt->bindParam(':nationality', $this->nationality);
         $stmt->bindParam(':imgUrl', $this->imgUrl);
+        $stmt->bindParam(':updatedFk', $this->updatedFk);
 
         try {
 
@@ -265,12 +291,14 @@ class Author
         $this->active = $status;
 
         $query = 'UPDATE ' . $this->tableName . '
-                  SET ativo = :active
+                  SET ativo = :active,
+                  atualizado_fk = :updatedFk
                   WHERE id = :id';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':active', $this->active);
+        $stmt->bindParam(':updatedFk', $this->updatedFk);
 
         try {
 

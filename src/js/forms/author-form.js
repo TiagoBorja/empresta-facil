@@ -1,4 +1,4 @@
-import { showContentAfterLoading, showLoadingHideContent } from '../utils/utils.js';
+import { showContentAfterLoading, showLoadingHideContent, clearInputs} from '../utils/utils.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
 
@@ -44,6 +44,25 @@ document.addEventListener('DOMContentLoaded', async function () {
         imgPreview.onload = showForm;
         imgPreview.onerror = showForm;
 
+        document.getElementById("user-info").classList.remove("d-none");
+        document.getElementById("created-user").textContent = result.data.criado_por ?? "-";
+        document.getElementById("created-date").textContent = result.data.criado_em ?? "-";
+        document.getElementById("updated-user").textContent = result.data.atualizado_por ?? "-";
+        document.getElementById("updated-date").textContent = result.data.atualizado_em ?? "-";
+
+        const originalValues = [
+            { elementId: 'firstName', originalValue: document.getElementById("firstName").value },
+            { elementId: 'lastName', originalValue: document.getElementById("lastName").value },
+            { elementId: 'nationality', originalValue: document.getElementById("nationality").value },
+            { elementId: 'biography', originalValue: document.getElementById("biography").value },
+            { elementId: 'gender', originalValue: document.getElementById("gender").value },
+            { elementId: 'birthDay', originalValue: document.getElementById("birthDay").value }
+        ];
+
+
+        document.getElementById('clear').addEventListener('click', () => {
+            clearInputs(originalValues);
+        });
     } catch (error) {
         toastr.error(error.message || error, "Erro!");
         showContentAfterLoading("loading", ["content"]);

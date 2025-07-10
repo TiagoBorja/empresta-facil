@@ -1,11 +1,14 @@
 <?php
 
+session_start();
 header('Content-Type: application/json');
 include_once '../../php/classes/Author.php';
 include_once '../../php/classes/Utils.php';
 
 $author = new Author();
 $utils = new Utils();
+$userId = $_SESSION['user']['id'];
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
     echo $author->getAll();
     exit;
@@ -41,6 +44,9 @@ if (isset($_POST['saveData'])) {
     $nationality = filter_input(INPUT_POST, 'nationality', FILTER_SANITIZE_SPECIAL_CHARS);
     $author->setNationality($nationality);
 
+    $author->setCreatedFk($userId);
+
+
     if (isset($_FILES["imgProfile"]) && $_FILES["imgProfile"]["tmp_name"] != "") {
         $imgPath = $utils::uploadImage('../../administrative/author/upload', 'imgProfile');
 
@@ -49,6 +55,8 @@ if (isset($_POST['saveData'])) {
 
     if (!empty($id)) {
         $author->setId($id);
+        $author->setUpdatedFk($userId);
+
         echo $author->update($id);
         exit;
     }
@@ -64,6 +72,8 @@ if (isset($_POST['changeStatus'])) {
 
     $author->setId($id);
     $author->setActive($status);
+    $author->setUpdatedFk($userId);
+
 
     echo $author->changeActiveStatus($id, $status);
     exit;

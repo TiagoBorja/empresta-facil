@@ -61,14 +61,14 @@ function showAuthors(authors) {
                 : '');
 
         tableBody.append(`
-            <tr id="id-${author.id}" class="selectable-row">
-                <td>${author.primeiro_nome}</td>
-                <td>${author.ultimo_nome}</td>
-                <td>${author.data_nascimento}</td>
-                <td>${author.nacionalidade}</td>
-                <td>${author.biografia}</td>
-                <td>${active}</td>
-            </tr>`
+        <tr id="id-${author.id}" class="selectable-row">
+            <td>${author.primeiro_nome}</td>
+            <td>${author.ultimo_nome}</td>
+            <td>${author.data_nascimento}</td>
+            <td>${author.nacionalidade}</td>
+            <td class="text-truncate">${utils.truncateText(author.biografia, 50)}</td>
+            <td>${active}</td>
+        </tr>`
         );
     });
 
