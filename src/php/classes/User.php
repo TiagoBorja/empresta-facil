@@ -74,6 +74,16 @@ class User
 
     public function setNif($nif)
     {
+        $regex = preg_match('/^[1235689][0-9]{8}$/', $nif);
+
+        if (!$regex) {
+            echo json_encode([
+                'status' => 400,
+                'message' => "Insira um NIF válido"
+            ]);
+            exit;
+        }
+
         $this->nif = $nif;
     }
 
@@ -84,6 +94,15 @@ class User
 
     public function setCc($cc)
     {
+        $regex = preg_match('/^[0-9]{8}[A-Z]{1}[0-9]{2}[A-Z]{1}$/', $cc);
+
+        if (!$regex && !empty($cc)) {
+            echo json_encode([
+                'status' => 400,
+                'message' => "Insira um CC válido"
+            ]);
+            exit;
+        }
         $this->cc = $cc;
     }
 
@@ -405,6 +424,12 @@ class User
             ]);
         }
 
+        if (empty($libraries)) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Selecione ao menos uma biblioteca."
+            ]);
+        }
         $query = "INSERT INTO utilizador (
                     primeiro_nome, 
                     ultimo_nome, 

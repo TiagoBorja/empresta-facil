@@ -42,7 +42,7 @@
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" id="nif" name="nif" class="form-control"
-                                            placeholder="123456789">
+                                            placeholder="123456789" required>
                                         <label for="nif">NIF</label>
                                     </div>
                                 </div>
@@ -56,7 +56,6 @@
                                 <div class="col-md-4">
                                     <div class="form-floating">
                                         <select class="form-select" name="gender" id="gender">
-                                            <option value="">Selecionar</option>
                                             <option value="M">Masculino</option>
                                             <option value="F">Feminino</option>
                                             <option value="O">Outro</option>
@@ -67,14 +66,14 @@
                                 <div class="col-md-8">
                                     <div class="form-floating">
                                         <input type="date" id="birthDay" name="birthDay" class="form-control"
-                                            placeholder="Data de Nascimento">
+                                            placeholder="Data de Nascimento" required>
                                         <label for="birthDay">Data de Nascimento</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="form-floating">
                                         <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
-                                            placeholder="Exemplo: 912345678">
+                                            placeholder="Exemplo: 912345678" required>
                                         <label for="phoneNumber">Telemóvel</label>
                                     </div>
                                 </div>

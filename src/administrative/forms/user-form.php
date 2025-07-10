@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" id="nif" name="nif" class="form-control"
+                                        <input type="text" id="nif" name="nif" class="form-control" required
                                             placeholder="123456789">
                                         <label for="nif">NIF</label>
                                     </div>
@@ -59,7 +59,6 @@
                                 <div class="col-md-4">
                                     <div class="form-floating">
                                         <select class="form-select" name="gender" id="gender">
-                                            <option value="">Selecionar</option>
                                             <option value="M">Masculino</option>
                                             <option value="F">Feminino</option>
                                             <option value="O">Outro</option>
@@ -69,7 +68,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-floating">
-                                        <input type="date" id="birthDay" name="birthDay" class="form-control"
+                                        <input type="date" id="birthDay" name="birthDay" class="form-control" required
                                             placeholder="Data de Nascimento">
                                         <label for="birthDay">Data de Nascimento</label>
                                     </div>
@@ -78,7 +77,7 @@
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
-                                            placeholder="Exemplo: 912345678">
+                                            placeholder="Exemplo: 912345678" required>
                                         <label for="phoneNumber">Telemóvel</label>
                                     </div>
                                 </div>
@@ -122,23 +121,25 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <select class="form-select" id="roleSelect" name="role">
-                                            <option value="">Selecionar</option>
-                                        </select>
-                                        <label class="form-label" for="role">Permissão</label>
-                                    </div>
-                                </div>
-
                                 <div id="librarySelectDiv" class="col-md-6">
-                                    <div class="form-floating mb-3">
+                                    <div class="form-floating">
                                         <select name="librarySelect" id="librarySelect" class="form-select" required>
                                             <option selected disabled>Selecione</option>
                                         </select>
                                         <label for="librarySelect">Biblioteca</label>
                                     </div>
                                 </div>
+
+                                <?php if (Utils::isEmployeeOrHigher($_SESSION['user'] ?? [])): ?>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="roleSelect" name="role">
+                                                <option value="">Selecionar</option>
+                                            </select>
+                                            <label class="form-label" for="role">Permissão</label>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
 
                                 <div class="col-md-8">
                                     <div class="form-floating">

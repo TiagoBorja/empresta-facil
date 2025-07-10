@@ -186,7 +186,7 @@ require './classes/Book.php';
 $book = new Book();
 $userName = isset($_SESSION['user']['primeiro_nome']) ?? '';
 
-
+$isGuest = !isset($_SESSION['user']);
 
 ?>
 <h1 class="p-3 text-center mt-3">
@@ -233,8 +233,19 @@ $userName = isset($_SESSION['user']['primeiro_nome']) ?? '';
                 <h5 class="card-title">Livros que Você Pode Gostar</h5>
                 <p class="card-text">Com base nos seus gostos,
                     selecionamos livros que podem ser do seu interesse. Explore essas sugestões personalizadas e
-                    expanda seus horizontes literários!</p><a href="?page=3" class="btn btn-outline-primary">Veja
-                    suas recomendações</a>
+                    expanda seus horizontes literários!</p>
+
+                <?php if ($isGuest): ?>
+                    <a class="btn btn-outline-primary" id="loginRequired" data-bs-toggle="modal"
+                        data-bs-target="#loginRequiredModal">
+                        Veja suas recomendações
+                    </a>
+                <?php else: ?>
+                    <a class="btn btn-outline-primary" href="?page=catalog&userRecommend=true">
+                        Veja suas recomendações
+                    </a>
+                <?php endif; ?>
+
             </div>
         </div>
     </div>
@@ -297,4 +308,6 @@ $userName = isset($_SESSION['user']['primeiro_nome']) ?? '';
             <span class="visually-hidden">Próximo</span>
         </button>
     <?php endif; ?>
+
+    <?php include '../includes/modal/login-required.php'; ?>
 </div>

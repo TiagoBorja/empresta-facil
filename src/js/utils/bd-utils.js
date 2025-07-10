@@ -55,17 +55,12 @@ export async function updateData(API_URL, formData, form, pageRedirect) {
 
         const result = await response.json();
 
-        if (result.status === 422) {
-            toastr.warning(result.message || "Preencha os campos antes de prosseguir!", "Atenção!");
-            return;
-        }
-
-        utils.handleFormResponse(result, form);
-
         if (result.status === 200) {
             sessionStorage.setItem('toastMessage', 'success');
             window.location.href = pageRedirect;
         }
+        
+        utils.handleFormResponse(result, form);
     } catch (error) {
         console.error("Erro ao processar a solicitação:", error);
         toastr.error("Ocorreu um erro ao processar a solicitação", "Erro!");

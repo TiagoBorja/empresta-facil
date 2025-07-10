@@ -58,7 +58,7 @@ export async function handleFormResponse(result, form) {
     if (result.status === 200) {
         form.reset();
         toastr.success(result.message, "Sucesso!");
-    } else if (result.status === 422 || result.status === 409) {
+    } else if (result.status === 422 || result.status === 409 || result.status === 400) {
         toastr.warning(result.message, "Atenção!");
     }
 }
@@ -107,7 +107,7 @@ function fillSelect(items, labelValue, elementId, selectedValue = null, blockSel
                 e.preventDefault();
             });
             select.style.pointerEvents = 'none';
-            select.style.backgroundColor = '#eee';
+            select.style.backgroundColor = '#cccccc';
         }
     } catch (error) {
         console.error('Erro ao fazer requisição:', error);

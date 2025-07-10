@@ -48,3 +48,15 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const toastMessage = sessionStorage.getItem('toastMessage');
+
+        if (toastMessage === 'success') {
+            toastr.success("Registo realizado com sucesso! Um email chegará à sua caixa de correio.", "Sucesso!");
+        } else if (toastMessage === 'error') {
+            toastr.error("Ocorreu um erro ao processar a solicitação.", "Erro!");
+        }
+        sessionStorage.removeItem('toastMessage');
+    });
+</script>
