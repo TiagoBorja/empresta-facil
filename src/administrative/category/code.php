@@ -1,9 +1,11 @@
 <?php
 
+session_start();
 header('Content-Type: application/json');
 include_once '../../php/classes/Category.php';
 
 $categoryClass = new Category();
+$userId = $_SESSION['user']['id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
     $onlyActive = isset($_GET['activeOnly']) && $_GET['activeOnly'] === 'true';
@@ -27,9 +29,12 @@ if (isset($_POST['saveData'])) {
 
     $categoryClass->setCategory($category);
     $categoryClass->setDescription($description);
+    $categoryClass->setCreatedFk($userId);
 
     if (!empty($id)) {
         $categoryClass->setId($id);
+        $categoryClass->setUpdatedFk($userId);
+
         echo $categoryClass->updateCategory($id);
     } else {
         echo $categoryClass->newCategory();
@@ -43,6 +48,7 @@ if (isset($_POST['changeStatus'])) {
     $status = ($status === 'Y') ? 'N' : 'Y';
 
     $categoryClass->setId($id);
+    $categoryClass->setUpdatedFk($userId);
     $categoryClass->setActive($status);
 
     echo $categoryClass->changeActiveStatus($id, $status);

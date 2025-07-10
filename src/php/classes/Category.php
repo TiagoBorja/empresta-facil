@@ -9,7 +9,8 @@ class Category
     private $description;
 
     private $active;
-
+    private $createdFk;
+    private $updatedFk;
     private $pdo;
 
     public function getId()
@@ -52,6 +53,25 @@ class Category
         $this->active = $active;
     }
 
+    public function getCreatedFk()
+    {
+        return $this->createdFk;
+    }
+
+    public function setCreatedFk($createdFk)
+    {
+        $this->createdFk = $createdFk;
+    }
+    public function getUpdatedFk()
+    {
+        return $this->updatedFk;
+    }
+
+    public function setUpdatedFk($updatedFk)
+    {
+        $this->updatedFk = $updatedFk;
+    }
+
     public function __construct()
     {
         $connection = new Connection();
@@ -89,7 +109,13 @@ class Category
     public function getCategoryById($id)
     {
         $this->id = $id;
-        $query = "SELECT * FROM categoria WHERE id = :id";
+        $query = "SELECT c.*, 
+                  CONCAT(u1.primeiro_nome, ' ', u1.ultimo_nome) AS criado_por, 
+                  CONCAT(u2.primeiro_nome, ' ', u2.ultimo_nome) AS atualizado_por
+                  FROM categoria c
+                  LEFT JOIN utilizador u1 ON c.criado_fk = u1.id
+                  LEFT JOIN utilizador u2 ON c.atualizado_fk = u2.id
+                  WHERE c.id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
 
@@ -127,11 +153,12 @@ class Category
             ]);
         }
 
-        $query = "INSERT INTO categoria (categoria, descricao) VALUES (:category, :description)";
+        $query = "INSERT INTO categoria (categoria, descricao, criado_fk) VALUES (:category, :description, :createdFk)";
         $stmt = $this->pdo->prepare($query);
 
         $stmt->bindParam(':category', $this->category);
         $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':createdFk', $this->createdFk);
 
         try {
             $stmt->execute();
@@ -161,12 +188,15 @@ class Category
         }
 
         $query = "UPDATE categoria 
-                  SET categoria = :category, descricao = :description
+                  SET categoria = :category, 
+                  descricao = :description,
+                  atualizado_fk = :updatedFk
                   WHERE id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', var: $this->id);
         $stmt->bindParam(':category', $this->category);
         $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':updatedFk', $this->updatedFk);
 
         try {
 
