@@ -28,6 +28,20 @@
                         <label for="name">Nome da Editora</label>
                     </div>
 
+                    <div id="user-info" class="d-flex gap-4 mt-3 small d-none">
+                        <div>
+                            <i class="bi bi-person me-1"></i>
+                            Criado por <strong id="created-user" class="fw-semibold">-</strong>
+                            <br>
+                            <time id="created-date" class="fst-italic">-</time>
+                        </div>
+                        <div>
+                            <i class="bi bi-pencil me-1"></i>
+                            Editado por <strong id="updated-user" class="fw-semibold">-</strong>
+                            <br>
+                            <time id="updated-date" class="fst-italic">-</time>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer">
                     <div class="text-center">

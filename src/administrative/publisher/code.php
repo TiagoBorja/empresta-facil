@@ -1,9 +1,10 @@
 <?php
-
+session_start();
 header('Content-Type: application/json');
 include_once '../../php/classes/Publisher.php';
 
 $publisher = new Publisher();
+$userId = $_SESSION['user']['id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
     $onlyActive = isset($_GET['activeOnly']) && $_GET['activeOnly'] === 'true';
@@ -27,9 +28,10 @@ if (isset($_POST['saveData'])) {
     $publisherName = filter_input(INPUT_POST, 'publisherName', FILTER_SANITIZE_SPECIAL_CHARS);
 
     $publisher->setPublisher($publisherName);
-
+    $publisher->setCreatedFk($userId);
     if (!empty($id)) {
         $publisher->setId($id);
+        $publisher->setUpdatedFk($userId);
         echo $publisher->update($id);
         exit;
     }
@@ -45,6 +47,7 @@ if (isset($_POST['changeStatus'])) {
 
     $publisher->setId($id);
     $publisher->setActive($status);
+    $publisher->setUpdatedFk($userId);
 
     echo $publisher->changeActiveStatus($id, $status);
     exit;

@@ -8,6 +8,8 @@ class Publisher
     private $id;
     private $publisher;
     private $active;
+    private $createdFk;
+    private $updatedFk;
 
     private $pdo;
     private $tableName = 'editora';
@@ -46,6 +48,24 @@ class Publisher
     {
         $this->active = $active;
     }
+    public function getCreatedFk()
+    {
+        return $this->createdFk;
+    }
+
+    public function setCreatedFk($createdFk)
+    {
+        $this->createdFk = $createdFk;
+    }
+    public function getUpdatedFk()
+    {
+        return $this->updatedFk;
+    }
+
+    public function setUpdatedFk($updatedFk)
+    {
+        $this->updatedFk = $updatedFk;
+    }
 
     public function getAll($onlyActive = false, $returnedId = null)
     {
@@ -78,9 +98,14 @@ class Publisher
     public function getById($id)
     {
         $this->id = $id;
-        $query = "SELECT *
-                  FROM " . $this->tableName . "
-                  WHERE id = :id";
+        $query = "SELECT 
+                    e.*,
+                    CONCAT(u1.primeiro_nome, ' ', u1.ultimo_nome) AS criado_por,
+                    CONCAT(u2.primeiro_nome, ' ', u2.ultimo_nome) AS atualizado_por
+                FROM editora e
+                LEFT JOIN utilizador u1 ON e.criado_fk = u1.id
+                LEFT JOIN utilizador u2 ON e.atualizado_fk = u2.id
+                WHERE e.id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
 
@@ -130,10 +155,11 @@ class Publisher
             ]);
         }
 
-        $query = "INSERT INTO " . $this->tableName . " (editora) VALUES (:publisher)";
+        $query = "INSERT INTO {$this->tableName} (editora, criado_fk) VALUES (:publisher, :createdFk)";
         $stmt = $this->pdo->prepare($query);
 
         $stmt->bindParam(':publisher', $this->publisher);
+        $stmt->bindParam(':createdFk', $this->createdFk);
 
         try {
             $stmt->execute();
@@ -178,11 +204,13 @@ class Publisher
         }
 
         $query = "UPDATE " . $this->tableName . " 
-                  SET editora = :publisher
+                  SET editora = :publisher,
+                  atualizado_fk = :updatedFk
                   WHERE id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', var: $this->id);
         $stmt->bindParam(':publisher', $this->publisher);
+        $stmt->bindParam(':updatedFk', $this->updatedFk);
 
         try {
 
@@ -207,12 +235,14 @@ class Publisher
         $this->active = $status;
 
         $query = 'UPDATE ' . $this->tableName . '
-                  SET ativo = :active
+                  SET ativo = :active,
+                  atualizado_fk = :updatedFk
                   WHERE id = :id';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':active', $this->active);
+        $stmt->bindParam(':updatedFk', $this->updatedFk);
 
         try {
 
