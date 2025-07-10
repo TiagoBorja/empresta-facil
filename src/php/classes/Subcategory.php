@@ -10,7 +10,8 @@ class Subcategory
     private $category;
     private $description;
     private $active;
-
+    private $createdFk;
+    private $updatedFk;
     private $pdo;
     private $tableName = 'subcategoria';
     public function __construct()
@@ -67,6 +68,24 @@ class Subcategory
     {
         $this->active = $active;
     }
+    public function getCreatedFk()
+    {
+        return $this->createdFk;
+    }
+
+    public function setCreatedFk($createdFk)
+    {
+        $this->createdFk = $createdFk;
+    }
+    public function getUpdatedFk()
+    {
+        return $this->updatedFk;
+    }
+
+    public function setUpdatedFk($updatedFk)
+    {
+        $this->updatedFk = $updatedFk;
+    }
 
     public function getAll($onlyActive = false, $returnedId = null)
     {
@@ -101,10 +120,16 @@ class Subcategory
     public function getById($id)
     {
         $this->id = $id;
-        $query = "SELECT sub.id, cat.id AS categoria_id, cat.categoria, sub.subcategoria, sub.descricao, sub.ativo
-                  FROM " . $this->tableName . " sub
-                  INNER JOIN categoria cat ON sub.categoria_fk = cat.id
-                  WHERE sub.id = :id";
+        $query = "SELECT                    
+                    sub.*, 
+                    cat.categoria, 
+                    CONCAT(u1.primeiro_nome, ' ', u1.ultimo_nome) AS criado_por, 
+                    CONCAT(u2.primeiro_nome, ' ', u2.ultimo_nome) AS atualizado_por
+                FROM " . $this->tableName . " sub
+                INNER JOIN categoria cat ON sub.categoria_fk = cat.id
+                LEFT JOIN utilizador u1 ON sub.criado_fk = u1.id
+                LEFT JOIN utilizador u2 ON sub.atualizado_fk = u2.id
+                WHERE sub.id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
 
@@ -141,12 +166,14 @@ class Subcategory
             ]);
         }
 
-        $query = "INSERT INTO subcategoria (categoria_fk, subcategoria, descricao) VALUES (:category, :subcategory, :description)";
+        $query = "INSERT INTO subcategoria (categoria_fk, subcategoria, descricao, criado_fk) 
+                  VALUES (:category, :subcategory, :description, :createdFk)";
         $stmt = $this->pdo->prepare($query);
 
         $stmt->bindParam(':category', $this->category);
         $stmt->bindParam(':subcategory', $this->subcategory);
         $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':createdFk', $this->createdFk);
 
         try {
             $stmt->execute();
@@ -176,13 +203,17 @@ class Subcategory
         }
 
         $query = "UPDATE " . $this->tableName . " 
-                  SET categoria_fk = :category, subcategoria = :subcategory, descricao = :description
+                  SET categoria_fk = :category, 
+                  subcategoria = :subcategory, 
+                  descricao = :description,
+                  atualizado_fk = :updatedFk
                   WHERE id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', var: $this->id);
         $stmt->bindParam(':category', $this->category);
         $stmt->bindParam(':subcategory', $this->subcategory);
         $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':updatedFk', $this->updatedFk);
 
         try {
 
@@ -207,12 +238,14 @@ class Subcategory
         $this->active = $status;
 
         $query = 'UPDATE subcategoria
-                  SET ativo = :active
+                  SET ativo = :active,
+                  atualizado_fk = :updatedFk
                   WHERE id = :id';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':active', $this->active);
+        $stmt->bindParam(':updatedFk', $this->updatedFk);
 
         try {
 

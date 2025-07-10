@@ -34,8 +34,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             ]
 
             document.getElementById('clear').addEventListener('click', () => {
-                console.log("clicuqei");
-
                 utils.clearInputs(originalValues);
             });
         }

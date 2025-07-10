@@ -1,9 +1,10 @@
 <?php
-
+session_start();
 header('Content-Type: application/json');
 include_once '../../php/classes/Subcategory.php';
 
 $subcategoryClass = new Subcategory();
+$userId = $_SESSION['user']['id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
     $onlyActive = isset($_GET['activeOnly']) && $_GET['activeOnly'] === 'true';
@@ -30,9 +31,12 @@ if (isset($_POST['saveData'])) {
     $subcategoryClass->setCategory($category);
     $subcategoryClass->setSubcategory($subcategory);
     $subcategoryClass->setDescription($description);
+    $subcategoryClass->setCreatedFk($userId);
 
     if (!empty($id)) {
         $subcategoryClass->setId($id);
+        $subcategoryClass->setUpdatedFk($userId);
+
         echo $subcategoryClass->update($id);
         exit;
     }
@@ -48,6 +52,7 @@ if (isset($_POST['changeStatus'])) {
 
     $subcategoryClass->setId($id);
     $subcategoryClass->setActive($status);
+    $subcategoryClass->setUpdatedFk($userId);
 
     echo $subcategoryClass->changeActiveStatus($id, $status);
     exit;
