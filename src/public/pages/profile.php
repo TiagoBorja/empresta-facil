@@ -4,8 +4,8 @@
             <div class="card shadow-lg rounded-4 border-0">
                 <div class="card-body p-4">
                     <div class="text-center mb-3">
-                        <img src="../administrative/users/upload/<?php echo $_SESSION['user']['img_url']; ?>"
-                            class="rounded-circle shadow-sm mb-2" alt="Avatar do utilizador" width="56" height="56">
+                        <img src=<?= $urlPath ?> class="rounded-circle shadow-sm mb-2" alt="Avatar do utilizador"
+                            width="56" height="56">
 
                         <h4 class="card-title mb-0">Meu Perfil</h4>
                         <small class="text-muted">Bem-vindo(a) de volta!</small>

@@ -14,10 +14,10 @@ $serverPath = __DIR__ . '/users/upload/' . $imgFilename;
 
 $urlPath = $imgFilename
     ? 'users/upload/' . $imgFilename
-    : 'src/public/assets/images/users/male-icon.jpg';
+    : '../public/assets/images/users/male-icon.jpg';
 
 if (!file_exists($serverPath)) {
-    $urlPath = 'src/public/assets/images/users/male-icon.jpg';
+    $urlPath = '../public/assets/images/users/male-icon.jpg';
 }
 
 
@@ -183,9 +183,13 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end user-dd animated"
                                     aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="javascript:void(0)"><i
-                                            class="mdi mdi-account me-1 ms-1 text-info"></i>
-                                        Meu Perfil</a>
+
+                                    <?php if (Utils::isEmployeeOrHigher($_SESSION['user'] ?? [])): ?>
+                                        <a class="dropdown-item"
+                                            href="../php/index.php?page=profile&id=<?= $_SESSION['user']['id'] ?>">
+                                            <i class=" mdi mdi-account me-1 ms-1 text-info"></i> Meu Perfil
+                                        </a>
+                                    <?php endif; ?>
 
                                     <div class="dropdown-divider"></div>
 
