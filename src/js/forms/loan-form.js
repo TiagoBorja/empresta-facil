@@ -107,43 +107,49 @@ async function showSelectedLoan() {
 
         document.getElementById("loanStatus").innerHTML = getStatusBadge(loanValue);
 
-        const hoje = new Date();
-        const dataDevolucao = new Date(loanValue.data_devolucao);
-        const diffEmDias = Math.ceil((dataDevolucao - hoje) / (1000 * 60 * 60 * 24));
+        const today = new Date();
+        const returnDateValue = new Date(loanValue.data_devolucao);
+        const diffInDays = Math.ceil((returnDateValue - today) / (1000 * 60 * 60 * 24));
 
-        const containerNotificar = document.getElementById("notifyContainer");
-        containerNotificar.innerHTML = "";
+        const notifyContainer = document.getElementById("notifyContainer");
+        notifyContainer.innerHTML = "";
 
-        if (diffEmDias <= 3) {
-            const botao = document.createElement("button");
-            botao.id = "notificarBtn";
-            botao.className = "btn btn-primary btn-sm";
-            botao.innerHTML = `<i class="mdi mdi-bell-ring-outline"></i> Notificar`;
-
-            botao.addEventListener("click", async () => {
+        if (diffInDays <= 3) {
+            const button = document.createElement("button");
+            button.id = "notificarBtn";
+            button.className = "btn btn-primary btn-sm";
+            button.innerHTML = `<i class="mdi mdi-bell-ring-outline"></i> Notificar`;
+            console.log(diffInDays);
+            
+            button.addEventListener("click", async () => {
                 try {
-                    console.log(loanValue.livro_fk);
-                    
-                    const response = await fetch(`${API_ENDPOINTS.LOAN}?notify&user=${loanValue.utilizador_fk}&bookFk=${loanValue.livro_fk}`);
-                    
+                    let url = "";
+                    if (diffInDays > 0) {
+                        url = `${API_ENDPOINTS.LOAN}?notifyUpcomingLoanExpiration&user=${loanValue.utilizador_fk}&bookFk=${loanValue.livro_localizacao_fk}`;
+                    } else {
+                        url = `${API_ENDPOINTS.LOAN}?notifyLoanExpiration&user=${loanValue.utilizador_fk}&bookFk=${loanValue.livro_localizacao_fk}`;
+                    }
+
+                    const response = await fetch(url);
                     if (!response.ok) throw new Error("Erro ao enviar notificação");
 
                     const result = await response.json();
 
                     if (result.status === 200) {
-                        alert("📩 Notificação enviada com sucesso!");
+                        toastr.info("O utilizador foi notificado com sucesso!", "Informação");
                     } else {
                         alert("⚠️ Erro ao enviar notificação: " + result.message);
                     }
+
                 } catch (error) {
                     console.error(error);
                     alert("❌ Ocorreu um erro inesperado.");
                 }
             });
 
-
-            containerNotificar.appendChild(botao);
+            notifyContainer.appendChild(button);
         }
+
         const dueDate = document.getElementById("dueDate");
         dueDate.value = loanValue.data_devolucao;
         dueDate.disabled = true;

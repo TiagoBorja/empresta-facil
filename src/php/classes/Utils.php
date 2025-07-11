@@ -283,7 +283,7 @@ class Utils
             return false;
         }
     }
-    public static function notifyLoan($email, $firstName, $bookTitle, $pickUpDate, $libraryName, $libraryAddress)
+    public static function notifyLoanExpiration($email, $firstName, $bookTitle, $libraryName, $libraryAddress)
     {
         try {
             date_default_timezone_set('Europe/Lisbon');
@@ -351,7 +351,6 @@ class Utils
                 "Por favor, proceda à devolução o mais rapidamente possível para evitar penalizações.\n\n" .
                 "Biblioteca: $libraryName\n" .
                 "Morada: $libraryAddress\n" .
-                "Data de levantamento: $pickUpDate\n\n" .
                 "Atenciosamente,\n" .
                 $libraryName;
 
@@ -364,6 +363,87 @@ class Utils
             return false;
         }
     }
+    public static function notifyUpcomingLoanExpiration($email, $firstName, $bookTitle, $libraryName, $libraryAddress)
+    {
+        try {
+            date_default_timezone_set('Europe/Lisbon');
+
+            $phpmailer = new PHPMailer();
+            $phpmailer->isSMTP();
+            $phpmailer->Host = $_ENV['MAIL_HOST'];
+            $phpmailer->Port = $_ENV['MAIL_PORT'];
+            $phpmailer->SMTPAuth = true;
+            $phpmailer->SMTPSecure = $_ENV['MAIL_ENCRYPTION'];
+            $phpmailer->Username = $_ENV['MAIL_USERNAME'];
+            $phpmailer->Password = $_ENV['MAIL_PASSWORD'];
+
+            $phpmailer->setFrom($_ENV['MAIL_FROM_ADDRESS'], $libraryName);
+            $phpmailer->addAddress($email, $firstName);
+
+            $phpmailer->CharSet = 'UTF-8';
+            $phpmailer->isHTML(true);
+            $phpmailer->Subject = '📚 Alerta: Empréstimo a Expirar';
+
+            $phpmailer->Body = '
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background-color: #f8f1e9; padding: 20px; text-align: center; border-radius: 5px 5px 0 0; }
+        .content { padding: 20px; background-color: #fff; border-left: 1px solid #eee; border-right: 1px solid #eee; }
+        .footer { padding: 20px; text-align: center; font-size: 12px; color: #777; background-color: #f8f1e9; border-radius: 0 0 5px 5px; }
+        .highlight { background-color: #fff8e1; padding: 15px; border-left: 4px solid #ffc107; margin: 15px 0; }
+        .details { margin: 15px 0; }
+        .details div { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2 style="color: #4a6fa5; margin: 0;">' . htmlspecialchars($libraryName) . '</h2>
+        <p style="margin: 5px 0 0;">O seu empréstimo está prestes a expirar</p>
+    </div>
+    
+    <div class="content">
+        <h3 style="color: #4a6fa5;">Olá, ' . htmlspecialchars($firstName) . '!</h3>
+        
+        <p>Este é um lembrete de que o empréstimo do livro <strong>' . htmlspecialchars($bookTitle) . '</strong> está prestes a expirar.</p>
+        <p>Por favor, organize-se para devolvê-lo a tempo ou proceda à renovação, se aplicável.</p>
+        
+        <div class="highlight">
+            <div class="details">
+                <div><strong>🏢 Biblioteca:</strong> ' . htmlspecialchars($libraryName) . '</div>
+                <div><strong>🏠 Morada:</strong> ' . htmlspecialchars($libraryAddress) . '</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© ' . date('d-m-Y') . ' ' . htmlspecialchars($libraryName) . ' - Todos os direitos reservados.</p>
+        <p>Este é um e-mail automático, por favor não responda.</p>
+    </div>
+</body>
+</html>';
+
+            $phpmailer->AltBody = "Olá $firstName,\n\n" .
+                "Este é um lembrete de que o empréstimo do livro '$bookTitle' está prestes a expirar.\n" .
+                "Por favor, devolva-o a tempo ou renove-o para evitar penalizações.\n\n" .
+                "Biblioteca: $libraryName\n" .
+                "Morada: $libraryAddress\n" .
+                "Atenciosamente,\n" .
+                $libraryName;
+
+            return json_encode([
+                'status' => $phpmailer->send() ? 200 : 500,
+                'message' => $phpmailer->ErrorInfo
+            ]);
+        } catch (Exception $e) {
+            error_log("Erro ao enviar e-mail: " . $e->getMessage());
+            return false;
+        }
+    }
+
 
     public static function generateRandomCode($size = 6)
     {

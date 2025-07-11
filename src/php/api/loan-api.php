@@ -30,23 +30,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $reservation->setId($reservationId);
             echo $reservation->getById($reservationId);
             break;
-        case isset($_GET['notify']):
+            
+        case isset($_GET['notifyLoanExpiration']):
             $userId = filter_input(INPUT_GET, 'user', filter: FILTER_SANITIZE_NUMBER_INT);
             $bookFk = filter_input(INPUT_GET, 'bookFk', filter: FILTER_SANITIZE_NUMBER_INT);
             $email = $user->getUserEmail($userId);
             $firstName = $user->getUserFirstName($userId);
-            $bookTitle = $loanBook->getBookTitle(46);
-            $pickUpDate = '2025-12-02';
-            echo Utils::notifyLoan(
+            $bookTitle = $loanBook->getBookTitle($bookFk);
+            echo Utils::notifyLoanExpiration(
                 $email,
                 $firstName,
                 $bookTitle,
-                $pickUpDate,
                 $_SESSION['employee']['biblioteca'],
                 $_SESSION['employee']['morada'],
             );
-
-            // echo json_encode($bookTitle);
+            break;
+        case isset($_GET['notifyUpcomingLoanExpiration']):
+            $userId = filter_input(INPUT_GET, 'user', filter: FILTER_SANITIZE_NUMBER_INT);
+            $bookFk = filter_input(INPUT_GET, 'bookFk', filter: FILTER_SANITIZE_NUMBER_INT);
+            $email = $user->getUserEmail($userId);
+            $firstName = $user->getUserFirstName($userId);
+            $bookTitle = $loanBook->getBookTitle($bookFk);
+            echo Utils::notifyUpcomingLoanExpiration(
+                $email,
+                $firstName,
+                $bookTitle,
+                $_SESSION['employee']['biblioteca'],
+                $_SESSION['employee']['morada'],
+            );
             break;
 
         case isset($_GET['userId']):
