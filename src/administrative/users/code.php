@@ -14,6 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         exit;
     }
 
+    if (isset($_GET['employeeLibraryId'])) {
+        echo $user->getUsersByEmployeeLibrary($_SESSION['employee']['biblioteca_fk']);
+        exit;
+    }
+
     if (isset($_GET['id'])) {
         $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $user->setId($id);

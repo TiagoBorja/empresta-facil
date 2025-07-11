@@ -216,7 +216,7 @@ class Utils
 
             $phpmailer->CharSet = 'UTF-8';
             $phpmailer->isHTML(true);
-            $phpmailer->Subject = '📚 Confirmação de Empréstimo - ' . $bookTitle;
+            $phpmailer->Subject = '📚 Confirmação de Empréstimo';
 
             $phpmailer->Body = '
         <!DOCTYPE html>
@@ -237,28 +237,24 @@ class Utils
         <body>
             <div class="header">
                 <h2 style="color: #4a6fa5; margin: 0;"> ' . htmlspecialchars($libraryName) . '</h2>
-                <p style="margin: 5px 0 0;">Sua reserva foi confirmada</p>
+                <p style="margin: 5px 0 0;">Sua levantamento foi confirmada</p>
             </div>
             
             <div class="content">
                 <h3 style="color: #4a6fa5;">Olá, ' . htmlspecialchars($firstName) . '!</h3>
                 
-                <p>Agradecemos por utilizar os nossos serviços. Aqui estão os detalhes da sua reserva:</p>
+                <p>Agradecemos por utilizar os nossos serviços. Aqui estão os detalhes do seu empréstimo:</p>
                 
                 <div class="highlight">
-                    <h4 style="margin-top: 0;">' . htmlspecialchars($bookTitle) . '</h4>
+                    <h4 style="margin-top: 0;">Livro(s)' . htmlspecialchars($bookTitle) . '</h4>
                     <div class="details">
                         <div><strong>📅 Data para levantamento:</strong> ' . htmlspecialchars($pickUpDate) . '</div>
                         <div><strong>🏢 Biblioteca:</strong> ' . htmlspecialchars($libraryName) . '</div>
-                        <div><strong>🏢 Morada:</strong> ' . htmlspecialchars($libraryAddress) . '</div>
+                        <div><strong>🏠 Morada:</strong> ' . htmlspecialchars($libraryAddress) . '</div>
                     </div>
                 </div>
                 
-                <p><strong>Importante:</strong> Você tem até a data de levantamento para retirar o livro. Após essa data, a reserva expirará automaticamente.</p>
-                
-                <p style="text-align: center;">
-                    <a href="https://exemplo.com/minhas-reservas" class="button">Ver Minhas Reservas</a>
-                </p>
+                <p><strong>Importante:</strong> Você tem até a data de levantamento para retirar o livro. Após essa data, será aplicado uma penalidade</p>
             </div>
             
             <div class="footer">
@@ -270,7 +266,7 @@ class Utils
         </html>';
 
             $phpmailer->AltBody = "Olá $firstName,\n\n" .
-                "Sua reserva do livro '$bookTitle' foi confirmada.\n\n" .
+                "Sua reserva do livro '$bookTitle' foi confirmado.\n\n" .
                 "Data para levantamento: $pickUpDate\n" .
                 "Biblioteca: $libraryName\n" .
                 "Você tem até a data de levantamento para retirar o livro.\n\n" .
@@ -287,7 +283,7 @@ class Utils
             return false;
         }
     }
-    public static function generateRandomCode($size = 12)
+    public static function generateRandomCode($size = 6)
     {
         $char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $code = '';

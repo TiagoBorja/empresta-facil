@@ -314,7 +314,40 @@ class User
             ]);
         }
     }
+    public function getUsersByEmployeeLibrary($employeeLibraryId)
+    {
+        $query = "SELECT 
+                    u.*
+                  FROM utilizador u
+                  INNER JOIN utilizador_biblioteca ub ON ub.utilizador_fk = u.id
+                  WHERE ub.biblioteca_fk = :employeeLibraryId";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':employeeLibraryId', $employeeLibraryId);
 
+        try {
+            $stmt->execute();
+
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($result) {
+                return json_encode([
+                    'status' => 200,
+                    'message' => "Utilizador encontrado.",
+                    'data' => $result
+                ]);
+            } else {
+                return json_encode([
+                    'status' => 404,
+                    'message' => "Utilizador não encontrado."
+                ]);
+            }
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao encontrar: " . $e->getMessage()
+            ]);
+        }
+    }
     public function getPendentUserCount($employeeLibrary)
     {
         try {

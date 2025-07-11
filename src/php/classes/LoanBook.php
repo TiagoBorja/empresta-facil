@@ -72,14 +72,16 @@ class LoanBook
     }
     public function getBookTitle($id)
     {
-        $query = "SELECT titulo FROM livro WHERE id = :id LIMIT 1";
+        $query = "SELECT l.titulo FROM livro l
+                  INNER JOIN livro_localizacao ll ON ll.livro_fk = l.id
+                  WHERE ll.id = :id LIMIT 1";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         try {
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $result ? $result['title'] : null;
+            return $result ? $result['titulo'] : null;
         } catch (PDOException $e) {
             return null;
         }

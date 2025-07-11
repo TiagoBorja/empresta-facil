@@ -47,7 +47,7 @@ async function showNewLoan() {
         document.getElementById("icon").classList.add("mdi-book-open-page-variant");
         document.getElementById("bookToLoan").textContent = "Empréstimo";
 
-        await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user");
+        await utils.fetchSelect(`${API_ENDPOINTS.USER}?employeeLibraryId`, "primeiro_nome ultimo_nome", "user");
         await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect");
 
         await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "statePickUp");
