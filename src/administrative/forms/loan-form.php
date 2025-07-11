@@ -9,6 +9,7 @@
             <span id="bookToLoan" class="hide-menu"></span>
 
             <span id="loanStatus"></span>
+            <span id="notifyContainer" class="ms-2"></span>
         </h4>
     </div>
     <div class="card-body">

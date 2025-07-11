@@ -47,7 +47,7 @@ async function showNewLoan() {
         document.getElementById("icon").classList.add("mdi-book-open-page-variant");
         document.getElementById("bookToLoan").textContent = "Empréstimo";
 
-        await utils.fetchSelect(`${API_ENDPOINTS.USER}?employeeLibraryId`, "primeiro_nome ultimo_nome", "user");
+        await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user");
         await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect");
 
         await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "statePickUp");
@@ -107,6 +107,25 @@ async function showSelectedLoan() {
 
         document.getElementById("loanStatus").innerHTML = getStatusBadge(loanValue);
 
+        const hoje = new Date();
+        const dataDevolucao = new Date(loanValue.data_devolucao);
+        const diffEmDias = Math.ceil((dataDevolucao - hoje) / (1000 * 60 * 60 * 24));
+
+        const containerNotificar = document.getElementById("notifyContainer");
+        containerNotificar.innerHTML = "";
+
+        if (diffEmDias <= 3) {
+            const botao = document.createElement("button");
+            botao.id = "notificarBtn";
+            botao.className = "btn btn-primary btn-sm";
+            botao.innerHTML = `<i class="mdi mdi-bell-ring-outline"></i> Notificar`;
+
+            botao.addEventListener("click", () => {
+                alert("Notificação enviada ao utilizador!");
+            });
+
+            containerNotificar.appendChild(botao);
+        }
         const dueDate = document.getElementById("dueDate");
         dueDate.value = loanValue.data_devolucao;
         dueDate.disabled = true;

@@ -340,7 +340,6 @@ class Loan
             ]);
         }
     }
-
     public function getLoanCount($stateType = null)
     {
         try {

@@ -82,9 +82,25 @@ function showLoan(loans) {
                 state = '<span class="badge rounded-pill bg-danger">Atrasado</span>';
                 break;
         }
+        const today = new Date();
+        const dataDevolucao = new Date(loan.data_devolucao);
+        const dataDevolvido = loan.data_devolvido ? new Date(loan.data_devolvido) : null;
+
+        let rowClass = ''; // classe da linha
+
+        if (!dataDevolvido && loan.estado_emprestimo === 'EM ANDAMENTO') {
+            const diffTime = dataDevolucao.getTime() - today.getTime();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays < 0) {
+                rowClass = 'table-danger'; // devolução atrasada
+            } else if (diffDays <= 3) {
+                rowClass = 'table-warning'; // devolução iminente
+            }
+        }
 
         tableBody.append(`
-            <tr id="id-${loan.id}" class="selectable-row" data-bookid="${loan.livro_localizacao_fk}">
+            <tr id="id-${loan.id}" class="selectable-row ${rowClass}" data-bookid="${loan.livro_localizacao_fk}">
                 <td class="text-truncate">${loan.utilizador}</td>
                 <td class="text-truncate">${loan.titulo}</td>
                 <td class="text-truncate">${utils.formatDate(loan.criado_em)}</td>
@@ -92,7 +108,8 @@ function showLoan(loans) {
                 <td class="text-truncate">${utils.formatDate(loan.data_devolvido)}</td>
                 <td class="text-truncate text-center">${state}</td>
             </tr>
-        `);
+`);
+
 
     });
 
