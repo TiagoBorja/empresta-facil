@@ -218,7 +218,7 @@ class BookReservation
         if ($pickup < $today) {
             return json_encode([
                 'status' => 400,
-                'message' => 'A data de levantamento não pode ser anterior à data de today.'
+                'message' => 'A data de levantamento não pode ser anterior à data de hoje.'
             ]);
         }
 

@@ -253,6 +253,34 @@ class Loan
 
     public function create($books = [])
     {
+
+        if (empty($books)) {
+            return json_encode([
+                'status' => 400,
+                'message' => 'Selecione ao menos um livro.'
+            ]);
+        }
+
+        $today = new DateTime();
+        $today->setTime(0, 0);
+
+        $pickup = new DateTime($this->dueDate);
+        $pickup->setTime(0, 0);
+
+        if ($pickup->format('Y') !== $today->format('Y')) {
+            return json_encode([
+                'status' => 400,
+                'message' => 'Só é possível levantar livros no ano atual.'
+            ]);
+        }
+
+        if ($pickup < $today) {
+            return json_encode([
+                'status' => 400,
+                'message' => 'A data de devolução não pode ser anterior à data de hoje.'
+            ]);
+        }
+
         $query = "INSERT INTO {$this->tableName} (reserva_fk, utilizador_fk, funcionario_fk, data_devolucao) 
                   VALUES (:reservationFk, :userFk, :employeeFk, :dueDate)";
         $stmt = $this->pdo->prepare($query);

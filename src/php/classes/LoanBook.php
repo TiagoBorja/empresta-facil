@@ -113,6 +113,26 @@ class LoanBook
 
     public function update($loanFk, $stateReturn, $returnDate, $bookFk)
     {
+
+        $today = new DateTime();
+        $today->setTime(0, 0);
+
+        $pickup = new DateTime($returnDate);
+        $pickup->setTime(0, 0);
+
+        if ($pickup->format('Y') !== $today->format('Y')) {
+            return json_encode([
+                'status' => 400,
+                'message' => 'Só é possível devolver livros no ano atual.'
+            ]);
+        }
+
+        if ($pickup < $today) {
+            return json_encode([
+                'status' => 400,
+                'message' => 'A data de retorno não pode ser anterior à data de hoje.'
+            ]);
+        }
         $query = "UPDATE emprestimo_livro el
                   SET el.estado_devolucao_fk = :stateReturn,
                   el.data_devolvido = :returnDate

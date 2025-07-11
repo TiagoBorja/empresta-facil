@@ -436,7 +436,7 @@ class User
             $stmt->execute();
             $userFk = $this->pdo->lastInsertId();
 
-            $code = Utils::generateRandomCode(12);
+            $code = Utils::generateRandomCode(6);
 
             if (!empty($libraryId)) {
                 $this->userLibrary->setUserFk($userFk);
@@ -537,7 +537,7 @@ class User
             $stmt->execute();
             $userFk = $this->pdo->lastInsertId();
 
-            $code = Utils::generateRandomCode(12);
+            $code = Utils::generateRandomCode(6);
             $libraryIdsValid = [];
 
             if (!empty($libraries) && is_array($libraries)) {
@@ -647,6 +647,12 @@ class User
             ]);
         }
 
+        if (empty($libraries)) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Selecione ao menos uma biblioteca."
+            ]);
+        }
         $query = "UPDATE utilizador SET 
                 primeiro_nome = :firstName,
                 ultimo_nome = :lastName,
@@ -680,7 +686,7 @@ class User
 
         $toRemove = array_diff($currentLibraryIds, $newLibraryIds);
         $toAdd = array_diff($newLibraryIds, $currentLibraryIds);
-        $code = Utils::generateRandomCode(12);
+        $code = Utils::generateRandomCode(6);
 
         foreach ($toRemove as $libraryId) {
             $this->userLibrary->deleteByUserAndLibrary($userId, $libraryId);
