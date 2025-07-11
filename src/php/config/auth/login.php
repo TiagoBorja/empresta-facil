@@ -58,7 +58,7 @@ if (isset($_POST['usernameOrEmail']) && isset($_POST['password'])) {
     $_SESSION['employee'] = $employeeRow;
 
     $pageRedirect = '';
-    $_SESSION['user']['tipo_utilizador'] === 'Utilizador Comum'
+    $_SESSION['user']['tipo'] === 'Utilizador Comum'
         ? $pageRedirect = 'Location: ../../index.php?page=home'
         : $pageRedirect = 'Location: ../../../administrative/index.php?page=dashboard';
 
