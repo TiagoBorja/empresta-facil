@@ -131,7 +131,7 @@ $isGuest = !isset($_SESSION['user']);
                             <?php endif; ?>
 
 
-
+                                
                             <?= (Utils::isEmployeeOrHigher($_SESSION['user'] ?? []))
                                 ? '<div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="../administrative/index.php">

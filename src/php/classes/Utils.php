@@ -310,7 +310,7 @@ class Utils
 
     public static function hasAccessLevel(array $user, string $requiredRole): bool
     {
-        if (!isset($user['tipo'])) {
+        if (!isset($user['tipo']) || $user['tipo'] === 'Utilizador Comum') {
             return false;
         }
 
