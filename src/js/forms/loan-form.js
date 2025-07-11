@@ -120,9 +120,27 @@ async function showSelectedLoan() {
             botao.className = "btn btn-primary btn-sm";
             botao.innerHTML = `<i class="mdi mdi-bell-ring-outline"></i> Notificar`;
 
-            botao.addEventListener("click", () => {
-                alert("Notificação enviada ao utilizador!");
+            botao.addEventListener("click", async () => {
+                try {
+                    console.log(loanValue.livro_fk);
+                    
+                    const response = await fetch(`${API_ENDPOINTS.LOAN}?notify&user=${loanValue.utilizador_fk}&bookFk=${loanValue.livro_fk}`);
+                    
+                    if (!response.ok) throw new Error("Erro ao enviar notificação");
+
+                    const result = await response.json();
+
+                    if (result.status === 200) {
+                        alert("📩 Notificação enviada com sucesso!");
+                    } else {
+                        alert("⚠️ Erro ao enviar notificação: " + result.message);
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert("❌ Ocorreu um erro inesperado.");
+                }
             });
+
 
             containerNotificar.appendChild(botao);
         }

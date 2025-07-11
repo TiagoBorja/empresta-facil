@@ -374,6 +374,21 @@ class User
             ]);
         }
     }
+    public function getUserEmail($id)
+    {
+        $stmt = $this->pdo->prepare("SELECT email FROM utilizador WHERE id = :id LIMIT 1");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn(); // já retorna só a string
+    }
+
+    public function getUserFirstName($id)
+    {
+        $stmt = $this->pdo->prepare("SELECT primeiro_nome FROM utilizador WHERE id = :id LIMIT 1");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn(); // idem
+    }
     public function newUser($libraryId)
     {
         if (empty($this->firstName) || empty($this->lastName) || empty($this->birthDay) || empty($this->phoneNumber) || empty($this->username) || empty($this->password) || empty($this->email) || empty($this->role)) {

@@ -3,9 +3,11 @@ session_start();
 header('Content-Type: application/json');
 include_once '../classes/Loan.php';
 include_once '../classes/BookReservation.php';
+include_once '../classes/User.php';
 
 $loan = new Loan();
 $loanBook = new LoanBook();
+$user = new User();
 $reservation = new BookReservation();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -27,6 +29,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $reservationId = filter_input(INPUT_GET, 'reservationId', FILTER_SANITIZE_NUMBER_INT);
             $reservation->setId($reservationId);
             echo $reservation->getById($reservationId);
+            break;
+        case isset($_GET['notify']):
+            $userId = filter_input(INPUT_GET, 'user', filter: FILTER_SANITIZE_NUMBER_INT);
+            $bookFk = filter_input(INPUT_GET, 'bookFk', filter: FILTER_SANITIZE_NUMBER_INT);
+            $email = $user->getUserEmail($userId);
+            $firstName = $user->getUserFirstName($userId);
+            $bookTitle = $loanBook->getBookTitle(46);
+            $pickUpDate = '2025-12-02';
+            echo Utils::notifyLoan(
+                $email,
+                $firstName,
+                $bookTitle,
+                $pickUpDate,
+                $_SESSION['employee']['biblioteca'],
+                $_SESSION['employee']['morada'],
+            );
+
+            // echo json_encode($bookTitle);
             break;
 
         case isset($_GET['userId']):
