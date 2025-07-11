@@ -7,6 +7,7 @@ include_once '../../php/classes/AuthorBook.php';
 include_once '../../php/classes/Utils.php';
 
 $book = new Book();
+$userId = $_SESSION['user']['id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
@@ -21,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 
     if (isset($_GET['userRecommend'])) {
-        echo $book->getRecommendedBooksByUser($_SESSION['user']['id']);
+        echo $book->getRecommendedBooksByUser($userId);
         exit;
     }
 
@@ -68,6 +69,7 @@ if (isset($_POST['saveData'])) {
     $book->setCategory($categoryFk);
     $book->setSubcategory($subcategoryFk);
     $book->setSynopsis($synopsis);
+    $book->setCreatedFk($userId);
 
     if (isset($_FILES["bookImg"]) && $_FILES["bookImg"]["tmp_name"] != "") {
         $imgPath = Utils::uploadImage('../../administrative/book/upload', 'bookImg');
@@ -76,6 +78,7 @@ if (isset($_POST['saveData'])) {
     }
     if (!empty($id)) {
         $book->setId($id);
+        $book->setUpdatedFk($userId);
         echo $book->update($id, $authors);
         exit;
     }
@@ -91,6 +94,7 @@ if (isset($_POST['changeStatus'])) {
 
     $book->setId($id);
     $book->setActive($status);
+    $book->setUpdatedFk($userId);
 
     echo $book->changeActiveStatus($id, $status);
     exit;

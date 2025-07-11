@@ -1,11 +1,11 @@
-import { showContentAfterLoading, showLoadingHideContent, fetchSelect } from '../utils/utils.js';
+import { showContentAfterLoading, showLoadingHideContent, fetchSelect, clearInputs } from '../utils/utils.js';
 
 const API_ENDPOINTS = {
     BOOK: '../administrative/book/code.php',
     AUTHOR_BOOK: '../administrative/author-book/code.php',
     PUBLISHER: '../administrative/publisher/code.php?activeOnly=true&returnedId=',
     CATEGORY: '../administrative/category/code.php?activeOnly=true&returnedId=',
-    SUBCATEGORY: '../administrative/subcategory/code.php?activeOnly=true&returnedId=',
+    SUBCATEGORY: '../administrative/subcategory/code.php',
     AUTHORS: '../administrative/author/code.php'
 };
 
@@ -37,6 +37,53 @@ document.addEventListener('DOMContentLoaded', async function () {
         toastr.error(error.message || "Erro ao carregar dados", "Erro!");
         showContentAfterLoading("loading", ["content"]);
     }
+
+    const originalValues = [
+        { elementId: 'title', originalValue: document.getElementById("title").value },
+        { elementId: 'isbn', originalValue: document.getElementById("isbn").value },
+        { elementId: 'releaseYear', originalValue: document.getElementById("releaseYear").value },
+        { elementId: 'language', originalValue: document.getElementById("language").value },
+        { elementId: 'publisher', originalValue: document.getElementById("publisher").value },
+        { elementId: 'category', originalValue: document.getElementById("category").value },
+        { elementId: 'subcategory', originalValue: document.getElementById("subcategory").value },
+        { elementId: 'synopsis', originalValue: document.getElementById("synopsis").value }
+    ];
+
+
+    document.getElementById('clear').addEventListener('click', () => {
+        clearInputs(originalValues);
+    });
+
+
+    document.getElementById('category').addEventListener('change', async function () {
+        const categoryId = this.value;
+        console.log(categoryId);
+
+        const response = await fetch(`${API_ENDPOINTS.SUBCATEGORY}?categoryId=${categoryId}`);
+
+        if (!response.ok) throw new Error("Erro ao buscar dados do livro");
+
+        const result = await response.json();
+
+        const subcategorySelect = document.getElementById('subcategory');
+        subcategorySelect.innerHTML = ''; // Limpa opções antigas
+
+        if (Array.isArray(result) && result.length > 0) {
+            result.forEach(sub => {
+                const option = document.createElement('option');
+                option.value = sub.id;
+                option.textContent = sub.subcategoria;
+                subcategorySelect.appendChild(option);
+            });
+        } else {
+            const option = document.createElement('option');
+            option.value = '';
+            option.textContent = 'Sem subcategorias para esta categoria';
+            option.disabled = true;
+            option.selected = true;
+            subcategorySelect.appendChild(option);
+        }
+    });
 });
 
 async function fetchBookData(bookId) {
@@ -97,7 +144,7 @@ function populateBookForm(bookData) {
     document.getElementById("category").value = bookData.categoria_fk;
     document.getElementById("subcategory").value = bookData.subcategoria_fk;
     document.getElementById("synopsis").value = bookData.sinopse;
-    
+
     const bookPreviewEl = document.getElementById("bookPreview");
     bookPreviewEl.src = `./book/upload/${bookData.img_url}`;
 
@@ -105,13 +152,32 @@ function populateBookForm(bookData) {
     activeBadge.textContent = bookData.ativo === "Y" ? "Ativo" : "Inativo";
     activeBadge.classList.toggle("bg-success", bookData.ativo === "Y");
     activeBadge.classList.toggle("bg-danger", bookData.ativo === "N");
+
+    document.getElementById("user-info").classList.remove("d-none");
+    document.getElementById("created-user").textContent = bookData.criado_por ?? "-";
+    document.getElementById("created-date").textContent = bookData.criado_em ?? "-";
+    document.getElementById("updated-user").textContent = bookData.atualizado_por ?? "-";
+    document.getElementById("updated-date").textContent = bookData.atualizado_em ?? "-";
+
+    document.getElementById("bookImg").addEventListener("change", function (event) {
+        const [file] = event.target.files;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const bookPreviewEl = document.getElementById("bookPreview");
+                bookPreviewEl.src = e.target.result;
+                bookPreviewEl.style.display = 'inline-block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 }
 
 async function populateSelectFields(bookData) {
     await Promise.all([
         fetchSelect(`${API_ENDPOINTS.PUBLISHER}${bookData.editora_fk}`, 'editora', "publisher", bookData.editora_fk),
         fetchSelect(`${API_ENDPOINTS.CATEGORY}${bookData.categoria_fk}`, 'categoria', "category", bookData.categoria_fk),
-        fetchSelect(`${API_ENDPOINTS.SUBCATEGORY}${bookData.subcategoria_fk}`, 'subcategoria', "subcategory", bookData.subcategoria_fk)
+        fetchSelect(`${API_ENDPOINTS.SUBCATEGORY}?activeOnly=true&returnedId=${bookData.subcategoria_fk}`, 'subcategoria', "subcategory", bookData.subcategoria_fk)
     ]);
 }
 

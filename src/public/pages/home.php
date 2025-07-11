@@ -273,7 +273,7 @@ $isGuest = !isset($_SESSION['user']);
                                 <div class="card h-100">
                                     <div class="img-wrapper">
                                         <img src="<?= isset($book['img_url']) && $book['img_url']
-                                            ? '../administrative/book/upload' . $book['img_url']
+                                            ? '../administrative/book/upload/' . $book['img_url']
                                             : htmlspecialchars('../public/assets/images/no-book-image.jpg')
                                             ?>" class="d-block w-100" alt="<?= htmlspecialchars($book['titulo']) ?>">
 

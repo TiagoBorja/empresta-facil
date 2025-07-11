@@ -20,8 +20,9 @@ class Book
     private $imgUrl;
     private $active;
     public $authorBook;
-
     private $pdo;
+    private $createdFk;
+    private $updatedFk;
     private $tableName = 'livro';
 
     public function __construct()
@@ -137,6 +138,24 @@ class Book
     {
         $this->active = $active;
     }
+    public function getCreatedFk()
+    {
+        return $this->createdFk;
+    }
+
+    public function setCreatedFk($createdFk)
+    {
+        $this->createdFk = $createdFk;
+    }
+    public function getUpdatedFk()
+    {
+        return $this->updatedFk;
+    }
+    public function setUpdatedFk($updatedFk)
+    {
+        $this->updatedFk = $updatedFk;
+    }
+
 
     public function getAll()
     {
@@ -201,16 +220,19 @@ class Book
                     l.*, 
                     e.editora, 
                     c.categoria, 
-                    s.subcategoria, 
-                    ROUND(AVG(a.avaliacao), 1) AS media_avaliacao
+                    s.subcategoria, ROUND(AVG(a.avaliacao), 1) AS media_avaliacao, 
+                    CONCAT(u1.primeiro_nome, ' ', u1.ultimo_nome) AS criado_por, 
+                    CONCAT(u2.primeiro_nome, ' ', u2.ultimo_nome) AS atualizado_por
                 FROM livro l
                 INNER JOIN editora e ON l.editora_fk = e.id
                 INNER JOIN categoria c ON l.categoria_fk = c.id
                 INNER JOIN subcategoria s ON l.subcategoria_fk = s.id
                 LEFT JOIN avaliacoes a ON a.livro_fk = l.id
+                LEFT JOIN utilizador u1 ON l.criado_fk = u1.id
+                LEFT JOIN utilizador u2 ON l.atualizado_fk = u2.id
                 WHERE l.id = :id
                 GROUP BY 
-                    l.id
+                l.id
                 ORDER BY l.criado_em DESC";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
@@ -334,6 +356,12 @@ class Book
             ]);
         }
 
+        if (empty($authors)) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Selecione ao menos um autor."
+            ]);
+        }
         $checkQuery = "SELECT COUNT(*) FROM " . $this->tableName . " 
                        WHERE titulo = :title
                        AND isbn = :isbn
@@ -353,10 +381,10 @@ class Book
 
         $query = "INSERT INTO " . $this->tableName . " (
                 titulo, isbn, ano_lancamento, sinopse, idioma, 
-                editora_fk, categoria_fk, subcategoria_fk, img_url
+                editora_fk, categoria_fk, subcategoria_fk, img_url, criado_fk
                 ) VALUES (
                     :title, :isbn, :releaseYear, :synopsis, :language, 
-                    :publisherFk, :categoryFk, :subcategoryFk, :imgUrl
+                    :publisherFk, :categoryFk, :subcategoryFk, :imgUrl, :createdFk
                 )";
 
         $stmt = $this->pdo->prepare($query);
@@ -370,6 +398,7 @@ class Book
         $stmt->bindParam(':categoryFk', $this->categoryFk);
         $stmt->bindParam(':subcategoryFk', $this->subcategoryFk);
         $stmt->bindParam(':imgUrl', $this->imgUrl);
+        $stmt->bindParam(':createdFk', $this->createdFk);
 
         try {
             $stmt->execute();
@@ -415,6 +444,13 @@ class Book
             ]);
         }
 
+        if (empty($this->categoryFk) || empty($this->subcategoryFk)) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Por favor, selecione ao menos uma categoria ou subcategoria."
+            ]);
+        }
+
         $checkQuery = "SELECT id FROM " . $this->tableName . " 
                        WHERE titulo = :title
                        AND isbn = :isbn
@@ -443,7 +479,8 @@ class Book
                 editora_fk = :publisherFk,
                 categoria_fk = :categoryFk,
                 subcategoria_fk = :subcategoryFk,
-                img_url = :imgUrl
+                img_url = :imgUrl,
+                atualizado_fk = :updatedFk
               WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
@@ -457,6 +494,7 @@ class Book
         $stmt->bindParam(':categoryFk', $this->categoryFk);
         $stmt->bindParam(':subcategoryFk', $this->subcategoryFk);
         $stmt->bindParam(':imgUrl', $this->imgUrl);
+        $stmt->bindParam(':updatedFk', $this->updatedFk);
         $stmt->bindParam(':id', $this->id);
 
         try {
@@ -504,7 +542,8 @@ class Book
         $this->active = $status;
 
         $query = 'UPDATE ' . $this->tableName . '
-                  SET ativo = :active
+                  SET ativo = :active,
+                  atualizado_fk = :updatedFk,   
                   WHERE id = :id';
 
         $stmt = $this->pdo->prepare($query);

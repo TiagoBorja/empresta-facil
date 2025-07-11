@@ -6,7 +6,7 @@ include_once '../../php/classes/Subcategory.php';
 $subcategoryClass = new Subcategory();
 $userId = $_SESSION['user']['id'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id']) && !isset($_GET['categoryId'])) {
     $onlyActive = isset($_GET['activeOnly']) && $_GET['activeOnly'] === 'true';
     $returnedId = isset($_GET['returnedId']) ? (int) $_GET['returnedId'] : null;
     echo $subcategoryClass->getAll($onlyActive, $returnedId);
@@ -17,6 +17,12 @@ if (isset($_GET['id'])) {
     $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
     $subcategoryClass->setId($id);
     echo $subcategoryClass->getById($id);
+    exit;
+}
+
+if (isset($_GET['categoryId'])) {
+    $categoryId = filter_input(INPUT_GET, 'categoryId', FILTER_SANITIZE_NUMBER_INT);
+    echo $subcategoryClass->getByCategoryId($categoryId);
     exit;
 }
 

@@ -157,6 +157,43 @@ class Subcategory
             ]);
         }
     }
+    public function getByCategoryId($categoryId)
+    {
+        $query = "SELECT
+              sub.id, 
+              sub.subcategoria
+              FROM subcategoria sub
+              INNER JOIN categoria cat ON sub.categoria_fk = cat.id
+              WHERE sub.categoria_fk = :categoryId
+              AND sub.ativo = 'Y'";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':categoryId', $categoryId);
+
+        try {
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($result) {
+                return json_encode([
+                    'status' => 200,
+                    'message' => "Subcategorias encontradas.",
+                    'data' => $result
+                ]);
+            } else {
+                return json_encode([
+                    'status' => 404,
+                    'message' => "Nenhuma subcategoria encontrada para esta categoria."
+                ]);
+            }
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao buscar subcategorias: " . $e->getMessage()
+            ]);
+        }
+    }
+
     public function create()
     {
         if (empty($this->category && $this->subcategory && $this->description)) {
