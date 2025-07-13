@@ -304,6 +304,8 @@ function fillLoanTab(loans) {
 async function fillSettingsTab(user) {
     document.getElementById("settingsFirstName").value = user.data.primeiro_nome || '';
     document.getElementById("settingsLastName").value = user.data.ultimo_nome || '';
+    document.getElementById("settingsNif").value = user.data.nif || '';
+    document.getElementById("settingsCc").value = user.data.cc || '';
     document.getElementById("settingsAddress").value = user.data.morada || '';
     document.getElementById("settingsPhone").value = user.data.telemovel || '';
     document.getElementById("settingsUsername").value = user.data.nome_utilizador || '';
@@ -404,6 +406,8 @@ function update(userId) {
         formData.append("profileId", userId);
         formData.append('firstName', document.querySelector('input[name="firstName"]').value);
         formData.append('lastName', document.querySelector('input[name="lastName"]').value);
+        formData.append('nif', document.querySelector('input[name="nif"]').value);
+        formData.append('cc', document.querySelector('input[name="cc"]').value);
         formData.append('email', document.querySelector('input[name="email"]').value);
         formData.append('phone', document.querySelector('input[name="phone"]').value);
         formData.append('username', document.querySelector('input[name="username"]').value);

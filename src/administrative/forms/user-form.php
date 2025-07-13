@@ -53,7 +53,7 @@
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" id="cc" name="cc" class="form-control"
-                                            placeholder="123456789" required>
+                                            placeholder="123456789">
                                         <label for="cc">Cartão de Cidadão</label>
                                     </div>
                                 </div>

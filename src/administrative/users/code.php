@@ -38,6 +38,8 @@ if (isset($_GET['profileId']) && isset($_POST['saveProfile'])) {
     $user->setId(filter_input(INPUT_GET, 'profileId', FILTER_SANITIZE_NUMBER_INT));
     $user->setFirstName(filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_SPECIAL_CHARS));
     $user->setLastName(filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_SPECIAL_CHARS));
+    $user->setNif(filter_input(INPUT_POST, 'nif', FILTER_SANITIZE_SPECIAL_CHARS));
+    $user->setCc(filter_input(INPUT_POST, 'cc', FILTER_SANITIZE_SPECIAL_CHARS));
     $user->setPhoneNumber(filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_SPECIAL_CHARS));
     $user->setAddress(filter_input(INPUT_POST, 'address', FILTER_SANITIZE_SPECIAL_CHARS));
     $user->setUsername(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS));

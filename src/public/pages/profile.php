@@ -162,6 +162,30 @@
                                                     </span>
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">NIF</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="settingsNif" name="nif"
+                                                        disabled>
+                                                    <span class="input-group-text bg-white border-start-0"
+                                                        style="cursor:pointer;"
+                                                        onclick="toggleField('settingsNif', this)">
+                                                        <i class="bi bi-pencil small text-muted"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Cartão de Cidadão (CC)</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="settingsCc" name="cc"
+                                                        disabled>
+                                                    <span class="input-group-text bg-white border-start-0"
+                                                        style="cursor:pointer;"
+                                                        onclick="toggleField('settingsCc', this)">
+                                                        <i class="bi bi-pencil small text-muted"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
 
                                             <div class="col-md-6">
                                                 <label class="form-label">Telemóvel</label>

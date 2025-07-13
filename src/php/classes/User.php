@@ -720,6 +720,8 @@ class User
         $query = "UPDATE utilizador SET 
                 primeiro_nome = :firstName,
                 ultimo_nome = :lastName,
+                nif = :nif,
+                cc =:cc,
                 morada = :address,
                 telemovel = :phoneNumber,
                 nome_utilizador = :username,
@@ -730,6 +732,8 @@ class User
 
         $stmt->bindParam(':firstName', $this->firstName);
         $stmt->bindParam(':lastName', $this->lastName);
+        $stmt->bindParam(':nif', $this->nif);
+        $stmt->bindParam(':cc', $this->cc);
         $stmt->bindParam(':address', $this->address);
         $stmt->bindParam(':phoneNumber', $this->phoneNumber);
         $stmt->bindParam(':username', $this->username);
