@@ -88,6 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 if (isset($_POST['saveData'])) {
     $loanId = filter_input(INPUT_POST, 'loanId', FILTER_SANITIZE_NUMBER_INT);
+    $bookFk = filter_input(INPUT_POST, 'bookSelect', FILTER_SANITIZE_NUMBER_INT);
+
     $reservationId = filter_input(INPUT_POST, 'reservationId', FILTER_SANITIZE_NUMBER_INT);
     $reservationId = !empty($reservationId) ? $reservationId : null;
     $userId = filter_input(INPUT_POST, 'user', filter: FILTER_SANITIZE_NUMBER_INT);

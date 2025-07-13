@@ -163,10 +163,6 @@ class Utils
                 </div>
                 
                 <p><strong>Importante:</strong> Você tem até a data de levantamento para retirar o livro. Após essa data, a reserva expirará automaticamente.</p>
-                
-                <p style="text-align: center;">
-                    <a href="https://exemplo.com/minhas-reservas" class="button">Ver Minhas Reservas</a>
-                </p>
             </div>
             
             <div class="footer">

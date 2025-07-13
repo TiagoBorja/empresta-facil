@@ -2,7 +2,7 @@
 session_start();
 header('Content-Type: application/json');
 include_once '../../php/classes/Library.php';
-$userId = $_SESSION['user']['id'];
+$userId = $_SESSION['user']['id'] ?? null;
 
 $library = new Library();
 

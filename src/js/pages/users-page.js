@@ -122,7 +122,8 @@ function showUsers(users) {
 
 async function registerUser() {
     const allLibrariesData = await fetchAllLibrariesData();
-
+    console.log(allLibrariesData);
+    
     utils.createGenericCheckboxes(allLibrariesData, [], {
         containerId: 'librariesCheckboxes',
         nameField: 'nome',
@@ -217,7 +218,7 @@ async function fetchAllLibrariesData() {
     if (!Array.isArray(librariesData)) {
         throw new Error("Formato de dados de bibliotecas inválido");
     }
-
+    
     return librariesData;
 }
 
