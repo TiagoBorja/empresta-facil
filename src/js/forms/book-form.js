@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     document.getElementById('category').addEventListener('change', async function () {
         const categoryId = this.value;
-        console.log(categoryId);
 
         const response = await fetch(`${API_ENDPOINTS.SUBCATEGORY}?categoryId=${categoryId}`);
 
@@ -68,8 +67,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         const subcategorySelect = document.getElementById('subcategory');
         subcategorySelect.innerHTML = ''; // Limpa opções antigas
 
-        if (Array.isArray(result) && result.length > 0) {
-            result.forEach(sub => {
+        if (Array.isArray(result.data) && result.data.length > 0) {
+            result.data.forEach(sub => {
                 const option = document.createElement('option');
                 option.value = sub.id;
                 option.textContent = sub.subcategoria;
