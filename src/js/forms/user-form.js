@@ -9,17 +9,17 @@ document.addEventListener('DOMContentLoaded', async function () {
     const employeeLibraryId = document.getElementById("employeeLibraryId").value;
     const isEditMode = id !== null;
 
-    // Guardar referências de elementos usados várias vezes
+    const userRole = document.getElementById("userRole").value;
     const passwordEl = document.getElementById("password");
+    const multiSelectEl = document.getElementById("libraryDropdownDiv");
+    const selectEl = document.getElementById("librarySelectDiv");
     const profilePreviewEl = document.getElementById("profilePreview");
     const activeBadgeEl = document.getElementById("active");
 
     try {
         if (!isEditMode) {
-            // Modo de criação: mostrar password
             passwordEl.classList.remove("d-none");
         } else {
-            // Modo edição: buscar dados do utilizador
             const response = await fetch(`../administrative/users/code.php?id=${id}`);
             if (!response.ok) throw new Error("Erro na requisição");
 
@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (result.status === 200) {
                 const data = result.data;
 
-                // Preencher campos
                 document.getElementById("userName").textContent = `Utilizador - ${data.primeiro_nome} ${data.ultimo_nome}`;
                 document.getElementById("id").value = data.id;
                 document.getElementById("firstName").value = data.primeiro_nome;
@@ -42,36 +41,35 @@ document.addEventListener('DOMContentLoaded', async function () {
                 document.getElementById("email").value = data.email;
                 document.getElementById("username").value = data.nome_utilizador;
 
-                // Desativar campo password e atualizar preview da imagem
                 passwordEl.disabled = true;
                 profilePreviewEl.src = `./users/upload/${data.img_url}`;
-                console.log(data.img_url);
-                                
 
-                // Atualizar badge de ativo/inativo
                 const isActive = data.ativo === "Y";
                 activeBadgeEl.textContent = isActive ? "Ativo" : "Inativo";
                 activeBadgeEl.classList.toggle("bg-success", isActive);
                 activeBadgeEl.classList.toggle("bg-danger", !isActive);
 
-                // Buscar roles e preencher select
                 await utils.fetchSelect(ROLE_API_URL, 'tipo', "roleSelect", data.tipo_utilizador_fk);
             }
         }
 
-        // Preencher select da biblioteca (sempre, mesmo no modo edição)
-        await utils.fetchSelect(
-            `${LIBRARY_API_URL}?id=${employeeLibraryId}`,
-            'nome',
-            "librarySelect",
-            null,
-            true);
+        if (userRole !== 'Administrador') {
+            selectEl.classList.remove("d-none");
+            await utils.fetchSelect(
+                `${LIBRARY_API_URL}?id=${employeeLibraryId}`,
+                'nome',
+                "librarySelect",
+                null,
+                true);
+        }
 
+        if(userRole === 'Administrador'){
+            multiSelectEl.classList.remove("d-none");
+        }
     } catch (error) {
         toastr.error(error.message || error, "Erro!");
     }
 
-    // Preview da imagem ao carregar arquivo
     document.getElementById("imgProfile").addEventListener("change", function (event) {
         const [file] = event.target.files;
         if (file) {

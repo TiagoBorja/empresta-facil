@@ -603,33 +603,46 @@ class User
             ]);
         }
     }
-
-    public function updateUser($id)
+    public function updateUser($id, $libraries)
     {
         $this->id = $id;
 
-        // Verificação dos campos obrigatórios
-        if (empty($this->firstName) || empty($this->lastName) || empty($this->birthDay) || empty($this->phoneNumber) || empty($this->username) || empty($this->email)) {
+        // Verificação dos campos obrigatórios (com trim para evitar espaços)
+        if (
+            empty(trim($this->firstName)) ||
+            empty(trim($this->lastName)) ||
+            empty(trim($this->birthDay)) ||
+            empty(trim($this->phoneNumber)) ||
+            empty(trim($this->username)) ||
+            empty(trim($this->email))
+        ) {
             return json_encode([
                 'status' => 422,
                 'message' => "Preencha todos os campos antes de prosseguir."
             ]);
         }
 
+        if (empty($libraries)) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Selecione ao menos uma biblioteca."
+            ]);
+        }
+
         $query = "UPDATE utilizador SET 
-                    primeiro_nome = :firstName,
-                    ultimo_nome = :lastName,
-                    data_nascimento = :birthDay,
-                    nif = :nif,
-                    cc = :cc,
-                    genero = :gender,
-                    morada = :address,
-                    telemovel = :phoneNumber,
-                    nome_utilizador = :username,
-                    email = :email,
-                    img_url = :imgUrl,
-                    tipo_utilizador_fk = :role
-                  WHERE id = :id";
+                primeiro_nome = :firstName,
+                ultimo_nome = :lastName,
+                data_nascimento = :birthDay,
+                nif = :nif,
+                cc = :cc,
+                genero = :gender,
+                morada = :address,
+                telemovel = :phoneNumber,
+                nome_utilizador = :username,
+                email = :email,
+                img_url = :imgUrl,
+                tipo_utilizador_fk = :role
+              WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
 
@@ -650,10 +663,37 @@ class User
         try {
             $stmt->execute();
 
+            // GESTÃO DAS BIBLIOTECAS ASSOCIADAS AO UTILIZADOR
+            $currentLibraryIds = $this->userLibrary->getLibraryIdsByUser($id);
+            $newLibraryIds = is_array($libraries) ? array_filter($libraries) : [];
+
+            $toRemove = array_diff($currentLibraryIds, $newLibraryIds);
+            $toAdd = array_diff($newLibraryIds, $currentLibraryIds);
+            $code = Utils::generateRandomCode(6);
+
+            foreach ($toRemove as $libraryId) {
+                $this->userLibrary->deleteByUserAndLibrary($id, $libraryId);
+            }
+
+            foreach ($toAdd as $libraryId) {
+                $this->userLibrary->setUserFk($id);
+                $this->userLibrary->setLibraryFk($libraryId);
+                $this->userLibrary->setValidationCode($code);
+                $this->userLibrary->setExpirationDate(date('Y-m-d H:i:s', strtotime('+14 days')));
+
+                $libraryResult = $this->userLibrary->create();
+                $libraryResponse = json_decode($libraryResult, true);
+
+                if ($libraryResponse['status'] != 200) {
+                    return $libraryResult;
+                }
+            }
+
             return json_encode([
                 'status' => 200,
                 'message' => "Dados do utilizador atualizados com sucesso!"
             ]);
+
         } catch (PDOException $e) {
             return json_encode([
                 'status' => 500,
@@ -661,6 +701,7 @@ class User
             ]);
         }
     }
+
     public function updateProfile($userId, $libraries)
     {
         if (empty($this->firstName) || empty($this->lastName) || empty($this->phoneNumber) || empty($this->username) || empty($this->email)) {
@@ -753,7 +794,7 @@ class User
 
         $newPasswordHashed = password_hash($newPassword, PASSWORD_DEFAULT);
         $this->password = $newPasswordHashed;
-        
+
         $query = "UPDATE utilizador SET 
                     senha = :password
                   WHERE id = :id";

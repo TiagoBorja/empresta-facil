@@ -28,6 +28,7 @@
                             </legend>
                             <div class="row g-3">
                                 <input type="hidden" id="id" name="id">
+                                <input type="hidden" id="userRole" value="<?php echo $_SESSION['user']['tipo'] ?>">
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" id="firstName" name="firstName" class="form-control"
@@ -52,7 +53,7 @@
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" id="cc" name="cc" class="form-control"
-                                            placeholder="123456789">
+                                            placeholder="123456789" required>
                                         <label for="cc">Cartão de Cidadão</label>
                                     </div>
                                 </div>
@@ -121,7 +122,7 @@
                                     </div>
                                 </div>
 
-                                <div id="librarySelectDiv" class="col-md-6">
+                                <div id="librarySelectDiv" class="col-md-6 d-none">
                                     <div class="form-floating">
                                         <select name="librarySelect" id="librarySelect" class="form-select" required>
                                             <option selected disabled>Selecione</option>
@@ -129,6 +130,25 @@
                                         <label for="librarySelect">Biblioteca</label>
                                     </div>
                                 </div>
+
+                                <?php if (Utils::isAdmin($_SESSION['user'] ?? [])): ?>
+                                    <div id="libraryDropdownDiv" class="col-md-6 d-none">
+                                        <div class="form-floating">
+                                            <button class="form-select text-start ps-3 pe-5 position-relative" type="button"
+                                                id="librariesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <span id="selectedLibrariesText" class="text-truncate">Selecionar
+                                                    Biblioteca</span>
+                                            </button>
+
+                                            <div id="librariesCheckboxes" class="dropdown-menu p-3 w-100"
+                                                aria-labelledby="librariesDropdown">
+                                                <input type="text" name="searchInput" id="searchInput" placeholder="Nome">
+                                            </div>
+
+                                            <label for="librariesDropdown" class="form-label">Biblioteca(s)</label>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
 
                                 <?php if (Utils::isEmployeeOrHigher($_SESSION['user'] ?? [])): ?>
                                     <div class="col-md-6">

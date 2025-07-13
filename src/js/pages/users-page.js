@@ -148,8 +148,21 @@ async function registerUser() {
     });
 }
 
-function updateUser() {
-
+async function updateUser() {
+    const allLibrariesData = await fetchAllLibrariesData();
+    const userLibraries = await fetchAllUserLibrariesData(id);
+    
+    utils.createGenericCheckboxes(allLibrariesData, userLibraries, {
+        containerId: 'librariesCheckboxes',
+        nameField: 'nome',
+        idField: 'id',
+        valueField: 'id',
+        checkboxName: 'libraries[]',
+        dropdownButtonId: 'librariesDropdown',
+        singularLabel: 'biblioteca',
+        pluralLabel: 'bibliotecas',
+        associationField: 'biblioteca_fk'
+    });
     const form = document.querySelector("#userForm");
     if (!form) return;
 
@@ -223,11 +236,20 @@ function openCodeValidationModal(userId, userEmail) {
 
     form.addEventListener("submit", async function (e) {
         e.preventDefault();
-        console.log("Formulário submetido, preventDefault aplicado");
 
         const formData = new FormData(this);
         formData.append("validationSubmit", "1");
         formData.append("saveData", true);
         bdUtils.updateData(USER_LIBRARY_API_URL, formData, form, '?page=users');
     });
+}
+async function fetchAllUserLibrariesData(userId) {
+    const response = await fetch(`${USER_LIBRARY_API_URL}?&id=${userId}`);
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Erro na API: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    return data?.data || []; // ← ajusta conforme estrutura da resposta
 }
