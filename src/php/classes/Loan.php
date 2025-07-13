@@ -340,6 +340,81 @@ class Loan
             ]);
         }
     }
+    public function createReservation()
+    {
+        $today = new DateTime();
+        $today->setTime(0, 0);
+
+        $pickup = new DateTime($this->dueDate);
+        $pickup->setTime(0, 0);
+
+        if ($pickup->format('Y') !== $today->format('Y')) {
+            return json_encode([
+                'status' => 400,
+                'message' => 'Só é possível levantar livros no ano atual.'
+            ]);
+        }
+
+        if ($pickup < $today) {
+            return json_encode([
+                'status' => 400,
+                'message' => 'A data de devolução não pode ser anterior à data de hoje.'
+            ]);
+        }
+
+        $query = "INSERT INTO {$this->tableName} (reserva_fk, utilizador_fk, funcionario_fk, data_devolucao) 
+                  VALUES (:reservationFk, :userFk, :employeeFk, :dueDate)";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':reservationFk', $this->reservationFk, PDO::PARAM_INT);
+        $stmt->bindParam(':userFk', $this->userFk, PDO::PARAM_INT);
+        $stmt->bindParam(':employeeFk', $this->employeeFk, PDO::PARAM_INT);
+        $stmt->bindParam(':dueDate', $this->dueDate, PDO::PARAM_STR);
+
+        try {
+            $stmt->execute();
+
+            $loanId = $this->pdo->lastInsertId();
+
+            $this->loanBook->setLoanFk($loanId);
+            $this->loanBook->setBookFk($this->bookFk);
+            $this->loanBook->setStatePickUp($this->statePickUp);
+            $bookTitle = $this->loanBook->getBookTitle($this->bookFk);
+            $loanResult = $this->loanBook->create();
+
+            $loanResponse = json_decode($loanResult, true);
+            if ($loanResponse['status'] != 200) {
+                return $loanResult;
+            }
+            if (!empty($bookTitles)) {
+
+                $response = Utils::sendLoanEmail(
+                    $_SESSION['user']['email'],
+                    $_SESSION['user']['primeiro_nome'],
+                    implode(', ', $bookTitle),
+                    $this->dueDate,
+                    $_SESSION['employee']['biblioteca'],
+                    $_SESSION['employee']['morada']
+                );
+
+                $result = json_decode($response, true);
+
+                if ($result['status'] !== 200) {
+                    var_dump($result);
+                    exit;
+                }
+            }
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Empréstimo criado com sucesso."
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => 'Erro ao criar empréstimo: ' . $e->getMessage()
+            ]);
+        }
+    }
     public function getLoanCount($stateType = null)
     {
         try {

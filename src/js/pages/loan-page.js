@@ -12,13 +12,12 @@ const API_ENDPOINTS = {
 let urlParams;
 let id;
 let reservationId;
-
 document.addEventListener("DOMContentLoaded", async () => {
     const currentPath = window.location.search;
     urlParams = new URLSearchParams(currentPath);
     id = urlParams.get("id");
     reservationId = urlParams.get("reservationId");
-
+    
     if (currentPath === '?page=loans') {
         await getAll();
         return;

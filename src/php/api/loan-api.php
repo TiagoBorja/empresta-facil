@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $reservation->setId($reservationId);
             echo $reservation->getById($reservationId);
             break;
-            
+
         case isset($_GET['notifyLoanExpiration']):
             $userId = filter_input(INPUT_GET, 'user', filter: FILTER_SANITIZE_NUMBER_INT);
             $bookFk = filter_input(INPUT_GET, 'bookFk', filter: FILTER_SANITIZE_NUMBER_INT);
@@ -76,7 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 if (isset($_POST['saveData'])) {
     $loanId = filter_input(INPUT_POST, 'loanId', FILTER_SANITIZE_NUMBER_INT);
-    $bookFk = filter_input(INPUT_POST, 'bookFk', filter: FILTER_SANITIZE_NUMBER_INT);
     $reservationId = filter_input(INPUT_POST, 'reservationId', FILTER_SANITIZE_NUMBER_INT);
     $reservationId = !empty($reservationId) ? $reservationId : null;
     $userId = filter_input(INPUT_POST, 'user', filter: FILTER_SANITIZE_NUMBER_INT);
@@ -115,6 +114,12 @@ if (isset($_POST['saveData'])) {
         exit;
     }
 
+    if ($loan->getReservationFk() !== null) {
+        $bookFk = filter_input(INPUT_POST, 'bookSelect', FILTER_SANITIZE_NUMBER_INT);
+        $loan->setBookFk($bookFk);
+        echo $loan->createReservation();
+        exit;
+    }
     echo $loan->create($books);
     exit;
 }

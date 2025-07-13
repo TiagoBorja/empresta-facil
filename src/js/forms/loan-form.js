@@ -82,9 +82,23 @@ async function showSelectedReservation() {
             document.getElementById("bookToLoan").textContent = `Reserva de ${reservationValue.nome_completo} - "${reservationValue.titulo}"`;
             document.getElementById("reservationId").value = reservationValue.id;
 
-            await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user", reservationValue.utilizador_fk, true);
-            await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect", loanValue.livro_localizacao_fk, true);
 
+            await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user", reservationValue.utilizador_fk, true);
+            await utils.fetchSelect(
+                API_ENDPOINTS.BOOK_LOCATION,
+                "titulo",
+                "bookSelect",
+                loanValue.livro_localizacao_fk,
+                false,
+                'livro_localizacao_fk'
+            );
+            const bookFk = document.getElementById("bookSelect").value;
+            
+            const form = document.querySelector("#loanForm");
+            if (!form) return;
+
+
+            const formData = new FormData(this);
             await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "statePickUp");
         }
     } catch (error) {

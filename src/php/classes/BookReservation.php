@@ -123,6 +123,7 @@ class BookReservation
                 r.id,
                 r.utilizador_fk,
                 CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS nome_completo,
+                ll.id as livro_localizacao_fk,
                 ll.livro_fk,
                 l.titulo,
                 r.criado_em,
