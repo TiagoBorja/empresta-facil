@@ -381,7 +381,28 @@ class User
         $stmt->execute();
         return $stmt->fetchColumn(); // já retorna só a string
     }
-
+    public function verifyUserLoanCount($id)
+    {
+        $query = "SELECT
+                    COUNT(DISTINCT e.id) + COUNT(r.id) AS total_andamento
+                    FROM utilizador u
+                    LEFT JOIN emprestimo e ON e.utilizador_fk = u.id
+                    LEFT JOIN emprestimo_livro el ON el.emprestimo_fk = e.id
+                    AND el.estado_emprestimo_fk = (
+                        SELECT id FROM estado 
+                        WHERE estado = 'EM ANDAMENTO' AND observacoes = 'EMPRESTIMO'
+                    )
+                    LEFT JOIN reserva r ON r.utilizador_fk = u.id
+                    AND r.estado_fk = (
+                        SELECT id FROM estado 
+                        WHERE estado = 'EM ANDAMENTO' AND observacoes = 'RESERVA'
+                    )
+                    WHERE u.id = :id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
     public function getUserFirstName($id)
     {
         $stmt = $this->pdo->prepare("SELECT primeiro_nome FROM utilizador WHERE id = :id LIMIT 1");

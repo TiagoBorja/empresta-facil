@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    await utils.fetchSelect(AUTHOR_API_URL , 'primeiro_nome - ultimo_nome', "authors");
+    // await utils.fetchSelect(AUTHOR_API_URL , 'primeiro_nome - ultimo_nome', "authors");
     await utils.fetchSelect(PUBLISHER_API_URL, 'editora', "publisher");
     await utils.fetchSelect(CATEGORY_API_URL, 'categoria', "category");
     await utils.fetchSelect(SUBCATEGORY_API_URL, 'subcategoria', "subcategory");

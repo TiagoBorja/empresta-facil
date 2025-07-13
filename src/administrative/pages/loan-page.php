@@ -1,3 +1,4 @@
+<?php var_dump($_SESSION['employee']) ?>
 <div class="row justify-content-center">
 
     <div class="col-md-12 me-3">

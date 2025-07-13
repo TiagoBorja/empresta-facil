@@ -66,7 +66,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             echo $loan->getLoansByUserId($loan->getUserFk());
             break;
 
+        case isset($_GET['employeeLibraryId']):
+            $employeeLibraryId = $_SESSION['employee']['biblioteca_fk'];
+            echo $loan->getAllByEmployeeLibrary($employeeLibraryId);
+            break;
+
         default:
+
+            $employeeLibraryId = $_SESSION['employee']['biblioteca_fk'] ?? null;
+            if ($employeeLibraryId !== null) {
+                echo $loan->getAllByEmployeeLibrary($employeeLibraryId);
+                break;
+            }
+
             echo $loan->getAll();
             break;
     }

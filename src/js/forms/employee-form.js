@@ -10,7 +10,7 @@ let urlParams = new URLSearchParams(window.location.search);
 let id = urlParams.get("id");
 const employeeLibraryId = document.getElementById("employeeLibraryId").value;
 document.addEventListener('DOMContentLoaded', async function () {
-console.log(employeeLibraryId);
+    console.log(employeeLibraryId);
 
     try {
         const response = await fetch(`${API_ENDPOINTS.EMPLOYEE}?id=${id}`);
@@ -30,15 +30,27 @@ console.log(employeeLibraryId);
             activeBadge.classList.toggle("bg-success", result.data.ativo === "Y");
             activeBadge.classList.toggle("bg-danger", result.data.ativo === "N");
 
-            console.log(employeeLibraryId);
-            
+
             await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "users", result.data.utilizador_fk, true);
-            await utils.fetchSelect(
-                `${API_ENDPOINTS.LIBRARY}?id=${employeeLibraryId}`,
-                "nome",
-                "library",
-                result.data.biblioteca_fk,
-                true);
+
+            const role = document.getElementById("role").value;
+            if (role !== "Administrador") {
+                await utils.fetchSelect(
+                    `${API_ENDPOINTS.LIBRARY}?id=${employeeLibraryId}`,
+                    "nome",
+                    "library",
+                    result.data.biblioteca_fk,
+                    true);
+            }
+
+            if (role === "Administrador") {
+                await utils.fetchSelect(
+                    API_ENDPOINTS.LIBRARY,
+                    "nome",
+                    "library",
+                    result.data.biblioteca_fk,
+                );
+            }
         }
     } catch (error) {
         toastr.error(error, "Erro!");

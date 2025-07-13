@@ -29,16 +29,26 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (currentPath === '?page=employee-form' && !id) {
         const employeeId = document.getElementById("employeeLibraryId").value;
-        console.log(employeeId);
+        const role = document.getElementById("role").value;
 
         await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "users");
-        await utils.fetchSelect(
-            `${API_ENDPOINTS.LIBRARY}?id=${employeeId}`,
-            "nome",
-            "library",
-            null,
-            true
-        );
+        if (role !== "Administrador") {
+            await utils.fetchSelect(
+                `${API_ENDPOINTS.LIBRARY}?id=${employeeId}`,
+                "nome",
+                "library",
+                null,
+                true
+            );
+        }
+
+        if (role === "Administrador") {
+            await utils.fetchSelect(
+                API_ENDPOINTS.LIBRARY,
+                "nome",
+                "library"
+            );
+        }
     }
     create();
     return;

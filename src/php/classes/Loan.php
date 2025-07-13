@@ -163,6 +163,46 @@ class Loan
         }
     }
 
+    public function getAllByEmployeeLibrary($libraryId)
+    {
+        $query = "SELECT 
+                    e.id, 
+                    CONCAT(u.primeiro_nome, ' ', u.ultimo_nome) AS utilizador, 
+                    CONCAT(u_func.primeiro_nome, ' ', u_func.ultimo_nome) AS funcionario,
+                    u.id AS utilizador_fk,
+                    ll.livro_fk,
+                    l.titulo,
+                    el.livro_localizacao_fk,
+                    e.criado_em,
+                    e.data_devolucao,
+                    el.data_devolvido,
+                    es_emprestimo.estado AS estado_emprestimo,
+                    es_levantou.estado AS estado_levantou,
+                    es_devolucao.estado AS estado_devolucao
+                FROM emprestimo e
+                JOIN utilizador u ON e.utilizador_fk = u.id
+                JOIN funcionario f ON e.funcionario_fk = f.id
+                JOIN utilizador u_func ON f.utilizador_fk = u_func.id
+                JOIN emprestimo_livro el ON el.emprestimo_fk = e.id
+                JOIN livro_localizacao ll ON ll.id = el.livro_localizacao_fk
+                JOIN localizacao loc ON ll.localizacao_fk = loc.id
+                JOIN livro l ON l.id = ll.livro_fk
+                JOIN estado es_emprestimo ON el.estado_emprestimo_fk = es_emprestimo.id
+                JOIN estado es_levantou ON el.estado_levantou_fk = es_levantou.id
+                LEFT JOIN estado es_devolucao ON el.estado_devolucao_fk = es_devolucao.id
+                WHERE loc.biblioteca_fk = :libraryId
+                ORDER BY e.criado_em DESC";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':libraryId', $libraryId, PDO::PARAM_INT);
+
+        try {
+            $stmt->execute();
+            return json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+        } catch (PDOException $e) {
+            return json_encode(['error' => $e->getMessage()]);
+        }
+    }
     // ----------- MÉTODO: getById() -----------
 
     public function getById($id, $bookId)

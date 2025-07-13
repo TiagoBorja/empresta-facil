@@ -117,7 +117,6 @@ async function getUserRecommends() {
 
         // Verifica se não há recomendações (status 204)
         if (booksData.status === 204) {
-            toastr.info(booksData.message, "Sem recomendações");
             showEmptyRecommendationsMessage(); // <-- opcional: pode criar esta função para mostrar algo visual
             return;
         }
