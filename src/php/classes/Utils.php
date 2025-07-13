@@ -248,13 +248,13 @@ class Utils
                 <div class="highlight">
                     <h4 style="margin-top: 0;">Livro(s)' . htmlspecialchars($bookTitle) . '</h4>
                     <div class="details">
-                        <div><strong>📅 Data para levantamento:</strong> ' . htmlspecialchars($pickUpDate) . '</div>
+                        <div><strong>📅 Data de Devolução:</strong> ' . htmlspecialchars($pickUpDate) . '</div>
                         <div><strong>🏢 Biblioteca:</strong> ' . htmlspecialchars($libraryName) . '</div>
                         <div><strong>🏠 Morada:</strong> ' . htmlspecialchars($libraryAddress) . '</div>
                     </div>
                 </div>
                 
-                <p><strong>Importante:</strong> Você tem até a data de levantamento para retirar o livro. Após essa data, será aplicado uma penalidade</p>
+                <p><strong>Importante:</strong> Você tem até a data de devolução para devolver o livro. Após essa data, será aplicado uma penalidade</p>
             </div>
             
             <div class="footer">

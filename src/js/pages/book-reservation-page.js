@@ -65,11 +65,11 @@ function showReservation(reservations) {
         let state = '';
 
         switch (reservation.estado_reserva) {
-            case 'PENDENTE':
-                state = '<span class="badge rounded-pill bg-warning">Pendente</span>';
+            case 'EM ANDAMENTO':
+                state = '<span class="badge rounded-pill bg-warning">Em andamento</span>';
                 break;
-            case 'ATENDIDA':
-                state = '<span class="badge rounded-pill bg-success">Atendida</span>';
+            case 'CONCLUIDA':
+                state = '<span class="badge rounded-pill bg-success">Concluída</span>';
                 break;
             case 'EXPIRADA':
                 state = '<span class="badge rounded-pill bg-secondary">Expirada</span>';

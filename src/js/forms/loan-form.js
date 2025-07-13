@@ -89,7 +89,7 @@ async function showSelectedReservation() {
                 "titulo",
                 "bookSelect",
                 loanValue.livro_localizacao_fk,
-                false,
+                true,
                 'livro_localizacao_fk'
             );
             const bookFk = document.getElementById("bookSelect").value;
