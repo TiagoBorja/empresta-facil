@@ -5,7 +5,7 @@
     <h3 class="text-center mt-4 mb-4">Estatísticas</h3>
     <div class="row">
         <!-- Total de Livros -->
-        <div class="col-md-6 col-lg-4">
+        <div class="col-md-6 col-lg-3">
             <a href="?page=books">
                 <div class="card card-hover">
                     <div class="box bg-info text-center">
@@ -16,8 +16,19 @@
                 </div>
             </a>
         </div>
+        <div class="col-md-6 col-lg-3">
+            <a href="?page=book-reservations">
+                <div class="card card-hover">
+                    <div class="box bg-danger text-center">
+                        <i class="mdi mdi-chart-box-outline display-4 text-white"></i>
+                        <h6 class="text-white mt-2">Reservas Pendentes</h6>
+                        <h4 id="reservationCount" class="text-white"></h4>
+                    </div>
+                </div>
+            </a>
+        </div>
         <!-- Empréstimos Ativos -->
-        <div class="col-md-6 col-lg-4">
+        <div class="col-md-6 col-lg-3">
             <a href="?page=loans">
                 <div class="card card-hover">
                     <div class="box bg-success text-center">
@@ -29,7 +40,7 @@
             </a>
         </div>
         <!-- Novos Autores -->
-        <div class="col-md-6 col-lg-4">
+        <div class="col-md-6 col-lg-3">
             <a href="?page=users">
                 <div class="card card-hover">
                     <div class="box bg-orange text-center">

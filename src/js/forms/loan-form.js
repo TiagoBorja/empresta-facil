@@ -16,13 +16,15 @@ let reservationId = urlParams.get("reservationId");
 document.addEventListener('DOMContentLoaded', async function () {
 
     const isEditMode = loanId !== null;
-    if (!isEditMode) {
+    const isReservationMode = reservationId !== null;
+    if (!isEditMode && !isReservationMode) {
         const allBooksData = await fetchAllBooksData();
         createBooksCheckboxes(allBooksData, []);
         document.getElementById("bookDropdownDiv").classList.remove("d-none")
     }
 
-    if (reservationId) {
+    if (isReservationMode && reservationId) {
+        document.getElementById("bookSelectDiv").classList.remove("d-none")
         showSelectedReservation();
         return;
     }
@@ -69,19 +71,21 @@ async function showSelectedReservation() {
         }
 
         const reservation = await reservationResponse.json();
-
+        const loan = await loanResponse.json();
         if (reservation.status === 200) {
 
-            const loanValue = reservation.data;
+            const reservationValue = reservation.data;
+            const loanValue = loan.data;
+
             document.getElementById("pageToRedirect").href = "?page=book-reservations";
             document.getElementById("icon").classList.add("mdi-book-open-page-variant");
-            document.getElementById("bookToLoan").textContent = `Reserva de ${loanValue.nome_completo} - "${loanValue.titulo}"`;
-            document.getElementById("reservationId").value = loanValue.id;
+            document.getElementById("bookToLoan").textContent = `Reserva de ${reservationValue.nome_completo} - "${reservationValue.titulo}"`;
+            document.getElementById("reservationId").value = reservationValue.id;
 
-            await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user", loanValue.utilizador_fk, true);
-            await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect", loanValue.livro_fk, true);
+            await utils.fetchSelect(API_ENDPOINTS.USER, "primeiro_nome ultimo_nome", "user", reservationValue.utilizador_fk, true);
+            await utils.fetchSelect(API_ENDPOINTS.BOOK_LOCATION, "titulo", "bookSelect", loanValue.livro_localizacao_fk, true);
 
-            await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "statePickUp", loanValue.estado_levantou);
+            await utils.fetchSelect(`${API_ENDPOINTS.STATE}?type=LIVRO`, "estado", "statePickUp");
         }
     } catch (error) {
         toastr.error(error, "Erro!");
@@ -120,7 +124,7 @@ async function showSelectedLoan() {
             button.className = "btn btn-primary btn-sm";
             button.innerHTML = `<i class="mdi mdi-bell-ring-outline"></i> Notificar`;
             console.log(diffInDays);
-            
+
             button.addEventListener("click", async () => {
                 try {
                     let url = "";
