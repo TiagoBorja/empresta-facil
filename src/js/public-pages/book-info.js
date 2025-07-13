@@ -72,7 +72,7 @@ async function fillFormData(bookId, userId) {
             fetch(`${API_ENDPOINTS.EVALUATION}?bookId=${bookId}`),
         ]);
 
-        if (userId !== null && userId !== undefined) {
+        if (userId !== null && userId !== undefined && userId !== "") {
             userEvaluationResponse = await fetch(`${API_ENDPOINTS.EVALUATION}?bookId=${bookId}&userId=${userId}`);
         }
 

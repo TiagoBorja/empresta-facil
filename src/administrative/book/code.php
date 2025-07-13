@@ -7,7 +7,7 @@ include_once '../../php/classes/AuthorBook.php';
 include_once '../../php/classes/Utils.php';
 
 $book = new Book();
-$userId = $_SESSION['user']['id'];
+$userId = $_SESSION['user']['id'] ?? null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
