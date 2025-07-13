@@ -7,9 +7,12 @@ class Library
 
     private $id;
     private $name;
+    private $email;
     private $address;
     private $postalCode;
     private $active;
+    private $createdFk;
+    private $updatedFk;
 
     private $pdo;
     private $tableName = 'biblioteca';
@@ -38,6 +41,15 @@ class Library
     public function setName($name)
     {
         $this->name = $name;
+    }
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
     public function getAdress()
@@ -68,7 +80,23 @@ class Library
     {
         $this->active = $active;
     }
+    public function getCreatedFk()
+    {
+        return $this->createdFk;
+    }
 
+    public function setCreatedFk($createdFk)
+    {
+        $this->createdFk = $createdFk;
+    }
+    public function getUpdatedFk()
+    {
+        return $this->updatedFk;
+    }
+    public function setUpdatedFk($updatedFk)
+    {
+        $this->updatedFk = $updatedFk;
+    }
     public function getAll($onlyActive = false)
     {
         $query = "SELECT *
@@ -91,9 +119,14 @@ class Library
     public function getById($id)
     {
         $this->id = $id;
-        $query = "SELECT *
-                  FROM " . $this->tableName . "
-                  WHERE id = :id";
+        $query = "SELECT 
+                    b.*,
+                    CONCAT(u1.primeiro_nome, ' ', u1.ultimo_nome) AS criado_por, 
+                    CONCAT(u2.primeiro_nome, ' ', u2.ultimo_nome) AS atualizado_por
+                  FROM {$this->tableName} b
+                  LEFT JOIN utilizador u1 ON b.criado_fk = u1.id
+                  LEFT JOIN utilizador u2 ON b.atualizado_fk = u2.id
+                  WHERE b.id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
 
@@ -135,19 +168,21 @@ class Library
     }
     public function create()
     {
-        if (empty($this->name && $this->address && $this->postalCode)) {
+        if (empty($this->name) || empty($this->email) || empty($this->address) || empty($this->postalCode)) {
             return json_encode([
                 'status' => 422,
                 'message' => "Preencha todos os campos antes de prosseguir."
             ]);
         }
 
-        $query = "INSERT INTO " . $this->tableName . " (nome, morada, cod_postal) VALUES (:name, :address, :postalCode)";
+        $query = "INSERT INTO " . $this->tableName . " (nome, email, morada, cod_postal, criado_fk) VALUES (:name, :email, :address, :postalCode, :createdFk)";
         $stmt = $this->pdo->prepare($query);
 
         $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':address', $this->address);
         $stmt->bindParam(':postalCode', $this->postalCode);
+        $stmt->bindParam(':createdFk', $this->createdFk);
 
         try {
             $stmt->execute();
@@ -177,13 +212,19 @@ class Library
         }
 
         $query = "UPDATE " . $this->tableName . " 
-                  SET nome = :name, morada = :address, cod_postal = :postalCode
+                  SET nome = :name,
+                  email = :email,
+                  morada = :address, 
+                  cod_postal = :postalCode,
+                  atualizado_fk = :updatedFk
                   WHERE id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', var: $this->id);
         $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':address', $this->address);
         $stmt->bindParam(':postalCode', $this->postalCode);
+        $stmt->bindParam(':updatedFk', $this->updatedFk);
 
         try {
 
@@ -208,12 +249,14 @@ class Library
         $this->active = $status;
 
         $query = 'UPDATE ' . $this->tableName . '
-                  SET ativo = :active
+                  SET ativo = :active,
+                  atualizado_fk = :updatedFk
                   WHERE id = :id';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':active', $this->active);
+        $stmt->bindParam(':updatedFk', $this->updatedFk);
 
         try {
 

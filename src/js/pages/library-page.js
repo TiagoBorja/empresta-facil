@@ -45,7 +45,12 @@ async function getAll() {
     }
 }
 function showLibraries(libraries) {
-    let table = "";
+    if ($.fn.DataTable.isDataTable('#zero_config')) {
+        $('#zero_config').DataTable().destroy();
+    }
+
+    const tableBody = $('#zero_config tbody');
+    tableBody.empty();
 
     libraries.forEach((library) => {
         const active = library.ativo === 'Y'
@@ -54,16 +59,20 @@ function showLibraries(libraries) {
                 ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
                 : '');
 
-        table += `<tr id="id-${library.id}">
-                  <td scope="row">${library.nome}</td>
-                  <td scope="row">${library.morada}</td>
-                  <td scope="row">${library.cod_postal}</td>
-                  <td>${active}</td>
-                  </tr>`;
+        tableBody.append(
+            `<tr id="id-${library.id}" class="selectable-row">
+                <td scope="row">${library.nome}</td>
+                <td scope="row">${library.email}</td>
+                <td scope="row">${library.morada}</td>
+                <td scope="row">${library.cod_postal}</td>
+                <td>${active}</td>
+            </tr>`);
     });
-
-    const tableBody = document.getElementById("tbody");
-    tableBody.innerHTML = table;
+    $('#zero_config').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese.json'
+        }
+    });
 }
 
 

@@ -23,12 +23,19 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" id="name" name="name" class="form-control" placeholder="Nome da Biblioteca">
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Nome da Biblioteca"
+                            required>
                         <label for="name">Nome da Biblioteca</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" id="email" name="email" class="form-control"
+                            placeholder="Email da Biblioteca" required>
+                        <label for="email">Email</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" id="address" name="address" class="form-control" placeholder="Morada">
+                        <input type="text" id="address" name="address" class="form-control" placeholder="Morada"
+                            required>
                         <label for="address">Morada</label>
                     </div>
 
@@ -38,6 +45,20 @@
                         <label for="postalCode">Código Postal</label>
                     </div>
 
+                    <div id="user-info" class="d-flex gap-4 mt-3 small d-none">
+                        <div>
+                            <i class="bi bi-person me-1"></i>
+                            Criado por <strong id="created-user" class="fw-semibold">-</strong>
+                            <br>
+                            <time id="created-date" class="fst-italic">-</time>
+                        </div>
+                        <div>
+                            <i class="bi bi-pencil me-1"></i>
+                            Editado por <strong id="updated-user" class="fw-semibold">-</strong>
+                            <br>
+                            <time id="updated-date" class="fst-italic">-</time>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer">
                     <div class="text-center">

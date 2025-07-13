@@ -20,13 +20,35 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="myTable" class="table table-hover">
+                    <table id="zero_config" class="table table-striped table-bordered dataTable" role="grid"
+                        aria-describedby="zero_config_info">
                         <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Biblioteca</th>
-                                <th scope="col">Morada</th>
-                                <th scope="col">Código Postal</th>
-                                <th scope="col">Ativo</th>
+                            <tr class="role">
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 126.375px;">
+                                    Biblioteca
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 126.375px;">
+                                    Email
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 126.375px;">
+                                    Morada
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 126.375px;">
+                                    Código Postal
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                    style="width: 126.375px;">
+                                    Ativo
+                                </th>
                             </tr>
                         </thead>
                         <tbody id="tbody" class="customtable">
