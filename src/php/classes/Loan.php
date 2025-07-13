@@ -385,12 +385,12 @@ class Loan
             if ($loanResponse['status'] != 200) {
                 return $loanResult;
             }
-            if (!empty($bookTitles)) {
+            if (!empty($bookTitle)) {
 
                 $response = Utils::sendLoanEmail(
                     $_SESSION['user']['email'],
                     $_SESSION['user']['primeiro_nome'],
-                    implode(', ', $bookTitle),
+                    $bookTitle,
                     $this->dueDate,
                     $_SESSION['employee']['biblioteca'],
                     $_SESSION['employee']['morada']
