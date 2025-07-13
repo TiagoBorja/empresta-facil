@@ -22,14 +22,14 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (result.status === 200) {
             const bookLocationTitle = document.getElementById("bookLocationTitle");
             if (bookLocationTitle) {
-                const codLocal = result?.data?.cod_local ?? 'Código Local';
-                const titulo = result?.data?.titulo ?? 'Título não definido';
+                const codLocal = result?.data[0]?.cod_local ?? 'Código Local';
+                const titulo = result?.data[0]?.titulo ?? 'Título não definido';
                 bookLocationTitle.textContent = `${codLocal} - ${titulo}`;
             }
             document.getElementById("id").value = result.data.livro_localizacao_fk;
             document.getElementById("quantity").value = result.data.quantidade;
 
-            await utils.fetchSelect(API_ENDPOINTS.LOCATION, "cod_local - nome", "locations", result.data.loc_fk);
+            await utils.fetchSelect(`${API_ENDPOINTS.LOCATION}?activeOnly=true`, "cod_local - nome", "locations", result.data.loc_fk);
             await utils.fetchSelect(API_ENDPOINTS.BOOK, "titulo", "book", result.data.id);
         }
     } catch (error) {

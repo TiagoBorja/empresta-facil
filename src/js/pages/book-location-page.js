@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         update();
         return;
     }
-    await utils.fetchSelect(API_ENDPOINTS.LOCATION, "cod_local", "locations");
+    await utils.fetchSelect(`${API_ENDPOINTS.LOCATION}?activeOnly=true`, "cod_local", "locations");
     await utils.fetchSelect(API_ENDPOINTS.BOOK, "titulo", "book");
 
     create();

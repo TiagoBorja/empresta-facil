@@ -22,7 +22,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    await utils.fetchSelect(LIBRARY_API_URL, "nome", "library");
+    if (currentPath === '?page=location-form' && !id) {
+        const employeeId = document.getElementById("employeeLibraryId").value;
+        await utils.fetchSelect(
+            `${LIBRARY_API_URL}?id=${employeeId}`,
+            "nome",
+            "library",
+            null,
+            true
+        );
+    }
     create();
     return;
 

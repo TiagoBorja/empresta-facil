@@ -20,6 +20,8 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <input type="hidden" id="id" name="id" class="form-control" readonly>
+                        <input type="hidden" id="employeeLibraryId"
+                            value="<?php echo $_SESSION['employee']['biblioteca_fk'] ?>">
                     </div>
 
                     <div class="form-floating mb-3">
