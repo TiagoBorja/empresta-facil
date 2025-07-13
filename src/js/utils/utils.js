@@ -58,7 +58,7 @@ export async function handleFormResponse(result, form) {
     if (result.status === 200) {
         form.reset();
         toastr.success(result.message, "Sucesso!");
-    } else if (result.status === 422 || result.status === 409 || result.status === 400) {
+    } else if (result.status === 422 || result.status === 409 || result.status === 400 || result.status === 401) {
         toastr.warning(result.message, "Atenção!");
     }
 }

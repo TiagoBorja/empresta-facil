@@ -57,6 +57,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.toggleField = toggleField;
 
     update(id);
+    const form = document.querySelector("#changePasswordForm");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        formData.append("changePassword", true);
+        formData.append("profileId", id);
+
+        bdUtils.updateData(`${API_ENDPOINTS.USER}?changePassword`, formData, form, `?page=profile&id=${id}`);
+    });
 });
 
 
@@ -395,7 +407,7 @@ function update(userId) {
         formData.append('email', document.querySelector('input[name="email"]').value);
         formData.append('phone', document.querySelector('input[name="phone"]').value);
         formData.append('username', document.querySelector('input[name="username"]').value);
-        
+
         bdUtils.updateData(`${API_ENDPOINTS.USER}?profileId=${userId}`, formData, form, `?page=profile&id=${userId}`);
     });
 }

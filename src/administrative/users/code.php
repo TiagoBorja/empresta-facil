@@ -159,6 +159,24 @@ if (isset($_POST['registerUser'])) {
     exit;
 }
 
+if (isset($_POST['changePassword'])) {
+    $profileId = filter_input(INPUT_POST, 'profileId', FILTER_SANITIZE_NUMBER_INT);
+
+    $currentPasswordRaw = filter_input(INPUT_POST, 'currentPassword', FILTER_SANITIZE_SPECIAL_CHARS);
+    $newPasswordRaw = filter_input(INPUT_POST, 'newPassword', FILTER_SANITIZE_SPECIAL_CHARS);
+    $confirmPasswordRaw = filter_input(INPUT_POST, 'confirmPassword', FILTER_SANITIZE_SPECIAL_CHARS);
+
+    $user->setId($profileId);
+    echo $user->changePassword(
+        $user->getId(),
+        $currentPasswordRaw,
+        $newPasswordRaw,
+        $confirmPasswordRaw
+    );
+    exit;
+}
+
+
 if (isset($_POST['changeStatus'])) {
     $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
     $status = filter_input(INPUT_POST, 'active', FILTER_SANITIZE_SPECIAL_CHARS);

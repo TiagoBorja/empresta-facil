@@ -389,6 +389,14 @@ class User
         $stmt->execute();
         return $stmt->fetchColumn(); // idem
     }
+
+    public function getUserPassword($id)
+    {
+        $stmt = $this->pdo->prepare("SELECT senha FROM utilizador WHERE id = :id LIMIT 1");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
     public function newUser($libraryId)
     {
         if (empty($this->firstName) || empty($this->lastName) || empty($this->birthDay) || empty($this->phoneNumber) || empty($this->username) || empty($this->password) || empty($this->email) || empty($this->role)) {
@@ -725,7 +733,50 @@ class User
             'message' => "Perfil e bibliotecas atualizados com sucesso!"
         ]);
     }
+    public function changePassword($userId, $currentPassword, $newPassword, $confirmPassword)
+    {
+        $oldPassword = $this->getUserPassword($userId);
 
+        if (!password_verify($currentPassword, $oldPassword)) {
+            return json_encode([
+                'status' => 401,
+                'message' => "A palavra-passe atual não está correta."
+            ]);
+        }
+
+        if ($newPassword !== $confirmPassword) {
+            return json_encode([
+                'status' => 401,
+                'message' => "A nova palavra-passe e a confirmação não coincidem."
+            ]);
+        }
+
+        $newPasswordHashed = password_hash($newPassword, PASSWORD_DEFAULT);
+        $this->password = $newPasswordHashed;
+        
+        $query = "UPDATE utilizador SET 
+                    senha = :password
+                  WHERE id = :id";
+
+        $stmt = $this->pdo->prepare($query);
+
+        $stmt->bindParam(':id', $userId);
+        $stmt->bindParam(':password', $this->password);
+
+        try {
+            $stmt->execute();
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Dados do utilizador atualizados com sucesso!"
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao atualizar o utilizador: " . $e->getMessage()
+            ]);
+        }
+    }
     public function changeActiveStatus($id, $status)
     {
         $this->id = $id;

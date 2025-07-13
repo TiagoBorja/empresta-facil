@@ -1,3 +1,4 @@
+<?php $userId = $_SESSION['user']['id']; ?>
 <div class="container-fluid">
     <div class="row justify-content-center min-vh-100 py-5">
         <div class="col-md-10 col-lg-10 p-4">
@@ -43,7 +44,7 @@
                                 <div class="tab-pane fade show active" id="profile" role="tabpanel">
                                     <h5 class="mb-3">Informações do utilizador</h5>
                                     <form class="mb-3">
-                                        <input type="hidden" id="userId" value="<?php echo $_SESSION['user']['id']; ?>">
+                                        <input type="hidden" id="userId" value="">
 
                                         <div class="row g-3">
                                             <div class="col-md-6">
@@ -133,8 +134,7 @@
                                 <div class="tab-pane fade" id="settings" role="tabpanel">
                                     <h5 class="mb-3">Configurações</h5>
                                     <form class="mb-3" id="settingsForm">
-                                        <input type="hidden" id="settingsUserId"
-                                            value="<?php echo $_SESSION['user']['id']; ?>">
+                                        <input type="hidden" id="settingsUserId" value="<?php $userId ?>">
 
                                         <div class="row g-3">
                                             <div class="col-md-6">
@@ -286,27 +286,34 @@
                     <p class="text-muted mb-4">Por favor, preencha os campos abaixo para alterar sua senha com
                         segurança.
                     </p>
-                    <form>
+                    <form id="changePasswordForm" method="post">
+                        <input type="hidden" name="profileId" value="<?= $userId ?>">
+
                         <div class="form-floating mb-3 position-relative">
-                            <input type="password" class="form-control ps-5" id="currentPassword"
+                            <input type="password" class="form-control ps-5" id="currentPassword" name="currentPassword"
                                 placeholder="Senha Atual" required>
                             <label for="currentPassword">Senha Atual</label>
                         </div>
+
                         <div class="form-floating mb-3 position-relative">
-                            <input type="password" class="form-control ps-5" id="newPassword" placeholder="Nova Senha"
-                                required>
+                            <input type="password" class="form-control ps-5" id="newPassword" name="newPassword"
+                                placeholder="Nova Senha" required>
                             <label for="newPassword">Nova Senha</label>
                         </div>
+
                         <div class="form-floating mb-3 position-relative">
-                            <input type="password" class="form-control ps-5" id="confirmPassword"
+                            <input type="password" class="form-control ps-5" id="confirmPassword" name="confirmPassword"
                                 placeholder="Confirmar Nova Senha" required>
                             <label for="confirmPassword">Confirmar Nova Senha</label>
                         </div>
+
+                        <div class="modal-footer">
+                            <button id="changePassword" name="changePassword" type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-1"></i>Guardar alterações
+                            </button>
+                        </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary"><i class="bi bi-save me-1"></i>Guardar
-                        alterações</button>
+
                 </div>
             </div>
         </div>
