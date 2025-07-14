@@ -148,6 +148,7 @@ class BookLocation
                 INNER JOIN localizacao loc ON ll.localizacao_fk = loc.id
                 INNER JOIN biblioteca b ON loc.biblioteca_fk = b.id
                 WHERE ll.livro_fk = :bookId
+                AND ll.quantidade > 0
                 GROUP BY b.id, b.nome";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':bookId', $bookId);

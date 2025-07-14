@@ -25,7 +25,7 @@ $isGuest = !isset($_SESSION['user']);
         <div class="card shadow-lg">
             <div class="row g-0">
                 <div class="col-md-4 ms-3 mt-2 mb-2 d-flex align-items-center">
-                    <img id="bookCover" src="../public/assets/images/big/img1.jpg"
+                    <img id="bookCover"
                         class="img-fluid rounded-start p-2 w-100" alt="Book Cover">
                 </div>
 

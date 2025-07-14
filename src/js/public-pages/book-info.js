@@ -103,7 +103,7 @@ async function fillFormData(bookId, userId) {
 
             if (comments.data && comments.data.length > 0) {
                 const commentsContainer = document.querySelector(".comment-widgets");
-                showComments(commentsContainer, comments.data);
+                showComments(commentsContainer, comments.data, evaluation.data);
             } else {
                 const noComments = document.getElementById("noComments");
                 noComments.classList.remove("d-none");
@@ -117,7 +117,7 @@ async function fillFormData(bookId, userId) {
             document.getElementById("bookSynopsis").textContent = bookValue.sinopse;
             document.getElementById("bookRating").textContent = bookValue.media_avaliacao;
 
-            const imageUrl = bookValue.img_url ? `../administrative/book/upload/${bookValue.img_url}` : "../public/assets/images/big/img1.jpg";
+            const imageUrl = `../administrative/book/upload/${bookValue.img_url}`;
             document.getElementById("bookCover").src = imageUrl;
 
             if (userEvaluationData && userEvaluationData.length > 0 && userEvaluationData[0].avaliacao) {
@@ -155,40 +155,59 @@ function showAuthors(authorContainer, authorList) {
 }
 
 function showLocations(locationsTableBody, bookLocations) {
+
     locationsTableBody.innerHTML = "";
 
-    bookLocations.forEach(location => {
+    if (bookLocations.length === 0) {
+        document.getElementById("reservationBtn").disabled = true;
         const tr = document.createElement("tr");
-        tr.classList.add("border-bottom", "border-dark");
+        const td = document.createElement("td");
+        td.setAttribute("colspan", "3"); // para a célula ocupar as 3 colunas
+        td.classList.add("text-center", "fw-normal", "text-muted");
+        td.textContent = "Sem livros disponíveis";
 
-        const tdLibrary = document.createElement("td");
-        tdLibrary.classList.add("fw-normal", "text-dark");
-        tdLibrary.textContent = location.biblioteca;
-
-        const tdAddress = document.createElement("td");
-        tdAddress.classList.add("fw-normal", "text-dark");
-        tdAddress.textContent = location.morada;
-
-        const tdQuantity = document.createElement("td");
-        tdQuantity.classList.add("fw-normal", "text-dark");
-        tdQuantity.textContent = location.total_exemplares;
-
-        tr.appendChild(tdLibrary);
-        tr.appendChild(tdAddress);
-        tr.appendChild(tdQuantity);
-
+        tr.appendChild(td);
         locationsTableBody.appendChild(tr);
-    });
+    } else {
+        bookLocations.forEach(location => {
+            const tr = document.createElement("tr");
+            tr.classList.add("border-bottom", "border-dark");
+
+            const tdLibrary = document.createElement("td");
+            tdLibrary.classList.add("fw-normal", "text-dark");
+            tdLibrary.textContent = location.biblioteca;
+
+            const tdAddress = document.createElement("td");
+            tdAddress.classList.add("fw-normal", "text-dark");
+            tdAddress.textContent = location.morada;
+
+            const tdQuantity = document.createElement("td");
+            tdQuantity.classList.add("fw-normal", "text-dark");
+            tdQuantity.textContent = location.total_exemplares;
+
+            tr.appendChild(tdLibrary);
+            tr.appendChild(tdAddress);
+            tr.appendChild(tdQuantity);
+
+            locationsTableBody.appendChild(tr);
+        });
+    }
 }
 
-function showComments(container, commentsData) {
+function showComments(container, commentsData, evaluationData) {
     container.innerHTML = ""; // Limpa comentários anteriores
 
     commentsData.forEach(comment => {
+        // Procurar avaliação correspondente do utilizador
+        const userEvaluation = evaluationData.find(e => e.utilizador === comment.utilizador);
+
         // Formatar a data
-        const dateObj = new Date(comment.criado_em);
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        const formattedDate = dateObj.toLocaleDateString('pt-PT', options);
+        let formattedDate = "Data desconhecida";
+        if (comment.criado_em) {
+            const dateObj = new Date(comment.criado_em);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            formattedDate = dateObj.toLocaleDateString('pt-PT', options);
+        }
 
         // Linha do comentário
         const commentRow = document.createElement("div");
@@ -198,7 +217,7 @@ function showComments(container, commentsData) {
         const imgDiv = document.createElement("div");
         imgDiv.classList.add("p-2");
         const img = document.createElement("img");
-        img.src = `../administrative/users/upload/${comment.img_url || "default-user.png"}`;
+        img.src = `../administrative/users/upload/${comment.img_url || "male-icon.jpg"}`;
         img.alt = "user";
         img.width = 50;
         img.classList.add("rounded-circle");
@@ -212,6 +231,24 @@ function showComments(container, commentsData) {
         const userName = document.createElement("h6");
         userName.classList.add("font-medium", "text-info", "mb-1");
         userName.textContent = comment.utilizador;
+
+        // Estrelas de avaliação (apenas se houver avaliação)
+        if (userEvaluation && userEvaluation.avaliacao !== null && userEvaluation.avaliacao !== undefined) {
+            const starSpan = document.createElement("span");
+            starSpan.classList.add("ms-2");
+            const rating = parseInt(userEvaluation.avaliacao, 10);
+            const maxStars = 5;
+
+            for (let i = 1; i <= maxStars; i++) {
+                const star = document.createElement("span");
+                star.textContent = i <= rating ? "★" : "☆";
+                star.style.color = "#f4c150";
+                starSpan.appendChild(star);
+            }
+
+            userName.appendChild(starSpan);
+        }
+
         textDiv.appendChild(userName);
 
         // Texto do comentário
