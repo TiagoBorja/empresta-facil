@@ -41,9 +41,9 @@ CREATE TABLE IF NOT EXISTS `autor` (
   KEY `fk_atualizado_fk` (`atualizado_fk`),
   CONSTRAINT `fk_atualizado_fk` FOREIGN KEY (`atualizado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `fk_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.autor: ~5 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.autor: ~10 rows (aproximadamente)
 DELETE FROM `autor`;
 INSERT INTO `autor` (`id`, `primeiro_nome`, `ultimo_nome`, `data_nascimento`, `genero`, `biografia`, `nacionalidade`, `img_url`, `criado_em`, `atualizado_em`, `ativo`, `criado_fk`, `atualizado_fk`) VALUES
 	(15, 'Yuval', 'Harari', '1976-02-24', 'M', 'Historiador e professor na Universidade Hebraica de Jerusalém. Ficou internacionalmente conhecido pelo seu livro Sapiens: Uma Breve História da Humanidade, onde aborda a história da humanidade de forma acessível e interdisciplinar.', 'Israelense', '686fb984964f2_yuval-harari.jpg', '2025-07-10 13:00:52', NULL, 'Y', 10, NULL),
@@ -51,7 +51,11 @@ INSERT INTO `autor` (`id`, `primeiro_nome`, `ultimo_nome`, `data_nascimento`, `g
 	(17, 'George', 'Orwell', '1903-06-25', 'M', 'George Orwell foi um escritor, ensaísta e jornalista britânico, conhecido pelo seu posicionamento político contra o totalitarismo. A sua obra mais conhecida, 1984, denuncia regimes opressivos e defende a liberdade de pensamento. Também escreveu A Quinta dos Animais. Morreu em 1950.', 'Britânico ', NULL, '2025-07-13 21:56:18', '2025-07-13 21:57:22', 'Y', 10, 10),
 	(18, 'Charles', 'Duhigg', '1974-01-01', 'M', 'Charles Duhigg é um jornalista investigativo e escritor norte-americano. Ganhou um Prémio Pulitzer pelas suas reportagens e ficou mundialmente conhecido com o best-seller O Poder do Hábito, no qual explora como os hábitos moldam as nossas vidas e como podemos alterá-los conscientemente.', 'Americano', NULL, '2025-07-13 21:57:08', NULL, 'Y', 10, NULL),
 	(19, 'Dan', 'Brown', '1964-06-22', 'M', 'Dan Brown é conhecido pelos seus thrillers com temáticas religiosas e simbólicas, que misturam ficção com factos históricos. O seu maior sucesso, O Código Da Vinci, gerou debates e adaptações cinematográficas. As suas obras envolvem mistério, arte e religião, com ritmo acelerado e enigmas complexos.', 'Americano', NULL, '2025-07-13 21:58:05', NULL, 'Y', 10, NULL),
-	(20, 'Ray', 'Dalio', '1949-08-08', 'M', 'Ray Dalio é um investidor bilionário e fundador da Bridgewater Associates, um dos maiores fundos de investimento do mundo. É também autor e mentor de líderes, tendo escrito Princípios para partilhar os fundamentos que usou na sua vida pessoal e profissional. É conhecido pela sua abordagem sistemática à tomada de decisões.&#13;&#10;&#13;&#10;', 'Americano ', NULL, '2025-07-13 21:58:47', NULL, 'Y', 10, NULL);
+	(20, 'Ray', 'Dalio', '1949-08-08', 'M', 'Ray Dalio é um investidor bilionário e fundador da Bridgewater Associates, um dos maiores fundos de investimento do mundo. É também autor e mentor de líderes, tendo escrito Princípios para partilhar os fundamentos que usou na sua vida pessoal e profissional. É conhecido pela sua abordagem sistemática à tomada de decisões.&#13;&#10;&#13;&#10;', 'Americano ', NULL, '2025-07-13 21:58:47', NULL, 'Y', 10, NULL),
+	(21, 'Gabriel', 'Márquez', '1927-03-06', 'M', 'Escritor e jornalista colombiano, vencedor do Prémio Nobel da Literatura em 1982. É conhecido pelo seu estilo de realismo mágico e pelas suas contribuições à literatura latino-americana.', 'Colombiana', NULL, '2025-07-14 15:25:09', NULL, 'Y', 10, NULL),
+	(22, 'Jane', 'Austen', '1675-12-16', 'F', 'Escritora inglesa do período georgiano, famosa pelas suas sátiras sociais e pela forma como retratou as relações humanas e a condição feminina da sua época.', 'Britânica', NULL, '2025-07-14 15:25:50', NULL, 'Y', 10, NULL),
+	(23, 'Fiódor', 'Dostoiévski', '1821-11-11', 'M', 'Um dos maiores romancistas russos, explorou temas como a psicologia humana, religião, moral e existencialismo.&#13;&#10;&#13;&#10;', 'Russa', NULL, '2025-07-14 15:26:26', NULL, 'Y', 10, NULL),
+	(24, 'José', 'Saramago', '1992-11-16', 'M', 'Escritor português galardoado com o Prémio Nobel da Literatura em 1998. É conhecido pela sua escrita densa e estilo único de pontuação.', 'Português', NULL, '2025-07-14 15:26:54', NULL, 'Y', 10, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.autor_livro
 DROP TABLE IF EXISTS `autor_livro`;
@@ -72,15 +76,18 @@ CREATE TABLE IF NOT EXISTS `autor_livro` (
   CONSTRAINT `autor_livro_ibfk_2` FOREIGN KEY (`livro_fk`) REFERENCES `livro` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.autor_livro: ~5 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.autor_livro: ~9 rows (aproximadamente)
 DELETE FROM `autor_livro`;
 INSERT INTO `autor_livro` (`autor_fk`, `livro_fk`, `criado_em`, `atualizado_em`, `criado_fk`, `atualizado_fk`) VALUES
-	(15, 141, '2025-07-13 22:12:25', NULL, NULL, NULL),
-	(16, 139, '2025-07-11 11:06:33', NULL, NULL, NULL),
-	(17, 140, '2025-07-13 22:09:20', NULL, NULL, NULL),
-	(18, 142, '2025-07-13 22:14:25', NULL, NULL, NULL),
-	(19, 143, '2025-07-13 22:15:44', NULL, NULL, NULL),
-	(20, 144, '2025-07-13 22:17:13', NULL, NULL, NULL);
+	(15, 141, '2025-07-14 16:19:35', NULL, NULL, NULL),
+	(16, 139, '2025-07-14 16:16:47', NULL, NULL, NULL),
+	(17, 140, '2025-07-14 16:17:34', NULL, NULL, NULL),
+	(18, 142, '2025-07-14 16:18:02', NULL, NULL, NULL),
+	(19, 143, '2025-07-14 16:18:37', NULL, NULL, NULL),
+	(20, 144, '2025-07-14 16:19:15', NULL, NULL, NULL),
+	(21, 145, '2025-07-14 15:38:21', NULL, NULL, NULL),
+	(22, 146, '2025-07-14 15:39:23', NULL, NULL, NULL),
+	(23, 147, '2025-07-14 15:40:42', NULL, NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.avaliacoes
 DROP TABLE IF EXISTS `avaliacoes`;
@@ -104,10 +111,8 @@ CREATE TABLE IF NOT EXISTS `avaliacoes` (
   CONSTRAINT `fk_avaliacoes_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.avaliacoes: ~1 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.avaliacoes: ~0 rows (aproximadamente)
 DELETE FROM `avaliacoes`;
-INSERT INTO `avaliacoes` (`id`, `livro_fk`, `utilizador_fk`, `avaliacao`, `criado_em`, `atualizado_em`, `criado_fk`, `atualizado_fk`) VALUES
-	(17, 140, 75, 3, NULL, NULL, NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.biblioteca
 DROP TABLE IF EXISTS `biblioteca`;
@@ -129,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `biblioteca` (
   CONSTRAINT `fk_biblioteca_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.biblioteca: ~9 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.biblioteca: ~3 rows (aproximadamente)
 DELETE FROM `biblioteca`;
 INSERT INTO `biblioteca` (`id`, `nome`, `email`, `morada`, `cod_postal`, `criado_em`, `atualizado_em`, `ativo`, `criado_fk`, `atualizado_fk`) VALUES
 	(3, 'Biblioteca Central de Gaia', 'email-exemplo@gmail.com', 'Rua das Letras, 123', '4400-123', '2025-06-15 15:25:12', '2025-07-13 10:44:13', 'Y', 10, 10),
@@ -158,9 +163,9 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   KEY `fk_categoria_atualizado_fk` (`atualizado_fk`),
   CONSTRAINT `fk_categoria_atualizado_fk` FOREIGN KEY (`atualizado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `fk_categoria_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.categoria: ~6 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.categoria: ~10 rows (aproximadamente)
 DELETE FROM `categoria`;
 INSERT INTO `categoria` (`id`, `categoria`, `descricao`, `criado_em`, `atualizado_em`, `ativo`, `criado_fk`, `atualizado_fk`) VALUES
 	(11, 'Tecnologia da Informação', 'Computadores', '2025-07-10 12:07:43', NULL, 'Y', NULL, NULL),
@@ -168,7 +173,11 @@ INSERT INTO `categoria` (`id`, `categoria`, `descricao`, `criado_em`, `atualizad
 	(13, 'Ficção', 'Narrativas criadas a partir da imaginação, com per', '2025-07-13 21:51:20', NULL, 'Y', 52, NULL),
 	(14, 'Não-ficção', 'Livros baseados em factos reais, dados históricos,', '2025-07-13 21:51:40', NULL, 'Y', 52, NULL),
 	(15, 'Desenvolvimento Pessoal', 'Obras que ajudam os leitores a melhorar aspetos da', '2025-07-13 21:52:19', NULL, 'Y', 52, NULL),
-	(16, 'Negócios', 'Livros que abordam estratégias, gestão e funcionam', '2025-07-13 21:52:42', NULL, 'Y', 52, NULL);
+	(16, 'Negócios', 'Livros que abordam estratégias, gestão e funcionam', '2025-07-13 21:52:42', NULL, 'Y', 52, NULL),
+	(17, 'Literatura Portuguesa', ' ', '2025-07-14 15:18:19', NULL, 'Y', 10, NULL),
+	(18, 'Biografia', ' ', '2025-07-14 15:18:38', NULL, 'Y', 10, NULL),
+	(19, 'Fantasia', ' ', '2025-07-14 15:18:54', NULL, 'Y', 10, NULL),
+	(20, 'Literatura', ' ', '2025-07-14 15:28:59', NULL, 'Y', 10, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.comentarios
 DROP TABLE IF EXISTS `comentarios`;
@@ -192,11 +201,8 @@ CREATE TABLE IF NOT EXISTS `comentarios` (
   CONSTRAINT `fk_comentarios_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.comentarios: ~2 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.comentarios: ~0 rows (aproximadamente)
 DELETE FROM `comentarios`;
-INSERT INTO `comentarios` (`id`, `livro_fk`, `utilizador_fk`, `comentario`, `criado_em`, `atualizado_em`, `criado_fk`, `atualizado_fk`) VALUES
-	(20, 140, 75, 'Livro podre', '2025-07-14 13:21:06', NULL, NULL, NULL),
-	(21, 140, 75, 'dasdsad', '2025-07-14 13:21:15', NULL, NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.editora
 DROP TABLE IF EXISTS `editora`;
@@ -215,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `editora` (
   CONSTRAINT `fk_editora_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.editora: ~4 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.editora: ~3 rows (aproximadamente)
 DELETE FROM `editora`;
 INSERT INTO `editora` (`id`, `editora`, `ativo`, `criado_em`, `atualizado_em`, `criado_fk`, `atualizado_fk`) VALUES
 	(1, 'Editora do Porto', 'Y', '2025-05-26 14:33:58', NULL, NULL, NULL),
@@ -247,13 +253,8 @@ CREATE TABLE IF NOT EXISTS `emprestimo` (
   CONSTRAINT `fk_emprestimo_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.emprestimo: ~3 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.emprestimo: ~0 rows (aproximadamente)
 DELETE FROM `emprestimo`;
-INSERT INTO `emprestimo` (`id`, `reserva_fk`, `utilizador_fk`, `funcionario_fk`, `criado_em`, `atualizado_em`, `data_devolucao`, `criado_fk`, `atualizado_fk`) VALUES
-	(95, NULL, 75, 25, '2025-07-14', NULL, '2025-08-08', NULL, NULL),
-	(97, NULL, 75, 25, '2025-07-14', NULL, '2025-08-20', NULL, NULL),
-	(98, 116, 76, 21, '2025-07-14', NULL, '2025-07-14', NULL, NULL),
-	(99, NULL, 76, 27, '2025-07-14', NULL, '2025-07-20', NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.emprestimo_livro
 DROP TABLE IF EXISTS `emprestimo_livro`;
@@ -283,20 +284,8 @@ CREATE TABLE IF NOT EXISTS `emprestimo_livro` (
   CONSTRAINT `fk_emprestimo_livro_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.emprestimo_livro: ~7 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.emprestimo_livro: ~0 rows (aproximadamente)
 DELETE FROM `emprestimo_livro`;
-INSERT INTO `emprestimo_livro` (`emprestimo_fk`, `livro_localizacao_fk`, `estado_levantou_fk`, `estado_devolucao_fk`, `estado_emprestimo_fk`, `data_devolvido`, `criado_fk`, `atualizado_fk`) VALUES
-	(95, 46, 4, NULL, 9, NULL, NULL, NULL),
-	(95, 47, 4, 5, 10, '2025-08-07', NULL, NULL),
-	(95, 48, 4, NULL, 9, NULL, NULL, NULL),
-	(95, 49, 4, NULL, 9, NULL, NULL, NULL),
-	(95, 50, 4, NULL, 9, NULL, NULL, NULL),
-	(97, 47, 4, 8, 10, '2025-08-20', NULL, NULL),
-	(98, 51, 4, NULL, 9, NULL, NULL, NULL),
-	(99, 46, 4, NULL, 9, NULL, NULL, NULL),
-	(99, 48, 4, NULL, 9, NULL, NULL, NULL),
-	(99, 49, 4, NULL, 9, NULL, NULL, NULL),
-	(99, 50, 4, NULL, 9, NULL, NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.estado
 DROP TABLE IF EXISTS `estado`;
@@ -355,15 +344,14 @@ CREATE TABLE IF NOT EXISTS `funcionario` (
   CONSTRAINT `fk_funcionario_atualizado_fk` FOREIGN KEY (`atualizado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `fk_funcionario_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `funcionario_ibfk_2` FOREIGN KEY (`biblioteca_fk`) REFERENCES `biblioteca` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.funcionario: ~2 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.funcionario: ~3 rows (aproximadamente)
 DELETE FROM `funcionario`;
 INSERT INTO `funcionario` (`id`, `utilizador_fk`, `biblioteca_fk`, `criado_em`, `atualizado_em`, `ativo`, `criado_fk`, `atualizado_fk`) VALUES
 	(21, 10, NULL, '2025-07-03 08:00:55', NULL, 'Y', NULL, NULL),
-	(25, 59, 5, '2025-07-14 10:18:41', NULL, 'Y', NULL, NULL),
-	(26, 51, 5, '2025-07-14 13:28:54', NULL, 'Y', NULL, NULL),
-	(27, 52, 5, '2025-07-14 13:37:43', NULL, 'Y', NULL, NULL);
+	(28, 52, 4, '2025-07-14 14:25:28', NULL, 'Y', NULL, NULL),
+	(29, 77, 4, '2025-07-14 14:25:37', NULL, 'Y', NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.livro
 DROP TABLE IF EXISTS `livro`;
@@ -395,17 +383,20 @@ CREATE TABLE IF NOT EXISTS `livro` (
   CONSTRAINT `livro_ibfk_2` FOREIGN KEY (`editora_fk`) REFERENCES `editora` (`id`),
   CONSTRAINT `livro_ibfk_3` FOREIGN KEY (`categoria_fk`) REFERENCES `categoria` (`id`),
   CONSTRAINT `livro_ibfk_4` FOREIGN KEY (`subcategoria_fk`) REFERENCES `subcategoria` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.livro: ~6 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.livro: ~9 rows (aproximadamente)
 DELETE FROM `livro`;
 INSERT INTO `livro` (`id`, `titulo`, `isbn`, `ano_lancamento`, `sinopse`, `idioma`, `editora_fk`, `categoria_fk`, `subcategoria_fk`, `img_url`, `criado_fk`, `criado_em`, `atualizado_fk`, `atualizado_em`, `ativo`) VALUES
 	(139, 'Clean Code: A Handbook of Agile Software Craftsmanship', '978-013235088', '2008', 'É um dos livros mais influentes na área de programação, focado em práticas para escrever código limpo, legível e sustentável.', 'Inglês', 1, 11, 1, '6870f03931d65_clean-code.jpg', 10, '2025-07-10 13:15:16', 10, '2025-07-13 10:44:24', 'Y'),
-	(140, '1984', '978-0-123456-', '1949', 'Num mundo dominado por um governo tirânico, onde até os pensamentos são vigiados, Winston Smith começa a questionar o sistema. Uma das mais influentes obras do século XX sobre liberdade, verdade e manipulação.', 'Inglês', 1, 13, 3, '68742e903707d_1984.jpg', 10, '2025-07-13 22:09:20', NULL, NULL, 'Y'),
+	(140, '1984', '978-0-123456-', '1949', 'Num mundo dominado por um governo tirânico, onde até os pensamentos são vigiados, Winston Smith começa a questionar o sistema. Uma das mais influentes obras do século XX sobre liberdade, verdade e manipulação.', 'Inglês', 1, 13, 3, '68752d9e35dd5_1984.jpg', 10, '2025-07-13 22:09:20', 77, '2025-07-14 16:17:34', 'Y'),
 	(141, 'Sapiens: Uma Breve História da Humanidade', '978-0-234567-', '2011', 'Uma análise fascinante da evolução do Homo sapiens, desde o domínio da agricultura até à era digital. Harari explica como as ideias moldaram o mundo e continua a moldar a sociedade moderna.', 'Inglês', 1, 14, 4, '68742f4922d0b_Sapiens Uma Breve História da Humanidade.jpg', 10, '2025-07-13 22:12:25', NULL, NULL, 'Y'),
 	(142, 'A Força do Hábito', '978-0-345678-', '2012', 'Por que fazemos o que fazemos? Este livro revela como os hábitos funcionam e como podem ser transformados para melhorar a vida pessoal e profissional.', 'Inglês', 1, 15, 5, '68742fc1a9530_A-Forca-do-Habito.jpg', 10, '2025-07-13 22:13:31', 10, '2025-07-13 22:14:25', 'Y'),
 	(143, 'O Código Da Vinci', '978-0-456789-', '2003', 'Robert Langdon é arrastado para um mistério que envolve arte, religião e sociedades secretas. Cada pista desvenda um segredo mais chocante que o anterior.', 'Inglês', 1, 13, 6, '6874301081996_DaVinciCode.jpg', 10, '2025-07-13 22:15:44', NULL, NULL, 'Y'),
-	(144, 'Princípios: Vida e Trabalho', '978-0-567890-', '2017', 'Dalio partilha os princípios que usou para criar uma das maiores empresas de investimentos do mundo, oferecendo orientações práticas para decisões pessoais e profissionais.', 'Inglês', 1, 16, 7, '68743069549df_Vida e Trabalho.jpg', 10, '2025-07-13 22:17:13', NULL, NULL, 'Y');
+	(144, 'Princípios: Vida e Trabalho', '978-0-567890-', '2017', 'Dalio partilha os princípios que usou para criar uma das maiores empresas de investimentos do mundo, oferecendo orientações práticas para decisões pessoais e profissionais.', 'Inglês', 1, 16, 7, '68743069549df_Vida e Trabalho.jpg', 10, '2025-07-13 22:17:13', NULL, NULL, 'Y'),
+	(145, 'Cem Anos de Solidão', '006-0883286', '1967', 'A saga da família Buendía na aldeia fictícia de Macondo, onde o fantástico e o real se misturam para criar um épico que atravessa várias gerações. Uma obra-prima do realismo mágico que explora temas como o tempo, a solidão e o destino.', 'Espanhol', 1, 20, 12, '6875246db349a_1507-1.jpg', 10, '2025-07-14 15:38:21', NULL, NULL, 'Y'),
+	(146, 'Orgulho e Preconceito', '014-1439513', '0000', 'Retrata a vida e as relações da alta sociedade inglesa do século XIX através da história de Elizabeth Bennet e Mr. Darcy, destacando o orgulho, o preconceito e as tensões sociais.', 'Inglês', 1, 20, 13, '687524abca5f2_Orgulho-e-Preconceito.jpg', 10, '2025-07-14 15:39:23', NULL, NULL, 'Y'),
+	(147, 'Os Irmãos Karamazov', '037-4528373', '0000', 'A história complexa de três irmãos e seu pai, explorando questões morais, religiosas e existenciais na Rússia do século XIX. Uma análise profunda da natureza humana e da fé.', 'Russo', 1, 20, 14, '687524fa66db6_1507-1 (1).jpg', 10, '2025-07-14 15:40:42', NULL, NULL, 'Y');
 
 -- A despejar estrutura para tabela empresta_facil.livro_localizacao
 DROP TABLE IF EXISTS `livro_localizacao`;
@@ -427,15 +418,20 @@ CREATE TABLE IF NOT EXISTS `livro_localizacao` (
   CONSTRAINT `fk_livro_localizacao_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.livro_localizacao: ~5 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.livro_localizacao: ~11 rows (aproximadamente)
 DELETE FROM `livro_localizacao`;
 INSERT INTO `livro_localizacao` (`id`, `livro_fk`, `localizacao_fk`, `quantidade`, `criado_fk`, `atualizado_fk`) VALUES
 	(46, 139, 28, 3, NULL, NULL),
-	(47, 140, 30, 4, NULL, NULL),
 	(48, 141, 31, 3, NULL, NULL),
-	(49, 142, 32, 3, NULL, NULL),
 	(50, 144, 34, 3, NULL, NULL),
-	(51, 140, 37, 4, NULL, NULL);
+	(51, 140, 37, 4, NULL, NULL),
+	(52, 147, 44, 5, NULL, NULL),
+	(53, 142, 40, 5, NULL, NULL),
+	(54, 145, 46, 5, NULL, NULL),
+	(55, 143, 39, 5, NULL, NULL),
+	(56, 146, 45, 6, NULL, NULL),
+	(57, 144, 38, 5, NULL, NULL),
+	(58, 141, 43, 1, NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.localizacao
 DROP TABLE IF EXISTS `localizacao`;
@@ -458,7 +454,7 @@ CREATE TABLE IF NOT EXISTS `localizacao` (
   CONSTRAINT `localizacao_ibfk_1` FOREIGN KEY (`biblioteca_fk`) REFERENCES `biblioteca` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.localizacao: ~13 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.localizacao: ~15 rows (aproximadamente)
 DELETE FROM `localizacao`;
 INSERT INTO `localizacao` (`id`, `cod_local`, `biblioteca_fk`, `criado_em`, `atualizado_em`, `ativo`, `criado_fk`, `atualizado_fk`) VALUES
 	(28, 'TI-123', 5, '2025-07-11 11:22:09', NULL, 'N', NULL, NULL),
@@ -472,7 +468,10 @@ INSERT INTO `localizacao` (`id`, `cod_local`, `biblioteca_fk`, `criado_em`, `atu
 	(38, 'NE-LF', 4, '2025-07-13 22:22:38', NULL, 'Y', NULL, NULL),
 	(39, 'FI-THM', 4, '2025-07-14 08:06:30', NULL, 'Y', NULL, NULL),
 	(40, 'DP-PSI', 4, '2025-07-14 08:06:59', NULL, 'Y', NULL, NULL),
-	(43, 'NF-HIS', 4, '2025-07-14 08:08:32', NULL, 'Y', NULL, NULL);
+	(43, 'NF-HIS', 4, '2025-07-14 08:08:32', NULL, 'Y', NULL, NULL),
+	(44, 'LT-RFO', 4, '2025-07-14 16:05:31', NULL, 'Y', NULL, NULL),
+	(45, 'LT-RCO', 4, '2025-07-14 16:05:47', NULL, 'Y', NULL, NULL),
+	(46, 'LT-RLM', 4, '2025-07-14 16:06:00', NULL, 'Y', NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.reserva
 DROP TABLE IF EXISTS `reserva`;
@@ -502,8 +501,6 @@ CREATE TABLE IF NOT EXISTS `reserva` (
 
 -- A despejar dados para tabela empresta_facil.reserva: ~0 rows (aproximadamente)
 DELETE FROM `reserva`;
-INSERT INTO `reserva` (`id`, `livro_localizacao_fk`, `utilizador_fk`, `data_levantamento`, `data_expiracao`, `criado_em`, `atualiado_em`, `estado_fk`, `criado_fk`, `atualizado_fk`) VALUES
-	(116, 51, 76, '2025-07-14', '2025-07-17', '2025-07-14', NULL, 14, NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.subcategoria
 DROP TABLE IF EXISTS `subcategoria`;
@@ -521,9 +518,9 @@ CREATE TABLE IF NOT EXISTS `subcategoria` (
   KEY `categoria_fk` (`categoria_fk`),
   KEY `fk_subcategoria_criado_fk` (`criado_fk`),
   KEY `fk_subcategoria_atualizado_fk` (`atualizado_fk`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.subcategoria: ~6 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.subcategoria: ~16 rows (aproximadamente)
 DELETE FROM `subcategoria`;
 INSERT INTO `subcategoria` (`id`, `categoria_fk`, `subcategoria`, `descricao`, `criado_em`, `atualizado_em`, `ativo`, `criado_fk`, `atualizado_fk`) VALUES
 	(1, 11, 'Programação', 'Livros que ensinam linguagens como Java, Python, JavaScript, etc.', NULL, '2025-07-11 09:50:52', 'Y', 10, 10),
@@ -532,7 +529,16 @@ INSERT INTO `subcategoria` (`id`, `categoria_fk`, `subcategoria`, `descricao`, `
 	(4, 14, 'História', 'Estudo das sociedades humanas ao longo do tempo, com base em factos documentados.', '2025-07-13 21:53:34', NULL, 'Y', 52, NULL),
 	(5, 15, 'Psicologia Comportamental', 'Estudo de como os comportamentos humanos são formados, influenciados e modificados.', '2025-07-13 21:53:57', NULL, 'Y', 52, NULL),
 	(6, 13, 'Thriller/Mistério', 'Histórias que envolvem suspense, enigmas e investigação, mantendo o leitor em tensão.', '2025-07-13 21:54:29', NULL, 'Y', 52, NULL),
-	(7, 16, 'Liderança/Finanças', 'Foco em competências de liderança, gestão de equipas e inteligência financeira.', '2025-07-13 21:54:38', NULL, 'Y', 52, NULL);
+	(7, 16, 'Liderança/Finanças', 'Foco em competências de liderança, gestão de equipas e inteligência financeira.', '2025-07-13 21:54:38', NULL, 'Y', 52, NULL),
+	(8, 17, 'Romance Realista', ' ', '2025-07-14 15:19:24', NULL, 'Y', 10, NULL),
+	(9, 18, 'Segunda Guerra Mundial', ' ', '2025-07-14 15:19:40', NULL, 'Y', 10, NULL),
+	(10, 13, 'Fábula filosófica', ' ', '2025-07-14 15:19:57', NULL, 'Y', 10, NULL),
+	(11, 19, 'Literatura Juvenil', ' ', '2025-07-14 15:20:13', NULL, 'Y', 10, NULL),
+	(12, 20, 'Realismo Mágico', ' ', '2025-07-14 15:29:12', NULL, 'Y', 10, NULL),
+	(13, 20, 'Romance Clássico', ' ', '2025-07-14 15:29:24', NULL, 'Y', 10, NULL),
+	(14, 20, 'Romance Filosófico', ' ', '2025-07-14 15:29:36', NULL, 'Y', 10, NULL),
+	(15, 20, 'Ficção Contemporânea', ' ', '2025-07-14 15:29:49', NULL, 'Y', 10, NULL),
+	(16, 20, 'Ficção Distópica', ' ', '2025-07-14 15:30:00', NULL, 'Y', 10, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.tipo_utilizador
 DROP TABLE IF EXISTS `tipo_utilizador`;
@@ -552,7 +558,7 @@ CREATE TABLE IF NOT EXISTS `tipo_utilizador` (
   CONSTRAINT `fk_tipo_utilizador_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.tipo_utilizador: ~5 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.tipo_utilizador: ~4 rows (aproximadamente)
 DELETE FROM `tipo_utilizador`;
 INSERT INTO `tipo_utilizador` (`id`, `tipo`, `descricao`, `criado_em`, `atualizado_em`, `ativo`, `criado_fk`, `atualizado_fk`) VALUES
 	(4, 'Administrador', '', '2025-07-14 08:15:00', NULL, 'Y', NULL, NULL),
@@ -589,18 +595,14 @@ CREATE TABLE IF NOT EXISTS `utilizador` (
   CONSTRAINT `fk_utilizador_atualizado_fk` FOREIGN KEY (`atualizado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `fk_utilizador_criado_fk` FOREIGN KEY (`criado_fk`) REFERENCES `utilizador` (`id`),
   CONSTRAINT `utilizador_ibfk_1` FOREIGN KEY (`tipo_utilizador_fk`) REFERENCES `tipo_utilizador` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.utilizador: ~7 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.utilizador: ~3 rows (aproximadamente)
 DELETE FROM `utilizador`;
 INSERT INTO `utilizador` (`id`, `primeiro_nome`, `ultimo_nome`, `data_nascimento`, `nif`, `cc`, `genero`, `morada`, `telemovel`, `nome_utilizador`, `senha`, `email`, `img_url`, `tipo_utilizador_fk`, `criado_em`, `atualizado_em`, `ativo`, `criado_fk`, `atualizado_fk`) VALUES
-	(10, 'Maria', 'Zamberlan', '2004-12-17', 311404626, '', 'F', NULL, '3519278145', 'mzamberlan', '$2y$10$0e52qpYjkdbjX/erql4.LefWHdbIQiaRfulKgWG9gk.jzhuf0I5MK', 'Maria.eduarda1712@gmail.com', '6861b00e51e6a_Untitled.png', 4, '2025-04-27 13:59:42', NULL, 'Y', NULL, NULL),
-	(51, 'Gestor', 'Gestor', '2005-12-02', 12345678, '123456789124', 'O', NULL, '987456321', 'Gestor', '$2y$10$ZU/yg04Uoa8xn8dIvy6DkeHUSTSWxlljuLg4RqjGn69rAqlz9yy0u', 'exemplo-teste@gmail.com', '686288f8f1161_Untitled.png', 41, '2025-06-30 12:44:34', NULL, 'N', NULL, NULL),
-	(52, 'Tiago', 'Borja', '2005-12-02', 311566260, '19718579Z01P', 'M', NULL, '963446548', 'tiagomatx', '$2y$10$WmmbLLgZv8/bzxVrWBdK5OBjRcsobhzOTtQTGtDyRDu65vI.5P2RK', 'tiagomatx@gmail.com', NULL, 41, '2025-07-03 07:58:36', NULL, 'Y', NULL, NULL),
-	(55, 'Rodrigo', 'Ribeiro', '2007-05-12', 123456783, '', 'M', NULL, '962193439', 'rdias', '$2y$10$4bdd0Yn69.YEzr/PNYQR2.w2QNqlHsBgFEHEwkFdd7hLoCcL8IA5m', 'rdr.rodrigo.dias.ribeiro@gmail.com', NULL, 42, '2025-07-07 09:35:48', NULL, 'Y', NULL, NULL),
-	(59, 'Emanuel', 'Oliveira', '2005-12-22', 313331391, '', 'M', NULL, '910090617', 'henrique8', '$2y$10$aFL7D60NLc21.q2aomUGWuqzbbhdorMdyihFkQ2jkbYMoX43tIuyS', 'emanuelhenrique05@gmail.com', NULL, 44, '2025-07-13 23:19:16', NULL, 'Y', NULL, NULL),
-	(75, 'leitor', 'leitor', '2005-12-02', 311404626, '', 'M', 'Rua Valverde, 136', '962193439', 'leitor', '$2y$10$iStpPk/VkCHT83vBVchumO9K43vtULDJKRT/rmWGdq.AsWABgsezK', 'borjatiago05@gmail.com', 'male-icon.jpg', 42, '2025-07-14 10:09:01', NULL, 'Y', NULL, NULL),
-	(76, 'Hugo', 'Dias', '2005-03-15', 311544889, '', 'M', '136 Rua de Valverde', '962193439', 'hdias', '$2y$10$seDK5hhScpruQyob/LTjEubjSdkZ/jVOJMnsxBVhE1EBoSR0/TVBW', 'hugo.fontouradias@gmail.com', 'male-icon.jpg', 42, '2025-07-14 13:23:21', NULL, 'Y', NULL, NULL);
+	(10, 'admin', 'admin', '2004-12-17', 311404626, '', 'F', NULL, '3519278145', 'admin', '$2y$10$0e52qpYjkdbjX/erql4.LefWHdbIQiaRfulKgWG9gk.jzhuf0I5MK', 'admin@gmail.com', '6861b00e51e6a_Untitled.png', 4, '2025-04-27 13:59:42', NULL, 'Y', NULL, NULL),
+	(52, 'funcionario', 'funcionario', '2005-12-02', 311566260, '19718579Z01P', 'M', NULL, '963446548', 'funcionario', '$2y$10$WmmbLLgZv8/bzxVrWBdK5OBjRcsobhzOTtQTGtDyRDu65vI.5P2RK', 'tiagomatx@gmail.com', NULL, 44, '2025-07-03 07:58:36', NULL, 'Y', NULL, NULL),
+	(77, 'gestor', 'gestor', '2005-12-02', 311404626, '', 'M', NULL, '962193439', 'gestor', '$2y$10$k9qClh.t7il6RaL7/SDjRu1tewy/7tUk9FegFDDj7kfX2zvM5DexC', 'gestor@gmail.com', 'male-icon.jpg', 41, '2025-07-14 14:24:55', NULL, 'Y', NULL, NULL);
 
 -- A despejar estrutura para tabela empresta_facil.utilizador_biblioteca
 DROP TABLE IF EXISTS `utilizador_biblioteca`;
@@ -618,19 +620,12 @@ CREATE TABLE IF NOT EXISTS `utilizador_biblioteca` (
   CONSTRAINT `FK_utilizador_biblioteca_utilizador` FOREIGN KEY (`utilizador_fk`) REFERENCES `utilizador` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- A despejar dados para tabela empresta_facil.utilizador_biblioteca: ~10 rows (aproximadamente)
+-- A despejar dados para tabela empresta_facil.utilizador_biblioteca: ~3 rows (aproximadamente)
 DELETE FROM `utilizador_biblioteca`;
 INSERT INTO `utilizador_biblioteca` (`utilizador_fk`, `biblioteca_fk`, `codigo_validacao`, `validado`, `data_pedido`, `data_expirado`, `data_validacao`) VALUES
-	(51, 5, 'XJF1X15362AG', 1, '2025-06-30', '2025-07-14', '2025-06-30'),
-	(52, 5, 'XP7X4PQXUO7R', 1, '2025-07-03', '2025-07-17', '2025-07-03'),
 	(10, 5, 'I089P6', 0, '2025-07-13', '2025-07-27', NULL),
-	(59, 5, 'X3BDWN', 1, '2025-07-14', '2025-07-28', '2025-07-14'),
-	(75, 4, 'GEN34E', 1, '2025-07-14', '2025-07-28', '2025-07-14'),
-	(75, 5, 'GEN34E', 1, '2025-07-14', '2025-07-28', '2025-07-14'),
-	(75, 6, 'GEN34E', 1, '2025-07-14', '2025-07-28', '2025-07-14'),
-	(55, 7, 'BNS1JP', 0, '2025-07-14', '2025-07-28', NULL),
-	(76, 4, 'ML0MOY', 1, '2025-07-14', '2025-07-28', '2025-07-14'),
-	(76, 5, 'ML0MOY', 1, '2025-07-14', '2025-07-28', '2025-07-14');
+	(52, 4, '3AG0PC', 0, '2025-07-14', '2025-07-28', NULL),
+	(77, 4, 'PFBMLT', 1, '2025-07-14', '2025-07-28', '2025-07-14');
 
 -- A despejar estrutura para disparador empresta_facil.atualizar_estado_reserva_apos_emprestimo
 DROP TRIGGER IF EXISTS `atualizar_estado_reserva_apos_emprestimo`;

@@ -22,7 +22,7 @@
                         <input type="hidden" id="id" name="id" class="form-control" readonly>
                         <input type="hidden" id="employeeLibraryId" name="employeeLibraryId" class="form-control"
                             value="<?php echo $_SESSION['employee']['biblioteca_fk'] ?>">
-                        <input type="text" id="role" name="role" class="form-control"
+                        <input type="hidden" id="role" name="role" class="form-control"
                             value="<?php echo $_SESSION['user']['tipo'] ?>">
                     </div>
 
