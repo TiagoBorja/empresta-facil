@@ -26,13 +26,6 @@
                         <label for="floatingPassword">Palavra-passe</label>
                     </div>
 
-                    <div class="form-check mb-3">
-                        <input type="checkbox" class="form-check-input" id="rememberMe" name="remember">
-                        <label class="form-check-label" for="rememberMe">
-                            Manter sessão iniciada
-                        </label>
-                    </div>
-
                     <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">Entrar</button>
 
                     <div class="text-center">

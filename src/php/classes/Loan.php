@@ -2,6 +2,7 @@
 
 include_once 'Connection.php';
 include_once 'LoanBook.php';
+include_once 'User.php';
 
 class Loan
 {
@@ -9,6 +10,7 @@ class Loan
     private $tableName = 'emprestimo';
 
     private $loanBook;
+    private $user;
     private $id;
     private $reservationFk;
     private $userFk;
@@ -26,6 +28,7 @@ class Loan
         $connection = new Connection();
         $this->pdo = $connection->getConnection();
         $this->loanBook = new LoanBook();
+        $this->user = new User();
     }
 
     // ----------- GETTERS -----------
@@ -191,7 +194,12 @@ class Loan
                 JOIN estado es_levantou ON el.estado_levantou_fk = es_levantou.id
                 LEFT JOIN estado es_devolucao ON el.estado_devolucao_fk = es_devolucao.id
                 WHERE loc.biblioteca_fk = :libraryId
-                ORDER BY e.criado_em DESC";
+                ORDER BY 
+                    e.criado_em DESC,
+                    CASE 
+                        WHEN es_emprestimo.estado = 'EM ANDAMENTO' THEN 0
+                        ELSE 1
+                    END";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':libraryId', $libraryId, PDO::PARAM_INT);
@@ -321,6 +329,22 @@ class Loan
             ]);
         }
 
+        $totalLoans = $this->user->verifyUserLoanCount($this->getUserFk());
+
+        if ($totalLoans >= 5) {
+            return json_encode([
+                'status' => 400,
+                'message' => 'O utilizador já possui 5 itens em andamento.'
+            ]);
+        }
+
+        if (($totalLoans + count($books)) > 5) {
+            return json_encode([
+                'status' => 400,
+                'message' => 'Não é possível adicionar mais livros. O máximo permitido por utilizador é 5 empréstimos em andamento.'
+            ]);
+        }
+
         $query = "INSERT INTO {$this->tableName} (reserva_fk, utilizador_fk, funcionario_fk, data_devolucao) 
                   VALUES (:reservationFk, :userFk, :employeeFk, :dueDate)";
         $stmt = $this->pdo->prepare($query);
@@ -353,7 +377,7 @@ class Loan
             if (!empty($bookTitles)) {
 
                 $response = Utils::sendLoanEmail(
-                    $_SESSION['user']['email'],
+                    $this->user->getUserEmail($this->getUserFk()),
                     $_SESSION['user']['primeiro_nome'],
                     implode(', ', $bookTitles),
                     $this->dueDate,
@@ -428,7 +452,7 @@ class Loan
             if (!empty($bookTitle)) {
 
                 $response = Utils::sendLoanEmail(
-                    $_SESSION['user']['email'],
+                    $this->user->getUserEmail($this->getUserFk()),
                     $_SESSION['user']['primeiro_nome'],
                     $bookTitle,
                     $this->dueDate,

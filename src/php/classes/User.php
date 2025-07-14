@@ -384,7 +384,7 @@ class User
     public function verifyUserLoanCount($id)
     {
         $query = "SELECT
-                    COUNT(DISTINCT e.id) + COUNT(r.id) AS total_andamento
+                    COUNT(e.id) + COUNT(r.id) AS total_andamento
                     FROM utilizador u
                     LEFT JOIN emprestimo e ON e.utilizador_fk = u.id
                     LEFT JOIN emprestimo_livro el ON el.emprestimo_fk = e.id
@@ -403,12 +403,31 @@ class User
         $stmt->execute();
         return $stmt->fetchColumn();
     }
+
+    private function existsUsername($username)
+    {
+        $stmt = $this->pdo->prepare("SELECT count(id) FROM utilizador 
+                                            WHERE nome_utilizador = :username
+                                            LIMIT 1");
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+    private function existsEmail($email)
+    {
+        $stmt = $this->pdo->prepare("SELECT count(id) FROM utilizador 
+                                            WHERE email = :email
+                                            LIMIT 1");
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
     public function getUserFirstName($id)
     {
         $stmt = $this->pdo->prepare("SELECT primeiro_nome FROM utilizador WHERE id = :id LIMIT 1");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchColumn(); // idem
+        return $stmt->fetchColumn();
     }
 
     public function getUserPassword($id)
@@ -424,6 +443,23 @@ class User
             return json_encode([
                 'status' => 422,
                 'message' => "Preencha todos os campos antes de prosseguir."
+            ]);
+        }
+
+
+        $existsEmail = $this->existsEmail($this->email);
+        $existsUsername = $this->existsUsername($this->username);
+        if ($existsEmail > 0) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Já existe um utilizador registado com este email."
+            ]);
+        }
+
+        if ($existsUsername > 0) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Já existe um utilizador registado com este nome de utilizador."
             ]);
         }
 
@@ -527,6 +563,22 @@ class User
             return json_encode([
                 'status' => 422,
                 'message' => "Selecione ao menos uma biblioteca."
+            ]);
+        }
+
+        $existsEmail = $this->existsEmail($this->email);
+        $existsUsername = $this->existsUsername($this->username);
+        if ($existsEmail > 0) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Já existe um utilizador registado com este email."
+            ]);
+        }
+
+        if ($existsUsername > 0) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Já existe um utilizador registado com este nome de utilizador."
             ]);
         }
         $query = "INSERT INTO utilizador (
@@ -635,6 +687,23 @@ class User
             return json_encode([
                 'status' => 422,
                 'message' => "Selecione ao menos uma biblioteca."
+            ]);
+        }
+
+
+        $existsEmail = $this->existsEmail($this->email);
+        $existsUsername = $this->existsUsername($this->username);
+        if ($existsEmail > 0) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Já existe um utilizador registado com este email."
+            ]);
+        }
+
+        if ($existsUsername > 0) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Já existe um utilizador registado com este nome de utilizador."
             ]);
         }
         $query = "INSERT INTO utilizador (
@@ -786,7 +855,6 @@ class User
         try {
             $stmt->execute();
 
-            // GESTÃO DAS BIBLIOTECAS ASSOCIADAS AO UTILIZADOR
             $currentLibraryIds = $this->userLibrary->getLibraryIdsByUser($id);
             $newLibraryIds = is_array($libraries) ? array_filter($libraries) : [];
 

@@ -109,7 +109,7 @@ if (isset($_POST['saveData'])) {
     }
     if (!empty($id)) {
         $user->setId($id);
-        if ($role === 'Administrador')
+        if ($userRole === 'Administrador')
             echo $user->updateUserByAdm($id, $libraries);
         else
             echo $user->updateUserByEmployee($id, $libraryId);
