@@ -6,7 +6,7 @@ include_once '../../php/classes/Utils.php';
 
 $user = new User();
 $utils = new Utils();
-$userRole = $_SESSION['user']['tipo'];
+$userRole = $_SESSION['user']['tipo'] ?? null;
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if (isset($_GET['getPendentUserCount'])) {
