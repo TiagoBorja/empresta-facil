@@ -7,7 +7,12 @@ include_once '../classes/BookLocation.php';
 
 $bookLocation = new BookLocation();
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id']) && !isset($_GET['bookId'])) {
+
+if (isset($_GET['getBookCount'])) {
+    $bookLocation->getBookCount($_SESSION['employee']['biblioteca_fk']);
+    exit;
+}
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['id']) && !isset($_GET['bookId']) && !isset($_GET['bookCount'])) {
     echo $bookLocation->getAll($_SESSION['employee']['biblioteca_fk']);
     exit;
 }

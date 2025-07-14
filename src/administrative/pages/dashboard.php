@@ -5,7 +5,7 @@
     <h3 class="text-center mt-4 mb-4">Estatísticas</h3>
     <div class="row">
         <!-- Total de Livros -->
-        <div class="col-md-6 col-lg-3">
+        <div class="col-md-6 col-lg-4">
             <a href="?page=books">
                 <div class="card card-hover">
                     <div class="box bg-info text-center">
@@ -16,19 +16,8 @@
                 </div>
             </a>
         </div>
-        <div class="col-md-6 col-lg-3">
-            <a href="?page=book-reservations">
-                <div class="card card-hover">
-                    <div class="box bg-danger text-center">
-                        <i class="mdi mdi-chart-box-outline display-4 text-white"></i>
-                        <h6 class="text-white mt-2">Reservas Pendentes</h6>
-                        <h4 id="reservationCount" class="text-white"></h4>
-                    </div>
-                </div>
-            </a>
-        </div>
         <!-- Empréstimos Ativos -->
-        <div class="col-md-6 col-lg-3">
+        <div class="col-md-6 col-lg-4">
             <a href="?page=loans">
                 <div class="card card-hover">
                     <div class="box bg-success text-center">
@@ -40,7 +29,7 @@
             </a>
         </div>
         <!-- Novos Autores -->
-        <div class="col-md-6 col-lg-3">
+        <div class="col-md-6 col-lg-4">
             <a href="?page=users">
                 <div class="card card-hover">
                     <div class="box bg-orange text-center">
@@ -51,49 +40,9 @@
                 </div>
             </a>
         </div>
-    </div>
-
-    <!-- Secção Alertas -->
-    <h3 class="text-center mt-5 mb-4">Alertas</h3>
-    <div class="row">
-        <div class="col-md-6 col-lg-3">
-            <a href="?page=relatorios">
-                <div class="card card-hover">
-                    <div class="box bg-danger text-center">
-                        <i class="mdi mdi-timer-off display-4 text-white"></i>
-                        <h6 class="text-white mt-2">Prazos Expirados</h6>
-                        <h4 class="text-white">3</h4>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-6 col-lg-3">
-            <a href="?page=relatorios">
-                <div class="card card-hover">
-                    <div class="box bg-warning text-center">
-                        <i class="mdi mdi-book display-4 text-white"></i>
-                        <h6 class="text-white mt-2">Livros Danificados</h6>
-                        <h4 class="text-white">7</h4>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
 
     <!-- Secção Atalhos -->
     <h3 class="text-center mt-5 mb-4">Atalhos</h3>
-    <div class="row">
-        <?php if (Utils::isManagerOrHigher($_SESSION['user'] ?? [])): ?>
-            <div class="col-md-6 col-lg-2">
-                <a href="?page=books">
-                    <div class="card card-hover small-box bg-info text-center">
-                        <i class="mdi mdi-book-multiple display-6 text-white"></i>
-                        <p class="text-white mt-2">Livros</p>
-                    </div>
-                </a>
-            </div>
-        <?php endif; ?>
-
         <?php if (Utils::isEmployeeOrHigher($_SESSION['user'] ?? [])): ?>
             <div class="col-md-6 col-lg-2">
                 <a href="?page=book-locations">

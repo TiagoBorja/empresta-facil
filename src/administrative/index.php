@@ -244,6 +244,14 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                         </a>
                                     </li>
                                 <?php endif; ?>
+                                
+                                <?php if (Utils::isManagerOrHigher($_SESSION['user'] ?? [])): ?>
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="?page=authors">
+                                            <i class="mdi mdi-account-edit"></i><span class="hide-menu">Autores</span>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
 
                                 <?php if (Utils::isManagerOrHigher($_SESSION['user'] ?? [])): ?>
 
@@ -357,12 +365,6 @@ $page_file = isset($page_config[$page]) ? $page_config[$page]['file'] : './pages
                                     <li class="sidebar-item">
                                         <a class="sidebar-link" href="?page=state">
                                             <i class="mdi mdi-tune"></i><span class="hide-menu">Gestão de Estados</span>
-                                        </a>
-                                    </li>
-
-                                    <li class="sidebar-item">
-                                        <a class="sidebar-link" href="?page=authors">
-                                            <i class="mdi mdi-account-edit"></i><span class="hide-menu">Autores</span>
                                         </a>
                                     </li>
 

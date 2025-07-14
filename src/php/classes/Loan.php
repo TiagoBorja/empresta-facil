@@ -154,7 +154,12 @@ class Loan
                 JOIN estado es_emprestimo ON el.estado_emprestimo_fk = es_emprestimo.id
                 JOIN estado es_levantou ON el.estado_levantou_fk = es_levantou.id
                 LEFT JOIN estado es_devolucao ON el.estado_devolucao_fk = es_devolucao.id
-                ORDER BY e.criado_em DESC";
+                ORDER BY 
+                    e.criado_em DESC,
+                    CASE 
+                        WHEN es_emprestimo.estado = 'EM ANDAMENTO' THEN 0
+                        ELSE 1
+                    END";
 
         $stmt = $this->pdo->prepare($query);
 
@@ -378,7 +383,7 @@ class Loan
 
                 $response = Utils::sendLoanEmail(
                     $this->user->getUserEmail($this->getUserFk()),
-                    $_SESSION['user']['primeiro_nome'],
+                    $this->user->getUserFirstName($this->getUserFk()),
                     implode(', ', $bookTitles),
                     $this->dueDate,
                     $_SESSION['employee']['biblioteca'],
@@ -453,7 +458,7 @@ class Loan
 
                 $response = Utils::sendLoanEmail(
                     $this->user->getUserEmail($this->getUserFk()),
-                    $_SESSION['user']['primeiro_nome'],
+                    $this->user->getUserFirstName($this->getUserFk()),
                     $bookTitle,
                     $this->dueDate,
                     $_SESSION['employee']['biblioteca'],

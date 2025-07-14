@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         const [employeeResponse, bookResponse, loanResponse, userResponse] = await Promise.all([
             fetch(`${API_ENDPOINTS.EMPLOYEE}?id=${id}`),
-            fetch(`${API_ENDPOINTS.BOOK}?getBookCount`),
+            fetch(`${API_ENDPOINTS.BOOK_LOCATION}?getBookCount`),
             fetch(`${API_ENDPOINTS.LOAN}?getLoanCount=1&stateType=EM ANDAMENTO`),
             fetch(`${API_ENDPOINTS.USER}?getPendentUserCount=1`),
         ]);

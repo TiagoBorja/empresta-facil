@@ -11,11 +11,6 @@ $userId = $_SESSION['user']['id'] ?? null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
-    if (isset($_GET['getBookCount'])) {
-        $book->getBookCount();
-        exit;
-    }
-
     if (isset($_GET['mostRequested'])) {
         echo $book->getMostRequested();
         exit;

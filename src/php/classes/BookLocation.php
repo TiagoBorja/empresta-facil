@@ -168,6 +168,42 @@ class BookLocation
             ]);
         }
     }
+    public function getBookCount(?int $libraryFk = null)
+    {
+        try {
+            // Se $libraryFk for null, é admin → busca todos os livros
+            if ($libraryFk === null) {
+                $sql = "SELECT COUNT(*) AS total
+                    FROM livro_localizacao ll
+                    INNER JOIN localizacao loc ON ll.localizacao_fk = loc.id";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute();
+            } else {
+                // Funcionário comum → aplica filtro por biblioteca
+                $sql = "SELECT COUNT(*) AS total
+                    FROM livro_localizacao ll
+                    INNER JOIN localizacao loc ON ll.localizacao_fk = loc.id
+                    WHERE loc.biblioteca_fk = :libraryFk";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute([':libraryFk' => $libraryFk]);
+            }
+
+            $count = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Retorna JSON
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status' => 200,
+                'data' => $count['total']
+            ]);
+        } catch (PDOException $e) {
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status' => 500,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
 
     public function getLibrariesByUserId($userId, $bookId)
     {
