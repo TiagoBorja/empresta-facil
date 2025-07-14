@@ -199,7 +199,7 @@ function fillCommentTab(response) {
         return;
     }
     console.log(comments);
-    
+
     comments.forEach(comment => {
         const item = document.createElement("li");
         item.classList.add("list-group-item");
@@ -213,8 +213,6 @@ function fillCommentTab(response) {
 }
 
 function fillReservationTab(reservations) {
-    console.log(reservations);
-
     const tbody = document.querySelector("#reservations table tbody");
     tbody.innerHTML = "";
 
@@ -231,11 +229,11 @@ function fillReservationTab(reservations) {
         let state = '';
 
         switch ((reservation.estado || "").toUpperCase()) {
-            case 'PENDENTE':
-                state = '<span class="badge bg-warning">Pendente</span>';
+            case 'EM ANDAMENTO':
+                state = '<span class="badge bg-warning">Em Andamento</span>';
                 break;
-            case 'ATENDIDA':
-                state = '<span class="badge bg-success">Atendida</span>';
+            case 'CONCLUIDA':
+                state = '<span class="badge bg-success">Concluída</span>';
                 break;
             case 'EXPIRADA':
                 state = '<span class="badge bg-secondary">Expirada</span>';
@@ -250,7 +248,7 @@ function fillReservationTab(reservations) {
 
         const tr = document.createElement("tr");
         tr.innerHTML = `
-            <td>${reservation.titulo}</td>
+            <td><a href="?page=book-info&id=${reservation.livro_fk}">${reservation.titulo}</a></td>
             <td>${utils.formatDate(reservation.criado_em)}</td>
             <td>${utils.formatDate(reservation.data_levantamento)}</td>
             <td>${state}</td>

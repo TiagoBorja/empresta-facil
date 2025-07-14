@@ -159,7 +159,8 @@ class BookReservation
     }
     public function getReservationByUserId($userId)
     {
-        $query = "SELECT 
+        $query = "SELECT
+                    l.id as livro_fk, 
                     l.titulo,
                     r.criado_em, 
                     r.data_levantamento,
