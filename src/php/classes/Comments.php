@@ -129,7 +129,7 @@ class Comments
     }
     public function getLastCommentsByUserId($userId)
     {
-        $query = "SELECT c.comentario, l.titulo, c.criado_em
+        $query = "SELECT c.comentario, l.id as livro_fk, l.titulo, c.criado_em
                   FROM  {$this->tableName} c
                   INNER JOIN utilizador u ON c.utilizador_fk = u.id
                   INNER JOIN livro l ON c.livro_fk = l.id

@@ -195,16 +195,17 @@ function fillCommentTab(response) {
     listContainer.innerHTML = ""; // limpa comentários antigos
 
     if (!comments.length) {
-        listContainer.innerHTML = "<li class='list-group-item'>Sem comentários disponíveis.</li>";
+        listContainer.innerHTML = "<li class='list-group-item'>Nenhum comentário ainda.</li>";
         return;
     }
-
+    console.log(comments);
+    
     comments.forEach(comment => {
         const item = document.createElement("li");
         item.classList.add("list-group-item");
         item.innerHTML = `
             <strong>"${comment.comentario}"</strong> em 
-            <em>${comment.titulo}</em> 
+            <em><a href="?page=book-info&id=${comment.livro_fk}">${comment.titulo}</a></em> 
             <span class="text-muted small">- ${utils.formatDate(comment.criado_em)}</span>
         `;
         listContainer.appendChild(item);

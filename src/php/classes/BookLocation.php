@@ -114,8 +114,7 @@ class BookLocation
                   INNER JOIN livro_localizacao ll ON ll.localizacao_fk = loc.id
                   INNER JOIN livro l ON ll.livro_fk = l.id 
                   LEFT JOIN funcionario e ON e.biblioteca_fk = b.id
-                  WHERE ll.id = :id
-                  AND ll.quantidade > 0";
+                  WHERE ll.id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $this->id);
 
