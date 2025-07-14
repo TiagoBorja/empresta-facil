@@ -49,7 +49,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                 activeBadgeEl.classList.toggle("bg-success", isActive);
                 activeBadgeEl.classList.toggle("bg-danger", !isActive);
 
-                await utils.fetchSelect(ROLE_API_URL, 'tipo', "roleSelect", data.tipo_utilizador_fk);
+                if (userRole === 'Administrador') {
+                    await utils.fetchSelect(ROLE_API_URL, 'tipo', "roleSelect", data.tipo_utilizador_fk);
+                }
             }
         }
 
@@ -63,7 +65,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 true);
         }
 
-        if(userRole === 'Administrador'){
+        if (userRole === 'Administrador') {
             multiSelectEl.classList.remove("d-none");
         }
     } catch (error) {

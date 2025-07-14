@@ -8,7 +8,6 @@ const USER_LIBRARY_API_URL = '../php/api/user-library-api.php';
 let urlParams;
 let id;
 
-
 document.addEventListener("DOMContentLoaded", async function () {
 
     const currentPath = window.location.search;
@@ -26,13 +25,23 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     if (currentPath.includes('?page=user-form')) {
+        const role = document.getElementById("userRole").value;
 
         if (!id) {
-            await utils.fetchSelect(ROLE_API_URL, 'tipo', "roleSelect");
-            newUser();
+            if (role === 'Administrador') {
+                await utils.fetchSelect(ROLE_API_URL, 'tipo', "roleSelect");
+                newUserByAdm();
+            }
+            else {
+                newUserByEmployee();
+            }
             return;
         }
-        updateUser();
+
+        if (role === 'Administrador')
+            updateUserByAdm();
+        else
+            updateUserByEmployee();
         changeActiveStatus();
         return;
     }
@@ -60,7 +69,33 @@ async function getUsers() {
     }
 }
 
-function newUser() {
+async function newUserByAdm() {
+    const allLibrariesData = await fetchAllLibrariesData();
+    console.log(allLibrariesData);
+
+    utils.createGenericCheckboxes(allLibrariesData, [], {
+        containerId: 'librariesCheckboxes',
+        nameField: 'nome',
+        idField: 'id',
+        valueField: 'id',
+        checkboxName: 'libraries[]',
+        dropdownButtonId: 'librariesDropdown',
+        singularLabel: 'biblioteca',
+        pluralLabel: 'bibliotecas',
+        associationField: 'biblioteca_fk'
+    });
+    const form = document.querySelector("#userForm");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        formData.append("saveData", true);
+        bdUtils.newData(API_URL, formData, form, '?page=users');
+    });
+}
+function newUserByEmployee() {
     const form = document.querySelector("#userForm");
     if (!form) return;
 
@@ -123,7 +158,7 @@ function showUsers(users) {
 async function registerUser() {
     const allLibrariesData = await fetchAllLibrariesData();
     console.log(allLibrariesData);
-    
+
     utils.createGenericCheckboxes(allLibrariesData, [], {
         containerId: 'librariesCheckboxes',
         nameField: 'nome',
@@ -149,10 +184,23 @@ async function registerUser() {
     });
 }
 
-async function updateUser() {
+async function updateUserByEmployee() {
+    const form = document.querySelector("#userForm");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        formData.append("saveData", true);
+        formData.append("id", id);
+        bdUtils.updateData(API_URL, formData, form, '?page=users');
+    });
+}
+async function updateUserByAdm() {
     const allLibrariesData = await fetchAllLibrariesData();
     const userLibraries = await fetchAllUserLibrariesData(id);
-    
+
     utils.createGenericCheckboxes(allLibrariesData, userLibraries, {
         containerId: 'librariesCheckboxes',
         nameField: 'nome',
@@ -218,7 +266,7 @@ async function fetchAllLibrariesData() {
     if (!Array.isArray(librariesData)) {
         throw new Error("Formato de dados de bibliotecas inválido");
     }
-    
+
     return librariesData;
 }
 

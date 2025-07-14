@@ -6,7 +6,7 @@ include_once '../../php/classes/Utils.php';
 
 $user = new User();
 $utils = new Utils();
-
+$userRole = $_SESSION['user']['tipo'];
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if (isset($_GET['getPendentUserCount'])) {
@@ -97,7 +97,7 @@ if (isset($_POST['saveData'])) {
     $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_SPECIAL_CHARS);
     $user->setRole($role);
 
-    $libraries = filter_input(INPUT_POST, 'librarySelect', FILTER_SANITIZE_SPECIAL_CHARS);
+    $libraryId = filter_input(INPUT_POST, 'librarySelect', FILTER_SANITIZE_SPECIAL_CHARS);
     $libraries = $_POST['libraries'] ?? [];
     $libraries = array_filter(array_map(function ($libraryId) {
         return filter_var($libraryId, FILTER_SANITIZE_NUMBER_INT);
@@ -109,12 +109,18 @@ if (isset($_POST['saveData'])) {
     }
     if (!empty($id)) {
         $user->setId($id);
-        echo $user->updateUser($id, $libraries);
+        if ($role === 'Administrador')
+            echo $user->updateUserByAdm($id, $libraries);
+        else
+            echo $user->updateUserByEmployee($id, $libraryId);
         exit;
     }
 
     $user->setActive('P');
-    echo $user->newUser($libraries);
+    if ($userRole === 'Administrador')
+        echo $user->newUserByAdm($libraries);
+    else
+        echo $user->newUserByEmployee($libraryId);
     exit;
 }
 

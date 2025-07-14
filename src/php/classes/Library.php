@@ -154,6 +154,13 @@ class Library
             ]);
         }
     }
+    public function getLibraryDataById($libraryId)
+    {
+        $query = "SELECT nome, morada FROM {$this->tableName} WHERE id = :id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['id' => $libraryId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Retorna ['nome' => ..., 'morada' => ...]
+    }
 
     public function getLibraryDataByIds(array $libraryIds): array
     {

@@ -215,7 +215,7 @@ class User
 
         // Caso não tenha library atribuída, retorna todos os utilizadores
         if (!$library || $library['biblioteca_fk'] === null) {
-            $query = "SELECT 
+            $query = "SELECT DISTINCT
                     u.id, 
                     u.primeiro_nome, 
                     u.ultimo_nome, 
@@ -245,7 +245,7 @@ class User
             ]);
         }
 
-        $query = "SELECT 
+        $query = "SELECT DISTINCT
                 u.id, 
                 u.primeiro_nome, 
                 u.ultimo_nome, 
@@ -418,9 +418,9 @@ class User
         $stmt->execute();
         return $stmt->fetchColumn();
     }
-    public function newUser($libraryId)
+    public function newUserByEmployee($libraryId)
     {
-        if (empty($this->firstName) || empty($this->lastName) || empty($this->birthDay) || empty($this->phoneNumber) || empty($this->username) || empty($this->password) || empty($this->email) || empty($this->role)) {
+        if (empty($this->firstName) || empty($this->lastName) || empty($this->birthDay) || empty($this->phoneNumber) || empty($this->username) || empty($this->password) || empty($this->email)) {
             return json_encode([
                 'status' => 422,
                 'message' => "Preencha todos os campos antes de prosseguir."
@@ -440,7 +440,6 @@ class User
                     senha, 
                     email,
                     img_url, 
-                    tipo_utilizador_fk,
                     ativo
                   ) VALUES (
                     :firstName, 
@@ -455,7 +454,6 @@ class User
                     :password, 
                     :email,
                     :imgUrl, 
-                    :role,
                     :active
                   )";
 
@@ -473,7 +471,6 @@ class User
         $stmt->bindParam(':password', $this->password);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':imgUrl', $this->imgUrl);
-        $stmt->bindParam(':role', $this->role);
         $stmt->bindParam(':active', $this->active);
 
         try {
@@ -498,7 +495,114 @@ class User
                 if ($libraryResponse['status'] != 200) {
                     return $libraryResult;
                 }
-                $libraryIdsValid[] = $libraryId;
+            }
+
+            $libraryData = $this->library->getLibraryDataById($libraryId);
+
+            if (!Utils::sendConfirmationEmail($this->email, $this->getFirstName(), $code, $libraryData)) {
+                exit;
+            }
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Utilizador criado com sucesso!"
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao realizar a inserção!" . $e->getMessage(),
+            ]);
+        }
+    }
+    public function newUserByAdm($libraries = [])
+    {
+        if (empty($this->firstName) || empty($this->lastName) || empty($this->birthDay) || empty($this->phoneNumber) || empty($this->username) || empty($this->password) || empty($this->email)) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Preencha todos os campos antes de prosseguir."
+            ]);
+        }
+
+        if (empty($libraries)) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Selecione ao menos uma biblioteca."
+            ]);
+        }
+        $query = "INSERT INTO utilizador (
+                    primeiro_nome, 
+                    ultimo_nome, 
+                    data_nascimento, 
+                    nif, 
+                    cc, 
+                    genero, 
+                    morada, 
+                    telemovel, 
+                    nome_utilizador, 
+                    senha, 
+                    email,
+                    ativo,
+                    tipo_utilizador_fk
+                  ) VALUES (
+                    :firstName, 
+                    :lastName, 
+                    :birthDay, 
+                    :nif, 
+                    :cc, 
+                    :gender, 
+                    :address, 
+                    :phoneNumber, 
+                    :username, 
+                    :password, 
+                    :email,
+                    :active,
+                    :role
+                  )";
+
+        $stmt = $this->pdo->prepare($query);
+
+        $stmt->bindParam(':firstName', $this->firstName);
+        $stmt->bindParam(':lastName', $this->lastName);
+        $stmt->bindParam(':birthDay', $this->birthDay);
+        $stmt->bindParam(':nif', $this->nif);
+        $stmt->bindParam(':cc', $this->cc);
+        $stmt->bindParam(':gender', $this->gender);
+        $stmt->bindParam(':address', $this->address);
+        $stmt->bindParam(':phoneNumber', $this->phoneNumber);
+        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':active', $this->active);
+        $stmt->bindParam(':role', $this->role);
+
+        try {
+            $stmt->execute();
+            $userFk = $this->pdo->lastInsertId();
+
+            $code = Utils::generateRandomCode(6);
+            $libraryIdsValid = [];
+
+            if (!empty($libraries) && is_array($libraries)) {
+                foreach ($libraries as $libraryId) {
+                    if (!empty($libraryId)) {
+                        $this->userLibrary->setUserFk($userFk);
+                        $this->userLibrary->setLibraryFk($libraryId);
+                        $this->userLibrary->setValidationCode($code);
+                        $this->userLibrary->setExpirationDate(
+                            date(
+                                'Y-m-d H:i:s',
+                                strtotime('+14 days')
+                            )
+                        );
+
+                        $libraryResult = $this->userLibrary->create();
+                        $libraryResponse = json_decode($libraryResult, true);
+                        if ($libraryResponse['status'] != 200) {
+                            return $libraryResult;
+                        }
+                        $libraryIdsValid[] = $libraryId;
+                    }
+                }
             }
 
             $libraryData = $this->library->getLibraryDataByIds($libraryIdsValid);
@@ -518,7 +622,6 @@ class User
             ]);
         }
     }
-
     public function registerUser($libraries = [])
     {
         if (empty($this->firstName) || empty($this->lastName) || empty($this->birthDay) || empty($this->phoneNumber) || empty($this->username) || empty($this->password) || empty($this->email)) {
@@ -624,11 +727,10 @@ class User
             ]);
         }
     }
-    public function updateUser($id, $libraries)
+    public function updateUserByAdm($id, $libraries)
     {
         $this->id = $id;
 
-        // Verificação dos campos obrigatórios (com trim para evitar espaços)
         if (
             empty(trim($this->firstName)) ||
             empty(trim($this->lastName)) ||
@@ -708,6 +810,82 @@ class User
                 if ($libraryResponse['status'] != 200) {
                     return $libraryResult;
                 }
+            }
+
+            return json_encode([
+                'status' => 200,
+                'message' => "Dados do utilizador atualizados com sucesso!"
+            ]);
+
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 500,
+                'message' => "Erro ao atualizar o utilizador: " . $e->getMessage()
+            ]);
+        }
+    }
+    public function updateUserByEmployee($id, $libraryId)
+    {
+        $this->id = $id;
+
+        if (
+            empty(trim($this->firstName)) ||
+            empty(trim($this->lastName)) ||
+            empty(trim($this->birthDay)) ||
+            empty(trim($this->phoneNumber)) ||
+            empty(trim($this->username)) ||
+            empty(trim($this->email))
+        ) {
+            return json_encode([
+                'status' => 422,
+                'message' => "Preencha todos os campos antes de prosseguir."
+            ]);
+        }
+
+        $query = "UPDATE utilizador SET 
+                primeiro_nome = :firstName,
+                ultimo_nome = :lastName,
+                data_nascimento = :birthDay,
+                nif = :nif,
+                cc = :cc,
+                genero = :gender,
+                morada = :address,
+                telemovel = :phoneNumber,
+                nome_utilizador = :username,
+                email = :email,
+                img_url = :imgUrl
+              WHERE id = :id";
+
+        $stmt = $this->pdo->prepare($query);
+
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':firstName', $this->firstName);
+        $stmt->bindParam(':lastName', $this->lastName);
+        $stmt->bindParam(':birthDay', $this->birthDay);
+        $stmt->bindParam(':nif', $this->nif);
+        $stmt->bindParam(':cc', $this->cc);
+        $stmt->bindParam(':gender', $this->gender);
+        $stmt->bindParam(':address', $this->address);
+        $stmt->bindParam(':phoneNumber', $this->phoneNumber);
+        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':imgUrl', $this->imgUrl);
+
+        try {
+            $stmt->execute();
+
+            $code = Utils::generateRandomCode(6);
+
+            $this->userLibrary->setUserFk($id);
+            $this->userLibrary->setLibraryFk($libraryId);
+            $this->userLibrary->setValidationCode($code);
+            $this->userLibrary->setExpirationDate(date('Y-m-d H:i:s', strtotime('+14 days')));
+
+            $libraryResult = $this->userLibrary->create();
+            $libraryResponse = json_decode($libraryResult, true);
+
+            if ($libraryResponse['status'] != 200) {
+                return $libraryResult;
             }
 
             return json_encode([

@@ -150,7 +150,7 @@
                                     </div>
                                 <?php endif; ?>
 
-                                <?php if (Utils::isEmployeeOrHigher($_SESSION['user'] ?? [])): ?>
+                                <?php if (Utils::isAdmin($_SESSION['user'] ?? [])): ?>
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <select class="form-select" id="roleSelect" name="role">

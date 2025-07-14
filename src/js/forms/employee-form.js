@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (!response.ok) throw new Error("Erro na requisição");
 
         const result = await response.json();
-
+        console.log(result);
+        
         if (result.status === 200) {
             document.getElementById("employeeName").textContent = `Funcionário - ${result.data.nome_completo}`;
             document.getElementById("id").value = result.data.id;
