@@ -38,7 +38,7 @@ async function getAll() {
 
         const result = await response.json();
 
-        showSubtegories(result);
+        showSubcategories(result);
 
         utils.initializeRowSelection(API_URL, '?page=subcategory-form');
     } catch (error) {
@@ -46,8 +46,14 @@ async function getAll() {
         toastr.warning("Não foi possível carregar as categorias. Tenta novamente mais tarde.", "Atenção!");
     }
 }
-function showSubtegories(subcategories) {
-    let table = "";
+
+function showSubcategories(subcategories) {
+    if ($.fn.DataTable.isDataTable('#zero_config')) {
+        $('#zero_config').DataTable().destroy();
+    }
+
+    const tableBody = $('#tbody');
+    tableBody.empty();
 
     subcategories.forEach((subcategory) => {
         const active = subcategory.ativo === 'Y'
@@ -56,17 +62,24 @@ function showSubtegories(subcategories) {
                 ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
                 : '');
 
-        table += `<tr id="id-${subcategory.id}">
-                  <td scope="row">${subcategory.categoria}</td>
-                  <td scope="row">${subcategory.subcategoria}</td>
-                  <td scope="row">${subcategory.descricao}</td>
-                  <td>${active}</td>
-                  </tr>`;
+        tableBody.append(`
+            <tr id="id-${subcategory.id}">
+                <td scope="row">${subcategory.categoria}</td>
+                <td scope="row">${subcategory.subcategoria}</td>
+                <td scope="row">${subcategory.descricao}</td>
+                <td>${active}</td>
+            </tr>
+        `);
     });
 
-    const tableBody = document.getElementById("tbody");
-    tableBody.innerHTML = table;
+    $('#zero_config').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese.json'
+        }
+    });
 }
+
+
 
 
 function newSubcategory() {

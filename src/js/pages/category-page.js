@@ -42,7 +42,12 @@ async function getCategories() {
     }
 }
 function showCategories(categories) {
-    let table = "";
+    if ($.fn.DataTable.isDataTable('#zero_config')) {
+        $('#zero_config').DataTable().destroy();
+    }
+
+    const tableBody = $('#zero_config tbody');
+    tableBody.empty();
 
     categories.forEach((category) => {
         const active = category.ativo === 'Y'
@@ -51,16 +56,22 @@ function showCategories(categories) {
                 ? '<span class="badge rounded-pill bg-danger">Inativo</span>'
                 : '');
 
-        table += `<tr id="id-${category.id}">
-                  <td scope="row">${category.categoria}</td>
-                  <td>${category.descricao}</td>
-                  <td>${active}</td>
-                  </tr>`;
+        tableBody.append(`
+            <tr id="id-${category.id}">
+                <td scope="row">${category.categoria}</td>
+                <td>${category.descricao}</td>
+                <td>${active}</td>
+            </tr>
+        `);
     });
 
-    const tableBody = document.getElementById("tbody");
-    tableBody.innerHTML = table;
+    $('#zero_config').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese.json'
+        }
+    });
 }
+
 
 
 function newCategory() {
