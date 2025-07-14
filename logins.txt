@@ -1,0 +1,6 @@
+logins
+
+adm = admin/123456
+gestor gestor/123456
+funcionário = funcionário/123456
+funcionario_porto = funcionario_porto/funcionario_porto
